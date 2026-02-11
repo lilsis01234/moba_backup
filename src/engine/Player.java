@@ -17,7 +17,7 @@ public class Player {
     public Player(double x, double y) {
         this.x = x;
         this.y = y;
-        this.hp = MaxHp;
+        this.hp = 20;
         this.mana = 20; 
     }
 
@@ -27,8 +27,6 @@ public class Player {
             mana += manaRegenRate * deltaTime; 
             if (mana > MaxMana) mana = MaxMana;
         }
-
-        // Mise à jour de la position
         if (isMoving) {
             updatePosition(deltaTime);
         }
@@ -65,7 +63,7 @@ public class Player {
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         g2.drawString("Hero", px - 15, py - size/2 - 10);
 
-        //barre de vie
+        //barre de HP
         g2.setColor(Color.GRAY);
         g2.fillRect(px - size/2, py - size - 8, size, 4); 
         g2.setColor(Color.GREEN);
@@ -88,6 +86,13 @@ public class Player {
         this.CibleX = CibleX;
         this.CibleY = CibleY;
         this.isMoving = true;
+    }
+
+    public void heal(double amount) {
+        this.hp += amount;
+        if (this.hp > MaxHp) {
+            this.hp = MaxHp;
+        }
     }
 
     public double getX() { return x; }

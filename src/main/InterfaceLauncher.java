@@ -1,7 +1,7 @@
 package main;
 
 import engine.Arena;
-import view.GamePanel;
+import view.ArenaPanel; 
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 
 public class InterfaceLauncher extends JFrame implements Runnable {
     private Arena arena;
-    private GamePanel panel;
+    private ArenaPanel panel; 
 
     public InterfaceLauncher() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -18,20 +18,8 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         int hauteur = (int) screenSize.getHeight();
 
         arena = new Arena();
-        panel = new GamePanel(arena);
+        panel = new ArenaPanel(arena, largeur, hauteur); 
         panel.setPreferredSize(new Dimension(largeur, hauteur));
-
-  
-        panel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) { // right click
-                    double x = (double) e.getX() / panel.getWidth();
-                    double y = (double) e.getY() / panel.getHeight();
-                    arena.getPlayer().moveTo(x, y);
-                }
-            }
-        });
 
         setTitle("MOBA");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,11 +30,9 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         setLocationRelativeTo(null);
         setVisible(true);
 
-    
         new Thread(this).start();
     }
 
-    
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -60,7 +46,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
             panel.repaint();
 
             try {
-                Thread.sleep(10); 
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
