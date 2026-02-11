@@ -23,4 +23,5 @@ public class Tower {
         g2.setColor(Color.BLACK);
         g2.drawOval(x - size/2, y - size/2, size, size); 
     }
+    
 }
