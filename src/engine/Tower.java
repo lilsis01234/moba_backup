@@ -6,6 +6,8 @@ public class Tower {
     private double positionX; 
     private double positionY; 
     private Color teamColor;
+    private int hp = 100;
+    private int maxHp = 100;
 
     public Tower(double positionX, double positionY, Color teamColor) {
         this.positionX = positionX;
@@ -22,6 +24,11 @@ public class Tower {
         g2.fillOval(x - size/2, y - size/2, size, size); 
         g2.setColor(Color.BLACK);
         g2.drawOval(x - size/2, y - size/2, size, size); 
+        
+        g2.setColor(Color.GREEN);
+
+        int hpWidth = (int)((double)hp/maxHp * size);
+        g2.fillRect(x - size/2, y - size - 5, hpWidth, 3);
     }
     
 }

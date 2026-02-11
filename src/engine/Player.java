@@ -47,11 +47,14 @@ public class Player {
         int px = (int) (x * width);
         int py = (int) (y * height);
         int size = width / 40;
-
         g2.setColor(Color.BLACK);
         g2.fillOval(px - size/2, py - size/2, size, size);
-        g2.setColor(Color.RED);
         g2.drawOval(px - size/2, py - size/2, size, size);
+
+
+        g2.setColor(Color.BLACK);
+       g2.setFont(new Font("Arial", Font.BOLD, 12));
+       g2.drawString("Hero", px - 15, py - size/2 - 5);
     }
 
     public double getX() {
