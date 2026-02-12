@@ -17,6 +17,9 @@ public class Bot {
     private Color color;
     private String name;
 
+    private double range=0.08;
+    private double dmg=0.2;
+
 
 
     public Bot(double x, double y, double targetX, double targetY, Color color, String name) {
@@ -76,5 +79,18 @@ public class Bot {
         g2.setColor(Color.BLACK);
         g2.drawRect(px - size/2, py - size - 15, size, 4); 
     }
+
+
+
+        public void attack(Player player) {  /*place holder, will change to hero when class is implemented*/
+          double dx = player.getX() - x;
+          double dy = player.getY() - y;
+          double dist = Math.sqrt(dx*dx + dy*dy);
+
+          if (dist < range) { 
+             player.takeDamage(dmg);
+          }
+        }
+
 
 }

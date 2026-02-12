@@ -104,6 +104,17 @@ public class Player {
 
     }
 
+    public boolean isDead(){
+        return(this.hp==0);
+    }
+
+    public void respawn() {
+        hp = MaxHp;
+        mana = MaxMana;
+        x = 0.1;
+        y = 0.9;
+    }
+
     public double getX() { return x; }
     public double getY() { return y; }
 }
