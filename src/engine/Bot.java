@@ -4,9 +4,7 @@ import java.awt.*;
 
 public class Bot {
     private double x, y;
-    private double CibleX, CibleY;
-    private boolean isMoving;
-
+ 
      private double targetX, targetY;
 
     private double speed = 0.001;
