@@ -10,6 +10,7 @@ public class Arena {
     private List<Bot> bots;
     private List<Bot> enemyBots;
     private Fountain playerFountain;
+    private Fountain Enemy_Fountain ;
 
     public Arena() {
         lanes = new ArrayList<>();
@@ -34,6 +35,7 @@ public class Arena {
 
 
         playerFountain = new Fountain(0.05, 0.95);
+        Enemy_Fountain = new Fountain(0.95, 0.05);
     }
 
     public void update(double deltaTime) {
@@ -45,9 +47,11 @@ public class Arena {
         for (Bot Ebot : enemyBots) {
              Ebot.update();
         }
+        
 
         playerFountain.update(deltaTime, player);
-
+        Enemy_Fountain.update(deltaTime, player); /* place holder, will add a hero class later and update the function */
+        Enemy_Fountain.attack(player);
      }
 
     
@@ -76,7 +80,10 @@ public class Arena {
             g2.fillRect((int)(pos[0] * width), (int)(pos[1] * height), aW, aH);
         }
 
-        playerFountain.render(g2, width, height);
+        playerFountain.render(g2, width, height,new Color(50, 200, 255));
+
+        Enemy_Fountain.render(g2, width, height, new Color(202,94,90));
+
         player.render(g2, width, height);
         for(Bot bot :bots){
             bot.render(g2, width, height);

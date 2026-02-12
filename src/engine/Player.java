@@ -95,6 +95,15 @@ public class Player {
         }
     }
 
+    public void takeDamage(int dmg){
+
+        if(hp<dmg){ this.hp=0;}
+        else{
+            this.hp-= dmg;
+        }
+
+    }
+
     public double getX() { return x; }
     public double getY() { return y; }
 }

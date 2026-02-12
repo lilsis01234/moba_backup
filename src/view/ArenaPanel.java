@@ -26,8 +26,8 @@ public class ArenaPanel extends JPanel {
 
                 int miniWidth = (int)(windowWidth * 0.4);
                 int miniHeight = (int)(windowHeight * 0.4);
-                int miniX = windowWidth - miniWidth - 20; 
-                int miniY = windowHeight - miniHeight - 20; 
+                int miniX = windowWidth - miniWidth - 15; 
+                int miniY = windowHeight - miniHeight - 15; 
 
                 // clic dans la Minimap
                 if (mx >= miniX && mx <= miniX + miniWidth && my >= miniY && my <= miniY + miniHeight) {
@@ -61,12 +61,12 @@ public class ArenaPanel extends JPanel {
 
         int miniWidth = (int)(windowWidth * 0.4);
         int miniHeight = (int)(windowHeight * 0.4);
-        int miniX = windowWidth - miniWidth - 20; 
-        int miniY = windowHeight - miniHeight - 20; 
+        int miniX = windowWidth - miniWidth -2; 
+        int miniY = windowHeight - miniHeight - 2; 
 
         g2.setColor(Color.BLACK);
         g2.fillRect(miniX, miniY, miniWidth, miniHeight); 
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.BLACK);
         g2.drawRect(miniX - 2, miniY - 2, miniWidth + 4, miniHeight + 4);
 
         g2.translate(miniX, miniY);
