@@ -29,7 +29,7 @@ public class GameConfiguration {
     public static final double PLAYER_MANA_REGEN = 2.0;
 
     // Bot
-    public static final double BOT_SPEED    = 200.0;//pixels/sec
+    public static final double BOT_SPEED    = 300.0;//pixels/sec
     public static final double BOT_RANGE    = 200.0;  // pixels
     public static final double BOT_DAMAGE    = 5.0;
     public static final double BOT_MAX_HP   = 100;
@@ -56,7 +56,7 @@ public class GameConfiguration {
 
     // Minion
     public static final double MINION_DMG    = 3.0;
-    public static final double MINION_RANGE = 150; // pixels
+    public static final double MINION_RANGE = 250; // pixels
     public static final double MINION_MAX_HP = 60;
     public static final double MINION_ATTACK_COOLDOWN = 0.9;
     public static final double MINION_SPEED = 300.0; // pixels/sec
