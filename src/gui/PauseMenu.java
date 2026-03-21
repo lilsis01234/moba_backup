@@ -55,15 +55,6 @@ public class PauseMenu extends JPanel {
                 }
             }
         });
-        
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                if (isVisible) {
-                    updateHover(e.getX(), e.getY());
-                }
-            }
-        });
     }
     
     public void setPauseMenuListener(PauseMenuListener listener) {
@@ -128,28 +119,6 @@ public class PauseMenu extends JPanel {
                 return;
             }
         }
-    }
-    
-    private void updateHover(int x, int y) {
-        int w = getWidth();
-        
-        int btnWidth = 180;
-        int btnHeight = 40;
-        int spacing = 12;
-        int startY = getHeight() / 2 - 30;
-        
-        boolean changed = false;
-        for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-            
-            boolean isHovered = x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight;
-            if (isHovered && selectedIndex != i) {
-                selectedIndex = i;
-                changed = true;
-            }
-        }
-        if (changed) repaint();
     }
     
     @Override

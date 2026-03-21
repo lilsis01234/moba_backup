@@ -1,6 +1,7 @@
-package gui;
+package gui.game;
 
 import engine.process.Arena;
+import gui.HUDRenderer;
 import config.GameConfiguration;
 
 import javax.swing.JPanel;

@@ -1,4 +1,4 @@
-package gui;
+package gui.menu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +17,8 @@ public class MainMenu extends JPanel {
     private int selectedIndex = 0;
     private String[] menuItems = {"DEMARRER LE JEU", "QUITTER"};
 
-    // --- NOUVELLES CONSTANTES DE DESIGN ---
     private final Color BACKGROUND_DARK = new Color(20, 20, 30);
-    private final Color ACCENT = new Color(180, 140, 90);       // Or/Bronze
+    private final Color ACCENT = new Color(180, 140, 90);       
     private final Color ACCENT_BRIGHT = new Color(220, 180, 120);
     private final Color BUTTON_BG = new Color(40, 35, 50);
     private final Color BUTTON_HOVER = new Color(60, 50, 70);
@@ -52,13 +51,6 @@ public class MainMenu extends JPanel {
                 handleClick(e.getX(), e.getY());
             }
         });
-        
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                updateHover(e.getX(), e.getY());
-            }
-        });
     }
 
     private void navigate(int dir) {
@@ -82,23 +74,6 @@ public class MainMenu extends JPanel {
             if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
                 selectedIndex = i;
                 handleSelection();
-            }
-        }
-    }
-    
-    private void updateHover(int x, int y) {
-        int w = getWidth(), h = getHeight();
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = h / 2 - 50;
-        
-        for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
-                if (selectedIndex != i) {
-                    selectedIndex = i;
-                    repaint();
-                }
             }
         }
     }
@@ -139,7 +114,7 @@ public class MainMenu extends JPanel {
         g2.setColor(ACCENT_BRIGHT);
         g2.fillRect(titleX - 20, titleY + 15, fm.stringWidth(title) + 40, 3);
 
-        // 3. BOUTONS
+        // BOUTONS
         int btnWidth = 220, btnHeight = 50, spacing = 15;
         int startY = getHeight() / 2 - 50;
         
@@ -148,9 +123,9 @@ public class MainMenu extends JPanel {
             int btnX = (getWidth() - btnWidth) / 2;
             int btnY = startY + i * (btnHeight + spacing);
 
-            // Dessin du bouton (Pixel Style)
+            // Dessin du bouton
             if (isSelected) {
-                g2.setColor(new Color(0, 0, 0, 100)); // Ombre décalée
+                g2.setColor(new Color(0, 0, 0, 100));
                 g2.fillRect(btnX + 4, btnY + 4, btnWidth, btnHeight);
             }
 

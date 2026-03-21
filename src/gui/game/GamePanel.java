@@ -1,4 +1,4 @@
-package gui;
+package gui.game;
 
 import engine.process.Arena;
 import engine.map.TilesManager;

@@ -1,8 +1,7 @@
-package main;
-
+package main; 
 import engine.process.Arena;
-import gui.ArenaPanel;
-import gui.MainMenu;
+import gui.game.ArenaPanel;
+import gui.menu.MainMenu;
 import config.GameConfiguration;
 
 import javax.swing.JFrame;
