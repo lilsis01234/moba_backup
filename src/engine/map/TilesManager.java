@@ -31,7 +31,7 @@ public class TilesManager {
 
             // Tile 1: Floor
             tiles[1] = new Tile();
-            tiles[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/floor.png"));
+            tiles[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/sand.png"));
             tiles[1].collision = false;
 
             // Tile 2: Wall aka border

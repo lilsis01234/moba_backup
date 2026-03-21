@@ -91,26 +91,21 @@ public class MainMenu extends JPanel {
 
         // Désactiver l'anti-aliasing pour un look "Pixel" net
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        
-        // 1. FOND DEGRADE
+ 
         GradientPaint gradient = new GradientPaint(0, 0, BACKGROUND_DARK, 0, getHeight(), new Color(10, 10, 20));
         g2.setPaint(gradient);
         g2.fillRect(0, 0, getWidth(), getHeight());
 
-        // 2. TITRE STYLE MOBA
         g2.setFont(new Font("Serif", Font.BOLD, 52));
         FontMetrics fm = g2.getFontMetrics();
         String title = "MOBA";
         int titleX = (getWidth() - fm.stringWidth(title)) / 2;
         int titleY = getHeight() / 4;
-        
-        // Ombre du titre
+     
         g2.setColor(new Color(0, 0, 0, 150));
         g2.drawString(title, titleX + 4, titleY + 4);
-        // Texte principal
         g2.setColor(ACCENT);
         g2.drawString(title, titleX, titleY);
-        // Ligne de soulignement décorative
         g2.setColor(ACCENT_BRIGHT);
         g2.fillRect(titleX - 20, titleY + 15, fm.stringWidth(title) + 40, 3);
 
@@ -123,7 +118,6 @@ public class MainMenu extends JPanel {
             int btnX = (getWidth() - btnWidth) / 2;
             int btnY = startY + i * (btnHeight + spacing);
 
-            // Dessin du bouton
             if (isSelected) {
                 g2.setColor(new Color(0, 0, 0, 100));
                 g2.fillRect(btnX + 4, btnY + 4, btnWidth, btnHeight);
@@ -132,12 +126,13 @@ public class MainMenu extends JPanel {
             g2.setColor(isSelected ? BUTTON_HOVER : BUTTON_BG);
             g2.fillRect(btnX, btnY, btnWidth, btnHeight);
 
-            // Bordure
             g2.setColor(isSelected ? ACCENT : BUTTON_BORDER);
-            g2.setStroke(new BasicStroke(2));
-            g2.drawRect(btnX, btnY, btnWidth - 1, btnHeight - 1);
+            int b = 2; // épaisseur bordure
+            g2.fillRect(btnX, btnY, btnWidth, b);              // haut
+            g2.fillRect(btnX, btnY + btnHeight - b, btnWidth, b); // bas
+            g2.fillRect(btnX, btnY, b, btnHeight);             // gauche
+            g2.fillRect(btnX + btnWidth - b, btnY, b, btnHeight); // droite
 
-            // Texte du bouton
             g2.setColor(isSelected ? TEXT_MAIN : TEXT_DIM);
             g2.setFont(new Font("SansSerif", Font.BOLD, 18));
             FontMetrics btnFm = g2.getFontMetrics();

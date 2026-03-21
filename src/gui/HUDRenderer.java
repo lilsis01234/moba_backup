@@ -19,17 +19,21 @@ public class HUDRenderer {
     private int blueKills = 0;
     private int redKills = 0;
     private int playerGold = 0;
+    private MinimapRenderer minimapRenderer;
 
     public HUDRenderer(Player player, Arena arena, TilesManager tilesManager) {
         this.player = player;
         this.arena = arena;
         this.tilesManager = tilesManager;
         this.matchStartTime = System.currentTimeMillis();
+        this.minimapRenderer = new MinimapRenderer(player, arena, tilesManager, 0, 0, 180);
     }
 
     public void setScreenSize(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        int margin = 10;
+        minimapRenderer.setPosition(screenWidth - 180 - margin, margin);
     }
 
     public void setPaused(boolean paused) {
@@ -48,8 +52,8 @@ public class HUDRenderer {
     public void render(Graphics2D g2) {
         int margin = 10;
         
-        renderMinimap(g2, screenWidth - 180 - margin, margin, 180, 180);
-        
+        minimapRenderer.render(g2);
+
         renderScoreboard(g2, margin, margin);
         
         renderGoldDisplay(g2, screenWidth - 100, 200);
@@ -65,55 +69,6 @@ public class HUDRenderer {
         if (!player.isActive()) {
             renderRespawnOverlay(g2);
         }
-    }
-
-    private void renderMinimap(Graphics2D g2, int x, int y, int size, int sizeY) {
-        g2.setColor(new Color(20, 20, 30, 230));
-        g2.fillRect(x - 3, y - 3, size + 6, size + 6);
-        
-        g2.setColor(new Color(40, 40, 50));
-        g2.fillRect(x, y, size, size);
-        
-        double scaleX = (double) size / GameConfiguration.WORLD_WIDTH;
-        double scaleY = (double) size / GameConfiguration.WORLD_HEIGHT;
-        
-        int mapRows = GameConfiguration.TILE_ROWS;
-        int mapCols = GameConfiguration.TILE_COLS;
-        
-        for (int row = 0; row < mapRows; row++) {
-            for (int col = 0; col < mapCols; col++) {
-                int tileId = tilesManager.mapTileNum[row][col];
-                if (tileId >= 0 && tileId < tilesManager.tiles.length && tilesManager.tiles[tileId] != null) {
-                    g2.setColor(tilesManager.tiles[tileId].getColor());
-                    int px = x + (int)(col * GameConfiguration.TILE_SIZE * scaleX);
-                    int py = y + (int)(row * GameConfiguration.TILE_SIZE * scaleY);
-                    int w = Math.max(1, (int)((col + 1) * GameConfiguration.TILE_SIZE * scaleX) - px);
-                    int h = Math.max(1, (int)((row + 1) * GameConfiguration.TILE_SIZE * scaleY) - py);
-                    g2.fillRect(px, py, w, h);
-                }
-            }
-        }
-        
-        for (var lane : arena.lanes) {
-            for (var tower : lane.getAllTowers()) {
-                int px = x + (int)(tower.getX() * scaleX);
-                int py = y + (int)(tower.getY() * scaleY);
-                g2.setColor(tower.getTeam() == 0 ? Color.BLUE : Color.RED);
-                g2.fillRect(px - 2, py - 2, 4, 4);
-            }
-        }
-        
-        int playerX = x + (int)(player.getX() * scaleX);
-        int playerY = y + (int)(player.getY() * scaleY);
-        g2.setColor(Color.YELLOW);
-        g2.fillOval(playerX - 4, playerY - 4, 8, 8);
-        
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.PLAIN, 9));
-        g2.drawString("LMB: Move", x + 5, y + size - 5);
-        
-        g2.setColor(Color.GRAY);
-        g2.drawRect(x, y, size, size);
     }
 
     private void renderScoreboard(Graphics2D g2, int x, int y) {
@@ -306,23 +261,9 @@ public class HUDRenderer {
         int textWidth = fm.stringWidth(text);
         g2.drawString(text, (screenWidth - textWidth) / 2, screenHeight / 2);
     }
-    
+
     public boolean handleMinimapClick(int clickX, int clickY) {
-        int minimapSize = 180;
-        int margin = 10;
-        int minimapX = screenWidth - minimapSize - margin;
-        int minimapY = margin;
-        
-        if (clickX >= minimapX && clickX <= minimapX + minimapSize &&
-            clickY >= minimapY && clickY <= minimapY + minimapSize) {
-            double scaleX = (double) minimapSize / GameConfiguration.WORLD_WIDTH;
-            double scaleY = (double) minimapSize / GameConfiguration.WORLD_HEIGHT;
-            double worldX = (clickX - minimapX) / scaleX;
-            double worldY = (clickY - minimapY) / scaleY;
-            player.moveTo(worldX, worldY);
-            return true;
-        }
-        return false;
+        return minimapRenderer.handleClick(clickX, clickY);
     }
     
     public boolean handlePauseButtonClick(int clickX, int clickY) {

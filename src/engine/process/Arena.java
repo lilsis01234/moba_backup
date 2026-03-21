@@ -30,7 +30,7 @@ public class Arena {
     int T = GameConfiguration.TILE_SIZE;
 
     public Arena() {
-        tilesManager = new TilesManager("/res/map/map.txt");
+        tilesManager = new TilesManager("/config/map/map.txt");
 
         lanes = new ArrayList<>();
         lanes.add(new Lane(Lane.Type.top));
@@ -105,6 +105,28 @@ public class Arena {
         return closest;
     }
 
+     public void renderMinimapEntities(Graphics2D g2, int miniX, int miniY, int miniWidth, int miniHeight) {
+        double scaleX = (double) miniWidth  / GameConfiguration.WORLD_WIDTH;
+        double scaleY = (double) miniHeight / GameConfiguration.WORLD_HEIGHT;
+
+        for (Minion m : minionSpawner.getMinions()) {
+            if (!m.isActive()) continue;
+            int px = miniX + (int)(m.getX() * scaleX);
+            int py = miniY + (int)(m.getY() * scaleY);
+            g2.setColor(m.getTeam() == 0 ? Color.CYAN : Color.ORANGE);
+            g2.fillRect(px - 1, py - 1, 2, 2);
+        }
+
+        for (Bot b : botManager.getAllBots()) {
+            if (!b.isActive()) continue;
+            int px = miniX + (int)(b.getX() * scaleX);
+            int py = miniY + (int)(b.getY() * scaleY);
+            g2.setColor(b.getTeam() == 0 ? Color.BLUE : Color.MAGENTA);
+            g2.fillOval(px - 2, py - 2, 4, 4);
+        }
+    }
+
+
     public void render(Graphics2D g2, int screenW, int screenH) {
         // Calculate scale to fit whole world on screen
         double scale = Math.min((double)screenW / GameConfiguration.WORLD_WIDTH,
@@ -129,8 +151,6 @@ public class Arena {
                 t.render(g2, screenW, screenH);
             }
         }
-        
-        
 
         // Render fountains
         playerFountain.render(g2, screenW, screenH);
@@ -301,49 +321,6 @@ public class Arena {
             if (m.getTeam() == team && m.isActive()) allies.add(m);
         }
         return allies;
-    }
-
-    public void renderMinimap(Graphics2D g2, int miniX, int miniY, int miniWidth, int miniHeight) {
-        double scaleX = (double) miniWidth  / GameConfiguration.WORLD_WIDTH;
-        double scaleY = (double) miniHeight / GameConfiguration.WORLD_HEIGHT;
-
-        // background
-        g2.setColor(new Color(34, 85, 34));
-        g2.fillRect(miniX, miniY, miniWidth, miniHeight);
-
-        // towers
-        for (Lane lane : lanes) {
-            for (Tower t : lane.getAllTowers()) {
-                int px = miniX + (int)(t.getX() * scaleX);
-                int py = miniY + (int)(t.getY() * scaleY);
-                g2.setColor(t.getTeam() == 0 ? Color.BLUE : Color.RED);
-                g2.fillRect(px - 2, py - 2, 4, 4);
-            }
-        }
-
-        // minions
-        for (Minion m : minionSpawner.getMinions()) {
-            if (!m.isActive()) continue;
-            int px = miniX + (int)(m.getX() * scaleX);
-            int py = miniY + (int)(m.getY() * scaleY);
-            g2.setColor(m.getTeam() == 0 ? Color.CYAN : Color.ORANGE);
-            g2.fillRect(px - 1, py - 1, 2, 2);
-        }
-
-        // bots
-        for (Bot b : botManager.getAllBots()) {
-            if (!b.isActive()) continue;
-            int px = miniX + (int)(b.getX() * scaleX);
-            int py = miniY + (int)(b.getY() * scaleY);
-            g2.setColor(b.getTeam() == 0 ? Color.BLUE : Color.MAGENTA);
-            g2.fillOval(px - 2, py - 2, 4, 4);
-        }
-
-        // player dot
-        int px = miniX + (int)(player.getX() * scaleX);
-        int py = miniY + (int)(player.getY() * scaleY);
-        g2.setColor(Color.YELLOW);
-        g2.fillOval(px - 4, py - 4, 8, 8);
     }
 
     public boolean isCollidingWithWall(double newX, double newY) {
