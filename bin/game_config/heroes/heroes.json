@@ -39,7 +39,7 @@
         "type": "dmg"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Titan",
@@ -81,7 +81,7 @@
         "type": "dmg"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Boulder",
@@ -123,7 +123,7 @@
         "type": "dmg"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Fortress",
@@ -165,7 +165,7 @@
         "type": "SP"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Ironclad",
@@ -207,7 +207,7 @@
         "type": "dmg"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Sentinel",
@@ -249,7 +249,7 @@
         "type": "dmg"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Warden",
@@ -291,7 +291,7 @@
         "type": "CC"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Bastion",
@@ -333,7 +333,7 @@
         "type": "SP"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Crusader",
@@ -375,7 +375,7 @@
         "type": "SP"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Guardian",
@@ -417,7 +417,7 @@
         "type": "SP"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Juggernaut",
@@ -459,7 +459,7 @@
         "type": "SP"
       }
     ],
-    "speed": 2
+    "speed": 200
   },
   {
     "name": "Aegis",
@@ -501,5 +501,5 @@
         "type": "SP"
       }
     ],
-    "speed": 2
+    "speed": 200
   }]

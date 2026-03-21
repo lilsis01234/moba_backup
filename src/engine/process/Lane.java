@@ -5,7 +5,7 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 import engine.mobile.Tower;
 
 /**

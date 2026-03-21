@@ -2,7 +2,7 @@ package engine.process;
 
 import engine.mobile.Minion;
 import engine.mobile.Player;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;

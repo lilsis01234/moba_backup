@@ -6,7 +6,7 @@ import java.util.*;
 
 public class JsonDataProvider {
     
-    private static final String HEROES_FILE = "config/heroes/heroes.json";
+    private static final String HEROES_FILE = "/game_config/heroes/heroes.json";
     
     private List<Hero> heroes;
     private List<Category> categories;
@@ -33,7 +33,9 @@ public class JsonDataProvider {
     
     private String readJSONFile() throws IOException {
         StringBuilder json = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(HEROES_FILE))) {
+        InputStream is = getClass().getResourceAsStream(HEROES_FILE);
+        if (is == null) throw new IOException("Fichier introuvable : /game_config/heroes/heroes.json");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 json.append(line.trim());
@@ -72,15 +74,6 @@ public class JsonDataProvider {
             hero.setAttackSpeed(parseDouble(heroMap.get("attackSpeed")));
             hero.setMaxMana(parseInt(heroMap.get("maxMana")));
             hero.setSpeed(parseDouble(heroMap.get("speed")));
-            hero.setCharacterRow(parseInt(heroMap.get("characterRow")));
-            hero.setHairRow(parseInt(heroMap.get("hairRow")));
-            hero.setOutfitFile(heroMap.get("outfitFile"));
-            
-            // Optional field
-            String suitRowStr = heroMap.get("suitRow");
-            if (suitRowStr != null && !suitRowStr.isEmpty() && !suitRowStr.equals("null")) {
-                hero.setSuitRow(parseInt(suitRowStr));
-            }
             
             heroes.add(hero);
             

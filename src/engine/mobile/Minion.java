@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 public class Minion extends Entity {
 

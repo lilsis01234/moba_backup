@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import engine.process.Arena;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 public class Player extends Personnage {
 
@@ -16,11 +16,10 @@ public class Player extends Personnage {
 
     private BufferedImage playerImage;
 
-    public Player(double x, double y) {
-        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y, GameConfiguration.PLAYER_MAX_HP, GameConfiguration.PLAYER_MAX_MANA, GameConfiguration.PLAYER_SPEED, 0);
-        this.hp = GameConfiguration.PLAYER_MAX_HP;
-        this.mana = GameConfiguration.PLAYER_MAX_MANA;
-        // attack stats — placeholder, will be set per hero later
+    public Player(double x, double y, int maxHp, int maxMana, double speed) {
+        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y,  maxHp, maxMana, speed, 0);
+        this.hp   = maxHp;
+        this.mana = maxMana;
         this.atkDamage   = 20.0;
         this.atkRange    = 100.0;
         this.atkCooldown = 1.0;
@@ -36,6 +35,9 @@ public class Player extends Personnage {
         if (mana < maxMana) {
             mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
             if (mana > maxMana) mana = maxMana;
+        }
+        if (isMoving) {
+            System.out.println("Pos actuelle: " + x + "," + y + " | Cible: " + CibleX + "," + CibleY);
         }
         if (isMoving) updatePosition(deltaTime, arena);
     }
@@ -73,9 +75,9 @@ public class Player extends Personnage {
         }
     }
 
-    public void moveTo(double CibleX, double CibleY) {
-        this.CibleX = CibleX;
-        this.CibleY = CibleY;
+    public void moveTo(double xDestination, double yDestination) {
+        this.CibleX = xDestination;
+        this.CibleY = yDestination;
         this.isMoving = true;
     }
 

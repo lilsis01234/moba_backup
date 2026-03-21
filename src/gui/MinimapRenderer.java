@@ -3,7 +3,7 @@ package gui;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 import engine.map.TilesManager;
 import engine.mobile.Bot;
 import engine.mobile.Minion;
@@ -39,13 +39,12 @@ public class MinimapRenderer {
 
     public boolean handleClick(int clickX, int clickY) {
         if (clickX >= x && clickX <= x + size && clickY >= y && clickY <= y + size) {
-            double scaleX = (double) size / GameConfiguration.WORLD_WIDTH;
-            double scaleY = (double) size / GameConfiguration.WORLD_HEIGHT;
-            double worldX = (clickX - x) / scaleX;
-            double worldY = (clickY - y) / scaleY;
-            if (onClickCallback != null) {
-                onClickCallback.accept(new Point((int) worldX, (int) worldY));
-            }
+            double relativeX = (double)(clickX - x) / size;
+            double relativeY = (double)(clickY - y) / size;
+
+            double worldX = relativeX * GameConfiguration.WORLD_WIDTH;
+            double worldY = relativeY * GameConfiguration.WORLD_HEIGHT;
+
             player.moveTo(worldX, worldY);
             return true;
         }

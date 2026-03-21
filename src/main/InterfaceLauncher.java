@@ -1,8 +1,10 @@
 package main; 
 import engine.process.Arena;
 import gui.game.ArenaPanel;
+import gui.menu.HeroSelection;
 import gui.menu.MainMenu;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
+import data.model.Hero;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -63,18 +65,47 @@ public class InterfaceLauncher extends JFrame implements Runnable {
 
     private void startGame() {
         setVisible(false);
-        
-        arena = new Arena();
-        panel = new ArenaPanel(arena, screenWidth, screenHeight);
+        showHeroSelection();
+    }
+
+    private void showHeroSelection() {
+        JFrame selectionFrame = new JFrame("MOBA - Sélection du héros");
+        selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        selectionFrame.setSize(screenWidth, screenHeight);
+        selectionFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        HeroSelection heroSelection = new HeroSelection(new Dimension(screenWidth, screenHeight));
+        heroSelection.setHeroSelectionListener(new HeroSelection.HeroSelectionListener() {
+            @Override
+            public void onHeroSelected(Hero hero) {
+                selectionFrame.dispose();
+                launchGame(hero);
+            }
+
+            @Override
+            public void onBack() {
+                selectionFrame.dispose();
+                setVisible(true);
+            }
+        });
+
+        selectionFrame.add(heroSelection);
+        selectionFrame.setVisible(true);
+        heroSelection.requestFocusInWindow();
+    }
+
+    private void launchGame(Hero hero) {
+        arena = new Arena(hero);
+        panel = new ArenaPanel(arena, screenWidth, screenHeight, hero);
         panel.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        
+
         gameFrame = new JFrame("MOBA - Game");
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.add(panel);
         gameFrame.setSize(screenWidth, screenHeight);
         gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         gameFrame.setLocationRelativeTo(null);
-        
+
         gameFrame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -85,11 +116,9 @@ public class InterfaceLauncher extends JFrame implements Runnable {
                 }
             }
         });
-        
+
         panel.setFocusable(true);
-        
         gameFrame.setVisible(true);
-        
         isGameRunning = true;
     }
 

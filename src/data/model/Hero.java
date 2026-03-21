@@ -9,10 +9,6 @@ import java.util.List;
  * Concepts clés pour un débutants:
  * - Cette classe vient de la base de données JSON (Core/Database/)
  * - Chaque héros a des statistiques différentes (PV, attaque, défense, vitesse)
- * - characterRow = quelle ligne du sprite sheet utiliser pour le corps
- * - hairRow = quelle ligne du sprite sheet utiliser pour les cheveux
- * - outfitFile = fichier PNG des vêtements
- * - suitRow = quelle ligne du sprite sheet pour l'armure (peut être null)
  * - spells = liste des sorts du héros
  * 
  * Les données sont chargées depuis JSON et transformées en objets Java
@@ -29,10 +25,6 @@ public class Hero {
     private double attackSpeed;
     private int maxMana;
     private double speed;
-    private int characterRow; // Row in Character Model.png (body type/skin)
-    private int hairRow; // Row in Hairs.png
-    private String outfitFile; // Outfit PNG filename in Outfits folder
-    private Integer suitRow; // Row in Suit.png (null if no suit)
     private List<Spell> spells;
     
     public Hero() {
@@ -140,38 +132,6 @@ public class Hero {
     
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
-    
-    public int getCharacterRow() {
-        return characterRow;
-    }
-    
-    public void setCharacterRow(int characterRow) {
-        this.characterRow = characterRow;
-    }
-    
-    public int getHairRow() {
-        return hairRow;
-    }
-    
-    public void setHairRow(int hairRow) {
-        this.hairRow = hairRow;
-    }
-    
-    public String getOutfitFile() {
-        return outfitFile;
-    }
-    
-    public void setOutfitFile(String outfitFile) {
-        this.outfitFile = outfitFile;
-    }
-    
-    public Integer getSuitRow() {
-        return suitRow;
-    }
-    
-    public void setSuitRow(Integer suitRow) {
-        this.suitRow = suitRow;
     }
     
     public List<Spell> getSpells() {

@@ -1,6 +1,6 @@
 package engine.map;
 
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;

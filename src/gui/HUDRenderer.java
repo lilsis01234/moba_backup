@@ -3,10 +3,10 @@ package gui;
 import engine.mobile.Player;
 import engine.process.Arena;
 import engine.map.TilesManager;
-import engine.map.Tile;
-import config.GameConfiguration;
 
 import java.awt.*;
+
+import data.model.Hero;
 
 public class HUDRenderer {
     private final Player player;
@@ -20,13 +20,15 @@ public class HUDRenderer {
     private int redKills = 0;
     private int playerGold = 0;
     private MinimapRenderer minimapRenderer;
+    private Hero hero;
 
-    public HUDRenderer(Player player, Arena arena, TilesManager tilesManager) {
+    public HUDRenderer(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
         this.player = player;
         this.arena = arena;
         this.tilesManager = tilesManager;
         this.matchStartTime = System.currentTimeMillis();
         this.minimapRenderer = new MinimapRenderer(player, arena, tilesManager, 0, 0, 180);
+        this.hero = hero;
     }
 
     public void setScreenSize(int screenWidth, int screenHeight) {
@@ -47,6 +49,10 @@ public class HUDRenderer {
 
     public void setGold(int gold) {
         this.playerGold = gold;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 
     public void render(Graphics2D g2) {
@@ -132,7 +138,7 @@ public class HUDRenderer {
         
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 14));
-        g2.drawString("Hero", x + 58, y + 24);
+        g2.drawString(hero != null ? hero.getName() : "Hero", x + 58, y + 24);
         
         g2.setFont(new Font("Arial", Font.PLAIN, 11));
         g2.setColor(new Color(180, 180, 200));
@@ -169,10 +175,10 @@ public class HUDRenderer {
         int statsY = y + 110;
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
-        g2.drawString("ATK:20", x + 10, statsY);
-        g2.drawString("DEF:0", x + 70, statsY);
-        g2.drawString("SPD:" + (int)player.getSpeed(), x + 130, statsY);
-    }
+        g2.drawString("ATK: " + (hero != null ? hero.getAttack() : 20), x + 10, statsY);
+        g2.drawString("DEF: " + (hero != null ? hero.getDefense() : 0), x + 70, statsY);
+        g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 130, statsY);
+}
 
     private void renderAbilityBar(Graphics2D g2, int x, int y) {
         int width = 130;

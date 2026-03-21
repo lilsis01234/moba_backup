@@ -1,4 +1,4 @@
-package config;
+package game_config;
 
 public class GameConfiguration {
     // i started using pixels

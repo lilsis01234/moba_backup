@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 public class Tower extends Entity {
 

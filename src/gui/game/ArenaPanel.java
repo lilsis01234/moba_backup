@@ -2,9 +2,12 @@ package gui.game;
 
 import engine.process.Arena;
 import gui.HUDRenderer;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 import javax.swing.JPanel;
+
+import data.model.Hero;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.event.MouseAdapter;
@@ -23,7 +26,7 @@ public class ArenaPanel extends JPanel {
     private HUDRenderer hudRenderer;
     private Runnable pauseCallback;
 
-    public ArenaPanel(Arena arena, int windowWidth, int windowHeight) {
+    public ArenaPanel(Arena arena, int windowWidth, int windowHeight, Hero hero) {
         this.arena = arena;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
@@ -34,7 +37,8 @@ public class ArenaPanel extends JPanel {
         this.hudRenderer = new HUDRenderer(
             arena.getPlayer(), 
             arena, 
-            arena.getTilesManager()
+            arena.getTilesManager(),
+            hero
         );
 
         addMouseListener(new MouseAdapter() {
@@ -56,6 +60,7 @@ public class ArenaPanel extends JPanel {
 
                 int w = getWidth();
                 int h = getHeight();
+
                 double scale = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
                                         (double)h / GameConfiguration.WORLD_HEIGHT);
                 double offsetX = (w - GameConfiguration.WORLD_WIDTH * scale) / 2;
@@ -63,6 +68,8 @@ public class ArenaPanel extends JPanel {
 
                 double worldX = (mx - offsetX) / scale;
                 double worldY = (my - offsetY) / scale;
+
+                System.out.println("Click at World: " + worldX + ", " + worldY);
 
                 if (worldX >= 0 && worldX <= GameConfiguration.WORLD_WIDTH &&
                     worldY >= 0 && worldY <= GameConfiguration.WORLD_HEIGHT) {

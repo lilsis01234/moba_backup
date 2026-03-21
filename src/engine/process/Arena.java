@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.model.Hero;
 import engine.mobile.Base;
 import engine.mobile.Bot;
 import engine.mobile.Entity;
@@ -13,11 +14,12 @@ import engine.mobile.Minion;
 import engine.mobile.Player;
 import engine.mobile.Tower;
 import engine.map.TilesManager;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 public class Arena {
     public List<Lane> lanes;
     private Player player;
+    private Hero selectedHero;
 
     // PLEASE CHANGE THE RENDER ORDER SO TOWER IS ON TOP LATER
     private BotManager botManager;
@@ -29,8 +31,9 @@ public class Arena {
     private TilesManager tilesManager;
     int T = GameConfiguration.TILE_SIZE;
 
-    public Arena() {
-        tilesManager = new TilesManager("/config/map/map.txt");
+    public Arena(Hero hero) {
+        this.selectedHero = hero;
+        tilesManager = new TilesManager("/game_config/map/map.txt");
 
         lanes = new ArrayList<>();
         lanes.add(new Lane(Lane.Type.top));
@@ -40,7 +43,13 @@ public class Arena {
         playerBase = new Base(11 * T, 49 * T, 0);  
         enemyBase  = new Base(49 * T, 11 * T, 1); 
 
-        player = new Player(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y);
+         player = new Player(
+            GameConfiguration.PLAYER_START_X,
+            GameConfiguration.PLAYER_START_Y,
+            hero.getMaxHp(),
+            hero.getMaxMana(),
+            hero.getSpeed()
+        );
 
         botManager = new BotManager();
 
@@ -211,7 +220,8 @@ public class Arena {
         // Player name
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
-        g2.drawString("Hero", screenX - 15, hpY - 5);
+        String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
+        g2.drawString(heroName, screenX - 15, hpY - 5);
 
         // Draw health bars for bots in screen space
         int botBarWidth = 60;

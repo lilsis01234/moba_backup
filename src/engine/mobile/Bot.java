@@ -2,7 +2,7 @@ package engine.mobile;
 
 import java.awt.*;
 import java.util.List;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 public class Bot extends Personnage {
 

@@ -2,7 +2,7 @@ package engine.process;
 
 import engine.mobile.Bot;
 import engine.mobile.Entity;
-import config.GameConfiguration;
+import game_config.GameConfiguration;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
