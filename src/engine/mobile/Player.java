@@ -36,9 +36,6 @@ public class Player extends Personnage {
             mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
             if (mana > maxMana) mana = maxMana;
         }
-        if (isMoving) {
-            System.out.println("Pos actuelle: " + x + "," + y + " | Cible: " + CibleX + "," + CibleY);
-        }
         if (isMoving) updatePosition(deltaTime, arena);
     }
 

@@ -68,9 +68,6 @@ public class ArenaPanel extends JPanel {
 
                 double worldX = (mx - offsetX) / scale;
                 double worldY = (my - offsetY) / scale;
-
-                System.out.println("Click at World: " + worldX + ", " + worldY);
-
                 if (worldX >= 0 && worldX <= GameConfiguration.WORLD_WIDTH &&
                     worldY >= 0 && worldY <= GameConfiguration.WORLD_HEIGHT) {
                     arena.getPlayer().moveTo(worldX, worldY);
