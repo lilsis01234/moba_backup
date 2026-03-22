@@ -13,6 +13,9 @@ public class GameConfiguration {
     public static final int WORLD_WIDTH  = TILE_SIZE * TILE_ROWS;  // 60 * 128 = 7680
     public static final int WORLD_HEIGHT = TILE_SIZE * TILE_COLS;  // 60 * 128 = 7680
 
+    //technical
+    public static final double AttackMargin =TILE_SIZE * 0.75;
+
     // Camera
     public static final int MINIMAP_WIDTH  = 300;
     public static final int MINIMAP_HEIGHT = 300;

@@ -25,6 +25,7 @@ public class Hero {
     private double attackSpeed;
     private int maxMana;
     private double speed;
+    private double atkRange;
     private List<Spell> spells;
     
     public Hero() {
@@ -133,6 +134,10 @@ public class Hero {
     public void setSpeed(double speed) {
         this.speed = speed;
     }
+    
+    public double getAtkRange() { return atkRange; }
+    
+    public void setAtkRange(double atkRange) { this.atkRange = atkRange; }
     
     public List<Spell> getSpells() {
         return spells;

@@ -1,5 +1,7 @@
 package engine.mobile;
 
+import org.apache.log4j.Logger;
+import log.LoggerUtility;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,15 +15,16 @@ public class Player extends Personnage {
 
     private double CibleX, CibleY;
     private boolean isMoving;
-
+    private Entity targetEnemy = null; //we need it to attack found using a method
     private BufferedImage playerImage;
-
-    public Player(double x, double y, int maxHp, int maxMana, double speed) {
+    private static final Logger logger = LoggerUtility.getLogger(Player.class, "text");
+    
+    public Player(double x, double y, int maxHp, int maxMana, double speed, double atkRange) {
         super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y,  maxHp, maxMana, speed, 0);
         this.hp   = maxHp;
         this.mana = maxMana;
         this.atkDamage   = 20.0;
-        this.atkRange    = 100.0;
+        this.atkRange    = atkRange;
         this.atkCooldown = 1.0;
         try {
             playerImage = ImageIO.read(getClass().getResourceAsStream("/res/Heroes/Green girl og.png"));
@@ -37,6 +40,21 @@ public class Player extends Personnage {
             if (mana > maxMana) mana = maxMana;
         }
         if (isMoving) updatePosition(deltaTime, arena);
+
+        // to attack
+        if (targetEnemy != null) {
+            if (!targetEnemy.isActive()) {
+                targetEnemy = null; // it died
+            } else {
+            	logger.debug("target=" + targetEnemy.getClass().getSimpleName()
+                        + " dist=" + (int)getDistanceTo(targetEnemy)
+                        + " range=" + atkRange
+                        + " timer=" + (int)atkTimer);
+                attack(targetEnemy, deltaTime);
+        }
+        }
+
+
     }
 
     public void updatePosition(double deltaTime, Arena arena) {
@@ -92,4 +110,6 @@ public class Player extends Personnage {
     public double getCibleX() { return CibleX; }
     public double getCibleY() { return CibleY; }
     public boolean isMoving() { return isMoving; }
+    
+    public void setTarget(Entity target) { this.targetEnemy = target; }
 }

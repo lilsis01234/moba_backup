@@ -48,7 +48,8 @@ public class Arena {
             GameConfiguration.PLAYER_START_Y,
             hero.getMaxHp(),
             hero.getMaxMana(),
-            hero.getSpeed()
+            hero.getSpeed(),
+            hero.getAtkRange()
         );
 
         botManager = new BotManager();
@@ -339,5 +340,17 @@ public class Arena {
 
     public TilesManager getTilesManager() {
         return tilesManager;
+    }
+ 
+    public Entity findClickedEnemy(double worldX, double worldY, double clickRadius) {
+        for (Entity e : getEnemiesForTeam(0)) {
+            if (!e.isActive()) continue;    
+            double dx = e.getX() - worldX; 
+            double dy = e.getY() - worldY;
+            if (Math.sqrt(dx * dx + dy * dy) <= clickRadius) { //we allow a margin or error or else its unplayable
+                return e;
+            }
+        }
+        return null;
     }
 }
