@@ -79,7 +79,7 @@ public class HeroSelection extends JPanel {
         titleLabel.setOpaque(false);
         add(titleLabel, BorderLayout.NORTH);
 
-        // Centre : flèches + cartes
+        // Centre : flèches et cartes
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setOpaque(false);
 
@@ -115,7 +115,7 @@ public class HeroSelection extends JPanel {
 
         add(centerPanel, BorderLayout.CENTER);
 
-        // Bas : page + hint
+        // Bas : page et utilisation
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
@@ -187,29 +187,26 @@ public class HeroSelection extends JPanel {
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setPreferredSize(new Dimension(160, 220));
         card.setBackground(isSelected ? BUTTON_HOVER : BUTTON_BG);
-        card.setBorder(BorderFactory.createLineBorder(isSelected ? ACCENT : BUTTON_BORDER, 2));
 
-        card.add(Box.createVerticalStrut(10));
+        card.add(new JLabel(" ")); // espace
 
-        // Nom
         JLabel nameLabel = new JLabel(hero.getName() != null ? hero.getName() : "???", SwingConstants.CENTER);
         nameLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         nameLabel.setForeground(isSelected ? TEXT_MAIN : TEXT_DIM);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(nameLabel);
 
-        card.add(Box.createVerticalStrut(6));
+        card.add(new JLabel(" ")); // espace
 
-        // Catégorie
         JLabel catLabel = new JLabel("Cat. " + hero.getCategoryId(), SwingConstants.CENTER);
         catLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
         catLabel.setForeground(TEXT_DIM);
         catLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(catLabel);
 
-        card.add(Box.createVerticalStrut(20));
+        card.add(new JLabel(" ")); // espace
+        card.add(new JLabel(" ")); // espace
 
-        // Stats
         String[] stats = {
             "HP:  " + hero.getMaxHp(),
             "ATK: " + hero.getAttack(),
@@ -217,16 +214,14 @@ public class HeroSelection extends JPanel {
             "SPD: " + hero.getSpeed()
         };
         for (String stat : stats) {
-            JLabel statLabel = new JLabel(stat);
+            JLabel statLabel = new JLabel("  " + stat);
             statLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
             statLabel.setForeground(TEXT_DIM);
-            statLabel.setBorder(BorderFactory.createEmptyBorder(2, 15, 2, 0));
             card.add(statLabel);
         }
 
         return card;
     }
-
     public void setHeroSelectionListener(HeroSelectionListener listener) {
         this.listener = listener;
     }
