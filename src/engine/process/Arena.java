@@ -40,8 +40,8 @@ public class Arena {
         lanes.add(new Lane(Lane.Type.middle));
         lanes.add(new Lane(Lane.Type.bot));
         
-        playerBase = new Base(11 * T, 49 * T, 0);  
-        enemyBase  = new Base(49 * T, 11 * T, 1); 
+        playerBase = new Base(8 * T, 53 * T, 0);  
+        enemyBase  = new Base(53 * T, 7 * T, 1); 
 
          player = new Player(
             GameConfiguration.PLAYER_START_X,
@@ -54,8 +54,8 @@ public class Arena {
 
         botManager = new BotManager();
 
-        playerFountain = new Fountain(8 * T, 52 * T, 0);
-        enemyFountain  = new Fountain(52 * T, 8 * T, 1);
+        playerFountain = new Fountain(4 * T, 56 * T, 0);
+        enemyFountain  = new Fountain(56 * T, 4 * T, 1);
 
         minionSpawner = new MinionSpawner();
     }

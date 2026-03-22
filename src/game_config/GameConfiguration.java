@@ -22,8 +22,8 @@ public class GameConfiguration {
     public static final int MINIMAP_MARGIN = 10;
 
     // Player
-    public static final double PLAYER_START_X    = TILE_SIZE * 12;
-    public static final double PLAYER_START_Y    = TILE_SIZE * 50;
+    public static final double PLAYER_START_X    = TILE_SIZE * 8;
+    public static final double PLAYER_START_Y    = TILE_SIZE * 54;
     public static final double PLAYER_SPEED      = 400.0; // pixels/sec
     public static final double PLAYER_MAX_HP     = 100;
     public static final double PLAYER_MAX_MANA   = 100;
