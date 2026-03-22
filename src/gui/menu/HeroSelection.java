@@ -60,12 +60,12 @@ public class HeroSelection extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT   -> navigate(-1);
-                    case KeyEvent.VK_RIGHT  -> navigate(1);
-                    case KeyEvent.VK_ENTER  -> confirmSelection();
-                    case KeyEvent.VK_ESCAPE -> { if (listener != null) listener.onBack(); }
-                }
+            	switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:   navigate(-1); break;
+                case KeyEvent.VK_RIGHT:  navigate(1); break;
+                case KeyEvent.VK_ENTER:  confirmSelection(); break;
+                case KeyEvent.VK_ESCAPE: if (listener != null) listener.onBack(); break;
+            }
             }
         });
     }

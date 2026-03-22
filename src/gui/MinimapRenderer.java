@@ -8,6 +8,8 @@ import engine.map.TilesManager;
 import engine.mobile.Bot;
 import engine.mobile.Minion;
 import engine.mobile.Player;
+import engine.process.Lane;
+import engine.mobile.Tower;
 import engine.process.Arena;
 
 public class MinimapRenderer {
@@ -76,8 +78,8 @@ public class MinimapRenderer {
         double scaleY = (double) size / GameConfiguration.WORLD_HEIGHT;
 
         // Tours
-        for (var lane : arena.lanes) {
-            for (var tower : lane.getAllTowers()) {
+        for ( Lane lane : arena.lanes) {
+            for (Tower tower : lane.getAllTowers()) {
                 int px = x + (int)(tower.getX() * scaleX);
                 int py = y + (int)(tower.getY() * scaleY);
                 g2.setColor(tower.getTeam() == 0 ? new Color(80, 180, 255) : new Color(255, 80, 80));

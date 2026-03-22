@@ -36,11 +36,11 @@ public class MainMenu extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP -> navigate(-1);
-                    case KeyEvent.VK_DOWN -> navigate(1);
-                    case KeyEvent.VK_ENTER -> handleSelection();
-                }
+            	switch (e.getKeyCode()) {
+                case KeyEvent.VK_UP:    navigate(-1); break;
+                case KeyEvent.VK_DOWN:  navigate(1); break;
+                case KeyEvent.VK_ENTER: handleSelection(); break;
+            }
             }
         });
         
