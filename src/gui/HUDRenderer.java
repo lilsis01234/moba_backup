@@ -21,6 +21,7 @@ public class HUDRenderer {
     private int playerGold = 0;
     private MinimapRenderer minimapRenderer;
     private Hero hero;
+    private engine.mobile.Bot targetedBot = null;
 
     public HUDRenderer(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
         this.player = player;
@@ -54,6 +55,9 @@ public class HUDRenderer {
     public void setHero(Hero hero) {
         this.hero = hero;
     }
+    public void setTargetedBot(engine.mobile.Bot bot) {
+        this.targetedBot = bot;
+    }
 
     public void render(Graphics2D g2) {
         int margin = 10;
@@ -65,6 +69,10 @@ public class HUDRenderer {
         renderGoldDisplay(g2, screenWidth - 100, 200);
         
         renderCharacterPanel(g2, margin, screenHeight - 160);
+        
+        if (targetedBot != null && targetedBot.isActive()) {
+        	renderEnemyPanel(g2, margin, screenHeight - 160 - 100);
+        }
         
         renderAbilityBar(g2, screenWidth - 140 - margin, screenHeight - 55);
         
@@ -179,6 +187,48 @@ public class HUDRenderer {
         g2.drawString("DEF: " + (hero != null ? hero.getDefense() : 0), x + 70, statsY);
         g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 130, statsY);
 }
+    private void renderEnemyPanel(Graphics2D g2, int x, int y) {
+        int width = 200;
+        int height = 100;
+
+        g2.setColor(new Color(25, 25, 35, 220));
+        g2.fillRect(x, y, width, height);
+        g2.setColor(new Color(180, 60, 60));
+        g2.drawRect(x, y, width, height);
+
+        g2.setColor(new Color(220, 100, 100));
+        g2.setFont(new Font("Arial", Font.BOLD, 14));
+        g2.drawString(targetedBot.getName(), x + 10, y + 20);
+
+        int barX = x + 10;
+        int barWidth = width - 20;
+        int barHeight = 14;
+
+        int barY = y + 30;
+        g2.setColor(Color.DARK_GRAY);
+        g2.fillRect(barX, barY, barWidth, barHeight);
+        double hpPct = targetedBot.getHp() / targetedBot.getMaxHp();
+        g2.setColor(new Color(200, 50, 50));
+        g2.fillRect(barX, barY, (int)(hpPct * barWidth), barHeight);
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.BOLD, 10));
+        String hpText = (int)targetedBot.getHp() + "/" + (int)targetedBot.getMaxHp();
+        FontMetrics fm = g2.getFontMetrics();
+        g2.drawString("HP", barX + 2, barY + 10);
+        g2.drawString(hpText, barX + barWidth - fm.stringWidth(hpText) - 2, barY + 10);
+
+        barY += 18;
+        g2.setColor(Color.DARK_GRAY);
+        g2.fillRect(barX, barY, barWidth, barHeight);
+        double manaPct = targetedBot.getMana() / targetedBot.getMaxMana();
+        g2.setColor(new Color(50, 100, 200));
+        g2.fillRect(barX, barY, (int)(manaPct * barWidth), barHeight);
+        g2.setColor(Color.WHITE);
+        String manaText = (int)targetedBot.getMana() + "/" + (int)targetedBot.getMaxMana();
+        g2.drawString("MANA", barX + 2, barY + 10);
+        g2.drawString(manaText, barX + barWidth - fm.stringWidth(manaText) - 2, barY + 10);
+    }
+    
 
     private void renderAbilityBar(Graphics2D g2, int x, int y) {
         int width = 130;

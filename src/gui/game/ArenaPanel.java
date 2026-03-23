@@ -68,6 +68,7 @@ public class ArenaPanel extends JPanel {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     // aka u right-click
                     arena.getPlayer().setTarget(null); // cancel attack then move (did that cus i had a bug)
+                    hudRenderer.setTargetedBot(null);
                     arena.getPlayer().moveTo(worldX, worldY);
                 } else if (e.getButton() == MouseEvent.BUTTON1) {
                     // aka left-click
@@ -75,10 +76,14 @@ public class ArenaPanel extends JPanel {
                     Entity clicked = arena.findClickedEnemy(worldX, worldY, clickRadius);
                     if (clicked != null) {
                         arena.getPlayer().setTarget(clicked);
+                        if (clicked instanceof engine.mobile.Bot) {
+                            hudRenderer.setTargetedBot((engine.mobile.Bot) clicked);
+                        } else {
+                            hudRenderer.setTargetedBot(null);
+                        }
                     }
                 }
-            }
-        });
+        }});
     }
 
     public void setPauseCallback(Runnable callback) {
