@@ -12,33 +12,28 @@ in our current game we can:
 
 TO DO:
 1/
--fix collision
--make bots able to kill Entite
+
 -die and respawn for bots
--minon move tp, fix it
+
 2/ LOOT
 -Add gold and xp + level to Personnage
 -Add a grantRewards(int gold, int xp) method to Entite so anything can drop loot on death
+
 3/
--When xp hits a threshold, call levelUp() → bumps level, scales stats
+-When xp hits a threshold, call levelUp() bumps level, scales stats
+
 4/
 -Implement Hero properly
--build complete hero first as a template
+
 5/
 -Implement Sort
-6/
-- HUD
--Display gold, level, and XP bar
-7/
--Hero selection screen
+
+
 8/
 -Recall: 5 second countdown, interrupted on damage/movement, on completion: teleport to fountain
-12/
--creeps: fixed positions in the jungle areas Respawn after a delay when killed
+
 13/
 -shop nd equipmens
-14/
--Remaining heroes
 
 
 

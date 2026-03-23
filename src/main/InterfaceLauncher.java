@@ -1,12 +1,16 @@
 package main; 
 import engine.process.Arena;
+
 import gui.game.ArenaPanel;
+import gui.menu.GameOverScreen;
 import gui.menu.HeroSelection;
 import gui.menu.MainMenu;
 import game_config.GameConfiguration;
 import data.model.Hero;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -23,6 +27,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
     private JFrame gameFrame;
     private ArenaPanel panel;
     private Arena arena;
+    private boolean gameOver = false;
 
     public InterfaceLauncher() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -61,6 +66,27 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         mainMenu.requestFocusInWindow();
+    }
+    private void showGameOver(String result) {
+    	
+        JFrame gameOverFrame = new JFrame("Game Over");
+        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameOverFrame.setSize(screenWidth, screenHeight);
+        gameOverFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        GameOverScreen screen = new GameOverScreen(result, new Dimension(screenWidth, screenHeight), new GameOverScreen.GameOverListener() {
+            @Override
+            public void onReturnToMenu() {
+                gameOverFrame.dispose();
+                gameOver = false;
+                setVisible(true);
+                showMainMenu();
+            }
+        });
+
+        gameOverFrame.add(screen);
+        gameOverFrame.setVisible(true);
+        screen.requestFocusInWindow();
     }
 
     private void startGame() {
@@ -131,9 +157,23 @@ public class InterfaceLauncher extends JFrame implements Runnable {
             double deltaTime = (currentTime - lastTime) / 1_000_000_000.0;
             lastTime = currentTime;
 
-            if (isGameRunning && arena != null && panel != null) {
+            if (isGameRunning && arena != null && panel != null && !gameOver) {
                 arena.update(deltaTime);
                 panel.repaint();
+
+                String result = arena.checkGameOver();
+                if (result != null) {
+                    gameOver = true;
+                    isGameRunning = false;
+                    final String finalResult = result;
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameFrame.dispose();
+                            showGameOver(finalResult);
+                        }
+                    });
+                }
             }
 
             try {

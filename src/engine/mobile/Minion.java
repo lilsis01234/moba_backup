@@ -79,7 +79,8 @@ public class Minion extends Entity {
         if (!active) return;
         int px   = (int) x;
         int py   = (int) y;
-        int size = GameConfiguration.TILE_SIZE / 2;
+        int size = GameConfiguration.TILE_SIZE ;
+        
 
         BufferedImage img;
         if (team == 0) {

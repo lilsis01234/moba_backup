@@ -84,9 +84,11 @@ public class Player extends Personnage {
         int size = GameConfiguration.TILE_SIZE;
         int px = (int) x; // world coordinates
         int py = (int) y;
+        
+        int imgSize = size * 2; 
 
         if (playerImage != null) {
-            g2.drawImage(playerImage, px - size/2, py - size/2, size, size, null);
+        	 g2.drawImage(playerImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
         }
     }
 

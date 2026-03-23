@@ -155,12 +155,6 @@ public class Arena {
         // Render tiles (world coordinates)
         tilesManager.render(g2, GameConfiguration.TILE_SIZE);
 
-        // Render towers
-        for (Lane lane : lanes) {
-            for (Tower t : lane.getAllTowers()) {
-                t.render(g2, screenW, screenH);
-            }
-        }
 
         // Render fountains
         playerFountain.render(g2, screenW, screenH);
@@ -178,6 +172,13 @@ public class Arena {
 
         // Render player
         player.render(g2, screenW, screenH);
+        // Render towers
+        for (Lane lane : lanes) {
+            for (Tower t : lane.getAllTowers()) {
+                t.render(g2, screenW, screenH);
+            }
+        }
+
 
         // Restore original transform
         g2.setTransform(original);
@@ -351,6 +352,11 @@ public class Arena {
                 return e;
             }
         }
+        return null;
+    }
+    public String checkGameOver() {
+        if (!enemyBase.isActive()) return "WIN";
+        if (!playerBase.isActive()) return "LOSE";
         return null;
     }
 }

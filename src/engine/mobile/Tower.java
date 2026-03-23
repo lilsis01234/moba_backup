@@ -37,7 +37,7 @@ public class Tower extends Entity {
         int py = (int) getY();
         int size = GameConfiguration.TILE_SIZE;
 
-        int imgSize = size * 3; // tower was small
+        int imgSize = size * 4; // tower was small
         BufferedImage img;
         if (team == 0) {
             img = AllyImg;
