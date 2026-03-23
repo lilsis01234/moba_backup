@@ -1,7 +1,12 @@
 package engine.mobile;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import game_config.GameConfiguration;
 
 public class Bot extends Personnage {
@@ -9,6 +14,8 @@ public class Bot extends Personnage {
     private double spawnX, spawnY;
     private String name;
     private double respawnTimer = 15; // placeholder
+    private BufferedImage AllyImage;
+    private BufferedImage EnemyImage;
 
     private List<double[]> waypoints; // path
     private int waypointIndex = 0;
@@ -28,6 +35,12 @@ public class Bot extends Personnage {
         this.atkDamage   = GameConfiguration.BOT_DAMAGE;
         this.atkRange    = GameConfiguration.BOT_RANGE;
         this.atkCooldown = 1.0;
+        try {
+            AllyImage =ImageIO.read(getClass().getResourceAsStream("/res/Heroes/Angel.png"));
+            EnemyImage = ImageIO.read(getClass().getResourceAsStream("/res/Heroes/DemonLord.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
@@ -55,19 +68,36 @@ public class Bot extends Personnage {
         int px   = (int) getX();
         int py   = (int) getY();
         int size = GameConfiguration.TILE_SIZE;
+        
+        int imgSize = size * 3; 
 
-        // team color
-        g2.setColor(team == 0 ? new Color(0, 150, 255) : new Color(255, 0, 150));
+        if ((AllyImage != null) && (EnemyImage != null)) {
+ 
+        	if (team == 0) {
+        		g2.drawImage(AllyImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
+        	} else {
+        		g2.drawImage(EnemyImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
+        	}
+        	 
+        
+	    	}else { //if problem with the img, placeholder
+			        // team color
+		    		Color teamColor;
+		    		if (team == 0) {
+		    		    teamColor = new Color(0, 150, 255);
+		    		} else {
+		    		    teamColor = new Color(255, 0, 150);
+		    		}
+			
+			        // placeholder, will use hero render later
+			        g2.fillOval(px - size/2, py - size/2, size, size);
+			        g2.setColor(Color.BLACK);
+			        g2.drawOval(px - size/2, py - size/2, size, size);
+			
+			         g2.setFont(new Font("Arial", Font.BOLD, 12));
+			         g2.drawString(name, px - 15, py - size/2 - 10);
 
-        // placeholder, will use hero render later
-        g2.fillOval(px - size/2, py - size/2, size, size);
-        g2.setColor(Color.BLACK);
-        g2.drawOval(px - size/2, py - size/2, size, size);
-
-         g2.setFont(new Font("Arial", Font.BOLD, 12));
-         g2.drawString(name, px - 15, py - size/2 - 10);
-
-         // Health and mana bars are drawn in screen space by Arena
+    }
     }
 
     private Entity findClosestEnemy(List<Entity> enemies) {

@@ -178,13 +178,16 @@ public class Arena {
                 t.render(g2, screenW, screenH);
             }
         }
+        
+        //hp bar on hover 
+        
         if (hovered != null && hovered.isActive()) {
             int px = (int) hovered.getX();
             int py = (int) hovered.getY();
-            int barWidth = GameConfiguration.TILE_SIZE+ 20;
+            int barWidth = GameConfiguration.TILE_SIZE + 20;
             int barHeight = GameConfiguration.TILE_SIZE/5;
             int barX = px - barWidth / 2;
-            int barY = py - GameConfiguration.TILE_SIZE / 2 - 12;
+            int barY = py - barHeight*4 ;
 
             g2.setColor(new Color(0, 0, 0, 150));
             g2.fillRect(barX, barY, barWidth, barHeight);
@@ -264,7 +267,16 @@ public class Arena {
         for (Minion m : minionSpawner.getMinions()) {
             if (m.getTeam() == team && m.isActive()) allies.add(m);
         }
+        for (Lane lane : lanes) {
+            for (Tower t : lane.getAllTowers()) {
+                if (t.getTeam() == team && t.isActive()) allies.add(t);
+            }
+        }
+        if (playerBase.getTeam() == team && playerBase.isActive()) allies.add(playerBase);
+        if (playerFountain.getTeam() == team && playerFountain.isActive()) allies.add(playerFountain);
+        
         return allies;
+        
     }
 
     public boolean isCollidingWithWall(double newX, double newY) {
