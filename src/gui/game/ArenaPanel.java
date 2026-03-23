@@ -25,6 +25,7 @@ public class ArenaPanel extends JPanel {
     private int windowHeight;
     private HUDRenderer hudRenderer;
     private Runnable pauseCallback;
+    private Entity hoveredEntity = null;
 
     public ArenaPanel(Arena arena, int windowWidth, int windowHeight, Hero hero) {
         this.arena = arena;
@@ -84,6 +85,20 @@ public class ArenaPanel extends JPanel {
                     }
                 }
         }});
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(java.awt.event.MouseEvent e) {
+                int w = getWidth();
+                int h = getHeight();
+                double scale   = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
+                                          (double)h / GameConfiguration.WORLD_HEIGHT);
+                double offsetX = (w - GameConfiguration.WORLD_WIDTH  * scale) / 2;
+                double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
+                double worldX  = (e.getX() - offsetX) / scale;
+                double worldY  = (e.getY() - offsetY) / scale;
+                hoveredEntity = arena.findEntityAtPosition(worldX, worldY, GameConfiguration.TILE_SIZE * 0.75);
+            }
+        });
     }
 
     public void setPauseCallback(Runnable callback) {
@@ -132,7 +147,7 @@ public class ArenaPanel extends JPanel {
         GameConfiguration.WINDOW_WIDTH  = windowWidth;
         GameConfiguration.WINDOW_HEIGHT = windowHeight;
 
-        arena.render(g2, windowWidth, windowHeight);
+        arena.render(g2, windowWidth, windowHeight, hoveredEntity);
         g2.setTransform(original);
 
         hudRenderer.setScreenSize(windowWidth, windowHeight);

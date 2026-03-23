@@ -18,12 +18,14 @@ public abstract class Entity {
     protected double atkRange;
     protected double atkCooldown;
     protected double atkTimer = 0;
+    protected int team;
 
-    public Entity(double x, double y, double maxHp) {
+    public Entity(double x, double y, double maxHp, int team) {
         this.x = x;
         this.y = y;
         this.maxHp = maxHp;
         this.hp = maxHp;
+        this.team=team;
     }
 
     public double getHp() { return hp; }
@@ -32,6 +34,9 @@ public abstract class Entity {
     public void setMaxHp(double maxHp) { this.maxHp = maxHp; }
     public void setX(double x) { this.x = x; }
     public void setY(double y) { this.y = y; }
+    public void setTeam(int team) { this.team = team; } //maybe Lord if we advance
+    public int getTeam() { return this.team; }
+    
 
     public void heal(double amount) {
         hp += amount;

@@ -19,8 +19,8 @@ public class Player extends Personnage {
     private BufferedImage playerImage;
     private static final Logger logger = LoggerUtility.getLogger(Player.class, "text");
     
-    public Player(double x, double y, int maxHp, int maxMana, double speed, double atkRange) {
-        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y,  maxHp, maxMana, speed, 0);
+    public Player(double x, double y, double maxHp, double maxMana, double speed, double atkRange) {
+        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y,  maxHp, 0 , maxMana, speed);
         this.hp   = maxHp;
         this.mana = maxMana;
         this.atkDamage   = 20.0;

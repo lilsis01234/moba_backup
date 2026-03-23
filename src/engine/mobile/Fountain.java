@@ -11,14 +11,12 @@ import game_config.GameConfiguration;
 
 public class Fountain extends Entity {
 
-    private int team;
     private double healPerSecond = GameConfiguration.FOUNTAIN_HEAL_PER_SEC;
     private static BufferedImage AllyImg;
     private static BufferedImage EnemyImg;
 
     public Fountain(double x, double y, int team) {
-        super(x, y, 100);
-        this.team = team;
+        super(x, y, 100,team);
         this.atkDamage   = GameConfiguration.FOUNTAIN_DAMAGE;
         this.atkRange    = GameConfiguration.FOUNTAIN_RADIUS;
         this.atkCooldown = 0.5; // make global later
@@ -71,7 +69,6 @@ public class Fountain extends Entity {
             // radius circle
             g2.setColor(team == 0 ? new Color(50, 200, 255, 60) : new Color(202, 94, 90, 60));
             g2.fillOval(px - r, py - r, r * 2, r * 2);
-
             // base square
             g2.setColor(team == 0 ? new Color(50, 200, 255) : new Color(202, 94, 90));
             int fSize = GameConfiguration.TILE_SIZE * 2;

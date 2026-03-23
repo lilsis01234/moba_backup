@@ -19,6 +19,6 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        arena.render(g2, getWidth(), getHeight());
+        arena.render(g2, getWidth(), getHeight(), null);
     }
 }

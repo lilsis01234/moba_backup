@@ -1,5 +1,5 @@
 package engine.process;
-
+import engine.mobile.Personnage;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -137,7 +137,7 @@ public class Arena {
     }
 
 
-    public void render(Graphics2D g2, int screenW, int screenH) {
+     public void render(Graphics2D g2, int screenW, int screenH, Entity hovered){
         // Calculate scale to fit whole world on screen
         double scale = Math.min((double)screenW / GameConfiguration.WORLD_WIDTH,
                                (double)screenH / GameConfiguration.WORLD_HEIGHT);
@@ -178,6 +178,32 @@ public class Arena {
                 t.render(g2, screenW, screenH);
             }
         }
+        if (hovered != null && hovered.isActive()) {
+            int px = (int) hovered.getX();
+            int py = (int) hovered.getY();
+            int barWidth = GameConfiguration.TILE_SIZE+ 20;
+            int barHeight = GameConfiguration.TILE_SIZE/5;
+            int barX = px - barWidth / 2;
+            int barY = py - GameConfiguration.TILE_SIZE / 2 - 12;
+
+            g2.setColor(new Color(0, 0, 0, 150));
+            g2.fillRect(barX, barY, barWidth, barHeight);
+
+            double hpPercent = hovered.getHp() / hovered.getMaxHp();
+            
+            Color barColor;
+            barColor = new Color(50, 200, 50);
+            /*if (hovered.getTeam() == 1) {
+                barColor = new Color(200, 50, 50);
+            }
+            else { barColor = new Color(50, 200, 50);}*/
+     
+                       
+            g2.setColor(barColor);
+            g2.fillRect(barX, barY, (int)(hpPercent * barWidth), barHeight);
+            g2.setColor(Color.BLACK);
+            g2.drawRect(barX, barY, barWidth, barHeight);
+        }
 
 
         // Restore original transform
@@ -187,109 +213,15 @@ public class Arena {
         int screenX = (int)Math.round(player.getX() * scale + offsetX);
         int screenY = (int)Math.round(player.getY() * scale + offsetY);
 
-        // Bar dimensions
-        int barWidth = 80;
-        int barHeight = 8;
-        int barSpacing = 3;
-        int barX = screenX - barWidth / 2;
-        // Position bars above player sprite
-        int spriteHalfSize = (int)(GameConfiguration.TILE_SIZE * scale / 2);
-        int barY = screenY - spriteHalfSize - 30;
-
-        // Background for readability
-        g2.setColor(new Color(0, 0, 0, 150));
-        g2.fillRect(barX - 4, barY - 4, barWidth + 8, barHeight * 2 + barSpacing + 8);
-
-        // Mana bar (top)
-        g2.setColor(Color.GRAY);
-        g2.fillRect(barX, barY, barWidth, barHeight);
-        double manaPct = (double)player.getMana() / player.getMaxMana();
-        g2.setColor(Color.CYAN);
-        g2.fillRect(barX, barY, (int)(manaPct * barWidth), barHeight);
-        g2.setColor(Color.BLACK);
-        g2.drawRect(barX, barY, barWidth, barHeight);
-
-        // HP bar (below mana)
-        int hpY = barY - barHeight - barSpacing;
-        g2.setColor(Color.GRAY);
-        g2.fillRect(barX, hpY, barWidth, barHeight);
-        double hpPct = (double)player.getHp() / player.getMaxHp();
-        g2.setColor(Color.GREEN);
-        g2.fillRect(barX, hpY, (int)(hpPct * barWidth), barHeight);
-        g2.setColor(Color.BLACK);
-        g2.drawRect(barX, hpY, barWidth, barHeight);
 
         // Player name
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
-        g2.drawString(heroName, screenX - 15, hpY - 5);
+        g2.drawString(heroName, screenX - 15, screenY-20);
 
-        // Draw health bars for bots in screen space
-        int botBarWidth = 60;
-        int botBarHeight = 6;
-        int botBarSpacing = 2;
-        for (Bot b : botManager.getAllBots()) {
-            if (!b.isActive()) continue;
-            int bx = (int)Math.round(b.getX() * scale + offsetX);
-            int by = (int)Math.round(b.getY() * scale + offsetY);
-            int spriteHalf = (int)(GameConfiguration.TILE_SIZE * scale / 2);
-            int botBarX = bx - botBarWidth / 2;
-            int botBarY = by - spriteHalf - 25;
-
-            // Background (expand if mana present)
-            boolean hasMana = b.getMaxMana() > 0;
-            int bgHeight = botBarHeight + (hasMana ? botBarHeight + botBarSpacing : 0) + 4;
-            g2.setColor(new Color(0, 0, 0, 150));
-            g2.fillRect(botBarX - 2, botBarY - (hasMana ? botBarHeight + botBarSpacing : 0) - 2, botBarWidth + 4, bgHeight);
-
-            if (hasMana) {
-                // Mana bar (top)
-                int manaY = botBarY;
-                g2.setColor(Color.GRAY);
-                g2.fillRect(botBarX, manaY, botBarWidth, botBarHeight);
-                double botManaPct = (double)b.getMana() / b.getMaxMana();
-                g2.setColor(Color.CYAN);
-                g2.fillRect(botBarX, manaY, (int)(botManaPct * botBarWidth), botBarHeight);
-                g2.setColor(Color.BLACK);
-                g2.drawRect(botBarX, manaY, botBarWidth, botBarHeight);
-                botBarY += botBarHeight + botBarSpacing; // move down for health bar
-            }
-
-            // Health bar
-            g2.setColor(Color.GRAY);
-            g2.fillRect(botBarX, botBarY, botBarWidth, botBarHeight);
-            double botHpPct = (double)b.getHp() / b.getMaxHp();
-            g2.setColor(Color.GREEN);
-            g2.fillRect(botBarX, botBarY, (int)(botHpPct * botBarWidth), botBarHeight);
-            g2.setColor(Color.BLACK);
-            g2.drawRect(botBarX, botBarY, botBarWidth, botBarHeight);
-        }
-
-        // Minion health bars (health only)
-        int minionBarWidth = 40;
-        int minionBarHeight = 4;
-        for (Minion m : minionSpawner.getMinions()) {
-            if (!m.isActive()) continue;
-            int mx = (int)Math.round(m.getX() * scale + offsetX);
-            int my = (int)Math.round(m.getY() * scale + offsetY);
-            int spriteHalf = (int)(GameConfiguration.TILE_SIZE * scale / 2);
-            int minionBarX = mx - minionBarWidth / 2;
-            int minionBarY = my - spriteHalf - 10;
-
-            // Background
-            g2.setColor(new Color(0, 0, 0, 150));
-            g2.fillRect(minionBarX - 2, minionBarY - 2, minionBarWidth + 4, minionBarHeight + 4);
-
-            // Health fill
-            g2.setColor(Color.GRAY);
-            g2.fillRect(minionBarX, minionBarY, minionBarWidth, minionBarHeight);
-            double minionHpPct = (double)m.getHp() / m.getMaxHp();
-            g2.setColor(Color.GREEN);
-            g2.fillRect(minionBarX, minionBarY, (int)(minionHpPct * minionBarWidth), minionBarHeight);
-            g2.setColor(Color.BLACK);
-            g2.drawRect(minionBarX, minionBarY, minionBarWidth, minionBarHeight);
-        }
+        
+        
     }
 
     public Player getPlayer() {
@@ -343,6 +275,7 @@ public class Arena {
         return tilesManager;
     }
  
+    //one methode for attack the second for hp render
     public Entity findClickedEnemy(double worldX, double worldY, double clickRadius) {
         for (Entity e : getEnemiesForTeam(0)) {
             if (!e.isActive()) continue;    
@@ -354,9 +287,24 @@ public class Arena {
         }
         return null;
     }
+    
+    public Entity findEntityAtPosition(double worldX, double worldY, double radius) {
+        List<Entity> all = new ArrayList<>();
+        all.addAll(getEnemiesForTeam(0));
+        all.addAll(getAlliesForTeam(0));
+        for (Entity e : all) {
+            if (!e.isActive()) continue;
+            double dx = e.getX() - worldX;
+            double dy = e.getY() - worldY;
+            if (Math.sqrt(dx * dx + dy * dy) <= radius) return e;
+        }
+        return null;
+    }
+    
     public String checkGameOver() {
         if (!enemyBase.isActive()) return "WIN";
         if (!playerBase.isActive()) return "LOSE";
         return null;
     }
+    
 }

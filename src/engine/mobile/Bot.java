@@ -17,7 +17,7 @@ public class Bot extends Personnage {
     private State state = State.MOVING;
 
     public Bot(double x, double y, List<double[]> waypoints, int team, String name) {
-        super(x, y, GameConfiguration.BOT_MAX_HP, GameConfiguration.BOT_MAX_MANA, GameConfiguration.BOT_SPEED, team);
+        super(x, y, GameConfiguration.BOT_MAX_HP, team, GameConfiguration.BOT_MAX_MANA, GameConfiguration.BOT_SPEED);
         this.spawnX    = x;
         this.spawnY    = y;
         this.waypoints = waypoints;

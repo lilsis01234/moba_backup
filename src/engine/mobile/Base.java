@@ -11,13 +11,12 @@ import java.util.List;
 
 public class Base extends Entity {
 
-    private int team;
+
     private static BufferedImage AllyImg;
     private static BufferedImage EnemyImg;
 
     public Base(double x, double y, int team) {
-        super(x, y, GameConfiguration.BASE_MAX_HP);
-        this.team        = team;
+        super(x, y, GameConfiguration.BASE_MAX_HP, team);
         this.atkDamage   = GameConfiguration.BASE_DAMAGE;
         this.atkRange    = GameConfiguration.BASE_RANGE;
         this.atkCooldown = 2.0;
@@ -61,13 +60,7 @@ public class Base extends Entity {
             g2.drawRect(px - imgSize/2, py - imgSize/2, imgSize, imgSize);
         }
 
-        // hp bar
-        g2.setColor(Color.GRAY);
-        g2.fillRect(px - imgSize/2, py - imgSize/2 - 8, imgSize, 5);
-        g2.setColor(Color.GREEN);
-        g2.fillRect(px - imgSize/2, py - imgSize/2 - 8, (int)((hp / maxHp) * imgSize), 5);
-        g2.setColor(Color.BLACK);
-        g2.drawRect(px - imgSize/2, py - imgSize/2 - 8, imgSize, 5);
+       
     }
     
     public void update(double deltaTime, List<Entity> enemies) {

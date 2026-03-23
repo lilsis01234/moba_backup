@@ -12,7 +12,6 @@ import game_config.GameConfiguration;
 public class Minion extends Entity {
 
     private double speed;
-    private int team; // 0 = ALLY, 1 = ENEMY
 
     // path
     private List<double[]> waypoints;
@@ -21,9 +20,8 @@ public class Minion extends Entity {
     private BufferedImage EnemyImg;
 
     public Minion(double x, double y, int team, List<double[]> waypoints) {
-        super(x, y, GameConfiguration.MINION_MAX_HP);
+        super(x, y, GameConfiguration.MINION_MAX_HP,team);
         this.speed = GameConfiguration.MINION_SPEED;
-        this.team  = team;
         this.waypoints = waypoints;
         // attack stats
         this.atkDamage = GameConfiguration.MINION_DMG;
