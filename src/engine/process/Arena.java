@@ -267,7 +267,6 @@ public class Arena {
             }
         }
         if (playerBase.getTeam() == team && playerBase.isActive()) allies.add(playerBase);
-        if (playerFountain.getTeam() == team && playerFountain.isActive()) allies.add(playerFountain);
         
         return allies;
         
