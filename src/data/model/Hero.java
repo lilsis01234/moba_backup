@@ -28,6 +28,10 @@ public class Hero {
     private double speed;
     private double atkRange;
     private List<Spell> spells;
+    private int characterRow; // Row in Character Model.png (body type/skin)
+    private int hairRow; // Row in Hairs.png
+    private String outfitFile; // Outfit PNG filename in Outfits folder
+    private Integer suitRow; // Row in Suit.png (null if no suit)
 
     private List<Item> items;
 
@@ -131,6 +135,38 @@ public class Hero {
     
     public void setMaxMana(int maxMana) {
         this.maxMana = maxMana;
+    }
+
+    public int getCharacterRow() {
+        return characterRow;
+    }
+    
+    public void setCharacterRow(int characterRow) {
+        this.characterRow = characterRow;
+    }
+    
+    public int getHairRow() {
+        return hairRow;
+    }
+    
+    public void setHairRow(int hairRow) {
+        this.hairRow = hairRow;
+    }
+    
+    public String getOutfitFile() {
+        return outfitFile;
+    }
+    
+    public void setOutfitFile(String outfitFile) {
+        this.outfitFile = outfitFile;
+    }
+    
+    public Integer getSuitRow() {
+        return suitRow;
+    }
+    
+    public void setSuitRow(Integer suitRow) {
+        this.suitRow = suitRow;
     }
     
     public double getSpeed() {
