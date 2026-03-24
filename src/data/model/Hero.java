@@ -2,6 +2,7 @@ package data.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import data.model.Item;
 
 /**
  * Représente un héros jouable dans le jeu.
@@ -27,9 +28,13 @@ public class Hero {
     private double speed;
     private double atkRange;
     private List<Spell> spells;
+
+    private List<Item> items;
+
     
     public Hero() {
         this.spells = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
     
     public Hero(int id, String name, String history, int categoryId, int baseHp, int maxHp, 
@@ -45,6 +50,7 @@ public class Hero {
         this.attackSpeed = attackSpeed;
         this.maxMana = maxMana;
         this.spells = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
     
     public int getId() {
@@ -150,4 +156,12 @@ public class Hero {
     public void addSpell(Spell spell) {
         this.spells.add(spell);
     }
+    public List<Item> getItems() {
+    return items;
+}
+
+    public void addItem(Item item) {
+    items.add(item);
+}
+    
 }
