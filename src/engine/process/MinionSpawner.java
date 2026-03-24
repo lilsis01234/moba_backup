@@ -39,11 +39,11 @@ public class MinionSpawner {
                 wp.add(new double[]{52 * T, 8 * T});
                 break;
             case 2: // bot ally
-                wp.add(new double[]{11 * T, 54 * T});
-                wp.add(new double[]{26 * T, 54 * T});
-                wp.add(new double[]{41 * T, 54 * T});
-                wp.add(new double[]{54 * T, 49 * T});
-                wp.add(new double[]{54 * T, 8 * T});
+                wp.add(new double[]{8 * T, 54 * T});
+                wp.add(new double[]{26* T, 54 * T});
+                wp.add(new double[]{52 * T, 54 * T});
+                wp.add(new double[]{54 * T, 41 * T});
+                wp.add(new double[]{54 * T, 11 * T});
                 break;
 
             }

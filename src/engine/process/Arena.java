@@ -40,7 +40,7 @@ public class Arena {
         lanes.add(new Lane(Lane.Type.middle));
         lanes.add(new Lane(Lane.Type.bot));
         
-        playerBase = new Base(8 * T, 53 * T, 0);  
+        playerBase = new Base(7 * T, 53 * T, 0);  
         enemyBase  = new Base(53 * T, 7 * T, 1); 
 
          player = new Player(
@@ -178,13 +178,16 @@ public class Arena {
                 t.render(g2, screenW, screenH);
             }
         }
+        
+        //hp bar on hover 
+        
         if (hovered != null && hovered.isActive()) {
             int px = (int) hovered.getX();
             int py = (int) hovered.getY();
-            int barWidth = GameConfiguration.TILE_SIZE+ 20;
+            int barWidth = GameConfiguration.TILE_SIZE + 20;
             int barHeight = GameConfiguration.TILE_SIZE/5;
             int barX = px - barWidth / 2;
-            int barY = py - GameConfiguration.TILE_SIZE / 2 - 12;
+            int barY = py - barHeight*4 ;
 
             g2.setColor(new Color(0, 0, 0, 150));
             g2.fillRect(barX, barY, barWidth, barHeight);
@@ -192,13 +195,7 @@ public class Arena {
             double hpPercent = hovered.getHp() / hovered.getMaxHp();
             
             Color barColor;
-            barColor = new Color(50, 200, 50);
-            /*if (hovered.getTeam() == 1) {
-                barColor = new Color(200, 50, 50);
-            }
-            else { barColor = new Color(50, 200, 50);}*/
-     
-                       
+            barColor = new Color(50, 200, 50);                       
             g2.setColor(barColor);
             g2.fillRect(barX, barY, (int)(hpPercent * barWidth), barHeight);
             g2.setColor(Color.BLACK);
@@ -264,7 +261,15 @@ public class Arena {
         for (Minion m : minionSpawner.getMinions()) {
             if (m.getTeam() == team && m.isActive()) allies.add(m);
         }
+        for (Lane lane : lanes) {
+            for (Tower t : lane.getAllTowers()) {
+                if (t.getTeam() == team && t.isActive()) allies.add(t);
+            }
+        }
+        if (playerBase.getTeam() == team && playerBase.isActive()) allies.add(playerBase);
+        
         return allies;
+        
     }
 
     public boolean isCollidingWithWall(double newX, double newY) {
@@ -301,6 +306,13 @@ public class Arena {
         return null;
     }
     
+    //i stopped here
+    private void checkKill(Entity target, int goldReward, int xpReward) {
+        if (!target.isActive()) {
+            player.addGold(goldReward);
+            player.addXp(xpReward);
+        }
+    }  
     public String checkGameOver() {
         if (!enemyBase.isActive()) return "WIN";
         if (!playerBase.isActive()) return "LOSE";

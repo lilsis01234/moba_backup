@@ -13,6 +13,23 @@ public class GameConfiguration {
     public static final int WORLD_WIDTH  = TILE_SIZE * TILE_ROWS;  // 60 * 128 = 7680
     public static final int WORLD_HEIGHT = TILE_SIZE * TILE_COLS;  // 60 * 128 = 7680
 
+    
+    //Gold reward    
+    public static final int GOLD_MINION = 20;
+    public static final int GOLD_BOT    = 100;
+    public static final int GOLD_TOWER  = 150;
+    
+    //XP reward
+    public static final int XP_MINION = 15;
+    public static final int XP_BOT    = 80;
+    public static final int XP_TOWER  = 100;
+    
+	 // Level up stats Bonus
+    public static final double LEVEL_HP_BONUS   = 20.0;
+    public static final double LEVEL_MANA_BONUS = 15.0;
+    public static final double LEVEL_DMG_BONUS  = 5.0;
+    
+    
     //technical
     public static final double AttackMargin =TILE_SIZE * 0.75;
 
@@ -45,9 +62,9 @@ public class GameConfiguration {
     public static final double TOWER_MAX_HP           = 100;
 
     //Base
-    public static final double BASE_RANGE = 384.0;
+    public static final double BASE_RANGE = 420.0;
     public static final double BASE_MAX_HP = 500;
-    public static final double BASE_DAMAGE = 0.1;
+    public static final double BASE_DAMAGE = 100;
 
     // Fountain
     public static final double FOUNTAIN_RADIUS = 350.0;
