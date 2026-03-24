@@ -2,6 +2,7 @@ package data.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import data.model.Item;
 
 /**
  * Représente un héros jouable dans le jeu.
@@ -27,9 +28,17 @@ public class Hero {
     private double speed;
     private double atkRange;
     private List<Spell> spells;
+    private int characterRow; // Row in Character Model.png (body type/skin)
+    private int hairRow; // Row in Hairs.png
+    private String outfitFile; // Outfit PNG filename in Outfits folder
+    private Integer suitRow; // Row in Suit.png (null if no suit)
+
+    private List<Item> items;
+
     
     public Hero() {
         this.spells = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
     
     public Hero(int id, String name, String history, int categoryId, int baseHp, int maxHp, 
@@ -45,6 +54,7 @@ public class Hero {
         this.attackSpeed = attackSpeed;
         this.maxMana = maxMana;
         this.spells = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
     
     public int getId() {
@@ -126,6 +136,38 @@ public class Hero {
     public void setMaxMana(int maxMana) {
         this.maxMana = maxMana;
     }
+
+    public int getCharacterRow() {
+        return characterRow;
+    }
+    
+    public void setCharacterRow(int characterRow) {
+        this.characterRow = characterRow;
+    }
+    
+    public int getHairRow() {
+        return hairRow;
+    }
+    
+    public void setHairRow(int hairRow) {
+        this.hairRow = hairRow;
+    }
+    
+    public String getOutfitFile() {
+        return outfitFile;
+    }
+    
+    public void setOutfitFile(String outfitFile) {
+        this.outfitFile = outfitFile;
+    }
+    
+    public Integer getSuitRow() {
+        return suitRow;
+    }
+    
+    public void setSuitRow(Integer suitRow) {
+        this.suitRow = suitRow;
+    }
     
     public double getSpeed() {
         return speed;
@@ -150,4 +192,12 @@ public class Hero {
     public void addSpell(Spell spell) {
         this.spells.add(spell);
     }
+    public List<Item> getItems() {
+    return items;
+}
+
+    public void addItem(Item item) {
+    items.add(item);
+}
+    
 }

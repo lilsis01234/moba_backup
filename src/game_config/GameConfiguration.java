@@ -47,7 +47,8 @@ public class GameConfiguration {
     public static final double PLAYER_START_HP   = 20;
     public static final double PLAYER_START_MANA = 20;
     public static final double PLAYER_MANA_REGEN = 2.0;
-
+    public static final String PLAYER_IMAGE_PATH = "/res/Characters/CharacterModel/";
+    
     // Bot
     public static final double BOT_SPEED    = 300.0;//pixels/sec
     public static final double BOT_RANGE    = 200.0;  // pixels

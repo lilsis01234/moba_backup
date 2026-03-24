@@ -17,6 +17,9 @@ public class Bot extends Personnage {
     private BufferedImage AllyImage;
     private BufferedImage EnemyImage;
 
+    private int xpReward = 10;   // XP donné à la mort
+    private int goldReward = 20; // Gold donné à la mort
+
     private List<double[]> waypoints; // path
     private int waypointIndex = 0;
 
@@ -44,6 +47,12 @@ public class Bot extends Personnage {
     }
 
     public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
+        if (hp <= 0 && active) {
+            die();
+            }
+      
+
+
         if (!active) {
             respawnTimer -= deltaTime;
             if (respawnTimer <= 0) respawn();
@@ -145,4 +154,8 @@ public class Bot extends Personnage {
         waypointIndex = 0;
         respawnTimer  = 15;
     }
+    public void die() {
+    active = false;
+    respawnTimer = 15; // temps avant respawn
+}
 }

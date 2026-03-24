@@ -13,7 +13,7 @@ in our current game we can:
 TO DO:
 1/
 
--die and respawn for bots
+-die and respawn for bots : fait 
 
 2/ LOOT
 -Add gold and xp + level to Personnage
