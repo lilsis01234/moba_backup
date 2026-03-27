@@ -107,5 +107,5 @@ public class MinionSpawner {
         }
     }
 
-    public List<Minion> getMinions() { return minions; }
+    public List<Minion> getMinions() { return new ArrayList<>(minions); }
 }
