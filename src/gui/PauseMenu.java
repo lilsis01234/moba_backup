@@ -65,6 +65,7 @@ public class PauseMenu extends JPanel {
         isVisible = true;
         selectedIndex = 0;
         setSize(screenWidth, screenHeight);
+        setVisible(true);
         repaint();
     }
     
