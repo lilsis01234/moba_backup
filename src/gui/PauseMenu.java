@@ -111,6 +111,7 @@ public class PauseMenu extends JPanel {
     
     public void hideMenu() {
         isVisible = false;
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         repaint();
     }
     

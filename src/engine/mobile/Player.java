@@ -56,7 +56,7 @@ public class Player extends Personnage {
                         + " range=" + atkRange
                         + " timer=" + (int)atkTimer);
                 attack(targetEnemy, deltaTime);
-        }
+            }
         }
 
 

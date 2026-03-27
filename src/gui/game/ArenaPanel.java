@@ -81,6 +81,7 @@ public class ArenaPanel extends JPanel {
                 if (hudRenderer.isMouseOverPauseButton(e.getX(), e.getY())) {
                     setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     double[] world = screenToWorld(e.getX(), e.getY(), getWidth(), getHeight());
                     hoveredEntity = arena.findEntityAtPosition(world[0], world[1], GameConfiguration.TILE_SIZE * 0.75);
                 }
