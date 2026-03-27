@@ -333,4 +333,13 @@ public class HUDRenderer {
         }
         return false;
     }
+    
+    public boolean isMouseOverPauseButton(int mouseX, int mouseY) {
+        int pauseMargin = 10;
+        int pauseY = 100;
+        int pauseSize = 30;
+        
+        return mouseX >= pauseMargin && mouseX <= pauseMargin + pauseSize &&
+               mouseY >= pauseY && mouseY <= pauseY + pauseSize;
+    }
 }

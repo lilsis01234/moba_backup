@@ -97,7 +97,13 @@ public class ArenaPanel extends JPanel {
                 double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
                 double worldX  = (e.getX() - offsetX) / scale;
                 double worldY  = (e.getY() - offsetY) / scale;
-                hoveredEntity = arena.findEntityAtPosition(worldX, worldY, GameConfiguration.TILE_SIZE * 0.75);
+
+                // Check if hovering over pause button
+                if (hudRenderer.isMouseOverPauseButton(e.getX(), e.getY())) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    hoveredEntity = arena.findEntityAtPosition(worldX, worldY, GameConfiguration.TILE_SIZE * 0.75);
+                }
             }
         });
     }
