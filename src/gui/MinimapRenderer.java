@@ -19,7 +19,6 @@ public class MinimapRenderer {
     private int x, y;
     private final int size;
     private BufferedImage cachedMinimap;
-    private java.util.function.Consumer<Point> onClickCallback;
 
     public MinimapRenderer(Player player, Arena arena, TilesManager tilesManager, int x, int y, int size) {
         this.player = player;
@@ -35,10 +34,6 @@ public class MinimapRenderer {
         this.y = y;
     }
 
-    public void setOnClickCallback(java.util.function.Consumer<Point> callback) {
-        this.onClickCallback = callback;
-    }
-
     public boolean handleClick(int clickX, int clickY) {
         if (clickX >= x && clickX <= x + size && clickY >= y && clickY <= y + size) {
             double relativeX = (double)(clickX - x) / size;
@@ -51,10 +46,6 @@ public class MinimapRenderer {
             return true;
         }
         return false;
-    }
-
-    public boolean handleRightClick(int clickX, int clickY) {
-        return clickX >= x && clickX <= x + size && clickY >= y && clickY <= y + size;
     }
 
     public int getX() { return x; }

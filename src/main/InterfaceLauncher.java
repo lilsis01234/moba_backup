@@ -5,10 +5,12 @@
 	import gui.menu.GameOverScreen;
 	import gui.menu.HeroSelection;
 	import gui.menu.MainMenu;
+	import gui.PauseMenu;
 	import game_config.GameConfiguration;
 	import data.model.Hero;
 	
 	import javax.swing.JFrame;
+	import javax.swing.JLayeredPane;
 	import javax.swing.SwingUtilities;
 	
 	import java.awt.*;
@@ -24,6 +26,7 @@
 	    private int screenWidth;
 	    private int screenHeight;
 	    private boolean isGameRunning = false;
+	    private boolean isPaused = false;
 	    private JFrame gameFrame;
 	    private ArenaPanel panel;
 	    private Arena arena;
@@ -124,25 +127,77 @@
 	        arena = new Arena(hero);
 	        panel = new ArenaPanel(arena, screenWidth, screenHeight, hero);
 	        panel.setPreferredSize(new Dimension(screenWidth, screenHeight));
-	
+
+	        final JLayeredPane glassPane = new JLayeredPane();
+	        glassPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
+	        glassPane.setVisible(false);
+	        
+	        final PauseMenu pauseMenu = new PauseMenu();
+	        pauseMenu.setBounds(0, 0, screenWidth, screenHeight);
+	        pauseMenu.setFocusable(true);
+	        glassPane.add(pauseMenu, JLayeredPane.PALETTE_LAYER);
+	        
+	        panel.setPauseCallback(new Runnable() {
+	            @Override
+	            public void run() {
+	                if (!isPaused) {
+	                    isPaused = true;
+	                    panel.setPaused(true);
+	                    pauseMenu.showMenu(screenWidth, screenHeight);
+	                    glassPane.setVisible(true);
+	                    glassPane.repaint();
+	                    pauseMenu.requestFocusInWindow();
+	                }
+	            }
+	        });
+	        
+	        pauseMenu.setPauseMenuListener(new PauseMenu.PauseMenuListener() {
+	            @Override
+	            public void onResume() {
+	                isPaused = false;
+	                panel.setPaused(false);
+	                glassPane.setVisible(false);
+	            }
+	            
+	            @Override
+	            public void onExit() {
+	                glassPane.setVisible(false);
+	                gameFrame.dispose();
+	                isGameRunning = false;
+	                isPaused = false;
+	                setVisible(true);
+	                showMainMenu();
+	            }
+	        });
+
 	        gameFrame = new JFrame("MOBA - Game");
 	        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        gameFrame.add(panel);
+	        gameFrame.setGlassPane(glassPane);
 	        gameFrame.setSize(screenWidth, screenHeight);
 	        gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	        gameFrame.setLocationRelativeTo(null);
-	
+
 	        gameFrame.addKeyListener(new KeyAdapter() {
 	            @Override
 	            public void keyPressed(KeyEvent e) {
 	                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	                    gameFrame.dispose();
-	                    setVisible(true);
-	                    showMainMenu();
+	                    if (isPaused) {
+	                        isPaused = false;
+	                        panel.setPaused(false);
+	                        glassPane.setVisible(false);
+	                    } else {
+	                        isPaused = true;
+	                        panel.setPaused(true);
+	                        pauseMenu.showMenu(screenWidth, screenHeight);
+	                        glassPane.setVisible(true);
+	                        glassPane.repaint();
+	                        pauseMenu.requestFocusInWindow();
+	                    }
 	                }
 	            }
 	        });
-	
+
 	        panel.setFocusable(true);
 	        gameFrame.setVisible(true);
 	        isGameRunning = true;
@@ -157,7 +212,7 @@
 	            double deltaTime = (currentTime - lastTime) / 1_000_000_000.0;
 	            lastTime = currentTime;
 	
-	            if (isGameRunning && arena != null && panel != null && !gameOver) {
+	            if (isGameRunning && arena != null && panel != null && !gameOver && !isPaused) {
 	                arena.update(deltaTime);
 	                panel.repaint();
 	

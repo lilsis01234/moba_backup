@@ -14,10 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-/**
- * @author ZEGHBIB Sonia RAHARIMANANA Tianantenaina
- */
-
 public class ArenaPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private Arena arena;
@@ -25,6 +21,7 @@ public class ArenaPanel extends JPanel {
     private int windowHeight;
     private HUDRenderer hudRenderer;
     private Runnable pauseCallback;
+    private boolean paused = false;
     private Entity hoveredEntity = null;
 
     public ArenaPanel(Arena arena, int windowWidth, int windowHeight, Hero hero) {
@@ -54,25 +51,18 @@ public class ArenaPanel extends JPanel {
                     return;
                 }
 
-                int w = getWidth();
-                int h = getHeight();
-                double scale   = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
-                                        (double)h / GameConfiguration.WORLD_HEIGHT);
-                double offsetX = (w - GameConfiguration.WORLD_WIDTH  * scale) / 2;
-                double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
-                double worldX  = (mx - offsetX) / scale;
-                double worldY  = (my - offsetY) / scale;
+                double[] world = screenToWorld(mx, my, getWidth(), getHeight());
+                double worldX = world[0];
+                double worldY = world[1];
 
                 if (worldX < 0 || worldX > GameConfiguration.WORLD_WIDTH  ||
                     worldY < 0 || worldY > GameConfiguration.WORLD_HEIGHT) return;
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    // aka u right-click
-                    arena.getPlayer().setTarget(null); // cancel attack then move (did that cus i had a bug)
+                    arena.getPlayer().setTarget(null);
                     hudRenderer.setTargetedBot(null);
                     arena.getPlayer().moveTo(worldX, worldY);
                 } else if (e.getButton() == MouseEvent.BUTTON1) {
-                    // aka left-click
                     double clickRadius = GameConfiguration.AttackMargin;
                     Entity clicked = arena.findClickedEnemy(worldX, worldY, clickRadius);
                     if (clicked != null) {
@@ -88,47 +78,37 @@ public class ArenaPanel extends JPanel {
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseMoved(java.awt.event.MouseEvent e) {
-                int w = getWidth();
-                int h = getHeight();
-                double scale   = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
-                                          (double)h / GameConfiguration.WORLD_HEIGHT);
-                double offsetX = (w - GameConfiguration.WORLD_WIDTH  * scale) / 2;
-                double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
-                double worldX  = (e.getX() - offsetX) / scale;
-                double worldY  = (e.getY() - offsetY) / scale;
-                hoveredEntity = arena.findEntityAtPosition(worldX, worldY, GameConfiguration.TILE_SIZE * 0.75);
+                if (hudRenderer.isMouseOverPauseButton(e.getX(), e.getY())) {
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    double[] world = screenToWorld(e.getX(), e.getY(), getWidth(), getHeight());
+                    hoveredEntity = arena.findEntityAtPosition(world[0], world[1], GameConfiguration.TILE_SIZE * 0.75);
+                }
             }
         });
+    }
+
+    private double[] screenToWorld(int screenX, int screenY, int w, int h) {
+        double scale   = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
+                                  (double)h / GameConfiguration.WORLD_HEIGHT);
+        double offsetX = (w - GameConfiguration.WORLD_WIDTH  * scale) / 2;
+        double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
+        double worldX  = (screenX - offsetX) / scale;
+        double worldY  = (screenY - offsetY) / scale;
+        return new double[]{worldX, worldY};
     }
 
     public void setPauseCallback(Runnable callback) {
         this.pauseCallback = callback;
     }
+    
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
 
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(windowWidth, windowHeight);
-    }
-
-    private void handleMouseClick(int mx, int my) {
-        int miniWidth  = (int)(windowWidth  * 0.4);
-        int miniHeight = (int)(windowHeight * 0.4);
-        int miniX = windowWidth  - miniWidth  - 15;
-        int miniY = windowHeight - miniHeight - 15;
-
-        if (isClickInMinimap(mx, my, miniX, miniY, miniWidth, miniHeight)) {
-            double relativeX = (double)(mx - miniX) / miniWidth;
-            double relativeY = (double)(my - miniY) / miniHeight;
-            arena.getPlayer().moveTo(relativeX, relativeY);
-        } else {
-            double relativeX = (double) mx / windowWidth;
-            double relativeY = (double) my / windowHeight;
-            arena.getPlayer().moveTo(relativeX, relativeY);
-        }
-    }
-
-    private boolean isClickInMinimap(int mx, int my, int miniX, int miniY, int miniWidth, int miniHeight) {
-        return mx >= miniX && mx <= miniX + miniWidth && my >= miniY && my <= miniY + miniHeight;
     }
 
     @Override
