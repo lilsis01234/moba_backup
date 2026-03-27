@@ -241,29 +241,9 @@ public class HeroSelection extends JPanel {
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
 
-        JPanel heroIcon = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                int w = getWidth();
-                int h = getHeight();
-                int size = Math.min(w, h) - 10;
-                int x = (w - size) / 2;
-                int y = (h - size) / 2;
-                g2.setColor(catColor);
-                g2.fillOval(x, y, size, size);
-                g2.setColor(new Color(255, 255, 255, 200));
-                g2.setFont(new Font("Serif", Font.BOLD, size / 2));
-                FontMetrics fm = g2.getFontMetrics();
-                String initial = hero.getName() != null ? hero.getName().substring(0, 1) : "?";
-                int textX = x + (size - fm.stringWidth(initial)) / 2;
-                int textY = y + size / 2 + fm.getAscent() / 3;
-                g2.drawString(initial, textX, textY);
-            }
-        };
-        heroIcon.setPreferredSize(new Dimension(140, 100));
+        JPanel heroIcon = new JPanel();
+        heroIcon.setPreferredSize(new Dimension(140, 30));
+        heroIcon.setOpaque(false);
         heroIcon.setOpaque(false);
         heroIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(heroIcon);
