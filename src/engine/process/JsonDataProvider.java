@@ -20,7 +20,7 @@ public class JsonDataProvider {
         // Initialize categories
         categories = new ArrayList<>();
         categories.add(new Category("Force"));
-        categories.add(new Category("Agilité"));
+        categories.add(new Category("Agilite"));
         categories.add(new Category("Intelligence"));
         
         // Load heroes and spells from JSON
