@@ -169,7 +169,7 @@
       }
     ],
 	"atkRange": 300,
-    "speed": 520
+    "speed": 480
   },
   {
     "name": "Ironclad",
@@ -341,7 +341,7 @@
       }
     ],
 	"atkRange": 300,
-    "speed": 500
+    "speed": 520
   },
   {
     "name": "Crusader",
