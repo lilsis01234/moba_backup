@@ -86,34 +86,31 @@ public class HeroSelection extends JPanel {
         backButton = new JButton("Retour");
         backButton.setFont(new Font("SansSerif", Font.PLAIN, 13));
         backButton.setForeground(Theme.TEXT_DIM);
-        backButton.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
+        backButton.setBackground(Theme.BUTTON_BG);
+        backButton.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 1),
+            BorderFactory.createEmptyBorder(8, 15, 8, 15)
+        ));
         backButton.setFocusPainted(false);
-        backButton.setContentAreaFilled(false);
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         backButton.addActionListener(e -> {
             if (listener != null) listener.onBack();
         });
 
+        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 0));
+        backPanel.setOpaque(false);
+        backPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
+        backPanel.add(backButton);
+
         titleLabel = new JLabel("CHOISIR UN HÉROS");
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
         titleLabel.setForeground(Theme.ACCENT);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
 
-        JPanel topRow = new JPanel(new GridBagLayout());
-        topRow.setOpaque(false);
-        topRow.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        topRow.add(backButton, gbc);
-        gbc.gridx = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        topRow.add(titleLabel, gbc);
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        topRow.add(Box.createHorizontalGlue(), gbc);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setOpaque(false);
+        titlePanel.add(backPanel, BorderLayout.WEST);
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
 
         categoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         categoryPanel.setOpaque(false);
@@ -128,7 +125,7 @@ public class HeroSelection extends JPanel {
 
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
-        headerPanel.add(topRow, BorderLayout.NORTH);
+        headerPanel.add(titlePanel, BorderLayout.NORTH);
         headerPanel.add(categoryPanel, BorderLayout.CENTER);
 
         add(headerPanel, BorderLayout.NORTH);
