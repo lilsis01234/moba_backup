@@ -4,47 +4,49 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MainMenu extends JPanel {
-    
+public class GameOverScreen extends JPanel {
+
     private static final long serialVersionUID = 1L;
 
-	public interface MenuListener {
-        void onStartGame();
-        void onExit();
+    public interface GameOverListener {
+        void onReturnToMenu();
     }
-    
-    private MenuListener listener;
+
+    private GameOverListener listener;
+    private String result;
     private int selectedIndex = 0;
-    private String[] menuItems = {"DEMARRER LE JEU", "QUITTER"};
+    private String[] menuItems = {"RETOUR AU MENU", "QUITTER"};
 
     private final Color BACKGROUND_DARK = new Color(20, 20, 30);
-    private final Color ACCENT = new Color(180, 140, 90);       
-    private final Color ACCENT_BRIGHT = new Color(220, 180, 120);
-    private final Color BUTTON_BG = new Color(40, 35, 50);
-    private final Color BUTTON_HOVER = new Color(60, 50, 70);
-    private final Color BUTTON_BORDER = new Color(100, 90, 70);
-    private final Color TEXT_MAIN = new Color(240, 230, 200);
-    private final Color TEXT_DIM = new Color(160, 150, 130);
+    private final Color ACCENT          = new Color(180, 140, 90);
+    private final Color ACCENT_BRIGHT   = new Color(220, 180, 120);
+    private final Color BUTTON_BG       = new Color(40, 35, 50);
+    private final Color BUTTON_HOVER    = new Color(60, 50, 70);
+    private final Color BUTTON_BORDER   = new Color(100, 90, 70);
+    private final Color TEXT_MAIN       = new Color(240, 230, 200);
+    private final Color TEXT_DIM        = new Color(160, 150, 130);
+    private final Color WIN_COLOR       = new Color(80, 220, 100);
+    private final Color LOSE_COLOR      = new Color(220, 60, 60);
 
-    public MainMenu(Dimension screenSize) {
+    public GameOverScreen(String result, Dimension screenSize, GameOverListener listener) {
+        this.result   = result;
+        this.listener = listener;
         setPreferredSize(screenSize);
         setBackground(BACKGROUND_DARK);
         setFocusable(true);
         setLayout(null);
-        
-        // Gestion clavier
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-            	switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:    navigate(-1); break;
-                case KeyEvent.VK_DOWN:  navigate(1); break;
-                case KeyEvent.VK_ENTER: handleSelection(); break;
-            }
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:    navigate(-1); break;
+                    case KeyEvent.VK_DOWN:  navigate(1); break;
+                    case KeyEvent.VK_ENTER: handleSelection(); break;
+                }
             }
         });
-        
-        // Gestion Souris
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -57,62 +59,59 @@ public class MainMenu extends JPanel {
         selectedIndex = (selectedIndex + dir + menuItems.length) % menuItems.length;
         repaint();
     }
-    
-    public void setMenuListener(MenuListener listener) {
-        this.listener = listener;
-    }
-    
+
     private void handleClick(int x, int y) {
         int w = getWidth(), h = getHeight();
         int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = h / 2 - 50;
-        
+        int startY = h / 2 + 20;
+
         for (int i = 0; i < menuItems.length; i++) {
             int btnX = (w - btnWidth) / 2;
             int btnY = startY + i * (btnHeight + spacing);
-            
             if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
                 selectedIndex = i;
                 handleSelection();
             }
         }
     }
-    
+
     private void handleSelection() {
-        if (listener == null) return;
-        if (selectedIndex == 0) listener.onStartGame();
-        else if (selectedIndex == 1) listener.onExit();
+        if (selectedIndex == 0) {
+            if (listener != null) listener.onReturnToMenu();
+        } else {
+            System.exit(0);
+        }
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        // Désactiver l'anti-aliasing pour un look "Pixel" net
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
- 
+
         GradientPaint gradient = new GradientPaint(0, 0, BACKGROUND_DARK, 0, getHeight(), new Color(10, 10, 20));
         g2.setPaint(gradient);
         g2.fillRect(0, 0, getWidth(), getHeight());
 
-        g2.setFont(new Font("Serif", Font.BOLD, 52));
+        // title
+        String title = result.equals("WIN") ? "VICTOIRE !" : "DÉFAITE...";
+        Color titleColor = result.equals("WIN") ? WIN_COLOR : LOSE_COLOR;
+        g2.setFont(new Font("Serif", Font.BOLD, 64));
         FontMetrics fm = g2.getFontMetrics();
-        String title = "MOBA";
         int titleX = (getWidth() - fm.stringWidth(title)) / 2;
-        int titleY = getHeight() / 4;
-     
+        int titleY = getHeight() / 3;
+
         g2.setColor(new Color(0, 0, 0, 150));
         g2.drawString(title, titleX + 4, titleY + 4);
-        g2.setColor(ACCENT);
+        g2.setColor(titleColor);
         g2.drawString(title, titleX, titleY);
         g2.setColor(ACCENT_BRIGHT);
         g2.fillRect(titleX - 20, titleY + 15, fm.stringWidth(title) + 40, 3);
 
-        // BOUTONS
+        // buttons
         int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = getHeight() / 2 - 50;
-        
+        int startY = getHeight() / 2 + 20;
+
         for (int i = 0; i < menuItems.length; i++) {
             boolean isSelected = (i == selectedIndex);
             int btnX = (getWidth() - btnWidth) / 2;
@@ -127,11 +126,11 @@ public class MainMenu extends JPanel {
             g2.fillRect(btnX, btnY, btnWidth, btnHeight);
 
             g2.setColor(isSelected ? ACCENT : BUTTON_BORDER);
-            int b = 2; // épaisseur bordure
-            g2.fillRect(btnX, btnY, btnWidth, b);              // haut
-            g2.fillRect(btnX, btnY + btnHeight - b, btnWidth, b); // bas
-            g2.fillRect(btnX, btnY, b, btnHeight);             // gauche
-            g2.fillRect(btnX + btnWidth - b, btnY, b, btnHeight); // droite
+            int b = 2;
+            g2.fillRect(btnX, btnY, btnWidth, b);
+            g2.fillRect(btnX, btnY + btnHeight - b, btnWidth, b);
+            g2.fillRect(btnX, btnY, b, btnHeight);
+            g2.fillRect(btnX + btnWidth - b, btnY, b, btnHeight);
 
             g2.setColor(isSelected ? TEXT_MAIN : TEXT_DIM);
             g2.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -140,7 +139,6 @@ public class MainMenu extends JPanel {
             g2.drawString(txt, btnX + (btnWidth - btnFm.stringWidth(txt)) / 2, btnY + (btnHeight + btnFm.getAscent()) / 2 - 4);
         }
 
-        // 4. FOOTER (Version)
         g2.setColor(TEXT_DIM);
         g2.setFont(new Font("Monospaced", Font.PLAIN, 12));
         String ver = "v0.0.1 - Alpha";

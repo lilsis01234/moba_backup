@@ -73,7 +73,17 @@ public class JsonDataProvider {
             hero.setDefense(parseInt(heroMap.get("defense")));
             hero.setAttackSpeed(parseDouble(heroMap.get("attackSpeed")));
             hero.setMaxMana(parseInt(heroMap.get("maxMana")));
+            hero.setAtkRange(parseDouble(heroMap.get("atkRange")));
             hero.setSpeed(parseDouble(heroMap.get("speed")));
+                        hero.setCharacterRow(parseInt(heroMap.get("characterRow")));
+            hero.setHairRow(parseInt(heroMap.get("hairRow")));
+            hero.setOutfitFile(heroMap.get("outfitFile"));
+            
+            // Optional field
+            String suitRowStr = heroMap.get("suitRow");
+            if (suitRowStr != null && !suitRowStr.isEmpty() && !suitRowStr.equals("null")) {
+                hero.setSuitRow(parseInt(suitRowStr));
+            }
             
             heroes.add(hero);
             

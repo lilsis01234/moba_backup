@@ -20,58 +20,59 @@ public class MinionSpawner {
         List<double[]> wp = new ArrayList<>();
         if (team == 0) {
             switch (lane) {
-                case 0: // top lane ally
-                    wp.add(new double[]{10 * T, 48 * T});
-                    wp.add(new double[]{10 * T, 35 * T});
-                    wp.add(new double[]{10 * T, 20 * T});
-                    wp.add(new double[]{10 * T, 11 * T});
-                    wp.add(new double[]{25 * T, 10 * T});
-                    wp.add(new double[]{48 * T, 10 * T});
-                    break;
-                case 1: // mid lane ally
-                    wp.add(new double[]{13 * T, 48 * T});
-                    wp.add(new double[]{15 * T, 45 * T});
-                    wp.add(new double[]{21 * T, 39 * T});
-                    wp.add(new double[]{27 * T, 33 * T});
-                    wp.add(new double[]{32 * T, 28 * T});
-                    wp.add(new double[]{38 * T, 22 * T});
-                    wp.add(new double[]{45 * T, 15 * T});
-                    wp.add(new double[]{48 * T, 12 * T});
-                    break;
-                case 2: // bot lane ally
-                    wp.add(new double[]{15 * T, 50 * T});
-                    wp.add(new double[]{30 * T, 50 * T});
-                    wp.add(new double[]{45 * T, 50 * T});
-                    wp.add(new double[]{50 * T, 45 * T});
-                    wp.add(new double[]{50 * T, 12 * T});
-                    break;
+            case 0: // top ally
+                wp.add(new double[]{6 * T, 52 * T});
+                wp.add(new double[]{6 * T, 39 * T});
+                wp.add(new double[]{6 * T, 24 * T});
+                wp.add(new double[]{6 * T, 7 * T});
+                wp.add(new double[]{21 * T, 6 * T});
+                wp.add(new double[]{52 * T, 6 * T});
+                break;
+            case 1: // mid ally
+                wp.add(new double[]{9 * T, 52 * T});
+                wp.add(new double[]{11 * T, 49 * T});
+                wp.add(new double[]{17 * T, 43 * T});
+                wp.add(new double[]{23 * T, 37 * T});
+                wp.add(new double[]{28 * T, 32 * T});
+                wp.add(new double[]{34 * T, 26 * T});
+                wp.add(new double[]{41 * T, 19 * T});
+                wp.add(new double[]{52 * T, 8 * T});
+                break;
+            case 2: // bot ally
+                wp.add(new double[]{8 * T, 54 * T});
+                wp.add(new double[]{26* T, 54 * T});
+                wp.add(new double[]{52 * T, 54 * T});
+                wp.add(new double[]{54 * T, 41 * T});
+                wp.add(new double[]{54 * T, 11 * T});
+                break;
+
             }
         } else {
             switch (lane) {
-                case 0: // top lane enemy
-                    wp.add(new double[]{48 * T, 10 * T});
-                    wp.add(new double[]{25 * T, 10 * T});
-                    wp.add(new double[]{11 * T, 10 * T});
-                    wp.add(new double[]{10 * T, 25 * T});
-                    wp.add(new double[]{10 * T, 48 * T});
-                    break;
-                case 1: // mid lane enemy
-                    wp.add(new double[]{48 * T, 12 * T});
-                    wp.add(new double[]{45 * T, 15 * T});
-                    wp.add(new double[]{38 * T, 22 * T});
-                    wp.add(new double[]{32 * T, 28 * T});
-                    wp.add(new double[]{27 * T, 33 * T});
-                    wp.add(new double[]{21 * T, 39 * T});
-                    wp.add(new double[]{15 * T, 45 * T});
-                    wp.add(new double[]{13 * T, 48 * T});
-                    break;
-                case 2: // bot lane enemy
-                    wp.add(new double[]{50 * T, 12 * T});
-                    wp.add(new double[]{50 * T, 30 * T});
-                    wp.add(new double[]{50 * T, 48 * T});
-                    wp.add(new double[]{45 * T, 50 * T});
-                    wp.add(new double[]{15 * T, 50 * T});
-                    break;
+            case 0: // top enemy
+                wp.add(new double[]{52 * T, 6 * T});
+                wp.add(new double[]{29 * T, 6 * T});
+                wp.add(new double[]{7 * T, 6 * T});
+                wp.add(new double[]{6 * T, 21 * T});
+                wp.add(new double[]{6 * T, 52 * T});
+                break;
+            case 1: // mid enemy
+                wp.add(new double[]{52 * T, 8 * T});
+                wp.add(new double[]{41 * T, 19 * T});
+                wp.add(new double[]{34 * T, 26 * T});
+                wp.add(new double[]{28 * T, 32 * T});
+                wp.add(new double[]{23 * T, 37 * T});
+                wp.add(new double[]{17 * T, 43 * T});
+                wp.add(new double[]{11 * T, 49 * T});
+                wp.add(new double[]{9 * T, 52 * T});
+                break;
+            case 2: // bot enemy
+                wp.add(new double[]{54 * T, 8 * T});
+                wp.add(new double[]{54 * T, 26 * T});
+                wp.add(new double[]{54 * T, 52 * T});
+                wp.add(new double[]{41 * T, 54 * T});
+                wp.add(new double[]{11 * T, 54 * T});
+                break;
             }
         }
         return wp;

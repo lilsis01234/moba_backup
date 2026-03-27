@@ -5,18 +5,16 @@ import java.awt.*;
 public abstract class Personnage extends Entity {
 
     protected double speed;
-    protected int team; // 0 for ALLY, 1 for ENEMY
     protected double mana;
     protected double maxMana;
 
-    public Personnage(double x, double y, double maxHP, double maxMana, double speed, int team) {
-        super(x, y, maxHP);
+    public Personnage(double x, double y, double maxHP, int team, double maxMana, double speed) {
+        super(x, y, maxHP,team);
         this.speed = speed;
-        this.team = team;
         this.maxMana = maxMana;
     }
 
-    protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
+	protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
         g2.setColor(Color.GRAY);
         g2.fillRect(px - size/2, py - size - yOffset, size, 4);
         g2.setColor(Color.CYAN);

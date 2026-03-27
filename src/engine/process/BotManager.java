@@ -19,16 +19,16 @@ public class BotManager {
         int H = GameConfiguration.WORLD_HEIGHT;
 
         int T = GameConfiguration.TILE_SIZE;
-        bots.add(new Bot(12 * T, 48 * T, getBotWaypoints("Bot1"), 0, "Bot1"));
-        bots.add(new Bot(13 * T, 48 * T, getBotWaypoints("Bot2"), 0, "Bot2"));
-        bots.add(new Bot(12 * T, 50 * T, getBotWaypoints("Bot3"), 0, "Bot3"));
-        bots.add(new Bot(11 * T, 51 * T, getBotWaypoints("Bot4"), 0, "Bot4"));
+        bots.add(new Bot(8 * T, 52 * T, getBotWaypoints("Bot1"), 0, "Bot1"));
+        bots.add(new Bot(9 * T, 52 * T, getBotWaypoints("Bot2"), 0, "Bot2"));
+        bots.add(new Bot(8 * T, 54 * T, getBotWaypoints("Bot3"), 0, "Bot3"));
+        bots.add(new Bot(7 * T, 55 * T, getBotWaypoints("Bot4"), 0, "Bot4"));
 
-        enemyBots.add(new Bot(48 * T, 10 * T, getBotWaypoints("ENEMY_Bot1"), 1, "ENEMY_Bot1"));
-        enemyBots.add(new Bot(48 * T, 13 * T, getBotWaypoints("ENEMY_Bot2"), 1, "ENEMY_Bot2"));
-        enemyBots.add(new Bot(50 * T, 12 * T, getBotWaypoints("ENEMY_Bot3"), 1, "ENEMY_Bot3"));
-        enemyBots.add(new Bot(51 * T, 11 * T, getBotWaypoints("ENEMY_Bot4"), 1, "ENEMY_Bot4"));
-        enemyBots.add(new Bot(48 * T, 11 * T, getBotWaypoints("ENEMY_Bot5"), 1, "ENEMY_Bot5"));
+        enemyBots.add(new Bot(52 * T, 6 * T, getBotWaypoints("ENEMY_Bot1"), 1, "ENEMY_Bot1"));
+        enemyBots.add(new Bot(52 * T, 9 * T, getBotWaypoints("ENEMY_Bot2"), 1, "ENEMY_Bot2"));
+        enemyBots.add(new Bot(54 * T, 8 * T, getBotWaypoints("ENEMY_Bot3"), 1, "ENEMY_Bot3"));
+        enemyBots.add(new Bot(55 * T, 7 * T, getBotWaypoints("ENEMY_Bot4"), 1, "ENEMY_Bot4"));
+        enemyBots.add(new Bot(52 * T, 7 * T, getBotWaypoints("ENEMY_Bot5"), 1, "ENEMY_Bot5"));
     }
 
     public void update(double deltaTime, List<Entity> allEnemiesForTeam0, List<Entity> allEnemiesForTeam1) {
@@ -52,70 +52,70 @@ public class BotManager {
         int T = GameConfiguration.TILE_SIZE;
         List<double[]> wp = new ArrayList<>();
         switch (botName) {
-            case "Bot1":
-                wp.add(new double[]{10 * T, 40 * T});
-                wp.add(new double[]{10 * T, 25 * T});
-                wp.add(new double[]{10 * T, 11 * T});
-                wp.add(new double[]{25 * T, 10 * T});
-                wp.add(new double[]{40 * T, 10 * T});
-                wp.add(new double[]{48 * T, 10 * T});
-                break;
-            case "Bot2":
-                wp.add(new double[]{20 * T, 40 * T});
-                wp.add(new double[]{30 * T, 30 * T});
-                wp.add(new double[]{40 * T, 20 * T});
-                wp.add(new double[]{48 * T, 12 * T});
-                break;
-            case "Bot3":
-                wp.add(new double[]{25 * T, 50 * T});
-                wp.add(new double[]{40 * T, 50 * T});
-                wp.add(new double[]{50 * T, 50 * T});
-                wp.add(new double[]{50 * T, 40 * T});
-                wp.add(new double[]{50 * T, 12 * T});
-                break;
-            case "Bot4":
-                wp.add(new double[]{25 * T, 51 * T});
-                wp.add(new double[]{40 * T, 51 * T});
-                wp.add(new double[]{50 * T, 51 * T});
-                wp.add(new double[]{50 * T, 40 * T});
-                wp.add(new double[]{50 * T, 12 * T});
-                break;
-            case "ENEMY_Bot1":
-                wp.add(new double[]{40 * T, 10 * T});
-                wp.add(new double[]{25 * T, 10 * T});
-                wp.add(new double[]{10 * T, 10 * T});
-                wp.add(new double[]{10 * T, 25 * T});
-                wp.add(new double[]{10 * T, 40 * T});
-                wp.add(new double[]{10 * T, 48 * T});
-                break;
-            case "ENEMY_Bot2":
-                wp.add(new double[]{40 * T, 20 * T});
-                wp.add(new double[]{30 * T, 30 * T});
-                wp.add(new double[]{20 * T, 40 * T});
-                wp.add(new double[]{12 * T, 48 * T});
-                break;
-            case "ENEMY_Bot3":
-                wp.add(new double[]{50 * T, 25 * T});
-                wp.add(new double[]{50 * T, 40 * T});
-                wp.add(new double[]{50 * T, 50 * T});
-                wp.add(new double[]{40 * T, 50 * T});
-                wp.add(new double[]{12 * T, 50 * T});
-                break;
-            case "ENEMY_Bot4":
-                wp.add(new double[]{51 * T, 25 * T});
-                wp.add(new double[]{51 * T, 40 * T});
-                wp.add(new double[]{51 * T, 50 * T});
-                wp.add(new double[]{40 * T, 51 * T});
-                wp.add(new double[]{12 * T, 51 * T});
-                break;
-            case "ENEMY_Bot5":
-                wp.add(new double[]{40 * T, 11 * T});
-                wp.add(new double[]{25 * T, 11 * T});
-                wp.add(new double[]{11 * T, 11 * T});
-                wp.add(new double[]{11 * T, 25 * T});
-                wp.add(new double[]{11 * T, 40 * T});
-                wp.add(new double[]{11 * T, 48 * T});
-                break;
+        case "Bot1":
+            wp.add(new double[]{6 * T, 44 * T});
+            wp.add(new double[]{6 * T, 29 * T});
+            wp.add(new double[]{6 * T, 7 * T});
+            wp.add(new double[]{21 * T, 6 * T});
+            wp.add(new double[]{36 * T, 6 * T});
+            wp.add(new double[]{52 * T, 6 * T});
+            break;
+        case "Bot2":
+            wp.add(new double[]{16 * T, 44 * T});
+            wp.add(new double[]{30 * T, 30 * T});
+            wp.add(new double[]{44 * T, 16 * T});
+            wp.add(new double[]{52 * T, 8 * T});
+            break;
+        case "Bot3":
+            wp.add(new double[]{21 * T, 54 * T});
+            wp.add(new double[]{36 * T, 54 * T});
+            wp.add(new double[]{54 * T, 54 * T});
+            wp.add(new double[]{54 * T, 44 * T});
+            wp.add(new double[]{54 * T, 8 * T});
+            break;
+        case "Bot4":
+            wp.add(new double[]{21 * T, 55 * T});
+            wp.add(new double[]{36 * T, 55 * T});
+            wp.add(new double[]{54 * T, 55 * T});
+            wp.add(new double[]{54 * T, 44 * T});
+            wp.add(new double[]{54 * T, 8 * T});
+            break;
+        case "ENEMY_Bot1":
+            wp.add(new double[]{44 * T, 6 * T});
+            wp.add(new double[]{29 * T, 6 * T});
+            wp.add(new double[]{6 * T, 6 * T});
+            wp.add(new double[]{6 * T, 21 * T});
+            wp.add(new double[]{6 * T, 44 * T});
+            wp.add(new double[]{6 * T, 52 * T});
+            break;
+        case "ENEMY_Bot2":
+            wp.add(new double[]{44 * T, 16 * T});
+            wp.add(new double[]{30 * T, 30 * T});
+            wp.add(new double[]{16 * T, 44 * T});
+            wp.add(new double[]{8 * T, 52 * T});
+            break;
+        case "ENEMY_Bot3":
+            wp.add(new double[]{54 * T, 21 * T});
+            wp.add(new double[]{54 * T, 36 * T});
+            wp.add(new double[]{54 * T, 54 * T});
+            wp.add(new double[]{44 * T, 54 * T});
+            wp.add(new double[]{8 * T, 54 * T});
+            break;
+        case "ENEMY_Bot4":
+            wp.add(new double[]{55 * T, 21 * T});
+            wp.add(new double[]{55 * T, 36 * T});
+            wp.add(new double[]{55 * T, 54 * T});
+            wp.add(new double[]{44 * T, 55 * T});
+            wp.add(new double[]{8 * T, 55 * T});
+            break;
+        case "ENEMY_Bot5":
+            wp.add(new double[]{44 * T, 7 * T});
+            wp.add(new double[]{29 * T, 7 * T});
+            wp.add(new double[]{7 * T, 7 * T});
+            wp.add(new double[]{7 * T, 21 * T});
+            wp.add(new double[]{7 * T, 44 * T});
+            wp.add(new double[]{7 * T, 52 * T});
+            break;
         }
         return wp;
     }

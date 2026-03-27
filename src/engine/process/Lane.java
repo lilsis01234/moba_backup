@@ -26,32 +26,32 @@ public class Lane {
 
     private void initTowers() {
         switch (type) {
-            case top:
-                towers.add(new Tower(10 * T, 44 * T, 0));
-                towers.add(new Tower(10 * T, 30 * T, 0));
-                towers.add(new Tower(10 * T, 15 * T, 0));
-                towers.add(new Tower(15 * T, 10 * T, 1));
-                towers.add(new Tower(30 * T, 10 * T, 1));
-                towers.add(new Tower(45 * T, 10 * T, 1));
-                break;
+        case top:
+            towers.add(new Tower(6 * T, 44 * T, 0));  
+            towers.add(new Tower(6 * T, 30 * T, 0));  
+            towers.add(new Tower(6 * T, 15 * T, 0));  
+            towers.add(new Tower(11 * T, 6 * T, 1));  
+            towers.add(new Tower(26 * T, 6 * T, 1));   
+            towers.add(new Tower(41 * T, 6 * T, 1));   
+            break;
 
-            case middle:
-                towers.add(new Tower(15 * T, 45 * T, 0));
-                towers.add(new Tower(21 * T, 39 * T, 0));
-                towers.add(new Tower(27 * T, 33 * T, 0));
-                towers.add(new Tower(32 * T, 28 * T, 1));
-                towers.add(new Tower(38 * T, 22 * T, 1));
-                towers.add(new Tower(45 * T, 15 * T, 1));
-                break;
+        case middle:
+            towers.add(new Tower(14 * T, 46 * T, 0));
+            towers.add(new Tower(20 * T, 40 * T, 0));
+            towers.add(new Tower(26 * T, 34 * T, 0));
+            towers.add(new Tower(34 * T, 26 * T, 1));
+            towers.add(new Tower(40 * T, 20 * T, 1));
+            towers.add(new Tower(46 * T, 14 * T, 1));
+            break;
 
-            case bot:
-                towers.add(new Tower(17 * T, 50 * T, 0));
-                towers.add(new Tower(35 * T, 50 * T, 0));
-                towers.add(new Tower(45 * T, 50 * T, 0));
-                towers.add(new Tower(50 * T, 45 * T, 1));
-                towers.add(new Tower(50 * T, 30 * T, 1));
-                towers.add(new Tower(50 * T, 15 * T, 1));
-                break;
+        case bot:
+            towers.add(new Tower(17 * T, 54 * T, 0));  
+            towers.add(new Tower(32 * T, 54 * T, 0)); 
+            towers.add(new Tower(47 * T, 54 * T, 0));  
+            towers.add(new Tower(54 * T, 49 * T, 1));  
+            towers.add(new Tower(54 * T, 34 * T, 1));  
+            towers.add(new Tower(54 * T, 19 * T, 1)); 
+            break;
         }
     }
 

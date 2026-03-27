@@ -1,7 +1,12 @@
 package engine.mobile;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import game_config.GameConfiguration;
 
 public class Bot extends Personnage {
@@ -9,6 +14,11 @@ public class Bot extends Personnage {
     private double spawnX, spawnY;
     private String name;
     private double respawnTimer = 15; // placeholder
+    private BufferedImage AllyImage;
+    private BufferedImage EnemyImage;
+
+    private int xpReward = 10;   // XP donné à la mort
+    private int goldReward = 20; // Gold donné à la mort
 
     private List<double[]> waypoints; // path
     private int waypointIndex = 0;
@@ -17,7 +27,7 @@ public class Bot extends Personnage {
     private State state = State.MOVING;
 
     public Bot(double x, double y, List<double[]> waypoints, int team, String name) {
-        super(x, y, GameConfiguration.BOT_MAX_HP, GameConfiguration.BOT_MAX_MANA, GameConfiguration.BOT_SPEED, team);
+        super(x, y, GameConfiguration.BOT_MAX_HP, team, GameConfiguration.BOT_MAX_MANA, GameConfiguration.BOT_SPEED);
         this.spawnX    = x;
         this.spawnY    = y;
         this.waypoints = waypoints;
@@ -28,9 +38,21 @@ public class Bot extends Personnage {
         this.atkDamage   = GameConfiguration.BOT_DAMAGE;
         this.atkRange    = GameConfiguration.BOT_RANGE;
         this.atkCooldown = 1.0;
+        try {
+            AllyImage =ImageIO.read(getClass().getResourceAsStream("/res/Heroes/Angel.png"));
+            EnemyImage = ImageIO.read(getClass().getResourceAsStream("/res/Heroes/DemonLord.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
+        if (hp <= 0 && active) {
+            die();
+            }
+      
+
+
         if (!active) {
             respawnTimer -= deltaTime;
             if (respawnTimer <= 0) respawn();
@@ -46,6 +68,7 @@ public class Bot extends Personnage {
             followWaypoints(deltaTime, allBots);
         }
     }
+    public String getName() {return this.name; }
 
     @Override
     public void render(Graphics2D g2, int width, int height) {
@@ -54,19 +77,36 @@ public class Bot extends Personnage {
         int px   = (int) getX();
         int py   = (int) getY();
         int size = GameConfiguration.TILE_SIZE;
+        
+        int imgSize = size * 3; 
 
-        // team color
-        g2.setColor(team == 0 ? new Color(0, 150, 255) : new Color(255, 0, 150));
+        if ((AllyImage != null) && (EnemyImage != null)) {
+ 
+        	if (team == 0) {
+        		g2.drawImage(AllyImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
+        	} else {
+        		g2.drawImage(EnemyImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
+        	}
+        	 
+        
+	    	}else { //if problem with the img, placeholder
+			        // team color
+		    		Color teamColor;
+		    		if (team == 0) {
+		    		    teamColor = new Color(0, 150, 255);
+		    		} else {
+		    		    teamColor = new Color(255, 0, 150);
+		    		}
+			
+			        // placeholder, will use hero render later
+			        g2.fillOval(px - size/2, py - size/2, size, size);
+			        g2.setColor(Color.BLACK);
+			        g2.drawOval(px - size/2, py - size/2, size, size);
+			
+			         g2.setFont(new Font("Arial", Font.BOLD, 12));
+			         g2.drawString(name, px - 15, py - size/2 - 10);
 
-        // placeholder, will use hero render later
-        g2.fillOval(px - size/2, py - size/2, size, size);
-        g2.setColor(Color.BLACK);
-        g2.drawOval(px - size/2, py - size/2, size, size);
-
-         g2.setFont(new Font("Arial", Font.BOLD, 12));
-         g2.drawString(name, px - 15, py - size/2 - 10);
-
-         // Health and mana bars are drawn in screen space by Arena
+    }
     }
 
     private Entity findClosestEnemy(List<Entity> enemies) {
@@ -114,4 +154,8 @@ public class Bot extends Personnage {
         waypointIndex = 0;
         respawnTimer  = 15;
     }
+    public void die() {
+    active = false;
+    respawnTimer = 15; // temps avant respawn
+}
 }

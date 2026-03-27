@@ -24,8 +24,7 @@ public class Spell {
         this.type = type;
     }
     
-    public Spell(int heroId, String name, String description, int damage, 
-                 double cooldown, int manaCost, String type) {
+    public Spell(int heroId, String name, String description, int damage,  double cooldown, int manaCost, String type) {
         this.heroId = heroId;
         this.name = name;
         this.description = description;

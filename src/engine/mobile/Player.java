@@ -1,5 +1,7 @@
 package engine.mobile;
 
+import org.apache.log4j.Logger;
+import log.LoggerUtility;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,18 +12,24 @@ import engine.process.Arena;
 import game_config.GameConfiguration;
 
 public class Player extends Personnage {
-
+	
+	//NOTE: WILL implement it for personnage after testing
+	private int gold  = 0;
+	private int xp    = 0;
+	private int level = 1;
+	
     private double CibleX, CibleY;
     private boolean isMoving;
-
+    private Entity targetEnemy = null; //we need it to attack found using a method
     private BufferedImage playerImage;
-
-    public Player(double x, double y, int maxHp, int maxMana, double speed) {
-        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y,  maxHp, maxMana, speed, 0);
+    private static final Logger logger = LoggerUtility.getLogger(Player.class, "text");
+    
+    public Player(double x, double y, double maxHp, double maxMana, double speed, double atkRange) {
+        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y,  maxHp, 0 , maxMana, speed);
         this.hp   = maxHp;
         this.mana = maxMana;
         this.atkDamage   = 20.0;
-        this.atkRange    = 100.0;
+        this.atkRange    = atkRange;
         this.atkCooldown = 1.0;
         try {
             playerImage = ImageIO.read(getClass().getResourceAsStream("/res/Heroes/Green girl og.png"));
@@ -37,6 +45,21 @@ public class Player extends Personnage {
             if (mana > maxMana) mana = maxMana;
         }
         if (isMoving) updatePosition(deltaTime, arena);
+
+        // to attack
+        if (targetEnemy != null) {
+            if (!targetEnemy.isActive()) {
+                targetEnemy = null; // it died
+            } else {
+            	logger.debug("target=" + targetEnemy.getClass().getSimpleName()
+                        + " dist=" + (int)getDistanceTo(targetEnemy)
+                        + " range=" + atkRange
+                        + " timer=" + (int)atkTimer);
+                attack(targetEnemy, deltaTime);
+        }
+        }
+
+
     }
 
     public void updatePosition(double deltaTime, Arena arena) {
@@ -66,9 +89,11 @@ public class Player extends Personnage {
         int size = GameConfiguration.TILE_SIZE;
         int px = (int) x; // world coordinates
         int py = (int) y;
+        
+        int imgSize = size * 2; 
 
         if (playerImage != null) {
-            g2.drawImage(playerImage, px - size/2, py - size/2, size, size, null);
+        	 g2.drawImage(playerImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
         }
     }
 
@@ -76,6 +101,21 @@ public class Player extends Personnage {
         this.CibleX = xDestination;
         this.CibleY = yDestination;
         this.isMoving = true;
+    }
+    
+    public void addGold(int Goldreward) {
+        gold += Goldreward;
+    }
+    public void addXp(int XPReward) {
+        xp += XPReward;
+        int threshold = this.level * 100;
+        if (xp >= threshold) {
+            xp -= threshold;
+            level++;
+            maxHp   += GameConfiguration.LEVEL_HP_BONUS;
+            maxMana += GameConfiguration.LEVEL_MANA_BONUS;
+            atkDamage += GameConfiguration.LEVEL_DMG_BONUS;
+        }
     }
 
     @Override
@@ -86,10 +126,15 @@ public class Player extends Personnage {
         y      = GameConfiguration.PLAYER_START_Y;
         active = true;
     }
+    
 
     public double getX() { return x; }
     public double getY() { return y; }
     public double getCibleX() { return CibleX; }
     public double getCibleY() { return CibleY; }
     public boolean isMoving() { return isMoving; }
+    public int getGold()  { return gold; }
+    public int getXp()    { return xp; }
+    public int getLevel() { return level; }
+    public void setTarget(Entity target) { this.targetEnemy = target; }
 }

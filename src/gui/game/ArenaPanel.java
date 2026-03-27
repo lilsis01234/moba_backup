@@ -3,7 +3,7 @@ package gui.game;
 import engine.process.Arena;
 import gui.HUDRenderer;
 import game_config.GameConfiguration;
-
+import engine.mobile.Entity;
 import javax.swing.JPanel;
 
 import data.model.Hero;
@@ -26,6 +26,7 @@ public class ArenaPanel extends JPanel {
     private HUDRenderer hudRenderer;
     private Runnable pauseCallback;
     private boolean paused = false;
+    private Entity hoveredEntity = null;
 
     public ArenaPanel(Arena arena, int windowWidth, int windowHeight, Hero hero) {
         this.arena = arena;
@@ -43,36 +44,60 @@ public class ArenaPanel extends JPanel {
         );
 
         addMouseListener(new MouseAdapter() {
-            @Override
+           @Override
             public void mousePressed(MouseEvent e) {
                 int mx = e.getX();
                 int my = e.getY();
 
-                if (hudRenderer.handleMinimapClick(mx, my)) {
-                    return;
-                }
-
+                if (hudRenderer.handleMinimapClick(mx, my)) return;
                 if (hudRenderer.handlePauseButtonClick(mx, my)) {
-                    if (pauseCallback != null) {
-                        pauseCallback.run();
-                    }
+                    if (pauseCallback != null) pauseCallback.run();
                     return;
                 }
 
                 int w = getWidth();
                 int h = getHeight();
-
-                double scale = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
+                double scale   = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
                                         (double)h / GameConfiguration.WORLD_HEIGHT);
-                double offsetX = (w - GameConfiguration.WORLD_WIDTH * scale) / 2;
+                double offsetX = (w - GameConfiguration.WORLD_WIDTH  * scale) / 2;
                 double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
+                double worldX  = (mx - offsetX) / scale;
+                double worldY  = (my - offsetY) / scale;
 
-                double worldX = (mx - offsetX) / scale;
-                double worldY = (my - offsetY) / scale;
-                if (worldX >= 0 && worldX <= GameConfiguration.WORLD_WIDTH &&
-                    worldY >= 0 && worldY <= GameConfiguration.WORLD_HEIGHT) {
+                if (worldX < 0 || worldX > GameConfiguration.WORLD_WIDTH  ||
+                    worldY < 0 || worldY > GameConfiguration.WORLD_HEIGHT) return;
+
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    // aka u right-click
+                    arena.getPlayer().setTarget(null); // cancel attack then move (did that cus i had a bug)
+                    hudRenderer.setTargetedBot(null);
                     arena.getPlayer().moveTo(worldX, worldY);
+                } else if (e.getButton() == MouseEvent.BUTTON1) {
+                    // aka left-click
+                    double clickRadius = GameConfiguration.AttackMargin;
+                    Entity clicked = arena.findClickedEnemy(worldX, worldY, clickRadius);
+                    if (clicked != null) {
+                        arena.getPlayer().setTarget(clicked);
+                        if (clicked instanceof engine.mobile.Bot) {
+                            hudRenderer.setTargetedBot((engine.mobile.Bot) clicked);
+                        } else {
+                            hudRenderer.setTargetedBot(null);
+                        }
+                    }
                 }
+        }});
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(java.awt.event.MouseEvent e) {
+                int w = getWidth();
+                int h = getHeight();
+                double scale   = Math.min((double)w / GameConfiguration.WORLD_WIDTH,
+                                          (double)h / GameConfiguration.WORLD_HEIGHT);
+                double offsetX = (w - GameConfiguration.WORLD_WIDTH  * scale) / 2;
+                double offsetY = (h - GameConfiguration.WORLD_HEIGHT * scale) / 2;
+                double worldX  = (e.getX() - offsetX) / scale;
+                double worldY  = (e.getY() - offsetY) / scale;
+                hoveredEntity = arena.findEntityAtPosition(worldX, worldY, GameConfiguration.TILE_SIZE * 0.75);
             }
         });
     }
@@ -127,7 +152,7 @@ public class ArenaPanel extends JPanel {
         GameConfiguration.WINDOW_WIDTH  = windowWidth;
         GameConfiguration.WINDOW_HEIGHT = windowHeight;
 
-        arena.render(g2, windowWidth, windowHeight);
+        arena.render(g2, windowWidth, windowHeight, hoveredEntity);
         g2.setTransform(original);
 
         hudRenderer.setScreenSize(windowWidth, windowHeight);
