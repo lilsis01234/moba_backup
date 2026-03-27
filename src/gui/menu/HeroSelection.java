@@ -97,20 +97,23 @@ public class HeroSelection extends JPanel {
             if (listener != null) listener.onBack();
         });
 
-        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 0));
-        backPanel.setOpaque(false);
-        backPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
-        backPanel.add(backButton);
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.X_AXIS));
+        headerPanel.setOpaque(false);
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 20, 40));
+        headerPanel.add(backButton);
+        headerPanel.add(Box.createHorizontalGlue());
 
         titleLabel = new JLabel("CHOISIR UN HÉROS");
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
         titleLabel.setForeground(Theme.ACCENT);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setOpaque(false);
-        titlePanel.add(backPanel, BorderLayout.WEST);
-        titlePanel.add(titleLabel, BorderLayout.CENTER);
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setOpaque(false);
+        topPanel.add(headerPanel);
+        topPanel.add(titleLabel);
 
         categoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         categoryPanel.setOpaque(false);
@@ -123,12 +126,12 @@ public class HeroSelection extends JPanel {
             categoryPanel.add(btn);
         }
 
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setOpaque(false);
-        headerPanel.add(titlePanel, BorderLayout.NORTH);
-        headerPanel.add(categoryPanel, BorderLayout.CENTER);
+        JPanel mainHeader = new JPanel(new BorderLayout());
+        mainHeader.setOpaque(false);
+        mainHeader.add(topPanel, BorderLayout.NORTH);
+        mainHeader.add(categoryPanel, BorderLayout.CENTER);
 
-        add(headerPanel, BorderLayout.NORTH);
+        add(mainHeader, BorderLayout.NORTH);
 
         cardsContainer = new JPanel(new GridBagLayout());
         cardsContainer.setOpaque(false);
