@@ -6,6 +6,26 @@ $outDir = Join-Path $projectRoot "out"
 $libDir = Join-Path $projectRoot "lib"
 $classesDir = Join-Path (Join-Path $outDir "production") "moba_backup"
 
+# Download dependencies if not present
+$dependencies = @{
+    "log4j-1.2.17.jar" = "https://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar"
+}
+
+if (-not (Test-Path $libDir)) {
+    New-Item -ItemType Directory -Force -Path $libDir | Out-Null
+}
+
+foreach ($dep in $dependencies.GetEnumerator()) {
+    $jarName = $dep.Key
+    $jarUrl = $dep.Value
+    $jarPath = Join-Path $libDir $jarName
+    
+    if (-not (Test-Path $jarPath)) {
+        Write-Host "Downloading $jarName..."
+        Invoke-WebRequest -Uri $jarUrl -OutFile $jarPath
+    }
+}
+
 # Build classpath from lib/*.jar
 $libJars = @()
 if (Test-Path $libDir) {
