@@ -1,8 +1,5 @@
 out/
 bin/
-lib/
+logs/
 .idea/
-.classpath
-.project
-.settings/
 .vscode/
