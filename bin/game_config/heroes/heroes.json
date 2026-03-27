@@ -1,0 +1,518 @@
+[
+  {
+    "name": "Goliath",
+    "history": "Un guerrier colossal dont la peau est aussi dure que le granit. Il défend ses alliés avec une détermination inébranlable.",
+    "category": "Force",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 350,
+    "defense": 75,
+    "attackSpeed": 0.7,
+    "maxMana": 200,
+    "characterRow": 2,
+    "hairRow": 3,
+    "outfitFile": "leather_armor.png",
+    "suitRow": 0,
+    "spells": [
+      {
+        "name": "Écraser",
+        "description": "Écrase le sol, infligeant 80 dégâts aux ennemis proches et les ralentit.",
+        "damage": 80,
+        "cooldown": 8,
+        "manaCost": 40,
+        "type": "dmg"
+      },
+      {
+        "name": "Bouclier",
+        "description": "Augmente sa défense de 30% pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 50,
+        "type": "SP"
+      },
+      {
+        "name": "Frappe du Titan",
+        "description": "Attaque puissante infligeant 150 dégâts à une cible unique.",
+        "damage": 150,
+        "cooldown": 12,
+        "manaCost": 70,
+        "type": "dmg"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 500
+	
+  },
+  {
+    "name": "Titan",
+    "history": "Un colosse antique réveillé pour la bataille. Sa force massive terrasse ses ennemis en un seul coup.",
+    "category": "Force",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 50,
+    "defense": 80,
+    "attackSpeed": 0.6,
+    "maxMana": 180,
+    "characterRow": 4,
+    "hairRow": 5,
+    "outfitFile": "plate_armor.png",
+    "suitRow": 1,
+    "spells": [
+      {
+        "name": "Lancer de Roc",
+        "description": "Lance un rocher qui inflige 100 dégâts et étourdit 1 seconde.",
+        "damage": 100,
+        "cooldown": 6,
+        "manaCost": 45,
+        "type": "dmg"
+      },
+      {
+        "name": "Épiderme de Pierre",
+        "description": "Réduit tous les dégâts subis de 20% pendant 6 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 60,
+        "type": "SP"
+      },
+      {
+        "name": "Cataclysme",
+        "description": "Frappe le sol créant une secousse qui inflige 200 dégâts sur une zone large.",
+        "damage": 200,
+        "cooldown": 15,
+        "manaCost": 100,
+        "type": "dmg"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Boulder",
+    "history": "Une entité de pierre vivante qui roule sur le champ de bataille, écrasant tout sur son passage.",
+    "category": "Force",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 45,
+    "defense": 85,
+    "attackSpeed": 0.5,
+    "maxMana": 150,
+    "characterRow": 6,
+    "hairRow": 2,
+    "outfitFile": "stone_skin.png",
+    "suitRow": null,
+    "spells": [
+      {
+        "name": "Roulement",
+        "description": "Se met à rouler, infligeant 120 dégâts et repoussant les ennemis.",
+        "damage": 120,
+        "cooldown": 10,
+        "manaCost": 55,
+        "type": "dmg"
+      },
+      {
+        "name": "Armure Naturelle",
+        "description": "Gagne une armure bonus équivalente à 50% de ses PV maximums pendant 4 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 70,
+        "type": "SP"
+      },
+      {
+        "name": "Impact Sismique",
+        "description": "Écrasement final infligeant 180 dégâts et renversant les ennemis.",
+        "damage": 180,
+        "cooldown": 14,
+        "manaCost": 90,
+        "type": "dmg"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Fortress",
+    "history": "Une forteresse ambulante impénétrable. Aucune arme ne peut percer ses défenses.",
+    "category": "Force",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 40,
+    "defense": 90,
+    "attackSpeed": 0.4,
+    "maxMana": 120,
+    "characterRow": 8,
+    "hairRow": 1,
+    "outfitFile": "fortress_armor.png",
+    "suitRow": 2,
+    "spells": [
+      {
+        "name": "Rempart",
+        "description": "Déploie un rempart temporaire qui bloque les projectiles et réduit les dégâts de 40%.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 65,
+        "type": "SP"
+      },
+      {
+        "name": "Contre-attaque",
+        "description": "Renvoie 50% des dégâts subis aux attaquants pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 75,
+        "type": "SP"
+      },
+      {
+        "name": "Défense Ultime",
+        "description": "Devient invulnérable pendant 3 secondes mais ne peut pas attaquer.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 100,
+        "type": "SP"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Ironclad",
+    "history": "Un chevalier dont l'armure est forgée dans l'acier le plus pur. Il résiste à toute attaque.",
+    "category": "Agilite",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 60,
+    "defense": 78,
+    "attackSpeed": 0.75,
+    "maxMana": 220,
+    "characterRow": 1,
+    "hairRow": 7,
+    "outfitFile": "knight_armor.png",
+    "suitRow": 3,
+    "spells": [
+      {
+        "name": "Muraille",
+        "description": "Crée une barrière qui bloque les projectiles ennemis pendant 6 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 80,
+        "type": "SP"
+      },
+      {
+        "name": "Charge Protector",
+        "description": "Se précipite vers un allié, réduisant tous les dégâts qu'il subit de 40% pendant 3 secondes.",
+        "damage": 0,
+        "cooldown": 8,
+        "manaCost": 45,
+        "type": "CC"
+      },
+      {
+        "name": "Coup de Bouclier",
+        "description": "Attaque avec son bouclier, infligeant 90 dégâts et renversant la cible.",
+        "damage": 90,
+        "cooldown": 6,
+        "manaCost": 40,
+        "type": "dmg"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Sentinel",
+    "history": "Le gardien éternel des portes sacrées. Sa vigilance ne faiblit jamais.",
+    "category": "Agilite",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 48,
+    "defense": 82,
+    "attackSpeed": 0.65,
+    "maxMana": 190,
+    "characterRow": 3,
+    "hairRow": 0,
+    "outfitFile": "sentry_armor.png",
+    "suitRow": null,
+    "spells": [
+      {
+        "name": "Œil de la Vérité",
+        "description": "Révèle les ennemis invisibles dans une grande zone pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 15,
+        "manaCost": 60,
+        "type": "SP"
+      },
+      {
+        "name": "Lien de Protection",
+        "description": "Lie sa vie à un allié, partageant 30% des dégâts qu'il subit.",
+        "damage": 0,
+        "cooldown": 20,
+        "manaCost": 90,
+        "type": "SP"
+      },
+      {
+        "name": "Projectile Répresseur",
+        "description": "Tire un projectile qui inflige 110 dégâts et silence l'ennemi pendant 2 secondes.",
+        "damage": 110,
+        "cooldown": 7,
+        "manaCost": 45,
+        "type": "dmg"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Warden",
+    "history": "Le gardien des prisons infernales. Ses chaînes peuvent lier n'importe quel ennemi.",
+    "category": "Agilite",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 52,
+    "defense": 76,
+    "attackSpeed": 0.6,
+    "maxMana": 170,
+    "characterRow": 5,
+    "hairRow": 8,
+    "outfitFile": "prison_guard.png",
+    "suitRow": 1,
+    "spells": [
+      {
+        "name": "Chaînes du Destin",
+        "description": "Lance des chaînes qui immobilisent la cible pendant 3 secondes.",
+        "damage": 0,
+        "cooldown": 6,
+        "manaCost": 40,
+        "type": "CC"
+      },
+      {
+        "name": "Barrière Inversée",
+        "description": "Repousse tous les ennemis autour de lui et les inflige 60 dégâts.",
+        "damage": 60,
+        "cooldown": 9,
+        "manaCost": 50,
+        "type": "dmg"
+      },
+      {
+        "name": "Prison Magique",
+        "description": "Emprisonne un ennemi dans une faille spatiale pendant 4 secondes.",
+        "damage": 0,
+        "cooldown": 18,
+        "manaCost": 100,
+        "type": "CC"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Bastion",
+    "history": "Une forteresse mobile qui peut se transformer en position défensive.",
+    "category": "Agilite",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 35,
+    "defense": 95,
+    "attackSpeed": 0.3,
+    "maxMana": 100,
+    "characterRow": 9,
+    "hairRow": 4,
+    "outfitFile": "bastion_armor.png",
+    "suitRow": 2,
+    "spells": [
+      {
+        "name": "Position Défensive",
+        "description": "Augmente l'armure de 60% mais ne peut pas se déplacer pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 10,
+        "manaCost": 60,
+        "type": "SP"
+      },
+      {
+        "name": "Rempart Mobile",
+        "description": "Avance en protégeant les alliés derrière lui, réduisant les dégâts de zone de 50%.",
+        "damage": 0,
+        "cooldown": 15,
+        "manaCost": 80,
+        "type": "SP"
+      },
+      {
+        "name": "Reconstruction",
+        "description": "Régénère 300 PV par seconde pendant 3 secondes.",
+        "damage": 0,
+        "cooldown": 20,
+        "manaCost": 100,
+        "type": "SP"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Crusader",
+    "history": "Un champion de la lumière dont la foi protège les faibles.",
+    "category": "Intelligence",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 62,
+    "defense": 68,
+    "attackSpeed": 0.72,
+    "maxMana": 200,
+    "characterRow": 0,
+    "hairRow": 6,
+    "outfitFile": "crusader_armor.png",
+    "suitRow": 3,
+    "spells": [
+      {
+        "name": "Aura de Sacrifice",
+        "description": "Prend 50% des dégâts subis par un allié ciblé pendant 6 secondes.",
+        "damage": 0,
+        "cooldown": 12,
+        "manaCost": 70,
+        "type": "SP"
+      },
+      {
+        "name": "Jugement Divin",
+        "description": "Invoque un rayon de lumière qui inflige 150 dégâts et étourdit 1.5 secondes.",
+        "damage": 150,
+        "cooldown": 14,
+        "manaCost": 90,
+        "type": "dmg"
+      },
+      {
+        "name": "Soin Lumière",
+        "description": "Soigne un allié de 200 PV.",
+        "damage": 0,
+        "cooldown": 8,
+        "manaCost": 50,
+        "type": "SP"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Guardian",
+    "history": "Le protecteur des royaumes oubliés. Sa présence inspire le courage.",
+    "category": "Intelligence",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 42,
+    "defense": 84,
+    "attackSpeed": 0.58,
+    "maxMana": 180,
+    "characterRow": 7,
+    "hairRow": 1,
+    "outfitFile": "guardian_armor.png",
+    "suitRow": null,
+    "spells": [
+      {
+        "name": "Bouclier Divin",
+        "description": "Absorbe jusqu'à 300 dégâts pour un allié pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 10,
+        "manaCost": 65,
+        "type": "SP"
+      },
+      {
+        "name": "Provocation",
+        "description": "Force tous les ennemis proches à l'attaquer pendant 4 secondes.",
+        "damage": 0,
+        "cooldown": 8,
+        "manaCost": 40,
+        "type": "CC"
+      },
+      {
+        "name": "Lien de Vie",
+        "description": "Partage sa régénération de PV avec un allié pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 12,
+        "manaCost": 60,
+        "type": "SP"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Juggernaut",
+    "history": "Une machine de guerre inarrêtable. Plus il subit de dégâts, plus il devient fort.",
+    "category": "Intelligence",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 65,
+    "defense": 70,
+    "attackSpeed": 0.55,
+    "maxMana": 160,
+    "characterRow": 3,
+    "hairRow": 9,
+    "outfitFile": "juggernaut_armor.png",
+    "suitRow": 0,
+    "spells": [
+      {
+        "name": "Colère",
+        "description": "Gagne 1% d'augmentation de dégâts par point de PV manquant pendant 10 secondes.",
+        "damage": 0,
+        "cooldown": 12,
+        "manaCost": 75,
+        "type": "SP"
+      },
+      {
+        "name": "Déstabilisation",
+        "description": "Attaque qui ignore 50% de l'armure de la cible.",
+        "damage": 120,
+        "cooldown": 6,
+        "manaCost": 45,
+        "type": "dmg"
+      },
+      {
+        "name": "Imposant",
+        "description": "Gagne +1% de taille et +2% de PV par point d'armure pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 16,
+        "manaCost": 90,
+        "type": "SP"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  },
+  {
+    "name": "Aegis",
+    "history": "Le bouclier vivant. Son corps peut résister aux attaques les plus puissantes.",
+    "category": "Intelligence",
+    "baseHp": 220,
+    "maxHp": 220,
+    "attack": 38,
+    "defense": 88,
+    "attackSpeed": 0.48,
+    "maxMana": 140,
+    "characterRow": 2,
+    "hairRow": 5,
+    "outfitFile": "aegis_armor.png",
+    "suitRow": 1,
+    "spells": [
+      {
+        "name": "Réflexion",
+        "description": "Renvoie 80% des dégâts subis aux attaquants pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 15,
+        "manaCost": 80,
+        "type": "SP"
+      },
+      {
+        "name": "Impact Piercing",
+        "description": "Attaque qui traverse les ennemis et ignore leur défense.",
+        "damage": 90,
+        "cooldown": 8,
+        "manaCost": 50,
+        "type": "dmg"
+      },
+      {
+        "name": "Absorption",
+        "description": "Absorbe jusqu'à 500 dégâts pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 20,
+        "manaCost": 100,
+        "type": "SP"
+      }
+    ],
+	"atkRange": 300,
+    "speed": 200
+  }]
