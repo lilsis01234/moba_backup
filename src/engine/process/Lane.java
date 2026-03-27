@@ -85,7 +85,7 @@ public class Lane {
     }
 
     public List<Tower> getAllTowers() {
-        return towers;
+        return new ArrayList<>(towers);
     }
 
     public List<Tower> getAllyTowers() {
