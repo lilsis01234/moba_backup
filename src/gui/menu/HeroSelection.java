@@ -83,21 +83,27 @@ public class HeroSelection extends JPanel {
     }
 
     private void buildUI() {
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setOpaque(false);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 20, 50));
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setOpaque(false);
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
 
-        backButton = new JButton("  ← Retour  ");
-        styleBackButton(backButton);
+        backButton = new JButton("← Retour");
+        backButton.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        backButton.setForeground(Theme.TEXT_DIM);
+        backButton.setBackground(Theme.BUTTON_BG);
+        backButton.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        backButton.setFocusPainted(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         backButton.addActionListener(e -> {
             if (listener != null) listener.onBack();
         });
-        topPanel.add(backButton, BorderLayout.WEST);
+        titlePanel.add(backButton, BorderLayout.WEST);
 
         titleLabel = new JLabel("CHOISIR UN HÉROS", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
         titleLabel.setForeground(Theme.ACCENT);
-        topPanel.add(titleLabel, BorderLayout.CENTER);
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
 
         categoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         categoryPanel.setOpaque(false);
@@ -112,7 +118,7 @@ public class HeroSelection extends JPanel {
 
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
-        headerPanel.add(topPanel, BorderLayout.NORTH);
+        headerPanel.add(titlePanel, BorderLayout.NORTH);
         headerPanel.add(categoryPanel, BorderLayout.CENTER);
 
         add(headerPanel, BorderLayout.NORTH);
@@ -153,17 +159,6 @@ public class HeroSelection extends JPanel {
         return btn;
     }
 
-    private void styleBackButton(JButton btn) {
-        btn.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        btn.setForeground(Theme.TEXT_DIM);
-        btn.setBackground(Theme.BUTTON_BG);
-        btn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 1),
-            BorderFactory.createEmptyBorder(8, 15, 8, 15)
-        ));
-        btn.setFocusPainted(false);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }
 
     private void updateCategoryButtons() {
         Color[] categoryColors = {CATEGORY_FORCE, CATEGORY_AGILITY, CATEGORY_INTELLIGENCE};
