@@ -1,5 +1,6 @@
 package gui.menu;
 
+import gui.Theme;
 import data.model.Hero;
 import engine.process.JsonDataProvider;
 
@@ -25,14 +26,6 @@ public class HeroSelection extends JPanel {
     private int page = 0;
     private final int cardsPerPage = 4;
 
-    private final Color BACKGROUND_DARK = new Color(20, 20, 30);
-    private final Color ACCENT          = new Color(180, 140, 90);
-    private final Color BUTTON_BG       = new Color(40, 35, 50);
-    private final Color BUTTON_HOVER    = new Color(60, 50, 70);
-    private final Color BUTTON_BORDER   = new Color(100, 90, 70);
-    private final Color TEXT_MAIN       = new Color(240, 230, 200);
-    private final Color TEXT_DIM        = new Color(160, 150, 130);
-
     // Composants Swing
     private JPanel cardsPanel;
     private JButton prevButton;
@@ -43,7 +36,7 @@ public class HeroSelection extends JPanel {
 
     public HeroSelection(Dimension screenSize) {
         setPreferredSize(screenSize);
-        setBackground(BACKGROUND_DARK);
+        setBackground(Theme.BACKGROUND_DARK);
         setFocusable(true);
         setLayout(new BorderLayout());
 
@@ -74,7 +67,7 @@ public class HeroSelection extends JPanel {
         // Titre
         titleLabel = new JLabel("CHOISIR UN HÉROS", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
-        titleLabel.setForeground(ACCENT);
+        titleLabel.setForeground(Theme.ACCENT);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(40, 0, 20, 0));
         titleLabel.setOpaque(false);
         add(titleLabel, BorderLayout.NORTH);
@@ -122,11 +115,11 @@ public class HeroSelection extends JPanel {
 
         pageLabel = new JLabel("", SwingConstants.CENTER);
         pageLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
-        pageLabel.setForeground(TEXT_DIM);
+        pageLabel.setForeground(Theme.TEXT_DIM);
 
         hintLabel = new JLabel("← → pour naviguer   ENTRÉE pour confirmer   ÉCHAP pour retour", SwingConstants.CENTER);
         hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        hintLabel.setForeground(TEXT_DIM);
+        hintLabel.setForeground(Theme.TEXT_DIM);
 
         bottomPanel.add(pageLabel, BorderLayout.NORTH);
         bottomPanel.add(hintLabel, BorderLayout.SOUTH);
@@ -137,8 +130,8 @@ public class HeroSelection extends JPanel {
 
     private void styleArrowButton(JButton btn) {
         btn.setFont(new Font("SansSerif", Font.BOLD, 30));
-        btn.setForeground(ACCENT);
-        btn.setBackground(BACKGROUND_DARK);
+        btn.setForeground(Theme.ACCENT);
+        btn.setBackground(Theme.BACKGROUND_DARK);
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);
         btn.setPreferredSize(new Dimension(60, 60));
@@ -187,13 +180,13 @@ public class HeroSelection extends JPanel {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setPreferredSize(new Dimension(160, 220));
-        card.setBackground(isSelected ? BUTTON_HOVER : BUTTON_BG);
+        card.setBackground(isSelected ? Theme.BUTTON_HOVER : Theme.BUTTON_BG);
 
         card.add(new JLabel(" ")); // espace
 
         JLabel nameLabel = new JLabel(hero.getName() != null ? hero.getName() : "???", SwingConstants.CENTER);
         nameLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        nameLabel.setForeground(isSelected ? TEXT_MAIN : TEXT_DIM);
+        nameLabel.setForeground(isSelected ? Theme.TEXT_MAIN : Theme.TEXT_DIM);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(nameLabel);
 
@@ -201,7 +194,7 @@ public class HeroSelection extends JPanel {
 
         JLabel catLabel = new JLabel("Cat. " + hero.getCategoryId(), SwingConstants.CENTER);
         catLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
-        catLabel.setForeground(TEXT_DIM);
+        catLabel.setForeground(Theme.TEXT_DIM);
         catLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(catLabel);
 
@@ -217,7 +210,7 @@ public class HeroSelection extends JPanel {
         for (String stat : stats) {
             JLabel statLabel = new JLabel("  " + stat);
             statLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
-            statLabel.setForeground(TEXT_DIM);
+            statLabel.setForeground(Theme.TEXT_DIM);
             card.add(statLabel);
         }
 
@@ -244,7 +237,7 @@ public class HeroSelection extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        GradientPaint gradient = new GradientPaint(0, 0, BACKGROUND_DARK, 0, getHeight(), new Color(10, 10, 20));
+        GradientPaint gradient = new GradientPaint(0, 0, Theme.BACKGROUND_DARK, 0, getHeight(), new Color(10, 10, 20));
         g2.setPaint(gradient);
         g2.fillRect(0, 0, getWidth(), getHeight());
     }

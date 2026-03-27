@@ -89,7 +89,7 @@ public class HUDRenderer {
         int width = 120;
         int height = 60;
         
-        g2.setColor(new Color(25, 25, 35, 220));
+        g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);
@@ -134,7 +134,7 @@ public class HUDRenderer {
         int width = 200;
         int height = 140;
         
-        g2.setColor(new Color(25, 25, 35, 220));
+        g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);
@@ -191,7 +191,7 @@ public class HUDRenderer {
         int width = 200;
         int height = 100;
 
-        g2.setColor(new Color(25, 25, 35, 220));
+        g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(new Color(180, 60, 60));
         g2.drawRect(x, y, width, height);
@@ -234,7 +234,7 @@ public class HUDRenderer {
         int width = 130;
         int height = 45;
         
-        g2.setColor(new Color(25, 25, 35, 220));
+        g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);
@@ -262,7 +262,7 @@ public class HUDRenderer {
         int width = 130;
         int height = 45;
         
-        g2.setColor(new Color(25, 25, 35, 220));
+        g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);

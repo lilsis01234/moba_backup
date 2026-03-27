@@ -17,14 +17,8 @@ public class Bot extends Personnage {
     private BufferedImage AllyImage;
     private BufferedImage EnemyImage;
 
-    private int xpReward = 10;   // XP donné à la mort
-    private int goldReward = 20; // Gold donné à la mort
-
     private List<double[]> waypoints; // path
     private int waypointIndex = 0;
-
-    private enum State { MOVING, FIGHTING, RETREATING } // for animations
-    private State state = State.MOVING;
 
     public Bot(double x, double y, List<double[]> waypoints, int team, String name) {
         super(x, y, GameConfiguration.BOT_MAX_HP, team, GameConfiguration.BOT_MAX_MANA, GameConfiguration.BOT_SPEED);
@@ -61,10 +55,8 @@ public class Bot extends Personnage {
 
         Entity target = findClosestEnemy(enemies);
         if (target != null && getDistanceTo(target) <= atkRange) {
-            state = State.FIGHTING;
             attack(target, deltaTime);
         } else {
-            state = State.MOVING;
             followWaypoints(deltaTime, allBots);
         }
     }
@@ -150,7 +142,6 @@ public class Bot extends Personnage {
         hp   = getMaxHp();
         mana = maxMana;
         active        = true;
-        state         = State.MOVING;
         waypointIndex = 0;
         respawnTimer  = 15;
     }

@@ -306,13 +306,6 @@ public class Arena {
         return null;
     }
     
-    //i stopped here
-    private void checkKill(Entity target, int goldReward, int xpReward) {
-        if (!target.isActive()) {
-            player.addGold(goldReward);
-            player.addXp(xpReward);
-        }
-    }  
     public String checkGameOver() {
         if (!enemyBase.isActive()) return "WIN";
         if (!playerBase.isActive()) return "LOSE";

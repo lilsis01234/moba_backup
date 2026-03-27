@@ -14,7 +14,7 @@ public abstract class Personnage extends Entity {
         this.maxMana = maxMana;
     }
 
-	protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
+    protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
         g2.setColor(Color.GRAY);
         g2.fillRect(px - size/2, py - size - yOffset, size, 4);
         g2.setColor(Color.CYAN);
@@ -22,11 +22,6 @@ public abstract class Personnage extends Entity {
         g2.fillRect(px - size/2, py - size - yOffset, manaWidth, 4);
         g2.setColor(Color.BLACK);
         g2.drawRect(px - size/2, py - size - yOffset, size, 4);
-    }
-
-    public void heal(double amount) {
-        hp += amount;
-        if (hp > maxHp) hp = maxHp;
     }
 
     public void restoreMana(double amount) {
@@ -37,15 +32,14 @@ public abstract class Personnage extends Entity {
     public double getSpeed() {
         return speed;
     }
-    public int getTeam() {
-        return team;
-    }
     public double getMana() {
         return mana;
     }
     public double getMaxMana() {
         return maxMana;
     }
+
+
     public abstract void respawn();
 
     public abstract void render(Graphics2D g2, int width, int height);

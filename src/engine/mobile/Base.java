@@ -6,8 +6,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import game_config.GameConfiguration;
-
 import java.util.List;
+
+
 
 public class Base extends Entity {
 
@@ -30,8 +31,6 @@ public class Base extends Entity {
             }
         }
     }
-
-    public int getTeam() { return team; }
 
     @Override
     public void render(Graphics2D g2, int width, int height) {
