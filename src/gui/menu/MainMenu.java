@@ -15,6 +15,7 @@ public class MainMenu extends JPanel {
     
     private MenuListener listener;
     private int selectedIndex = 0;
+    private int hoveredIndex = -1;
     private String[] menuItems = {"DEMARRER LE JEU", "QUITTER"};
 
     private final Color BACKGROUND_DARK = new Color(20, 20, 30);
@@ -51,6 +52,36 @@ public class MainMenu extends JPanel {
                 handleClick(e.getX(), e.getY());
             }
         });
+        
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                updateHoveredButton(e.getX(), e.getY());
+            }
+        });
+    }
+    
+    private void updateHoveredButton(int x, int y) {
+        int w = getWidth(), h = getHeight();
+        int btnWidth = 220, btnHeight = 50, spacing = 15;
+        int startY = h / 2 - 50;
+        
+        int newHovered = -1;
+        for (int i = 0; i < menuItems.length; i++) {
+            int btnX = (w - btnWidth) / 2;
+            int btnY = startY + i * (btnHeight + spacing);
+            
+            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
+                newHovered = i;
+                break;
+            }
+        }
+        
+        if (newHovered != hoveredIndex) {
+            hoveredIndex = newHovered;
+            setCursor(newHovered >= 0 ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
+            repaint();
+        }
     }
 
     private void navigate(int dir) {

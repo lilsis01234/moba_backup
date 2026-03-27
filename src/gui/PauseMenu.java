@@ -13,6 +13,7 @@ public class PauseMenu extends JPanel {
     
     private PauseMenuListener listener;
     private int selectedIndex = 0;
+    private int hoveredIndex = -1;
     private boolean isVisible = false;
     private String[] menuItems = {"RESUME", "EXIT"};
     
@@ -55,6 +56,45 @@ public class PauseMenu extends JPanel {
                 }
             }
         });
+        
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (isVisible) {
+                    updateHoveredButton(e.getX(), e.getY());
+                }
+            }
+        });
+    }
+    
+    private void updateHoveredButton(int x, int y) {
+        int w = getWidth();
+        int h = getHeight();
+        
+        int menuWidth = 250;
+        int menuHeight = 180;
+        
+        int btnWidth = 180;
+        int btnHeight = 40;
+        int spacing = 12;
+        int startY = h / 2 - 30;
+        
+        int newHovered = -1;
+        for (int i = 0; i < menuItems.length; i++) {
+            int btnX = (w - btnWidth) / 2;
+            int btnY = startY + i * (btnHeight + spacing);
+            
+            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
+                newHovered = i;
+                break;
+            }
+        }
+        
+        if (newHovered != hoveredIndex) {
+            hoveredIndex = newHovered;
+            setCursor(newHovered >= 0 ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
+            repaint();
+        }
     }
     
     public void setPauseMenuListener(PauseMenuListener listener) {

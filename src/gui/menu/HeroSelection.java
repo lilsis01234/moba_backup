@@ -157,6 +157,7 @@ public class HeroSelection extends JPanel {
             boolean isSelected = (i == selectedIndex);
 
             JPanel card = buildCard(hero, isSelected);
+            card.setCursor(new Cursor(Cursor.HAND_CURSOR));
             card.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
