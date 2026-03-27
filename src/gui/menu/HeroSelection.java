@@ -29,10 +29,9 @@ public class HeroSelection extends JPanel {
     private List<Category> categories;
     private int selectedCategoryIndex = 0;
     private int selectedHeroIndex = 0;
-    private Hero selectedHero;
 
     private JPanel categoryPanel;
-    private JPanel cardsPanel;
+    private JPanel cardsContainer;
     private JLabel titleLabel;
     private JLabel hintLabel;
     private JButton backButton;
@@ -84,24 +83,25 @@ public class HeroSelection extends JPanel {
     }
 
     private void buildUI() {
-        JPanel northPanel = new JPanel(new BorderLayout());
-        northPanel.setOpaque(false);
-        northPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 10, 40));
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 20, 50));
 
-        titleLabel = new JLabel("CHOISIR UN HÉROS", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Serif", Font.BOLD, 32));
-        titleLabel.setForeground(Theme.ACCENT);
-        northPanel.add(titleLabel, BorderLayout.NORTH);
-
-        backButton = new JButton("← RETOUR");
+        backButton = new JButton("  ← Retour  ");
         styleBackButton(backButton);
         backButton.addActionListener(e -> {
             if (listener != null) listener.onBack();
         });
-        northPanel.add(backButton, BorderLayout.WEST);
+        topPanel.add(backButton, BorderLayout.WEST);
 
-        categoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        titleLabel = new JLabel("CHOISIR UN HÉROS", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
+        titleLabel.setForeground(Theme.ACCENT);
+        topPanel.add(titleLabel, BorderLayout.CENTER);
+
+        categoryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         categoryPanel.setOpaque(false);
+        categoryPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
 
         for (int i = 0; i < categories.size(); i++) {
             Category cat = categories.get(i);
@@ -110,22 +110,22 @@ public class HeroSelection extends JPanel {
             categoryPanel.add(btn);
         }
 
-        JPanel categoryWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        categoryWrapper.setOpaque(false);
-        categoryWrapper.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
-        categoryWrapper.add(categoryPanel);
-        northPanel.add(categoryWrapper, BorderLayout.CENTER);
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setOpaque(false);
+        headerPanel.add(topPanel, BorderLayout.NORTH);
+        headerPanel.add(categoryPanel, BorderLayout.CENTER);
 
-        add(northPanel, BorderLayout.NORTH);
+        add(headerPanel, BorderLayout.NORTH);
 
-        cardsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 30));
-        cardsPanel.setOpaque(false);
-        add(cardsPanel, BorderLayout.CENTER);
+        cardsContainer = new JPanel(new GridBagLayout());
+        cardsContainer.setOpaque(false);
+        cardsContainer.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        add(cardsContainer, BorderLayout.CENTER);
 
-        hintLabel = new JLabel("← → pour naviguer   ↑ ↓ catégories   ENTRÉE pour confirmer   ÉCHAP pour retour", SwingConstants.CENTER);
-        hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
+        hintLabel = new JLabel("← → naviguer  ↑ ↓ catégories  ENTRÉE confirmer  ÉCHAP retour", SwingConstants.CENTER);
+        hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
         hintLabel.setForeground(Theme.TEXT_DIM);
-        hintLabel.setBorder(BorderFactory.createEmptyBorder(15, 0, 25, 0));
+        hintLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
         add(hintLabel, BorderLayout.SOUTH);
 
         updateCategoryButtons();
@@ -134,12 +134,14 @@ public class HeroSelection extends JPanel {
 
     private JButton createCategoryButton(String name, int index) {
         JButton btn = new JButton(name.toUpperCase());
-        btn.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btn.setFont(new Font("SansSerif", Font.BOLD, 13));
         btn.setForeground(Theme.TEXT_DIM);
         btn.setBackground(Theme.BUTTON_BG);
-        btn.setBorder(BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 2));
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 2),
+            BorderFactory.createEmptyBorder(10, 25, 10, 25)
+        ));
         btn.setFocusPainted(false);
-        btn.setPreferredSize(new Dimension(120, 40));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.addActionListener(e -> {
             selectedCategoryIndex = index;
@@ -152,10 +154,13 @@ public class HeroSelection extends JPanel {
     }
 
     private void styleBackButton(JButton btn) {
-        btn.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        btn.setFont(new Font("SansSerif", Font.PLAIN, 13));
         btn.setForeground(Theme.TEXT_DIM);
         btn.setBackground(Theme.BUTTON_BG);
-        btn.setBorder(BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 1));
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 1),
+            BorderFactory.createEmptyBorder(8, 15, 8, 15)
+        ));
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
@@ -169,19 +174,30 @@ public class HeroSelection extends JPanel {
                 Color catColor = categoryColors[i % categoryColors.length];
                 btn.setBackground(catColor);
                 btn.setForeground(Color.WHITE);
-                btn.setBorder(BorderFactory.createLineBorder(Theme.ACCENT_BRIGHT, 3));
+                btn.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Theme.ACCENT_BRIGHT, 3),
+                    BorderFactory.createEmptyBorder(10, 25, 10, 25)
+                ));
             } else {
                 btn.setBackground(Theme.BUTTON_BG);
                 btn.setForeground(Theme.TEXT_DIM);
-                btn.setBorder(BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 2));
+                btn.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Theme.BUTTON_BORDER, 2),
+                    BorderFactory.createEmptyBorder(10, 25, 10, 25)
+                ));
             }
         }
     }
 
     private void refreshCards() {
-        cardsPanel.removeAll();
+        cardsContainer.removeAll();
 
         List<Hero> currentCategoryHeroes = heroesByCategory.getOrDefault(selectedCategoryIndex + 1, new ArrayList<>());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         for (int i = 0; i < currentCategoryHeroes.size(); i++) {
             final int index = i;
@@ -194,16 +210,18 @@ public class HeroSelection extends JPanel {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     selectedHeroIndex = index;
-                    selectedHero = hero;
                     refreshCards();
                     requestFocusInWindow();
                 }
             });
-            cardsPanel.add(card);
+
+            gbc.gridx = i;
+            gbc.gridy = 0;
+            cardsContainer.add(card, gbc);
         }
 
-        cardsPanel.revalidate();
-        cardsPanel.repaint();
+        cardsContainer.revalidate();
+        cardsContainer.repaint();
     }
 
     private JPanel buildCard(Hero hero, boolean isSelected, int categoryIndex) {
@@ -212,11 +230,15 @@ public class HeroSelection extends JPanel {
 
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setPreferredSize(new Dimension(200, 280));
+        card.setPreferredSize(new Dimension(180, 260));
+        card.setMaximumSize(new Dimension(180, 260));
         card.setBackground(isSelected ? new Color(50, 45, 60) : Theme.BUTTON_BG);
-        card.setBorder(BorderFactory.createLineBorder(
-            isSelected ? Theme.ACCENT_BRIGHT : Theme.BUTTON_BORDER, 
-            isSelected ? 3 : 1
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(
+                isSelected ? Theme.ACCENT_BRIGHT : Theme.BUTTON_BORDER, 
+                isSelected ? 3 : 1
+            ),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
 
         JPanel heroIcon = new JPanel() {
@@ -224,30 +246,32 @@ public class HeroSelection extends JPanel {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(catColor);
-                g2.fillOval(30, 20, 100, 100);
-                g2.setColor(new Color(255, 255, 255, 100));
-                g2.setFont(new Font("Serif", Font.BOLD, 48));
+                g2.fillOval(25, 15, 90, 90);
+                g2.setColor(new Color(255, 255, 255, 180));
+                g2.setFont(new Font("Serif", Font.BOLD, 42));
                 FontMetrics fm = g2.getFontMetrics();
                 String initial = hero.getName() != null ? hero.getName().substring(0, 1) : "?";
-                g2.drawString(initial, 55 + (50 - fm.stringWidth(initial) / 2), 80);
+                g2.drawString(initial, 45 + (45 - fm.stringWidth(initial) / 2), 72);
             }
         };
-        heroIcon.setPreferredSize(new Dimension(160, 120));
+        heroIcon.setPreferredSize(new Dimension(140, 110));
         heroIcon.setOpaque(false);
         heroIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(heroIcon);
 
         JLabel nameLabel = new JLabel(hero.getName() != null ? hero.getName() : "???", SwingConstants.CENTER);
-        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
         nameLabel.setForeground(isSelected ? Theme.ACCENT_BRIGHT : Theme.TEXT_MAIN);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(8, 0, 5, 0));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 8, 0));
         card.add(nameLabel);
 
-        JPanel statsPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        JPanel statsPanel = new JPanel(new GridLayout(2, 2, 8, 5));
         statsPanel.setOpaque(false);
-        statsPanel.setMaximumSize(new Dimension(160, 50));
+        statsPanel.setMaximumSize(new Dimension(150, 45));
+        statsPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         statsPanel.add(createStatLabel("HP", hero.getMaxHp(), CATEGORY_FORCE));
         statsPanel.add(createStatLabel("ATK", hero.getAttack(), new Color(200, 80, 80)));
@@ -258,17 +282,17 @@ public class HeroSelection extends JPanel {
         card.add(statsPanel);
 
         if (isSelected) {
+            card.add(Box.createVerticalStrut(8));
             JButton selectBtn = new JButton("SÉLECTIONNER");
-            selectBtn.setFont(new Font("SansSerif", Font.BOLD, 12));
+            selectBtn.setFont(new Font("SansSerif", Font.BOLD, 11));
             selectBtn.setForeground(Theme.BACKGROUND_DARK);
             selectBtn.setBackground(Theme.ACCENT_BRIGHT);
             selectBtn.setBorderPainted(false);
             selectBtn.setFocusPainted(false);
             selectBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
             selectBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            selectBtn.setMaximumSize(new Dimension(160, 30));
+            selectBtn.setMaximumSize(new Dimension(150, 28));
             selectBtn.addActionListener(e -> confirmSelection());
-            card.add(Box.createVerticalStrut(10));
             card.add(selectBtn);
         }
 
@@ -277,7 +301,7 @@ public class HeroSelection extends JPanel {
 
     private JLabel createStatLabel(String label, int value, Color color) {
         JLabel lbl = new JLabel(label + ": " + value, SwingConstants.CENTER);
-        lbl.setFont(new Font("Monospaced", Font.BOLD, 11));
+        lbl.setFont(new Font("Monospaced", Font.BOLD, 10));
         lbl.setForeground(color);
         return lbl;
     }
