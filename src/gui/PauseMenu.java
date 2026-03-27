@@ -138,20 +138,14 @@ public class PauseMenu extends JPanel {
         }
     }
     
-    private void handleClick(int x, int y) {
-        int w = getWidth();
-        int h = getHeight();
-        
-        int menuWidth = 250;
-        int menuHeight = 180;
-        
+    private void handleClick(int x, int y) {        
         int btnWidth = 180;
         int btnHeight = 40;
         int spacing = 12;
-        int startY = h / 2 - 30;
+        int startY = getHeight() / 2 - 30;
         
         for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
+            int btnX = (getWidth() - btnWidth) / 2;
             int btnY = startY + i * (btnHeight + spacing);
             
             if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {

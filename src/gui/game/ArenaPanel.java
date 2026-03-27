@@ -121,27 +121,6 @@ public class ArenaPanel extends JPanel {
         return new Dimension(windowWidth, windowHeight);
     }
 
-    private void handleMouseClick(int mx, int my) {
-        int miniWidth  = (int)(windowWidth  * 0.4);
-        int miniHeight = (int)(windowHeight * 0.4);
-        int miniX = windowWidth  - miniWidth  - 15;
-        int miniY = windowHeight - miniHeight - 15;
-
-        if (isClickInMinimap(mx, my, miniX, miniY, miniWidth, miniHeight)) {
-            double relativeX = (double)(mx - miniX) / miniWidth;
-            double relativeY = (double)(my - miniY) / miniHeight;
-            arena.getPlayer().moveTo(relativeX, relativeY);
-        } else {
-            double relativeX = (double) mx / windowWidth;
-            double relativeY = (double) my / windowHeight;
-            arena.getPlayer().moveTo(relativeX, relativeY);
-        }
-    }
-
-    private boolean isClickInMinimap(int mx, int my, int miniX, int miniY, int miniWidth, int miniHeight) {
-        return mx >= miniX && mx <= miniX + miniWidth && my >= miniY && my <= miniY + miniHeight;
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
