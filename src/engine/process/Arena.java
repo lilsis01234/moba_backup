@@ -68,7 +68,7 @@ public class Arena {
 
         // player
         player.update(deltaTime, this);
-        if (!player.isActive()) player.respawn();
+        player.respawn(deltaTime);
 
         // bots
         botManager.update(deltaTime, enemiesOfTeam0, enemiesOfTeam1);

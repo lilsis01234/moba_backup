@@ -15,6 +15,11 @@ public class Tower extends Entity {
 
      public Tower(double x, double y, int team) {
          super(x, y, GameConfiguration.TOWER_MAX_HP,team);
+         
+         //loot 
+         this.loot = GameConfiguration.GOLD_TOWER;
+         this.XPloot = GameConfiguration.XP_TOWER;
+         
          // attack stats
          this.atkDamage   = GameConfiguration.TOWER_DAMAGE;
          this.atkRange    = GameConfiguration.TOWER_RANGE;

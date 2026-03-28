@@ -12,6 +12,8 @@ public abstract class Entity {
     protected double hp;
     protected double maxHp;
     protected boolean active = true;
+    protected int loot ;
+    protected int XPloot;
 
     // attack stats
     protected double atkDamage;
@@ -36,6 +38,8 @@ public abstract class Entity {
     public void setY(double y) { this.y = y; }
     public void setTeam(int team) { this.team = team; } //maybe Lord if we advance
     public int getTeam() { return this.team; }
+    public int getLoot() { return this.loot; }
+    public int getXPLoot() { return this.XPloot; }
     
 
     public void heal(double amount) {
@@ -43,13 +47,19 @@ public abstract class Entity {
         if (hp > maxHp) hp = maxHp;
     }
 
-    public void takeDamage(double dmg) {
-        hp -= dmg;
-        if (hp <= 0) {
-            hp = 0;
-            active = false;
+    public void takeDamage(double damage) {
+        this.hp -= damage;
+        if (this.hp <= 0 && active) {
+        	//player and bot
+            if (this instanceof Personnage) {
+                ((Personnage) this).die();
+            } else { 
+            	//minions towers base
+                this.active = false; 
+            }
         }
     }
+
 
     // handles cooldown, range check and damage in one place
     public void attack(Entity target, double deltaTime) {

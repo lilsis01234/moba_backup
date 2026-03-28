@@ -13,11 +13,8 @@ import game_config.GameConfiguration;
 
 public class Player extends Personnage {
 	
-	//NOTE: WILL implement it for personnage after testing
-	private int gold  = 0;
-	private int xp    = 0;
-	private int level = 1;
-	
+
+
     private double CibleX, CibleY;
     private boolean isMoving;
     private Entity targetEnemy = null; //we need it to attack found using a method
@@ -86,6 +83,7 @@ public class Player extends Personnage {
 
     @Override
     public void render(Graphics2D g2, int width, int height) {
+    	if (!active) return;
         int size = GameConfiguration.TILE_SIZE;
         int px = (int) x; // world coordinates
         int py = (int) y;
@@ -103,29 +101,17 @@ public class Player extends Personnage {
         this.isMoving = true;
     }
     
-    public void addGold(int Goldreward) {
-        gold += Goldreward;
-    }
-    public void addXp(int XPReward) {
-        xp += XPReward;
-        int threshold = this.level * 100;
-        if (xp >= threshold) {
-            xp -= threshold;
-            level++;
-            maxHp   += GameConfiguration.LEVEL_HP_BONUS;
-            maxMana += GameConfiguration.LEVEL_MANA_BONUS;
-            atkDamage += GameConfiguration.LEVEL_DMG_BONUS;
-        }
+  
+    @Override
+    protected void onRespawn() {
+        this.x = GameConfiguration.PLAYER_START_X;
+        this.y = GameConfiguration.PLAYER_START_Y;
+        this.hp = maxHp;
+        this.mana = maxMana;
+        this.active = true;
+        this.isMoving = false; 
     }
 
-    @Override
-    public void respawn() {
-        hp     = maxHp;
-        mana   = maxMana;
-        x      = GameConfiguration.PLAYER_START_X;
-        y      = GameConfiguration.PLAYER_START_Y;
-        active = true;
-    }
     
 
     public double getX() { return x; }
@@ -133,8 +119,5 @@ public class Player extends Personnage {
     public double getCibleX() { return CibleX; }
     public double getCibleY() { return CibleY; }
     public boolean isMoving() { return isMoving; }
-    public int getGold()  { return gold; }
-    public int getXp()    { return xp; }
-    public int getLevel() { return level; }
     public void setTarget(Entity target) { this.targetEnemy = target; }
 }

@@ -13,7 +13,6 @@ public class Bot extends Personnage {
 
     private double spawnX, spawnY;
     private String name;
-    private double respawnTimer = 15; // placeholder
     private BufferedImage AllyImage;
     private BufferedImage EnemyImage;
 
@@ -44,12 +43,8 @@ public class Bot extends Personnage {
         if (hp <= 0 && active) {
             die();
             }
-      
-
-
         if (!active) {
-            respawnTimer -= deltaTime;
-            if (respawnTimer <= 0) respawn();
+            super.respawn(deltaTime); 
             return;
         }
 
@@ -111,6 +106,17 @@ public class Bot extends Personnage {
         }
         return closest;
     }
+    @Override
+    protected void onRespawn() {
+        if (waypoints != null && !waypoints.isEmpty()) {
+            this.x = waypoints.get(0)[0];
+            this.y = waypoints.get(0)[1];
+            this.waypointIndex = 0; 
+        }
+        this.hp = maxHp;
+        this.mana = maxMana;
+        this.active = true;
+    }
 
     private void followWaypoints(double deltaTime, List<Bot> allBots) {
         if (waypointIndex >= waypoints.size()) return;
@@ -134,19 +140,10 @@ public class Bot extends Personnage {
             y += (dy / dist) * speed * deltaTime;
         }
     }
+    
+    
+    public double getRespawnTimer() { return respawnTimer; }
+    
+}
+    
 
-    @Override
-    public void respawn() {
-        x = spawnX;
-        y = spawnY;
-        hp   = getMaxHp();
-        mana = maxMana;
-        active        = true;
-        waypointIndex = 0;
-        respawnTimer  = 15;
-    }
-    public void die() {
-    active = false;
-    respawnTimer = 15; // temps avant respawn
-}
-}

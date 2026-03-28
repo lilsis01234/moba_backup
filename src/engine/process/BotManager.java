@@ -15,8 +15,6 @@ public class BotManager {
     int T = GameConfiguration.TILE_SIZE;
 
     public BotManager() {
-        int W = GameConfiguration.WORLD_WIDTH;
-        int H = GameConfiguration.WORLD_HEIGHT;
 
         int T = GameConfiguration.TILE_SIZE;
         bots.add(new Bot(8 * T, 52 * T, getBotWaypoints("Bot1"), 0, "Bot1"));

@@ -144,14 +144,35 @@ public class HUDRenderer {
         g2.setColor(Color.GRAY);
         g2.drawRect(x + 10, y + 10, 40, 40);
         
+        //name
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 14));
-        g2.drawString(hero != null ? hero.getName() : "Hero", x + 58, y + 24);
+        g2.drawString(hero != null ? hero.getName() : "Hero", x + 65, y + 24);
         
+        //lvl
         g2.setFont(new Font("Arial", Font.PLAIN, 11));
         g2.setColor(new Color(180, 180, 200));
-        g2.drawString("Lv.1", x + 58, y + 38);
+        g2.drawString("Lv." + player.getLevel(), x + 65, y + 38);
         
+        //xp
+        
+        int xpThreshold = player.getLevel() * 100;
+        int xpBarX = x + 10 + 41;
+        int xpBarY = y + 10;
+        int xpBarW = 5;
+        int xpBarH = 40;
+        int xpFill = xpThreshold > 0 ? (int)((player.getXp() / (double) xpThreshold) * xpBarH) : 0;
+
+        g2.setColor(new Color(166,166,166));
+        g2.fillRect(xpBarX, xpBarY, xpBarW, xpBarH);
+
+        g2.setColor(new Color(150, 80, 220));
+        g2.fillRect(xpBarX, xpBarY + (xpBarH - xpFill), xpBarW, xpFill); 
+
+        g2.setColor(new Color(233, 220, 252));
+        g2.drawRect(xpBarX, xpBarY, xpBarW, xpBarH);
+        
+        //hp?
         int barX = x + 10;
         int barY = y + 60;
         int barWidth = width - 20;
@@ -169,6 +190,7 @@ public class HUDRenderer {
         FontMetrics fm = g2.getFontMetrics();
         g2.drawString(hpText, barX + barWidth - fm.stringWidth(hpText) - 2, barY + 10);
         
+        //mana?
         barY += 18;
         g2.setColor(Color.DARK_GRAY);
         g2.fillRect(barX, barY, barWidth, barHeight);
@@ -307,15 +329,26 @@ public class HUDRenderer {
     }
 
     private void renderRespawnOverlay(Graphics2D g2) {
+    	
         g2.setColor(new Color(0, 0, 0, 150));
         g2.fillRect(0, 0, screenWidth, screenHeight);
+       
+        int timeLeft = (int) player.getRespawnTimer();
+        String text = "RESPAWNING IN " + timeLeft + "s";
         
-        String text = "RESPAWNING";
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 28));
         FontMetrics fm = g2.getFontMetrics();
         int textWidth = fm.stringWidth(text);
         g2.drawString(text, (screenWidth - textWidth) / 2, screenHeight / 2);
+        
+        //warning
+        g2.setColor(Color.RED);
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        String subText = "Beware of the enemies!!";
+        int subWidth = g2.getFontMetrics().stringWidth(subText);
+        g2.drawString(subText, (screenWidth - subWidth) / 2, (screenHeight / 2) + 30);
+        
     }
 
     public boolean handleMinimapClick(int clickX, int clickY) {

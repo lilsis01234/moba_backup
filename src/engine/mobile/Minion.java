@@ -23,6 +23,11 @@ public class Minion extends Entity {
         super(x, y, GameConfiguration.MINION_MAX_HP,team);
         this.speed = GameConfiguration.MINION_SPEED;
         this.waypoints = waypoints;
+
+        //loot
+        this.loot = GameConfiguration.GOLD_MINION;
+        this.XPloot = GameConfiguration.XP_MINION;
+        
         // attack stats
         this.atkDamage = GameConfiguration.MINION_DMG;
         this.atkRange = GameConfiguration.MINION_RANGE;

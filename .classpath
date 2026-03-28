@@ -6,17 +6,17 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/hamcrest-core-1.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/jcommon-1.0.23.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/jfreechart-1.0.19.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/jfreechart-1.0.19-experimental.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/jfreechart-1.0.19-swt.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/jfreesvg-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/junit-4.11.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/orsoncharts-1.4-eval-nofx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/orsonpdf-1.6-eval.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/servlet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fabiola/eclipse-workspace/MOBA_new/libs/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="libs/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="libs/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="libs/jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry kind="lib" path="libs/jfreechart-1.0.19-swt.jar"/>
+	<classpathentry kind="lib" path="libs/jfreesvg-2.0.jar"/>
+	<classpathentry kind="lib" path="libs/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="libs/orsoncharts-1.4-eval-nofx.jar"/>
+	<classpathentry kind="lib" path="libs/orsonpdf-1.6-eval.jar"/>
+	<classpathentry kind="lib" path="libs/servlet.jar"/>
+	<classpathentry kind="lib" path="libs/swtgraphics2d.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

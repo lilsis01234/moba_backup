@@ -16,12 +16,12 @@ public class GameConfiguration {
     
     //Gold reward    
     public static final int GOLD_MINION = 20;
-    public static final int GOLD_BOT    = 100;
+    public static final int GOLD_CHAR    = 100;
     public static final int GOLD_TOWER  = 150;
     
     //XP reward
     public static final int XP_MINION = 15;
-    public static final int XP_BOT    = 80;
+    public static final int XP_CHAR    = 80;
     public static final int XP_TOWER  = 100;
     
 	 // Level up stats Bonus
@@ -55,6 +55,8 @@ public class GameConfiguration {
     public static final double BOT_DAMAGE    = 5.0;
     public static final double BOT_MAX_HP   = 100;
     public static final double BOT_MAX_MANA = 100;
+    
+    
 
     // Tower
     public static final double TOWER_RANGE            = 200.0; // pixels

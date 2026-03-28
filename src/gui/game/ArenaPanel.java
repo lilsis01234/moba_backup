@@ -132,6 +132,9 @@ public class ArenaPanel extends JPanel {
         g2.setTransform(original);
 
         hudRenderer.setScreenSize(windowWidth, windowHeight);
+        
+        hudRenderer.setGold(arena.getPlayer().getGold());
+        
         hudRenderer.render(g2);
     }
 }
