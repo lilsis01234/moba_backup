@@ -3,8 +3,19 @@ package engine.mobile;
 import java.awt.*;
 
 import game_config.GameConfiguration;
-//we will need to make a better respawning logic(depending on lvl can cause issues)
-//we will need to update the loot system( having to last hit to get any loot very difficult)
+// make a better respawning logic(depending on lvl can cause issues)
+//update the loot system( having to last hit to get any loot very difficult)
+//add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
+//stats HUD	
+//add lvl cap
+//ad bot selecting random hero
+//change catchy colors of borders
+//gatekeep bases
+//implement normal attack(not auto)
+
+//possible but rare bug: killed at the same time: it gives double the loot ? 1 thread so almost impossible but consider
+
+
 
 public abstract class Personnage extends Entity {
 

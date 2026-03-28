@@ -43,7 +43,7 @@ public class MinionSpawner {
                 wp.add(new double[]{26* T, 54 * T});
                 wp.add(new double[]{52 * T, 54 * T});
                 wp.add(new double[]{54 * T, 41 * T});
-                wp.add(new double[]{54 * T, 11 * T});
+                wp.add(new double[]{54 * T, 9 * T});
                 break;
 
             }
@@ -71,7 +71,7 @@ public class MinionSpawner {
                 wp.add(new double[]{54 * T, 26 * T});
                 wp.add(new double[]{54 * T, 52 * T});
                 wp.add(new double[]{41 * T, 54 * T});
-                wp.add(new double[]{11 * T, 54 * T});
+                wp.add(new double[]{9 * T, 54 * T});
                 break;
             }
         }

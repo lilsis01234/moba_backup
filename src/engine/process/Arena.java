@@ -21,7 +21,7 @@ public class Arena {
     private Player player;
     private Hero selectedHero;
 
-    // PLEASE CHANGE THE RENDER ORDER SO TOWER IS ON TOP LATER
+    
     private BotManager botManager;
     private Fountain playerFountain;
     private Fountain enemyFountain;
@@ -311,5 +311,7 @@ public class Arena {
         if (!playerBase.isActive()) return "LOSE";
         return null;
     }
+
+	public BotManager getBotManager() {return botManager;}
     
 }

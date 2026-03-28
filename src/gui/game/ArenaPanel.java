@@ -135,6 +135,7 @@ public class ArenaPanel extends JPanel {
         
         hudRenderer.setGold(arena.getPlayer().getGold());
         
+        
         hudRenderer.render(g2);
     }
 }

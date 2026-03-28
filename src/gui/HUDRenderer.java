@@ -1,10 +1,15 @@
 package gui;
 
+import engine.mobile.Bot;
+import engine.mobile.Entity;
+import engine.mobile.Personnage;
 import engine.mobile.Player;
 import engine.process.Arena;
 import engine.map.TilesManager;
 
 import java.awt.*;
+import java.util.ArrayList;
+import  java.util.List;
 
 import data.model.Hero;
 
@@ -63,6 +68,8 @@ public class HUDRenderer {
         int margin = 10;
         
         minimapRenderer.render(g2);
+        
+        renderSideTeamPanels(g2);
 
         renderScoreboard(g2, margin, margin);
         
@@ -249,6 +256,116 @@ public class HUDRenderer {
         String manaText = (int)targetedBot.getMana() + "/" + (int)targetedBot.getMaxMana();
         g2.drawString("MANA", barX + 2, barY + 10);
         g2.drawString(manaText, barX + barWidth - fm.stringWidth(manaText) - 2, barY + 10);
+    }
+    
+    private void renderSideTeamPanels(Graphics2D g2) {
+    	
+        int panelWidth = 140; 
+        int panelHeight = 70; 
+        int yMargin = 10;
+        int xMargin = 10; 
+        
+        
+        List<Bot> allBots = arena.getBotManager().getAllBots();
+        List<Personnage> teamAllies = new ArrayList<>();
+  
+        teamAllies.add(player);
+        
+        List<Personnage> teamEnemies = new ArrayList<>();
+        
+        for (Bot b : allBots) {
+            if (b.getTeam() == 0) teamAllies.add(b);
+            else teamEnemies.add(b);
+        }
+        
+        // Render allies
+        int allyX = xMargin;
+        int allyY = yMargin + 160;
+        for (Personnage e : teamAllies) {
+            drawSideHeroPanel(g2, allyX, allyY, panelWidth, panelHeight, e, Color.CYAN, true);
+            allyY += panelHeight + yMargin;
+        }
+        
+        // Render enemies
+        int enemyX = screenWidth - panelWidth - xMargin;
+        int enemyY = yMargin + 250; 
+        for (Personnage e : teamEnemies) {
+            drawSideHeroPanel(g2, enemyX, enemyY, panelWidth, panelHeight, e, Color.RED, false);
+            enemyY += panelHeight + yMargin;
+        }
+    }
+
+    private void drawSideHeroPanel(Graphics2D g2, int x, int y, int w, int h, Personnage p, Color teamColor, boolean isAlly) {
+        // 1. Draw Panel Background
+        g2.setColor(Theme.PANEL_BG); 
+        g2.fillRect(x, y, w, h);
+        
+        // 2. Panel Border
+        g2.setColor(teamColor);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawRect(x, y, w, h);
+         
+            // portrait 
+            int portraitX = x + 5;
+            int portraitY = y + 5;
+            int portraitS = h - 10;
+            g2.setColor(new Color(50, 50, 70));
+            g2.fillRect(portraitX, portraitY, portraitS, portraitS);
+            
+            // border
+            g2.setColor(teamColor);
+            g2.drawRect(portraitX, portraitY, portraitS, portraitS);
+            
+            
+            int textX = portraitX + portraitS + 8;
+            int textY = y + 15;
+            
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            g2.setColor(Color.WHITE);
+            String nameStr = (p instanceof Player) ? "You" : ((Bot)p).getName();
+            g2.drawString(nameStr, textX, textY);
+            
+
+            //lvl
+            g2.setFont(new Font("Arial", Font.PLAIN, 10));
+            g2.setColor(new Color(180, 180, 200));
+            g2.drawString("Lv." + p.getLevel(), textX, textY + 13);
+                
+            // HP
+            int hpBarW = w - (portraitX + portraitS + 15);
+            int hpBarH = 8;
+            int hpBarX = textX;
+            int hpBarY = textY + 20;
+                
+            double hpPercent = (double) p.getHp() / p.getMaxHp();
+            g2.setColor(Color.DARK_GRAY);
+            g2.fillRect(hpBarX, hpBarY, hpBarW, hpBarH);
+             
+            g2.setColor(new Color(50, 200, 50));
+            g2.fillRect(hpBarX, hpBarY, (int)(hpPercent * hpBarW), hpBarH);
+             
+            g2.setColor(Color.WHITE);
+            g2.drawRect(hpBarX, hpBarY, hpBarW, hpBarH);
+            
+            if (!p.isActive()) {
+                
+                
+                g2.setColor(new Color(0, 0, 0, 150));
+                g2.fillRect(x, y, w, h);
+                
+                
+                // Timer Text
+                int timeLeft = (int) p.getRespawnTimer();
+                g2.setColor(Color.WHITE);
+                g2.setFont(new Font("Arial", Font.BOLD, 22)); 
+                FontMetrics fm = g2.getFontMetrics();
+                String timeText = String.valueOf(timeLeft);
+                g2.drawString(timeText, x + (w - fm.stringWidth(timeText)) / 2, y + (h / 2) + 8);
+      
+                
+            }
+            
+        
     }
     
 

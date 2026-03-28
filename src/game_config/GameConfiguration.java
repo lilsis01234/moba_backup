@@ -44,8 +44,6 @@ public class GameConfiguration {
     public static final double PLAYER_SPEED      = 400.0; // pixels/sec
     public static final double PLAYER_MAX_HP     = 100;
     public static final double PLAYER_MAX_MANA   = 100;
-    public static final double PLAYER_START_HP   = 20;
-    public static final double PLAYER_START_MANA = 20;
     public static final double PLAYER_MANA_REGEN = 2.0;
     public static final String PLAYER_IMAGE_PATH = "/res/Characters/CharacterModel/";
     
