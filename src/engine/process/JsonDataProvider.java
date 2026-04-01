@@ -60,11 +60,12 @@ public class JsonDataProvider {
         // Simple JSON parser for the expected structure
         List<Map<String, String>> heroObjects = parseJsonArray(json);
         
-        for (Map<String, String> heroMap : heroObjects) {
+        for ( Map<String, String> heroMap : heroObjects) {
             Hero hero = new Hero();
             
             // Required fields
             hero.setName(heroMap.get("name"));
+            hero.setSpriteFile((heroMap.get("spriteFile")));
             hero.setHistory(heroMap.get("history"));
             hero.setCategoryId(getCategoryId(heroMap.get("category")));
             hero.setBaseHp(parseInt(heroMap.get("baseHp")));
@@ -75,16 +76,7 @@ public class JsonDataProvider {
             hero.setMaxMana(parseInt(heroMap.get("maxMana")));
             hero.setAtkRange(parseDouble(heroMap.get("atkRange")));
             hero.setSpeed(parseDouble(heroMap.get("speed")));
-                        hero.setCharacterRow(parseInt(heroMap.get("characterRow")));
-            hero.setHairRow(parseInt(heroMap.get("hairRow")));
-            hero.setOutfitFile(heroMap.get("outfitFile"));
-            
-            // Optional field
-            String suitRowStr = heroMap.get("suitRow");
-            if (suitRowStr != null && !suitRowStr.isEmpty() && !suitRowStr.equals("null")) {
-                hero.setSuitRow(parseInt(suitRowStr));
-            }
-            
+                        
             heroes.add(hero);
             
             // Load spells

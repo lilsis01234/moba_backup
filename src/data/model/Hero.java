@@ -34,6 +34,9 @@ public class Hero {
     private Integer suitRow; // Row in Suit.png (null if no suit)
 
     private List<Item> items;
+    
+    private String spriteFile;
+
 
     
     public Hero() {
@@ -41,10 +44,11 @@ public class Hero {
         this.items = new ArrayList<>();
     }
     
-    public Hero(int id, String name, String history, int categoryId, int baseHp, int maxHp, 
+    public Hero(int id, String name, String spriteFile, String history, int categoryId, int baseHp, int maxHp, 
                 int attack, int defense, double attackSpeed, int maxMana) {
         this.id = id;
         this.name = name;
+        this.spriteFile=spriteFile;
         this.history = history;
         this.categoryId = categoryId;
         this.baseHp = baseHp;
@@ -72,6 +76,9 @@ public class Hero {
     public void setName(String name) {
         this.name = name;
     }
+    public String getSpriteFile() { return spriteFile; }
+    
+    public void setSpriteFile(String spriteFile) { this.spriteFile = spriteFile; }
     
     public String getHistory() {
         return history;
@@ -137,38 +144,6 @@ public class Hero {
         this.maxMana = maxMana;
     }
 
-    public int getCharacterRow() {
-        return characterRow;
-    }
-    
-    public void setCharacterRow(int characterRow) {
-        this.characterRow = characterRow;
-    }
-    
-    public int getHairRow() {
-        return hairRow;
-    }
-    
-    public void setHairRow(int hairRow) {
-        this.hairRow = hairRow;
-    }
-    
-    public String getOutfitFile() {
-        return outfitFile;
-    }
-    
-    public void setOutfitFile(String outfitFile) {
-        this.outfitFile = outfitFile;
-    }
-    
-    public Integer getSuitRow() {
-        return suitRow;
-    }
-    
-    public void setSuitRow(Integer suitRow) {
-        this.suitRow = suitRow;
-    }
-    
     public double getSpeed() {
         return speed;
     }
@@ -199,5 +174,7 @@ public class Hero {
     public void addItem(Item item) {
     items.add(item);
 }
+    
+
     
 }

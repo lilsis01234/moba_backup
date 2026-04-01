@@ -44,13 +44,12 @@ public class Arena {
         enemyBase  = new Base(53 * T, 7 * T, 1); 
 
          player = new Player(
-            GameConfiguration.PLAYER_START_X,
-            GameConfiguration.PLAYER_START_Y,
             hero.getMaxHp(),
             hero.getMaxMana(),
             hero.getSpeed(),
             hero.getAtkRange()
         );
+         player.loadHeroGraphics(hero.getSpriteFile());
 
         botManager = new BotManager();
 
@@ -267,6 +266,7 @@ public class Arena {
             }
         }
         if (playerBase.getTeam() == team && playerBase.isActive()) allies.add(playerBase);
+        if (enemyBase.getTeam() == team && enemyBase.isActive()) allies.add(enemyBase);
         
         return allies;
         

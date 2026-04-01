@@ -1,6 +1,7 @@
 [
   {
     "name": "Goliath",
+	"spriteFile": "res/HeroSprites/Demon.png",
     "history": "Un guerrier colossal dont la peau est aussi dure que le granit. Il défend ses alliés avec une détermination inébranlable.",
     "category": "Force",
     "baseHp": 220,
@@ -9,10 +10,6 @@
     "defense": 75,
     "attackSpeed": 0.7,
     "maxMana": 200,
-    "characterRow": 2,
-    "hairRow": 3,
-    "outfitFile": "leather_armor.png",
-    "suitRow": 0,
     "spells": [
       {
         "name": "Écraser",
@@ -44,6 +41,7 @@
   },
   {
     "name": "Titan",
+	"spriteFile": "res/HeroSprites/Fairy.png",
     "history": "Un colosse antique réveillé pour la bataille. Sa force massive terrasse ses ennemis en un seul coup.",
     "category": "Force",
     "baseHp": 220,
@@ -52,10 +50,6 @@
     "defense": 80,
     "attackSpeed": 0.6,
     "maxMana": 180,
-    "characterRow": 4,
-    "hairRow": 5,
-    "outfitFile": "plate_armor.png",
-    "suitRow": 1,
     "spells": [
       {
         "name": "Lancer de Roc",
@@ -87,6 +81,7 @@
   },
   {
     "name": "Boulder",
+	"spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Une entité de pierre vivante qui roule sur le champ de bataille, écrasant tout sur son passage.",
     "category": "Force",
     "baseHp": 220,
@@ -95,10 +90,6 @@
     "defense": 85,
     "attackSpeed": 0.5,
     "maxMana": 150,
-    "characterRow": 6,
-    "hairRow": 2,
-    "outfitFile": "stone_skin.png",
-    "suitRow": null,
     "spells": [
       {
         "name": "Roulement",
@@ -130,6 +121,7 @@
   },
   {
     "name": "Fortress",
+	"spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Une forteresse ambulante impénétrable. Aucune arme ne peut percer ses défenses.",
     "category": "Force",
     "baseHp": 220,
@@ -138,10 +130,7 @@
     "defense": 90,
     "attackSpeed": 0.4,
     "maxMana": 120,
-    "characterRow": 8,
-    "hairRow": 1,
-    "outfitFile": "fortress_armor.png",
-    "suitRow": 2,
+
     "spells": [
       {
         "name": "Rempart",
@@ -173,6 +162,7 @@
   },
   {
     "name": "Ironclad",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Un chevalier dont l'armure est forgée dans l'acier le plus pur. Il résiste à toute attaque.",
     "category": "Agilite",
     "baseHp": 220,
@@ -181,10 +171,7 @@
     "defense": 78,
     "attackSpeed": 0.75,
     "maxMana": 220,
-    "characterRow": 1,
-    "hairRow": 7,
-    "outfitFile": "knight_armor.png",
-    "suitRow": 3,
+
     "spells": [
       {
         "name": "Muraille",
@@ -216,6 +203,7 @@
   },
   {
     "name": "Sentinel",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Le gardien éternel des portes sacrées. Sa vigilance ne faiblit jamais.",
     "category": "Agilite",
     "baseHp": 220,
@@ -224,10 +212,7 @@
     "defense": 82,
     "attackSpeed": 0.65,
     "maxMana": 190,
-    "characterRow": 3,
-    "hairRow": 0,
-    "outfitFile": "sentry_armor.png",
-    "suitRow": null,
+
     "spells": [
       {
         "name": "Œil de la Vérité",
@@ -259,6 +244,7 @@
   },
   {
     "name": "Warden",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Le gardien des prisons infernales. Ses chaînes peuvent lier n'importe quel ennemi.",
     "category": "Agilite",
     "baseHp": 220,
@@ -267,10 +253,7 @@
     "defense": 76,
     "attackSpeed": 0.6,
     "maxMana": 170,
-    "characterRow": 5,
-    "hairRow": 8,
-    "outfitFile": "prison_guard.png",
-    "suitRow": 1,
+
     "spells": [
       {
         "name": "Chaînes du Destin",
@@ -302,6 +285,7 @@
   },
   {
     "name": "Bastion",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Une forteresse mobile qui peut se transformer en position défensive.",
     "category": "Agilite",
     "baseHp": 220,
@@ -310,10 +294,7 @@
     "defense": 95,
     "attackSpeed": 0.3,
     "maxMana": 100,
-    "characterRow": 9,
-    "hairRow": 4,
-    "outfitFile": "bastion_armor.png",
-    "suitRow": 2,
+
     "spells": [
       {
         "name": "Position Défensive",
@@ -345,6 +326,7 @@
   },
   {
     "name": "Crusader",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Un champion de la lumière dont la foi protège les faibles.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -353,10 +335,7 @@
     "defense": 68,
     "attackSpeed": 0.72,
     "maxMana": 200,
-    "characterRow": 0,
-    "hairRow": 6,
-    "outfitFile": "crusader_armor.png",
-    "suitRow": 3,
+
     "spells": [
       {
         "name": "Aura de Sacrifice",
@@ -388,6 +367,7 @@
   },
   {
     "name": "Guardian",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Le protecteur des royaumes oubliés. Sa présence inspire le courage.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -396,10 +376,7 @@
     "defense": 84,
     "attackSpeed": 0.58,
     "maxMana": 180,
-    "characterRow": 7,
-    "hairRow": 1,
-    "outfitFile": "guardian_armor.png",
-    "suitRow": null,
+
     "spells": [
       {
         "name": "Bouclier Divin",
@@ -431,6 +408,7 @@
   },
   {
     "name": "Juggernaut",
+    "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Une machine de guerre inarrêtable. Plus il subit de dégâts, plus il devient fort.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -439,10 +417,7 @@
     "defense": 70,
     "attackSpeed": 0.55,
     "maxMana": 160,
-    "characterRow": 3,
-    "hairRow": 9,
-    "outfitFile": "juggernaut_armor.png",
-    "suitRow": 0,
+
     "spells": [
       {
         "name": "Colère",
@@ -474,6 +449,7 @@
   },
   {
     "name": "Aegis",
+	"spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Le bouclier vivant. Son corps peut résister aux attaques les plus puissantes.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -482,10 +458,7 @@
     "defense": 88,
     "attackSpeed": 0.48,
     "maxMana": 140,
-    "characterRow": 2,
-    "hairRow": 5,
-    "outfitFile": "aegis_armor.png",
-    "suitRow": 1,
+
     "spells": [
       {
         "name": "Réflexion",
