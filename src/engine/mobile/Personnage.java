@@ -1,8 +1,12 @@
 package engine.mobile;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
+import engine.mobile.Personnage.State;
 import game_config.GameConfiguration;
+import gui.Sprites.HeroSprites;
+//moonwalking
 // make a better respawning logic(depending on lvl can cause issues)
 //update the loot system( having to last hit to get any loot very difficult)
 //add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
@@ -25,8 +29,18 @@ public abstract class Personnage extends Entity {
     private int gold  = 0;
     private int xp    = 0;
     private int level = 1;
-
+    
     protected double respawnTimer = 0;
+    
+    //animation
+    
+    protected enum State  {IDLE,MOVING}; //can add attacking animation if we have time
+    protected State currentState = State.IDLE;
+    protected HeroSprites heroSprites;
+    protected Direction currentDirection = Direction.DOWN;
+    protected int animFrame = 0;
+    protected double animTimer = 0;
+    private static final double FRAME_DURATION = 0.12;
     
     public Personnage(double x, double y, double maxHP, int team, double maxMana, double speed) {
         super(x, y, maxHP,team);
@@ -34,6 +48,7 @@ public abstract class Personnage extends Entity {
         this.maxMana = maxMana;
         this.loot = GameConfiguration.GOLD_CHAR;
         this.XPloot = GameConfiguration.XP_CHAR;
+        this.currentState = State.IDLE;
     }
 
     protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
@@ -88,16 +103,68 @@ public abstract class Personnage extends Entity {
         if (!active) {
             respawnTimer -= deltaTime;
             if (respawnTimer <= 0) {
-                onRespawn(); // Trigger the specific placement logic
+                onRespawn(); 
             }
         }
     }
     protected abstract void onRespawn();
+    
     public void die() {
         this.active = false;
         this.hp = 0;
-        // placeholder
         this.respawnTimer = 5.0 + (this.getLevel() * 2.0);
+        this.currentState = State.IDLE;
+    }
+    
+    protected void updateAnimation(double deltaTime) {
+    	
+    	//stop animation
+        if (currentState == State.IDLE) { 
+            animFrame = 0; 	
+            animTimer = 0;
+            return;
+        }
+        animTimer += deltaTime;
+        if (animTimer >= FRAME_DURATION) {
+            animTimer = 0;
+            int totalFrames = (heroSprites != null) ? heroSprites.getFramesPerDirection() :1;
+            animFrame = (animFrame + 1) % totalFrames;
+        }
+    }
+    protected void renderSprite(Graphics2D g2) {
+        int size = GameConfiguration.TILE_SIZE;
+        int px   = (int) x;
+        int py   = (int) y;
+        int imgSize = size * 3;
+
+        if (heroSprites != null) {
+            int dirIndex;
+            switch (currentDirection) {
+                case UP:    dirIndex = 0; break;
+                case LEFT:  dirIndex = 1; break;
+                case DOWN:  dirIndex = 2; break;
+                case RIGHT: dirIndex = 3; break;
+                default:    dirIndex = 2;
+            }
+            BufferedImage frame = heroSprites.get(dirIndex, animFrame);
+            if (frame != null) {
+                g2.drawImage(frame, px - imgSize / 2, py - imgSize / 2, imgSize, imgSize, null);
+                return;
+            }
+        }    //in case img didnt load
+        g2.setColor(team == 0 ? new Color(0, 150, 255) : new Color(255, 0, 150));
+        g2.fillOval(px - size / 2, py - size / 2, size, size);
+        g2.setColor(Color.BLACK);
+        g2.drawOval(px - size / 2, py - size / 2, size, size);
+    }
+    
+    public void loadHeroGraphics(String path) {
+        this.heroSprites = new HeroSprites(path);
+    }	
+    
+    public BufferedImage getFrontFrame() {
+        if (heroSprites == null) return null;
+        return heroSprites.get(2, 0); 
     }
     
     public double getSpeed() { return speed; }

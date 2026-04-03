@@ -41,7 +41,7 @@
   },
   {
     "name": "Titan",
-	"spriteFile": "res/HeroSprites/Fairy.png",
+	"spriteFile": "res/HeroSprites/Angel.png",
     "history": "Un colosse antique réveillé pour la bataille. Sa force massive terrasse ses ennemis en un seul coup.",
     "category": "Force",
     "baseHp": 220,
@@ -81,7 +81,7 @@
   },
   {
     "name": "Boulder",
-	"spriteFile": "res/HeroSprites/Zombie.png",
+	"spriteFile": "res/HeroSprites/Jacko.png",
     "history": "Une entité de pierre vivante qui roule sur le champ de bataille, écrasant tout sur son passage.",
     "category": "Force",
     "baseHp": 220,
@@ -121,7 +121,7 @@
   },
   {
     "name": "Fortress",
-	"spriteFile": "res/HeroSprites/Zombie.png",
+	"spriteFile": "res/HeroSprites/Pirate.png",
     "history": "Une forteresse ambulante impénétrable. Aucune arme ne peut percer ses défenses.",
     "category": "Force",
     "baseHp": 220,
@@ -203,7 +203,7 @@
   },
   {
     "name": "Sentinel",
-    "spriteFile": "res/HeroSprites/Zombie.png",
+    "spriteFile": "res/HeroSprites/Werewolf.png",
     "history": "Le gardien éternel des portes sacrées. Sa vigilance ne faiblit jamais.",
     "category": "Agilite",
     "baseHp": 220,
@@ -244,7 +244,7 @@
   },
   {
     "name": "Warden",
-    "spriteFile": "res/HeroSprites/Zombie.png",
+    "spriteFile": "res/HeroSprites/Hare.png",
     "history": "Le gardien des prisons infernales. Ses chaînes peuvent lier n'importe quel ennemi.",
     "category": "Agilite",
     "baseHp": 220,
@@ -285,7 +285,7 @@
   },
   {
     "name": "Bastion",
-    "spriteFile": "res/HeroSprites/Zombie.png",
+    "spriteFile": "res/HeroSprites/Samurai.png",
     "history": "Une forteresse mobile qui peut se transformer en position défensive.",
     "category": "Agilite",
     "baseHp": 220,
@@ -326,7 +326,7 @@
   },
   {
     "name": "Crusader",
-    "spriteFile": "res/HeroSprites/Zombie.png",
+    "spriteFile": "res/HeroSprites/Fairy.png",
     "history": "Un champion de la lumière dont la foi protège les faibles.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -367,7 +367,7 @@
   },
   {
     "name": "Guardian",
-    "spriteFile": "res/HeroSprites/Zombie.png",
+    "spriteFile": "res/HeroSprites/FireMage.png",
     "history": "Le protecteur des royaumes oubliés. Sa présence inspire le courage.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -408,7 +408,7 @@
   },
   {
     "name": "Juggernaut",
-    "spriteFile": "res/HeroSprites/Zombie.png",
+    "spriteFile": "res/HeroSprites/GoblinMage.png",
     "history": "Une machine de guerre inarrêtable. Plus il subit de dégâts, plus il devient fort.",
     "category": "Intelligence",
     "baseHp": 220,
@@ -449,7 +449,7 @@
   },
   {
     "name": "Aegis",
-	"spriteFile": "res/HeroSprites/Zombie.png",
+	"spriteFile": "res/HeroSprites/Prophet.png",
     "history": "Le bouclier vivant. Son corps peut résister aux attaques les plus puissantes.",
     "category": "Intelligence",
     "baseHp": 220,

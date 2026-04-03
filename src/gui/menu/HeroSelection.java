@@ -142,7 +142,34 @@ public class HeroSelection extends JPanel {
         hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
         hintLabel.setForeground(Theme.TEXT_DIM);
         hintLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
-        add(hintLabel, BorderLayout.SOUTH);
+        
+        //added a selection button at the button to not shrink the images
+        
+        JButton selectBtn = new JButton("SÉLECTIONNER");
+        selectBtn.setFont(new Font("SansSerif", Font.BOLD, 13));
+        selectBtn.setForeground(Theme.BACKGROUND_DARK);
+        selectBtn.setBackground(Theme.ACCENT_BRIGHT);
+        selectBtn.setBorderPainted(false);
+        selectBtn.setFocusPainted(false);
+        selectBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        selectBtn.setMaximumSize(new Dimension(200, 35));
+        selectBtn.addActionListener(e -> confirmSelection());
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.setOpaque(false);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 180, 0));
+
+        hintLabel = new JLabel("← → naviguer  ↑ ↓ catégories  ENTRÉE confirmer  ÉCHAP retour", SwingConstants.CENTER);
+        hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        hintLabel.setForeground(Theme.TEXT_DIM);
+        hintLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hintLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
+
+        selectBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bottomPanel.add(hintLabel);
+        bottomPanel.add(selectBtn);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         updateCategoryButtons();
         refreshCards();
@@ -246,12 +273,8 @@ public class HeroSelection extends JPanel {
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
 
-        JPanel heroIcon = new JPanel();
-        heroIcon.setPreferredSize(new Dimension(140, 30));
-        heroIcon.setOpaque(false);
-        heroIcon.setOpaque(false);
-        heroIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(heroIcon);
+        SpritePreview preview = new SpritePreview(hero.getSpriteFile());
+        card.add(preview);
 
         JLabel nameLabel = new JLabel(hero.getName() != null ? hero.getName() : "???", SwingConstants.CENTER);
         nameLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
@@ -273,20 +296,7 @@ public class HeroSelection extends JPanel {
         statsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(statsPanel);
 
-        if (isSelected) {
-            card.add(Box.createVerticalStrut(8));
-            JButton selectBtn = new JButton("SÉLECTIONNER");
-            selectBtn.setFont(new Font("SansSerif", Font.BOLD, 11));
-            selectBtn.setForeground(Theme.BACKGROUND_DARK);
-            selectBtn.setBackground(Theme.ACCENT_BRIGHT);
-            selectBtn.setBorderPainted(false);
-            selectBtn.setFocusPainted(false);
-            selectBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            selectBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            selectBtn.setMaximumSize(new Dimension(150, 28));
-            selectBtn.addActionListener(e -> confirmSelection());
-            card.add(selectBtn);
-        }
+        
 
         return card;
     }

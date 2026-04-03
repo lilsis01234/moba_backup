@@ -2,6 +2,7 @@ package engine.process;
 import engine.mobile.Personnage;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,14 @@ public class Arena {
     public Arena(Hero hero) {
         this.selectedHero = hero;
         tilesManager = new TilesManager("/game_config/map/map.txt");
+        
+        JsonDataProvider dataProvider;
+        try {
+            dataProvider = new JsonDataProvider();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not load heroes for bot assignment", e);
+        }
+        botManager = new BotManager(dataProvider.getAllHeroes(), selectedHero);
 
         lanes = new ArrayList<>();
         lanes.add(new Lane(Lane.Type.top));
@@ -50,8 +59,6 @@ public class Arena {
             hero.getAtkRange()
         );
          player.loadHeroGraphics(hero.getSpriteFile());
-
-        botManager = new BotManager();
 
         playerFountain = new Fountain(4 * T, 56 * T, 0);
         enemyFountain  = new Fountain(56 * T, 4 * T, 1);

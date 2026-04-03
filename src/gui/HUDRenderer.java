@@ -8,6 +8,7 @@ import engine.process.Arena;
 import engine.map.TilesManager;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import  java.util.List;
 
@@ -146,10 +147,15 @@ public class HUDRenderer {
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);
         
-        g2.setColor(new Color(50, 50, 70));
-        g2.fillRect(x + 10, y + 10, 40, 40);
-        g2.setColor(Color.GRAY);
-        g2.drawRect(x + 10, y + 10, 40, 40);
+        BufferedImage portrait = player.getFrontFrame();
+        if (portrait != null) {
+            g2.drawImage(portrait, x + 10, y + 10, 40, 40, null);
+        } else {
+            g2.setColor(new Color(50, 50, 70));
+            g2.fillRect(x + 10, y + 10, 40, 40);
+            g2.setColor(Color.GRAY);
+            g2.drawRect(x + 10, y + 10, 40, 40);
+        }
         
         //name
         g2.setColor(Color.WHITE);
@@ -170,13 +176,13 @@ public class HUDRenderer {
         int xpBarH = 40;
         int xpFill = xpThreshold > 0 ? (int)((player.getXp() / (double) xpThreshold) * xpBarH) : 0;
 
-        g2.setColor(new Color(166,166,166));
+        g2.setColor(Color.gray);
         g2.fillRect(xpBarX, xpBarY, xpBarW, xpBarH);
 
         g2.setColor(new Color(150, 80, 220));
         g2.fillRect(xpBarX, xpBarY + (xpBarH - xpFill), xpBarW, xpFill); 
 
-        g2.setColor(new Color(233, 220, 252));
+        g2.setColor(Color.gray);
         g2.drawRect(xpBarX, xpBarY, xpBarW, xpBarH);
         
         //hp?
@@ -217,7 +223,7 @@ public class HUDRenderer {
         g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 130, statsY);
 }
     private void renderEnemyPanel(Graphics2D g2, int x, int y) {
-        int width = 200;
+        int width = 200;  
         int height = 100;
 
         g2.setColor(Theme.PANEL_BG);
@@ -225,14 +231,29 @@ public class HUDRenderer {
         g2.setColor(new Color(180, 60, 60));
         g2.drawRect(x, y, width, height);
 
-        g2.setColor(new Color(220, 100, 100));
-        g2.setFont(new Font("Arial", Font.BOLD, 14));
-        g2.drawString(targetedBot.getName(), x + 10, y + 20);
+        // portrait
+        int portraitSize = 80;
+        int portraitX = x + 5;
+        int portraitY = y + 10;
+        java.awt.image.BufferedImage portrait = targetedBot.getFrontFrame();
+        if (portrait != null) {
+            g2.drawImage(portrait, portraitX, portraitY, portraitSize, portraitSize, null);
+        } else {
+            g2.setColor(new Color(50, 50, 70));
+            g2.fillRect(portraitX, portraitY, portraitSize, portraitSize);
+        }
 
-        int barX = x + 10;
-        int barWidth = width - 20;
+        // name + bars shifted right of portrait
+        int textX = portraitX + portraitSize + 8;
+        int barX = textX;
+        int barWidth = width - textX - 10;
         int barHeight = 14;
 
+        g2.setColor(new Color(220, 100, 100));
+        g2.setFont(new Font("Arial", Font.BOLD, 14));
+        g2.drawString(targetedBot.getName(), textX, y + 20);
+
+        // HP bar
         int barY = y + 30;
         g2.setColor(Color.DARK_GRAY);
         g2.fillRect(barX, barY, barWidth, barHeight);
@@ -246,6 +267,7 @@ public class HUDRenderer {
         g2.drawString("HP", barX + 2, barY + 10);
         g2.drawString(hpText, barX + barWidth - fm.stringWidth(hpText) - 2, barY + 10);
 
+        // Mana bar
         barY += 18;
         g2.setColor(Color.DARK_GRAY);
         g2.fillRect(barX, barY, barWidth, barHeight);
@@ -309,8 +331,14 @@ public class HUDRenderer {
             int portraitX = x + 5;
             int portraitY = y + 5;
             int portraitS = h - 10;
-            g2.setColor(new Color(50, 50, 70));
-            g2.fillRect(portraitX, portraitY, portraitS, portraitS);
+            
+            BufferedImage portrait = p.getFrontFrame();
+            if (portrait != null) {
+                g2.drawImage(portrait, portraitX, portraitY, portraitS, portraitS, null);
+            } else {
+                g2.setColor(new Color(50, 50, 70));
+                g2.fillRect(portraitX, portraitY, portraitS, portraitS);
+            }
             
             // border
             g2.setColor(teamColor);

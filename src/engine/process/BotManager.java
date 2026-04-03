@@ -1,12 +1,14 @@
 package engine.process;
-
+import data.model.Hero;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import engine.mobile.Bot;
 import engine.mobile.Entity;
 import game_config.GameConfiguration;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class BotManager {
 
@@ -14,19 +16,29 @@ public class BotManager {
     private List<Bot> enemyBots = new ArrayList<>();
     int T = GameConfiguration.TILE_SIZE;
 
-    public BotManager() {
-
+    public BotManager(List<Hero> allHeroes, Hero playerHero) {
         int T = GameConfiguration.TILE_SIZE;
-        bots.add(new Bot(8 * T, 52 * T, getBotWaypoints("Bot1"), 0, "Bot1"));
-        bots.add(new Bot(9 * T, 52 * T, getBotWaypoints("Bot2"), 0, "Bot2"));
-        bots.add(new Bot(8 * T, 54 * T, getBotWaypoints("Bot3"), 0, "Bot3"));
-        bots.add(new Bot(7 * T, 55 * T, getBotWaypoints("Bot4"), 0, "Bot4"));
 
-        enemyBots.add(new Bot(52 * T, 6 * T, getBotWaypoints("ENEMY_Bot1"), 1, "EBot1"));
-        enemyBots.add(new Bot(52 * T, 9 * T, getBotWaypoints("ENEMY_Bot2"), 1, "EBot2"));
-        enemyBots.add(new Bot(54 * T, 8 * T, getBotWaypoints("ENEMY_Bot3"), 1, "EBot3"));
-        enemyBots.add(new Bot(55 * T, 7 * T, getBotWaypoints("ENEMY_Bot4"), 1, "EBot4"));
-        enemyBots.add(new Bot(52 * T, 7 * T, getBotWaypoints("ENEMY_Bot5"), 1, "EBot5"));
+        // get all the heros exept the player's cus allies cant have the same hero
+        List<Hero> allyPool = new ArrayList<>(allHeroes);
+        allyPool.remove(playerHero); 
+        Collections.shuffle(allyPool);
+        
+        
+        bots.add(new Bot(8*T, 52*T, getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
+        bots.add(new Bot(9*T, 52*T, getBotWaypoints("Bot2"), 0, "Bot2", allyPool.get(1)));
+        bots.add(new Bot(8*T, 54*T, getBotWaypoints("Bot3"), 0, "Bot3", allyPool.get(2)));
+        bots.add(new Bot(7*T, 55*T, getBotWaypoints("Bot4"), 0, "Bot4", allyPool.get(3)));
+
+        
+        List<Hero> enemyPool = new ArrayList<>(allHeroes);
+        Collections.shuffle(enemyPool);
+
+        enemyBots.add(new Bot(52*T, 6*T, getBotWaypoints("ENEMY_Bot1"), 1, "EBot1", enemyPool.get(0)));
+        enemyBots.add(new Bot(52*T, 9*T, getBotWaypoints("ENEMY_Bot2"), 1, "EBot2", enemyPool.get(1)));
+        enemyBots.add(new Bot(54*T, 8*T, getBotWaypoints("ENEMY_Bot3"), 1, "EBot3", enemyPool.get(2)));
+        enemyBots.add(new Bot(55*T, 7*T, getBotWaypoints("ENEMY_Bot4"), 1, "EBot4", enemyPool.get(3)));
+        enemyBots.add(new Bot(52*T, 7*T, getBotWaypoints("ENEMY_Bot5"), 1, "EBot5", enemyPool.get(4)));
     }
 
     public void update(double deltaTime, List<Entity> allEnemiesForTeam0, List<Entity> allEnemiesForTeam1) {

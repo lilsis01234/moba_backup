@@ -7,94 +7,68 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import data.model.Hero;
 import game_config.GameConfiguration;
 
 public class Bot extends Personnage {
 
     private double spawnX, spawnY;
     private String name;
-    private BufferedImage AllyImage;
-    private BufferedImage EnemyImage;
+    
+    
+    private String heroName;
+
+ 
 
     private List<double[]> waypoints; // path
     private int waypointIndex = 0;
 
-    public Bot(double x, double y, List<double[]> waypoints, int team, String name) {
-        super(x, y, GameConfiguration.BOT_MAX_HP, team, GameConfiguration.BOT_MAX_MANA, GameConfiguration.BOT_SPEED);
+    public Bot(double x, double y, List<double[]> waypoints, int team, String name, Hero hero) {
+        super(x, y, hero.getMaxHp(), team, hero.getMaxMana(), hero.getSpeed());
         this.spawnX    = x;
         this.spawnY    = y;
         this.waypoints = waypoints;
         this.name      = name;
-        this.maxMana   = GameConfiguration.BOT_MAX_MANA;
+        this.heroName  = hero.getName();
         this.mana      = this.maxMana;
-        // attack stats
         this.atkDamage   = GameConfiguration.BOT_DAMAGE;
         this.atkRange    = GameConfiguration.BOT_RANGE;
         this.atkCooldown = 1.0;
-        try {
-            AllyImage =ImageIO.read(getClass().getResourceAsStream("/res/Heroes/Angel.png"));
-            EnemyImage = ImageIO.read(getClass().getResourceAsStream("/res/Heroes/DemonLord.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadHeroGraphics(hero.getSpriteFile()); 
     }
 
     public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
-        if (hp <= 0 && active) {
-            die();
-            }
-        if (!active) {
-            super.respawn(deltaTime); 
-            return;
-        }
-
-        Entity target = findClosestEnemy(enemies);
+    	
+        if (hp <= 0 && active) { die();}
+        if (!active) { super.respawn(deltaTime); return; }
+        Move( deltaTime,enemies,allBots);
+    }
+    
+    public void Move(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
+    	
+    	Entity target = findClosestEnemy(enemies);
         if (target != null && getDistanceTo(target) <= atkRange) {
+        	currentState = State.IDLE;
             attack(target, deltaTime);
         } else {
-            followWaypoints(deltaTime, allBots);
+            boolean moved = followWaypoints(deltaTime, allBots);
+        	currentState = moved ? State.MOVING : State.IDLE;
         }
+        updateAnimation(deltaTime);
     }
+    
     public String getName() {return this.name; }
 
     @Override
     public void render(Graphics2D g2, int width, int height) {
         if (!active) return;
-
-        int px   = (int) getX();
-        int py   = (int) getY();
-        int size = GameConfiguration.TILE_SIZE;
+        renderSprite(g2); 
         
-        int imgSize = size * 3; 
-
-        if ((AllyImage != null) && (EnemyImage != null)) {
- 
-        	if (team == 0) {
-        		g2.drawImage(AllyImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
-        	} else {
-        		g2.drawImage(EnemyImage, px - imgSize/2, py - imgSize/2, imgSize, imgSize, null);
-        	}
-        	 
-        
-	    	}else { //if problem with the img, placeholder
-			        // team color
-		    		Color teamColor;
-		    		if (team == 0) {
-		    		    teamColor = new Color(0, 150, 255);
-		    		} else {
-		    		    teamColor = new Color(255, 0, 150);
-		    		}
-			
-			        // placeholder, will use hero render later
-			        g2.fillOval(px - size/2, py - size/2, size, size);
-			        g2.setColor(Color.BLACK);
-			        g2.drawOval(px - size/2, py - size/2, size, size);
-			
-			         g2.setFont(new Font("Arial", Font.BOLD, 12));
-			         g2.drawString(name, px - 15, py - size/2 - 10);
-
-    }
-    }
+        // name label 
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.BOLD, 11));
+        g2.drawString(heroName, (int) x - 15, (int) y - GameConfiguration.TILE_SIZE * 2);
+     }
 
     private Entity findClosestEnemy(List<Entity> enemies) {
         Entity closest = null;
@@ -106,6 +80,7 @@ public class Bot extends Personnage {
         }
         return closest;
     }
+    
     @Override
     protected void onRespawn() {
         if (waypoints != null && !waypoints.isEmpty()) {
@@ -118,26 +93,34 @@ public class Bot extends Personnage {
         this.active = true;
     }
 
-    private void followWaypoints(double deltaTime, List<Bot> allBots) {
-        if (waypointIndex >= waypoints.size()) return;
+    private boolean followWaypoints(double deltaTime, List<Bot> allBots) {
+    	
+        if (waypointIndex >= waypoints.size()) return false;
         double[] wp = waypoints.get(waypointIndex);
-
+        
+        double dx = wp[0] - x;
+        double dy = wp[1] - y;
+        
+        // update direction BEFORE animation ticks
+        currentDirection = Direction.fromDelta((int) dx, (int) dy);
+        
+        //check for other bots to avoid collision
         for (Bot other : allBots) {
             if (other == this || !other.isActive()) continue;
-            double dx = other.getX() - wp[0];
-            double dy = other.getY() - wp[1];
-            if (Math.sqrt(dx*dx + dy*dy) < 30.0) return; // occupied, wait
+            double odx = other.getX() - wp[0];
+            double ody = other.getY() - wp[1];
+            if (Math.sqrt(odx*odx + ody*ody) < GameConfiguration.TILE_SIZE * 0.6) return false; // occupied, wait
         }
 
-        double dx   = wp[0] - x;
-        double dy   = wp[1] - y;
         double dist = Math.sqrt(dx*dx + dy*dy);
 
         if (dist < 8.0) {
             waypointIndex++; // epsilon, may not reach exact point
+            return false;
         } else {
             x += (dx / dist) * speed * deltaTime;
             y += (dy / dist) * speed * deltaTime;
+            return true;
         }
     }
     
@@ -145,5 +128,3 @@ public class Bot extends Personnage {
     public double getRespawnTimer() { return respawnTimer; }
     
 }
-    
-
