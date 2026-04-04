@@ -1,22 +1,24 @@
 package engine.mobile;
-
+import data.model.Hero;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import data.model.KDA;
 
-import engine.mobile.Personnage.State;
+import java.util.ArrayList;
+import java.util.HashMap;
 import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
-//moonwalking
+
 // make a better respawning logic(depending on lvl can cause issues)
 //update the loot system( having to last hit to get any loot very difficult)
 //add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
 //stats HUD	
 //add lvl cap
-//ad bot selecting random hero
 //change catchy colors of borders
 //gatekeep bases
 //implement normal attack(not auto)
-
+//esuipemet +HUD
+//Spells
 //possible but rare bug: killed at the same time: it gives double the loot ? 1 thread so almost impossible but consider
 
 
@@ -30,6 +32,10 @@ public abstract class Personnage extends Entity {
     private int xp    = 0;
     private int level = 1;
     
+    //for KDA
+    HashMap<Personnage, Long> damageTimestamps = new HashMap<>();
+    private KDA kda = new KDA();
+    
     protected double respawnTimer = 0;
     
     //animation
@@ -42,15 +48,25 @@ public abstract class Personnage extends Entity {
     protected double animTimer = 0;
     private static final double FRAME_DURATION = 0.12;
     
-    public Personnage(double x, double y, double maxHP, int team, double maxMana, double speed) {
-        super(x, y, maxHP,team);
-        this.speed = speed;
-        this.maxMana = maxMana;
-        this.loot = GameConfiguration.GOLD_CHAR;
+    public Personnage(double x, double y, int team) {
+        super(x, y, 1, team);
+        this.loot   = GameConfiguration.GOLD_CHAR;
         this.XPloot = GameConfiguration.XP_CHAR;
         this.currentState = State.IDLE;
     }
-
+    
+    public void loadFromHero(Hero hero) {
+        this.maxHp     = hero.getMaxHp();
+        this.hp        = hero.getMaxHp();
+        this.maxMana   = hero.getMaxMana();
+        this.mana      = hero.getMaxMana();
+        this.speed     = hero.getSpeed();
+        this.atkDamage = hero.getAttack();
+        this.atkRange  = hero.getAtkRange();
+        this.atkCooldown = 1.0 / hero.getAttackSpeed();
+        loadHeroGraphics(hero.getSpriteFile());
+    }
+    
     protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
         g2.setColor(Color.GRAY);
         g2.fillRect(px - size/2, py - size - yOffset, size, 4);
@@ -63,21 +79,38 @@ public abstract class Personnage extends Entity {
     
     public abstract void render(Graphics2D g2, int width, int height);
 
-    public void attack(Entity target, double deltaTime) {
-        atkTimer -= deltaTime;
-        if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
-            target.takeDamage(atkDamage);
-            this.checkKill(target); 
-            atkTimer = atkCooldown;
+   public void attack(Entity target, double deltaTime, ArrayList<Personnage> allPersonnages) {
+    atkTimer -= deltaTime;
+    if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
+        if (target instanceof Personnage) {
+            recordDamageDealtTo((Personnage) target);
         }
+        target.takeDamage(atkDamage);
+        checkKill(target, allPersonnages);
+        atkTimer = atkCooldown;
     }
+}
     
-    private void checkKill(Entity target) {
-        if (!target.isActive()) {
-            this.addGold(target.getLoot());
-            this.addXp(target.getXPLoot());
-        }
-    }
+   private void checkKill(Entity target, ArrayList<Personnage> allPersonnages) {
+	    if (!target.isActive()) {
+	        this.addGold(target.getLoot());
+	        this.addXp(target.getXPLoot());
+	        this.kda.addKill();
+
+	        if (target instanceof Personnage) {
+	            Personnage deadTarget = (Personnage) target;
+	            deadTarget.kda.addDeath();
+
+	            for (Personnage p : allPersonnages) {
+	                if (p == this) continue;
+	                if (p.getTeam() != this.getTeam()) continue;
+	                if (p.assisted(deadTarget)) {
+	                    p.kda.addAssist();
+	                }
+	            }
+	        }
+	    }
+	}
     public void addGold(int Goldreward) {
         gold += Goldreward;
     }
@@ -166,6 +199,15 @@ public abstract class Personnage extends Entity {
         if (heroSprites == null) return null;
         return heroSprites.get(2, 0); 
     }
+    public void recordDamageDealtTo(Personnage target) {
+        damageTimestamps.put(target, System.currentTimeMillis());
+    }
+    
+    //if interacted with target in less than 5seconds before its death u get assist
+    public boolean assisted(Personnage target) {
+        Long t = damageTimestamps.get(target);
+        return t != null && (System.currentTimeMillis() - t) <= 5000;
+    }
     
     public double getSpeed() { return speed; }
     public double getMana() { return mana; }
@@ -174,4 +216,5 @@ public abstract class Personnage extends Entity {
     public int getGold()  { return gold; }
     public int getXp()    { return xp; }
     public double getRespawnTimer() {return respawnTimer;}
+    public KDA getKDA() { return kda; }
 }

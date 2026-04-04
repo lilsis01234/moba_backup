@@ -83,7 +83,7 @@ public abstract class Entity {
 
     public abstract void render(Graphics2D g2, int width, int height);
 
-    protected void drawHealthBar(Graphics2D g2, int px, int py, int size, int yOffset) {
+    public void drawHealthBar(Graphics2D g2, int px, int py, int size, int yOffset) {
         g2.setColor(Color.GRAY);
         g2.fillRect(px - size/2, py - size - yOffset, size, 4);
         g2.setColor(Color.GREEN);
@@ -92,4 +92,5 @@ public abstract class Entity {
         g2.setColor(Color.BLACK);
         g2.drawRect(px - size/2, py - size - yOffset, size, 4);
     }
+    public double getAtkDamage() {return atkDamage;}
 }

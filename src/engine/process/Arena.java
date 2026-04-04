@@ -1,5 +1,6 @@
 package engine.process;
 import engine.mobile.Personnage;
+import engine.mobile.EntityUtils;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import engine.mobile.Minion;
 import engine.mobile.Player;
 import engine.mobile.Tower;
 import engine.map.TilesManager;
+import engine.mobile.Personnage;
 import game_config.GameConfiguration;
 
 public class Arena {
@@ -33,6 +35,7 @@ public class Arena {
     int T = GameConfiguration.TILE_SIZE;
 
     public Arena(Hero hero) {
+    	
         this.selectedHero = hero;
         tilesManager = new TilesManager("/game_config/map/map.txt");
         
@@ -52,13 +55,8 @@ public class Arena {
         playerBase = new Base(7 * T, 53 * T, 0);  
         enemyBase  = new Base(53 * T, 7 * T, 1); 
 
-         player = new Player(
-            hero.getMaxHp(),
-            hero.getMaxMana(),
-            hero.getSpeed(),
-            hero.getAtkRange()
-        );
-         player.loadHeroGraphics(hero.getSpriteFile());
+        player = new Player(hero);
+        player.loadHeroGraphics(hero.getSpriteFile());
 
         playerFountain = new Fountain(4 * T, 56 * T, 0);
         enemyFountain  = new Fountain(56 * T, 4 * T, 1);
@@ -68,16 +66,20 @@ public class Arena {
 
     public void update(double deltaTime) {
         if (deltaTime > 0.05) deltaTime = 0.05;
+        
+        ArrayList<Personnage> allPersonnages = new ArrayList<>();
+        allPersonnages.add(player);
+        for (Bot b : botManager.getAllBots()) allPersonnages.add(b);
 
-        List<Entity> enemiesOfTeam0 = getEnemiesForTeam(0);
-        List<Entity> enemiesOfTeam1 = getEnemiesForTeam(1);
+        ArrayList<Entity> enemiesOfTeam0 = getEnemiesForTeam(0);
+        ArrayList<Entity> enemiesOfTeam1 = getEnemiesForTeam(1);
 
         // player
-        player.update(deltaTime, this);
+        player.update(deltaTime, this, allPersonnages);
         player.respawn(deltaTime);
 
         // bots
-        botManager.update(deltaTime, enemiesOfTeam0, enemiesOfTeam1);
+        botManager.update(deltaTime, enemiesOfTeam0, enemiesOfTeam1, allPersonnages);
 
         // fountains
         playerFountain.update(deltaTime, enemiesOfTeam0, getAlliesForTeam(0));
@@ -111,14 +113,7 @@ public class Arena {
     }
 
     private Entity findClosestEnemy(Entity source, List<Entity> enemies) {
-        Entity closest = null;
-        double closestDist = Double.MAX_VALUE;
-        for (Entity e : enemies) {
-            if (!e.isActive()) continue;
-            double d = source.getDistanceTo(e);
-            if (d < closestDist) { closestDist = d; closest = e; }
-        }
-        return closest;
+        return EntityUtils.findClosest(source, enemies);
     }
 
      public void renderMinimapEntities(Graphics2D g2, int miniX, int miniY, int miniWidth, int miniHeight) {
@@ -231,8 +226,8 @@ public class Arena {
         return player;
     }
 
-    public List<Entity> getEnemiesForTeam(int team) {
-        List<Entity> enemies = new ArrayList<>();
+    public ArrayList<Entity> getEnemiesForTeam(int team) {
+        ArrayList<Entity> enemies = new ArrayList<>();
 
         // player is team 0, so enemy of team 1
         if (team == 1 && player.isActive()) enemies.add(player);
@@ -256,8 +251,8 @@ public class Arena {
         return enemies;
     }
 
-    public List<Entity> getAlliesForTeam(int team) {
-        List<Entity> allies = new ArrayList<>();
+    public ArrayList<Entity> getAlliesForTeam(int team) {
+        ArrayList<Entity> allies = new ArrayList<>();
 
         if (team == 0 && player.isActive()) allies.add(player);
 

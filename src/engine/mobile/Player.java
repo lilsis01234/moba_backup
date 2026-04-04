@@ -1,10 +1,13 @@
 package engine.mobile;
 
 import org.apache.log4j.Logger;
+
+import data.model.Hero;
 import log.LoggerUtility;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -22,39 +25,29 @@ public class Player extends Personnage {
 
 
 
-    public Player(double maxHp, double maxMana, double speed, double atkRange) {
-        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y, maxHp, 0, maxMana, speed);
-        this.hp   = maxHp;
-        this.mana = maxMana;
-        this.atkDamage   = 20.0;
-        this.atkRange    = atkRange;
-        this.atkCooldown = 1.0;
-        
+    public Player(Hero hero) {
+        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y, 0);
+        loadFromHero(hero);
     }
 
-    public void update(double deltaTime, Arena arena) {
-    	
-        // mana regen  
+    public void update(double deltaTime, Arena arena, ArrayList<Personnage> allPersonnages) {
+    	//mana
         if (mana < maxMana) {
             mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
             if (mana > maxMana) mana = maxMana;
         }
+        //moving
 
         if (currentState == State.MOVING) {
             updatePosition(deltaTime, arena);
         }
-            updateAnimation(deltaTime);
-
-        // attack
+        updateAnimation(deltaTime);
+        //attacking
         if (targetEnemy != null) {
             if (!targetEnemy.isActive()) {
                 targetEnemy = null;
             } else {
-                logger.debug("target=" + targetEnemy.getClass().getSimpleName()
-                        + " dist=" + (int) getDistanceTo(targetEnemy)
-                        + " range=" + atkRange
-                        + " timer=" + (int) atkTimer);
-                attack(targetEnemy, deltaTime);
+                attack(targetEnemy, deltaTime, allPersonnages);
             }
         }
     }
@@ -72,7 +65,6 @@ public class Player extends Personnage {
 
         if (distance < moveStep) {
             if (!arena.isCollidingWithWall(CibleX, CibleY)) {
-            	currentState = State.MOVING;
                 this.x = CibleX;
                 this.y = CibleY;
             }

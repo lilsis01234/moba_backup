@@ -3,6 +3,7 @@ package engine.mobile;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -20,39 +21,33 @@ public class Bot extends Personnage {
 
  
 
-    private List<double[]> waypoints; // path
+    private List<double[]> waypoints; 
     private int waypointIndex = 0;
 
     public Bot(double x, double y, List<double[]> waypoints, int team, String name, Hero hero) {
-        super(x, y, hero.getMaxHp(), team, hero.getMaxMana(), hero.getSpeed());
+        super(x, y, team);
         this.spawnX    = x;
         this.spawnY    = y;
         this.waypoints = waypoints;
         this.name      = name;
         this.heroName  = hero.getName();
-        this.mana      = this.maxMana;
-        this.atkDamage   = GameConfiguration.BOT_DAMAGE;
-        this.atkRange    = GameConfiguration.BOT_RANGE;
-        this.atkCooldown = 1.0;
-        loadHeroGraphics(hero.getSpriteFile()); 
+        loadFromHero(hero);
     }
 
-    public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
-    	
-        if (hp <= 0 && active) { die();}
+    public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
+        if (hp <= 0 && active) { die(); }
         if (!active) { super.respawn(deltaTime); return; }
-        Move( deltaTime,enemies,allBots);
+        Move(deltaTime, enemies, allBots, allPersonnages);
     }
     
-    public void Move(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
-    	
-    	Entity target = findClosestEnemy(enemies);
+    public void Move(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
+        Entity target = EntityUtils.findClosest(this, enemies);
         if (target != null && getDistanceTo(target) <= atkRange) {
-        	currentState = State.IDLE;
-            attack(target, deltaTime);
+            currentState = State.IDLE;
+            attack(target, deltaTime, allPersonnages);
         } else {
             boolean moved = followWaypoints(deltaTime, allBots);
-        	currentState = moved ? State.MOVING : State.IDLE;
+            currentState = moved ? State.MOVING : State.IDLE;
         }
         updateAnimation(deltaTime);
     }
@@ -70,16 +65,6 @@ public class Bot extends Personnage {
         g2.drawString(heroName, (int) x - 15, (int) y - GameConfiguration.TILE_SIZE * 2);
      }
 
-    private Entity findClosestEnemy(List<Entity> enemies) {
-        Entity closest = null;
-        double closestDist = Double.MAX_VALUE;
-        for (Entity e : enemies) {
-            if (!e.isActive()) continue;
-            double d = getDistanceTo(e);
-            if (d < closestDist) { closestDist = d; closest = e; }
-        }
-        return closest;
-    }
     
     @Override
     protected void onRespawn() {

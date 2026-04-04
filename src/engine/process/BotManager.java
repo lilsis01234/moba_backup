@@ -8,7 +8,7 @@ import engine.mobile.Entity;
 import game_config.GameConfiguration;
 
 import java.awt.Graphics2D;
-
+import engine.mobile.Personnage;
 
 public class BotManager {
 
@@ -42,10 +42,10 @@ public class BotManager {
         enemyBots.add(new Bot(52*T, 7*T, getBotWaypoints("ENEMY_Bot5"), 1, "EBot5", enemyPool.get(4)));
     }
 
-    public void update(double deltaTime, List<Entity> allEnemiesForTeam0, List<Entity> allEnemiesForTeam1) {
-        List<Bot> allBots = getAllBots();
-        for (Bot b : bots)      { b.update(deltaTime, allEnemiesForTeam0, allBots); }
-        for (Bot b : enemyBots) { b.update(deltaTime, allEnemiesForTeam1, allBots); }
+    public void update(double deltaTime, List<Entity> enemiesTeam0, ArrayList<Entity> enemiesTeam1, ArrayList<Personnage> allPersonnages) {
+        ArrayList<Bot> allBots = getAllBots();
+        for (Bot b : bots)      { b.update(deltaTime, enemiesTeam0, allBots, allPersonnages); }
+        for (Bot b : enemyBots) { b.update(deltaTime, enemiesTeam1, allBots, allPersonnages); }
     }
 
     public void render(Graphics2D g2, int width, int height) {
@@ -53,8 +53,8 @@ public class BotManager {
         for (Bot b : enemyBots) { b.render(g2, width, height); }
     }
 
-    public List<Bot> getAllBots() {
-        List<Bot> all = new ArrayList<>(bots);
+    public ArrayList<Bot> getAllBots() {
+        ArrayList<Bot> all = new ArrayList<>(bots);
         all.addAll(enemyBots);
         return all;
     }

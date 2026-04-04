@@ -41,18 +41,8 @@ public class GameConfiguration {
     // Player
     public static final double PLAYER_START_X    = TILE_SIZE * 8;
     public static final double PLAYER_START_Y    = TILE_SIZE * 54;
-    public static final double PLAYER_SPEED      = 400.0; // pixels/sec
-    public static final double PLAYER_MAX_HP     = 100;
-    public static final double PLAYER_MAX_MANA   = 100;
     public static final double PLAYER_MANA_REGEN = 2.0;
-    public static final String PLAYER_IMAGE_PATH = "/res/Characters/CharacterModel/";
-    
-    // Bot
-    public static final double BOT_SPEED    = 300.0;//pixels/sec
-    public static final double BOT_RANGE    = 200.0;  // pixels
-    public static final double BOT_DAMAGE    = 5.0;
-    public static final double BOT_MAX_HP   = 100;
-    public static final double BOT_MAX_MANA = 100;
+
     
     
 

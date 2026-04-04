@@ -3,6 +3,7 @@ package gui.game;
 import engine.process.Arena;
 import gui.HUDRenderer;
 import game_config.GameConfiguration;
+import engine.mobile.Bot;
 import engine.mobile.Entity;
 import javax.swing.JPanel;
 
@@ -134,6 +135,14 @@ public class ArenaPanel extends JPanel {
         hudRenderer.setScreenSize(windowWidth, windowHeight);
         
         hudRenderer.setGold(arena.getPlayer().getGold());
+        
+        int blue = 0, red = 0;
+        blue += arena.getPlayer().getKDA().getKills();
+        for (Bot b : arena.getBotManager().getAllBots()) {
+            if (b.getTeam() == 0) blue += b.getKDA().getKills();
+            else red += b.getKDA().getKills();
+        }
+        hudRenderer.setKills(blue, red);
         
         
         hudRenderer.render(g2);

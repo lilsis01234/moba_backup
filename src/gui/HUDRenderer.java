@@ -6,7 +6,7 @@ import engine.mobile.Personnage;
 import engine.mobile.Player;
 import engine.process.Arena;
 import engine.map.TilesManager;
-
+import data.model.KDA;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -139,6 +139,7 @@ public class HUDRenderer {
     }
 
     private void renderCharacterPanel(Graphics2D g2, int x, int y) {
+    	
         int width = 240;
         int height = 140;
         
@@ -215,12 +216,13 @@ public class HUDRenderer {
         String manaText = (int)player.getMana() + "/" + (int)player.getMaxMana();
         g2.drawString(manaText, barX + barWidth - fm.stringWidth(manaText) - 2, barY + 10);
         
+        //stats
         int statsY = y + 110;
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
-        g2.drawString("ATK: " + (hero != null ? hero.getAttack() : 20), x + 10, statsY);
-        g2.drawString("DEF: " + (hero != null ? hero.getDefense() : 0), x + 70, statsY);
-        g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 130, statsY);
+        g2.drawString("ATK: " + (hero != null ? player.getAtkDamage() : 20), x + 10, statsY);
+        g2.drawString("DEF: " + (hero != null ? hero.getDefense() : 0), x + 80, statsY);
+        g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 140, statsY);
 }
     private void renderEnemyPanel(Graphics2D g2, int x, int y) {
         int width = 240;  
@@ -288,12 +290,12 @@ public class HUDRenderer {
         int xMargin = 10; 
         
         
-        List<Bot> allBots = arena.getBotManager().getAllBots();
-        List<Personnage> teamAllies = new ArrayList<>();
+        ArrayList<Bot> allBots = arena.getBotManager().getAllBots();
+        ArrayList<Personnage> teamAllies = new ArrayList<>();
   
         teamAllies.add(player);
         
-        List<Personnage> teamEnemies = new ArrayList<>();
+        ArrayList<Personnage> teamEnemies = new ArrayList<>();
         
         for (Bot b : allBots) {
             if (b.getTeam() == 0) teamAllies.add(b);
@@ -303,16 +305,16 @@ public class HUDRenderer {
         // Render allies
         int allyX = xMargin;
         int allyY = yMargin + 160;
-        for (Personnage e : teamAllies) {
-            drawSideHeroPanel(g2, allyX, allyY, panelWidth, panelHeight, e, Color.CYAN, true);
+        for (Personnage p : teamAllies) {
+            drawSideHeroPanel(g2, allyX, allyY, panelWidth, panelHeight, p, Color.CYAN, true);
             allyY += panelHeight + yMargin;
         }
         
         // Render enemies
         int enemyX = screenWidth - panelWidth - xMargin;
         int enemyY = yMargin + 250; 
-        for (Personnage e : teamEnemies) {
-            drawSideHeroPanel(g2, enemyX, enemyY, panelWidth, panelHeight, e, Color.RED, false);
+        for (Personnage p : teamEnemies) {
+            drawSideHeroPanel(g2, enemyX, enemyY, panelWidth, panelHeight, p, Color.RED, false);
             enemyY += panelHeight + yMargin;
         }
     }
@@ -327,73 +329,80 @@ public class HUDRenderer {
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(x, y, w, h);
          
-            // portrait 
-            int portraitX = x + 5;
-            int portraitY = y + 5;
-            int portraitS = h - 10;
-            
-            BufferedImage portrait = p.getFrontFrame();
-            if (portrait != null) {
-                g2.drawImage(portrait, portraitX, portraitY, portraitS, portraitS, null);
-            } else {
-                g2.setColor(new Color(50, 50, 70));
-                g2.fillRect(portraitX, portraitY, portraitS, portraitS);
-            }
-            
-            // border
-            g2.setColor(teamColor);
-            g2.drawRect(portraitX, portraitY, portraitS, portraitS);
-            
-            
-            int textX = portraitX + portraitS + 8;
-            int textY = y + 15;
-            
-            g2.setFont(new Font("Arial", Font.BOLD, 12));
-            g2.setColor(Color.WHITE);
-            String nameStr = (p instanceof Player) ? "You" : ((Bot)p).getName();
-            g2.drawString(nameStr, textX, textY);
-            
-
-            //lvl
-            g2.setFont(new Font("Arial", Font.PLAIN, 10));
-            g2.setColor(new Color(180, 180, 200));
-            g2.drawString("Lv." + p.getLevel(), textX, textY + 13);
-                
-            // HP
-            int hpBarW = w - (portraitX + portraitS + 15);
-            int hpBarH = 8;
-            int hpBarX = textX;
-            int hpBarY = textY + 20;
-                
-            double hpPercent = (double) p.getHp() / p.getMaxHp();
-            g2.setColor(Color.DARK_GRAY);
-            g2.fillRect(hpBarX, hpBarY, hpBarW, hpBarH);
-             
-            g2.setColor(new Color(50, 200, 50));
-            g2.fillRect(hpBarX, hpBarY, (int)(hpPercent * hpBarW), hpBarH);
-             
-            g2.setColor(Color.WHITE);
-            g2.drawRect(hpBarX, hpBarY, hpBarW, hpBarH);
-            
-            if (!p.isActive()) {
-                
-                
-                g2.setColor(new Color(0, 0, 0, 150));
-                g2.fillRect(x, y, w, h);
-                
-                
-                // Timer Text
-                int timeLeft = (int) p.getRespawnTimer();
-                g2.setColor(Color.WHITE);
-                g2.setFont(new Font("Arial", Font.BOLD, 22)); 
-                FontMetrics fm = g2.getFontMetrics();
-                String timeText = String.valueOf(timeLeft);
-                g2.drawString(timeText, x + (w - fm.stringWidth(timeText)) / 2, y + (h / 2) + 8);
-      
-                
-            }
-            
-        
+	    // portrait 
+	    int portraitX = x + 5;
+	    int portraitY = y + 5;
+	    int portraitS = h - 10;
+	    
+	    BufferedImage portrait = p.getFrontFrame();
+	    if (portrait != null) {
+	        g2.drawImage(portrait, portraitX, portraitY, portraitS, portraitS, null);
+	    } else {
+	        g2.setColor(new Color(50, 50, 70));
+	        g2.fillRect(portraitX, portraitY, portraitS, portraitS);
+	    }
+	    
+	    // border
+	    g2.setColor(teamColor);
+	    g2.drawRect(portraitX, portraitY, portraitS, portraitS);
+	    
+	    
+	    int textX = portraitX + portraitS + 8;
+	    int textY = y + 15;
+	    
+	    g2.setFont(new Font("Arial", Font.BOLD, 12));
+	    g2.setColor(Color.WHITE);
+	    String nameStr = (p instanceof Player) ? "You" : ((Bot)p).getName();
+	    g2.drawString(nameStr, textX, textY);
+	    
+	
+	    //lvl
+	    g2.setFont(new Font("Arial", Font.PLAIN, 10));
+	    g2.setColor(new Color(180, 180, 200));
+	    g2.drawString("Lv." + p.getLevel(), textX, textY + 13);
+	    
+	    //KDA placeholder
+	    KDA s = p.getKDA();
+	    String kda = s.getKills() + "/" + s.getDeaths() + "/" + s.getAssists();
+	    g2.setFont(new Font("Arial", Font.PLAIN, 10));
+	    g2.setColor(Color.WHITE);
+	    g2.drawString(kda, textX, textY + 46);
+	        
+	    // HP
+	    int hpBarW = w - portraitS - 20;
+	    int hpBarH = 8;
+	    int hpBarX = textX;
+	    int hpBarY = textY + 20;
+	        
+	    double hpPercent = (double) p.getHp() / p.getMaxHp();
+	    g2.setColor(Color.DARK_GRAY);
+	    g2.fillRect(hpBarX, hpBarY, hpBarW, hpBarH);
+	     
+	    g2.setColor(new Color(50, 200, 50));
+	    g2.fillRect(hpBarX, hpBarY, (int)(hpPercent * hpBarW), hpBarH);
+	     
+	    g2.setColor(Color.WHITE);
+	    g2.drawRect(hpBarX, hpBarY, hpBarW, hpBarH);
+	    
+	    if (!p.isActive()) {
+	        
+	        
+	        g2.setColor(new Color(0, 0, 0, 150));
+	        g2.fillRect(x, y, w, h);
+	        
+	        
+	        // Timer Text
+	        int timeLeft = (int) p.getRespawnTimer();
+	        g2.setColor(Color.WHITE);
+	        g2.setFont(new Font("Arial", Font.BOLD, 22)); 
+	            FontMetrics fm = g2.getFontMetrics();
+	            String timeText = String.valueOf(timeLeft);
+	            g2.drawString(timeText, x + (w - fm.stringWidth(timeText)) / 2, y + (h / 2) + 8);
+	  
+	            
+	        }
+	        
+    
     }
     
 

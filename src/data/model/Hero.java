@@ -19,7 +19,6 @@ public class Hero {
     private String name;
     private String history;
     private int categoryId;
-    private int baseHp;
     private int maxHp;
     private int attack;
     private int defense;
@@ -28,10 +27,6 @@ public class Hero {
     private double speed;
     private double atkRange;
     private List<Spell> spells;
-    private int characterRow; // Row in Character Model.png (body type/skin)
-    private int hairRow; // Row in Hairs.png
-    private String outfitFile; // Outfit PNG filename in Outfits folder
-    private Integer suitRow; // Row in Suit.png (null if no suit)
 
     private List<Item> items;
     
@@ -44,14 +39,13 @@ public class Hero {
         this.items = new ArrayList<>();
     }
     
-    public Hero(int id, String name, String spriteFile, String history, int categoryId, int baseHp, int maxHp, 
+    public Hero(int id, String name, String spriteFile, String history, int categoryId, int maxHp, 
                 int attack, int defense, double attackSpeed, int maxMana) {
         this.id = id;
         this.name = name;
         this.spriteFile=spriteFile;
         this.history = history;
         this.categoryId = categoryId;
-        this.baseHp = baseHp;
         this.maxHp = maxHp;
         this.attack = attack;
         this.defense = defense;
@@ -96,13 +90,7 @@ public class Hero {
         this.categoryId = categoryId;
     }
     
-    public int getBaseHp() {
-        return baseHp;
-    }
-    
-    public void setBaseHp(int baseHp) {
-        this.baseHp = baseHp;
-    }
+
     
     public int getMaxHp() {
         return maxHp;

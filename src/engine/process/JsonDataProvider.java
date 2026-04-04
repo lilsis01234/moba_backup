@@ -68,13 +68,12 @@ public class JsonDataProvider {
             hero.setSpriteFile((heroMap.get("spriteFile")));
             hero.setHistory(heroMap.get("history"));
             hero.setCategoryId(getCategoryId(heroMap.get("category")));
-            hero.setBaseHp(parseInt(heroMap.get("baseHp")));
             hero.setMaxHp(parseInt(heroMap.get("maxHp")));
             hero.setAttack(parseInt(heroMap.get("attack")));
             hero.setDefense(parseInt(heroMap.get("defense")));
             hero.setAttackSpeed(parseDouble(heroMap.get("attackSpeed")));
             hero.setMaxMana(parseInt(heroMap.get("maxMana")));
-            hero.setAtkRange(parseDouble(heroMap.get("atkRange")));
+            hero.setAtkRange(parseDouble(heroMap.get("attackRange")));
             hero.setSpeed(parseDouble(heroMap.get("speed")));
                         
             heroes.add(hero);
