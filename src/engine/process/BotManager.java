@@ -21,8 +21,9 @@ public class BotManager {
 
         // get all the heros exept the player's cus allies cant have the same hero
         List<Hero> allyPool = new ArrayList<>(allHeroes);
-        allyPool.remove(playerHero); 
-        Collections.shuffle(allyPool);
+        //compare names
+	     allyPool.removeIf(h -> h.getName().equals(playerHero.getName()));		     
+	     Collections.shuffle(allyPool);
         
         
         bots.add(new Bot(8*T, 52*T, getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));

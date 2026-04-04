@@ -29,14 +29,26 @@ public enum Direction {
         return DOWN;
     }
     
-    public static Direction fromDelta(int dx, int dy) {
-        if (Math.abs(dx) > Math.abs(dy)) {
+    public static Direction fromDelta(int dx, int dy, Direction current) {
+        int absX = Math.abs(dx);
+        int absY = Math.abs(dy);
+        
+        // mouvement small dont change direction
+        if (absX < 2 && absY < 2) return current;
+
+       
+        double threshold = 1.2; 
+        //to prevent flickering
+        if (current == LEFT || current == RIGHT) {        
+            if (absY > absX * threshold) {
+                return dy > 0 ? DOWN : UP;
+            }
             return dx > 0 ? RIGHT : LEFT;
-        } else if (Math.abs(dy) > Math.abs(dx)) {
+        } else {
+            if (absX > absY * threshold) {
+                return dx > 0 ? RIGHT : LEFT;
+            }
             return dy > 0 ? DOWN : UP;
-        } else if (dx != 0) {
-            return dx > 0 ? RIGHT : LEFT;
         }
-        return DOWN;
     }
 }

@@ -139,7 +139,7 @@ public class HUDRenderer {
     }
 
     private void renderCharacterPanel(Graphics2D g2, int x, int y) {
-        int width = 200;
+        int width = 240;
         int height = 140;
         
         g2.setColor(Theme.PANEL_BG);
@@ -223,7 +223,7 @@ public class HUDRenderer {
         g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 130, statsY);
 }
     private void renderEnemyPanel(Graphics2D g2, int x, int y) {
-        int width = 200;  
+        int width = 240;  
         int height = 100;
 
         g2.setColor(Theme.PANEL_BG);

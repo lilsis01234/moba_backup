@@ -101,8 +101,8 @@ public class Bot extends Personnage {
         double dx = wp[0] - x;
         double dy = wp[1] - y;
         
-        // update direction BEFORE animation ticks
-        currentDirection = Direction.fromDelta((int) dx, (int) dy);
+        // update direction 
+        currentDirection = Direction.fromDelta((int) dx, (int) dy, currentDirection);
         
         //check for other bots to avoid collision
         for (Bot other : allBots) {

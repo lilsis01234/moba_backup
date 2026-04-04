@@ -68,7 +68,7 @@ public class Player extends Personnage {
         double moveStep = speed * deltaTime;
 
         // update direction 
-        currentDirection = Direction.fromDelta((int) dx, (int) dy);
+        currentDirection = Direction.fromDelta((int) dx, (int) dy, currentDirection);
 
         if (distance < moveStep) {
             if (!arena.isCollidingWithWall(CibleX, CibleY)) {
