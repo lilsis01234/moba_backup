@@ -3,23 +3,24 @@ import data.model.Hero;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import data.model.KDA;
+import engine.mobile.Personnage.State;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
+//attacking visual effect ? name becomes red? angry icon? 
+//draw the 	attck radius around the player?
 // make a better respawning logic(depending on lvl can cause issues)
 //update the loot system( having to last hit to get any loot very difficult)
 //add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
+//bug in total kills where it includes enemies, HUD
 //stats HUD	
 //add lvl cap
-//change catchy colors of borders
 //gatekeep bases
-//implement normal attack(not auto)
 //esuipemet +HUD
 //Spells
-//possible but rare bug: killed at the same time: it gives double the loot ? 1 thread so almost impossible but consider
 
 
 
@@ -40,19 +41,26 @@ public abstract class Personnage extends Entity {
     
     //animation
     
-    protected enum State  {IDLE,MOVING}; //can add attacking animation if we have time
+    protected enum State  {IDLE,MOVING,ATTACKING}; //can add attacking animation if we have time
     protected State currentState = State.IDLE;
     protected HeroSprites heroSprites;
     protected Direction currentDirection = Direction.DOWN;
     protected int animFrame = 0;
     protected double animTimer = 0;
     private static final double FRAME_DURATION = 0.12;
+        
+    //recall    
+    private boolean recalling = false;
+    private double recallTimer = 0;
+    private static final double recallDuration=GameConfiguration.RECALL_DURATION;
     
-    public Personnage(double x, double y, int team) {
+    
+    public Personnage(double x, double y, int team,Hero hero) {
         super(x, y, 1, team);
         this.loot   = GameConfiguration.GOLD_CHAR;
-        this.XPloot = GameConfiguration.XP_CHAR;
+        this.XPloot = GameConfiguration.XP_CHAR; 
         this.currentState = State.IDLE;
+        loadFromHero(hero);
     }
     
     public void loadFromHero(Hero hero) {
@@ -79,17 +87,20 @@ public abstract class Personnage extends Entity {
     
     public abstract void render(Graphics2D g2, int width, int height);
 
-   public void attack(Entity target, double deltaTime, ArrayList<Personnage> allPersonnages) {
-    atkTimer -= deltaTime;
-    if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
-        if (target instanceof Personnage) {
-            recordDamageDealtTo((Personnage) target);
-        }
-        target.takeDamage(atkDamage);
-        checkKill(target, allPersonnages);
-        atkTimer = atkCooldown;
-    }
-}
+	public boolean attack(Entity target, double deltaTime, ArrayList<Personnage> allPersonnages) {
+	    atkTimer -= deltaTime;
+	    if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
+	    	interruptRecall();
+	        if (target instanceof Personnage) {
+	            recordDamageDealtTo((Personnage) target);
+	        }
+	        target.takeDamage(atkDamage);
+	        checkKill(target, allPersonnages);
+	        atkTimer = atkCooldown;
+	        return true;
+	    }
+	    return false;
+	}
     
    private void checkKill(Entity target, ArrayList<Personnage> allPersonnages) {
 	    if (!target.isActive()) {
@@ -140,13 +151,40 @@ public abstract class Personnage extends Entity {
             }
         }
     }
-    protected abstract void onRespawn();
+ 
+    protected void onRespawn() {
+    	this.x= (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y; 
+        this.y= (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
+        this.hp = maxHp;
+        this.mana = maxMana;
+        this.active = true;
+        currentState = State.IDLE;
+    }
     
     public void die() {
         this.active = false;
         this.hp = 0;
         this.respawnTimer = 5.0 + (this.getLevel() * 2.0);
         this.currentState = State.IDLE;
+    }
+    public void updateRecall(double deltaTime) {
+        if (!recalling) return;
+        recallTimer -= deltaTime;
+        if (recallTimer <= 0) {
+            recalling = false;
+            this.x= (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y; 
+            this.y= (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
+        }
+    }
+    
+    public void startRecall() {
+        if (!active) return;
+        recalling = true;
+        recallTimer = recallDuration;
+    }
+    public void interruptRecall() {
+        recalling = false;
+        recallTimer = 0;
     }
     
     protected void updateAnimation(double deltaTime) {
@@ -202,6 +240,11 @@ public abstract class Personnage extends Entity {
     public void recordDamageDealtTo(Personnage target) {
         damageTimestamps.put(target, System.currentTimeMillis());
     }
+    @Override
+    public void takeDamage(double damage) {
+        interruptRecall();
+        super.takeDamage(damage);
+    }
     
     //if interacted with target in less than 5seconds before its death u get assist
     public boolean assisted(Personnage target) {
@@ -217,4 +260,6 @@ public abstract class Personnage extends Entity {
     public int getXp()    { return xp; }
     public double getRespawnTimer() {return respawnTimer;}
     public KDA getKDA() { return kda; }
+    public boolean isRecalling() { return recalling; }
+    public double getRecallTimer() { return recallTimer; }
 }

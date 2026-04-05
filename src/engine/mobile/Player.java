@@ -21,13 +21,13 @@ public class Player extends Personnage {
     private Entity targetEnemy = null; //we need it to attack found using a method
 
     private static final Logger logger = LoggerUtility.getLogger(Player.class, "text");
-    private HeroSprites heroSprites;
+
 
 
 
     public Player(Hero hero) {
-        super(GameConfiguration.PLAYER_START_X, GameConfiguration.PLAYER_START_Y, 0);
-        loadFromHero(hero);
+        super(GameConfiguration.START_X, GameConfiguration.START_Y, 0, hero);
+        
     }
 
     public void update(double deltaTime, Arena arena, ArrayList<Personnage> allPersonnages) {
@@ -36,6 +36,8 @@ public class Player extends Personnage {
             mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
             if (mana > maxMana) mana = maxMana;
         }
+        //recalling 
+        updateRecall(deltaTime);
         //moving
 
         if (currentState == State.MOVING) {
@@ -43,11 +45,16 @@ public class Player extends Personnage {
         }
         updateAnimation(deltaTime);
         //attacking
+        
         if (targetEnemy != null) {
             if (!targetEnemy.isActive()) {
                 targetEnemy = null;
             } else {
-                attack(targetEnemy, deltaTime, allPersonnages);
+                boolean fired = attack(targetEnemy, deltaTime, allPersonnages);
+                if (fired) {
+                    interruptRecall();
+                    targetEnemy = null;
+                }
             }
         }
     }
@@ -90,19 +97,13 @@ public class Player extends Personnage {
     }
 
     public void moveTo(double xDestination, double yDestination) {
-        this.CibleX = xDestination;
-        this.CibleY = yDestination;
-        this. currentState = State.MOVING;
-    }
-
-    @Override
-    protected void onRespawn() {
-        this.x = GameConfiguration.PLAYER_START_X;
-        this.y = GameConfiguration.PLAYER_START_Y;
-        this.hp = maxHp;
-        this.mana = maxMana;
-        this.active = true;
-        currentState = State.IDLE;
+    	
+	    interruptRecall();
+	    this.CibleX = xDestination;
+	    this.CibleY = yDestination;
+	    this.currentState = State.MOVING;
+	    this.targetEnemy = null;
+	
     }
 
      	

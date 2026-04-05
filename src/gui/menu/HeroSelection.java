@@ -283,15 +283,17 @@ public class HeroSelection extends JPanel {
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 8, 0));
         card.add(nameLabel);
 
-        JPanel statsPanel = new JPanel(new GridLayout(2, 2, 8, 5));
+        JPanel statsPanel = new JPanel(new GridLayout(3, 2, 8, 5));
         statsPanel.setOpaque(false);
-        statsPanel.setMaximumSize(new Dimension(150, 45));
+        statsPanel.setMaximumSize(new Dimension(150, 65));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        statsPanel.add(createStatLabel("HP", hero.getMaxHp(), CATEGORY_FORCE));
-        statsPanel.add(createStatLabel("ATK", hero.getAttack(), new Color(200, 80, 80)));
-        statsPanel.add(createStatLabel("DEF", hero.getDefense(), new Color(80, 150, 200)));
-        statsPanel.add(createStatLabel("SPD", (int)hero.getSpeed(), new Color(180, 180, 80)));
+        statsPanel.add(createStatLabel("HP",   hero.getMaxHp(),              CATEGORY_FORCE));
+        statsPanel.add(createStatLabel("ATK",  hero.getAttack(),             new Color(200, 80, 80)));
+        statsPanel.add(createStatLabel("DEF",  hero.getDefense(),            new Color(80, 150, 200)));
+        statsPanel.add(createStatLabel("SPD",  (int) hero.getSpeed(),        new Color(180, 180, 80)));
+        statsPanel.add(createStatLabel("MANA", hero.getMaxMana(),            new Color(80, 120, 220)));
+        statsPanel.add(createStatLabel("ASPD", (int)(hero.getAttackSpeed() * 100), new Color(180, 100, 200)));
 
         statsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(statsPanel);

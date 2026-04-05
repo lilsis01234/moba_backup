@@ -32,6 +32,11 @@ public class GameConfiguration {
     
     //technical
     public static final double AttackMargin =TILE_SIZE * 0.75;
+    public static final double RECALL_DURATION = 5.0;
+    
+    //retreat
+    public static final double RETREAT_HP_THRESHOLD = 0.30;
+    public static final double RETREAT_SAFE_RADIUS = TILE_SIZE * 6;
 
     // Camera
     public static final int MINIMAP_WIDTH  = 300;
@@ -39,9 +44,11 @@ public class GameConfiguration {
     public static final int MINIMAP_MARGIN = 10;
 
     // Player
-    public static final double PLAYER_START_X    = TILE_SIZE * 8;
-    public static final double PLAYER_START_Y    = TILE_SIZE * 54;
+    public static final double START_X    = TILE_SIZE * 4;
+    public static final double START_Y    = TILE_SIZE * 56;
     public static final double PLAYER_MANA_REGEN = 2.0;
+    
+    
 
     
     
@@ -50,7 +57,7 @@ public class GameConfiguration {
     public static final double TOWER_RANGE            = 200.0; // pixels
     public static final double TOWER_DAMAGE  = 10.0;
     public static final double TOWER_COLLISION_RADIUS = 32.0;  // pixels
-    public static final double TOWER_MAX_HP           = 100;
+    public static final double TOWER_MAX_HP           = 500;
 
     //Base
     public static final double BASE_RANGE = 420.0;

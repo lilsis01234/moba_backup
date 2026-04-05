@@ -13,44 +13,124 @@ import game_config.GameConfiguration;
 
 public class Bot extends Personnage {
 
-    private double spawnX, spawnY;
-    private String name;
-    
-    
+
+    private String name;      
     private String heroName;
 
  
 
     private List<double[]> waypoints; 
     private int waypointIndex = 0;
+    private boolean retreating = false;
+    private double retreatSafeRadius=GameConfiguration.RETREAT_SAFE_RADIUS;
+    private double retreatTresHold=GameConfiguration.RETREAT_HP_THRESHOLD;
 
-    public Bot(double x, double y, List<double[]> waypoints, int team, String name, Hero hero) {
-        super(x, y, team);
-        this.spawnX    = x;
-        this.spawnY    = y;
+    public Bot(List<double[]> waypoints, int team, String name, Hero hero) {
+        super(
+            (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y, //if ally x=startx else x=starty
+            (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X, 
+            team, 
+            hero
+        );
         this.waypoints = waypoints;
         this.name      = name;
         this.heroName  = hero.getName();
-        loadFromHero(hero);
     }
 
     public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
+    	//die and respawn
         if (hp <= 0 && active) { die(); }
         if (!active) { super.respawn(deltaTime); return; }
+        //move
         Move(deltaTime, enemies, allBots, allPersonnages);
+        //recall
+        updateRecall(deltaTime);
     }
     
     public void Move(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
-        Entity target = EntityUtils.findClosest(this, enemies);
-        if (target != null && getDistanceTo(target) <= atkRange) {
-            currentState = State.IDLE;
-            attack(target, deltaTime, allPersonnages);
-        } else {
-            boolean moved = followWaypoints(deltaTime, allBots);
-            currentState = moved ? State.MOVING : State.IDLE;
-        }
-        updateAnimation(deltaTime);
+        double hpPercent = hp / maxHp;
+        
+        if (hpPercent < retreatTresHold) {retreating = true;}
+        else {retreating = false;}
+        
+        if (retreating) { handleRetreat(deltaTime, enemies, allBots);}
+        
+        else {
+        	Entity target = EntityUtils.findClosest(this, enemies);
+	        if (target != null && getDistanceTo(target) <= atkRange) {
+	            currentState = State.IDLE;
+	            attack(target, deltaTime, allPersonnages);
+	        } else {
+	            boolean moved = followWaypoints(deltaTime, allBots);
+	            currentState = moved ? State.MOVING : State.IDLE;
+	        }
+	    }
+	        updateAnimation(deltaTime);
+	        
     }
+        
+    private void handleRetreat(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
+       
+        double fX = (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y;
+        double fY = (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X;
+
+        double distToFountain = Math.sqrt(Math.pow(fX - x, 2) + Math.pow(fY - y, 2));
+        Entity closestEnemy = EntityUtils.findClosest(this, enemies);
+        double distToEnemy = (closestEnemy != null) ? getDistanceTo(closestEnemy) : Double.MAX_VALUE;
+
+        //close to fountain aka just walk
+        if (distToFountain <= retreatSafeRadius) {
+            interruptRecall(); 
+            moveToPoint(fX, fY, deltaTime);
+        } 
+        // no enemies recall
+        else if (distToEnemy > retreatSafeRadius) { 
+            if (!isRecalling()) {startRecall();  }
+        } 
+        // enemies around  retreat
+        else {
+            interruptRecall(); 
+            followWaypointsReverse(deltaTime, allBots);
+        }
+    }
+    private void moveToPoint(double targetX, double targetY, double deltaTime) {
+        double dx = targetX - x;
+        double dy = targetY - y;
+        double dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist > 5.0) {
+            x += (dx / dist) * speed * deltaTime;
+            y += (dy / dist) * speed * deltaTime;
+            currentDirection = Direction.fromDelta((int) dx, (int) dy, currentDirection);
+            currentState = State.MOVING;
+        } else {
+            currentState = State.IDLE;
+        }
+    }
+
+    private void followWaypointsReverse(double deltaTime, List<Bot> allBots) {
+        if (waypointIndex <= 0) {
+            
+            moveToPoint((team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y, 
+                        (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X, deltaTime);
+            return;
+        }
+        
+        double[] wp = waypoints.get(waypointIndex - 1); 
+        double dx = wp[0] - x;
+        double dy = wp[1] - y;
+        double dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 8.0) {
+            waypointIndex--; 
+        } else {
+            x += (dx / dist) * speed * deltaTime;
+            y += (dy / dist) * speed * deltaTime;
+            currentDirection = Direction.fromDelta((int) dx, (int) dy, currentDirection);
+            currentState = State.MOVING;
+        }
+    }
+  
     
     public String getName() {return this.name; }
 
@@ -64,19 +144,6 @@ public class Bot extends Personnage {
         g2.setFont(new Font("Arial", Font.BOLD, 11));
         g2.drawString(heroName, (int) x - 15, (int) y - GameConfiguration.TILE_SIZE * 2);
      }
-
-    
-    @Override
-    protected void onRespawn() {
-        if (waypoints != null && !waypoints.isEmpty()) {
-            this.x = waypoints.get(0)[0];
-            this.y = waypoints.get(0)[1];
-            this.waypointIndex = 0; 
-        }
-        this.hp = maxHp;
-        this.mana = maxMana;
-        this.active = true;
-    }
 
     private boolean followWaypoints(double deltaTime, List<Bot> allBots) {
     	

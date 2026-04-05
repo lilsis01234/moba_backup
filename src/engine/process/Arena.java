@@ -56,7 +56,6 @@ public class Arena {
         enemyBase  = new Base(53 * T, 7 * T, 1); 
 
         player = new Player(hero);
-        player.loadHeroGraphics(hero.getSpriteFile());
 
         playerFountain = new Fountain(4 * T, 56 * T, 0);
         enemyFountain  = new Fountain(56 * T, 4 * T, 1);
