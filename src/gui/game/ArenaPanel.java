@@ -46,7 +46,8 @@ public class ArenaPanel extends JPanel {
                 int mx = e.getX();
                 int my = e.getY();
 
-                if (hudRenderer.handleMinimapClick(mx, my)) return;
+                if (hudRenderer.handleRecallClick(mx, my)) return; 
+
                 if (hudRenderer.handlePauseButtonClick(mx, my)) {
                     if (pauseCallback != null) pauseCallback.run();
                     return;
@@ -85,6 +86,16 @@ public class ArenaPanel extends JPanel {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     double[] world = screenToWorld(e.getX(), e.getY(), getWidth(), getHeight());
                     hoveredEntity = arena.findEntityAtPosition(world[0], world[1], GameConfiguration.TILE_SIZE * 0.75);
+                }
+            }
+        });
+   
+        this.setFocusable(true);
+        this.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_0 || e.getKeyCode() == java.awt.event.KeyEvent.VK_NUMPAD0) {
+                    arena.getPlayer().startRecall();
                 }
             }
         });

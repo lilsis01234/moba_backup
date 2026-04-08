@@ -11,6 +11,7 @@ import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
 //attacking visual effect ? name becomes red? angry icon? 
+//visuals for recall? standing sprite? circlce, blood, angry
 //draw the 	attck radius around the player?
 // make a better respawning logic(depending on lvl can cause issues)
 //update the loot system( having to last hit to get any loot very difficult)
@@ -21,6 +22,8 @@ import gui.Sprites.HeroSprites;
 //gatekeep bases
 //esuipemet +HUD
 //Spells
+//add keyboard mouvement
+//problem : if tower kills enemy : wasted kill + resources checkkill
 
 
 
@@ -52,7 +55,7 @@ public abstract class Personnage extends Entity {
     //recall    
     private boolean recalling = false;
     private double recallTimer = 0;
-    private static final double recallDuration=GameConfiguration.RECALL_DURATION;
+    private double recallDuration=GameConfiguration.RECALL_DURATION;
     
     
     public Personnage(double x, double y, int team,Hero hero) {
@@ -106,9 +109,9 @@ public abstract class Personnage extends Entity {
 	    if (!target.isActive()) {
 	        this.addGold(target.getLoot());
 	        this.addXp(target.getXPLoot());
-	        this.kda.addKill();
 
 	        if (target instanceof Personnage) {
+		        this.kda.addKill();
 	            Personnage deadTarget = (Personnage) target;
 	            deadTarget.kda.addDeath();
 
@@ -179,6 +182,7 @@ public abstract class Personnage extends Entity {
     
     public void startRecall() {
         if (!active) return;
+        currentState = State.IDLE;
         recalling = true;
         recallTimer = recallDuration;
     }
@@ -262,4 +266,5 @@ public abstract class Personnage extends Entity {
     public KDA getKDA() { return kda; }
     public boolean isRecalling() { return recalling; }
     public double getRecallTimer() { return recallTimer; }
+    public double getRecallDuration() { return recallDuration; }
 }
