@@ -1,5 +1,10 @@
 package data.model;
 
+import engine.mobile.Entity;
+
+import engine.mobile.Personnage;
+import engine.mobile.SpellEffect;
+
 public class Spell {
     private int id;
     private int heroId;
@@ -8,9 +13,11 @@ public class Spell {
     private int damage;
     private double cooldown;
     private int manaCost;
-    private String type; // "dmg", "CC", "SP"
+    private String type; 
     
     public Spell() {}
+    //
+    private SpellEffect effect;
     
     public Spell(int id, int heroId, String name, String description, int damage, 
                  double cooldown, int manaCost, String type) {
@@ -38,6 +45,12 @@ public class Spell {
         return id;
     }
     
+    public void cast(Personnage caster, Entity target) {
+        effect.cast(caster, target);
+    }
+    public void setEffect(SpellEffect effect) {
+        this.effect = effect;
+    }
     public void setId(int id) {
         this.id = id;
     }
