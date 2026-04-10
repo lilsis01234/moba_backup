@@ -3,7 +3,7 @@ package data.model;
 import engine.mobile.Entity;
 
 import engine.mobile.Personnage;
-import engine.mobile.SpellEffect;
+import engine.mobile.SpellStrategy;
 
 public class Spell {
     private int id;
@@ -13,33 +13,15 @@ public class Spell {
     private int damage;
     private double cooldown;
     private int manaCost;
-    private String type; 
+  
+    //deleted the type class replaces by enum
+    public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT; }
+    private Type type;
     
+    private SpellStrategy effect;
+ 
     public Spell() {}
-    //
-    private SpellEffect effect;
-    
-    public Spell(int id, int heroId, String name, String description, int damage, 
-                 double cooldown, int manaCost, String type) {
-        this.id = id;
-        this.heroId = heroId;
-        this.name = name;
-        this.description = description;
-        this.damage = damage;
-        this.cooldown = cooldown;
-        this.manaCost = manaCost;
-        this.type = type;
-    }
-    
-    public Spell(int heroId, String name, String description, int damage,  double cooldown, int manaCost, String type) {
-        this.heroId = heroId;
-        this.name = name;
-        this.description = description;
-        this.damage = damage;
-        this.cooldown = cooldown;
-        this.manaCost = manaCost;
-        this.type = type;
-    }
+  
     
     public int getId() {
         return id;
@@ -48,7 +30,7 @@ public class Spell {
     public void cast(Personnage caster, Entity target) {
         effect.cast(caster, target);
     }
-    public void setEffect(SpellEffect effect) {
+    public void setEffect(SpellStrategy effect) {
         this.effect = effect;
     }
     public void setId(int id) {
@@ -103,11 +85,11 @@ public class Spell {
         this.manaCost = manaCost;
     }
     
-    public String getType() {
+    public Type getType() {
         return type;
     }
     
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 }

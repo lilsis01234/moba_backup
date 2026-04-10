@@ -1,29 +1,15 @@
 package engine.mobile;
 import data.model.Hero;
+import data.model.Spell;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import data.model.KDA;
-import engine.mobile.Personnage.State;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
-//attacking visual effect ? name becomes red? angry icon? 
-//visuals for recall? standing sprite? circlce, blood, angry
-//draw the 	attck radius around the player?
-// make a better respawning logic(depending on lvl can cause issues)
-//update the loot system( having to last hit to get any loot very difficult)
-//add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
-//bug in total kills where it includes enemies, HUD
-//stats HUD	
-//add lvl cap
-//gatekeep bases
-//esuipemet +HUD
-//Spells
-//add keyboard mouvement
-//problem : if tower kills enemy : wasted kill + resources checkkill
 
 
 
@@ -56,7 +42,13 @@ public abstract class Personnage extends Entity {
     private boolean recalling = false;
     private double recallTimer = 0;
     private double recallDuration=GameConfiguration.RECALL_DURATION;
-    
+
+    // spells
+    protected List<Spell> spells = new ArrayList<>();
+    protected double[] spellCooldownTimers = new double[3];
+
+    // stun
+    private double stunTimer = 0;
     
     public Personnage(double x, double y, int team,Hero hero) {
         super(x, y, 1, team);
@@ -76,6 +68,8 @@ public abstract class Personnage extends Entity {
         this.atkRange  = hero.getAtkRange();
         this.atkCooldown = 1.0 / hero.getAttackSpeed();
         loadHeroGraphics(hero.getSpriteFile());
+        this.spells = new ArrayList<>(hero.getSpells());
+        this.spellCooldownTimers = new double[3];
     }
     
     protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
@@ -179,6 +173,30 @@ public abstract class Personnage extends Entity {
             this.y= (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
         }
     }
+
+    public void updateTimers(double deltaTime) {
+        if (stunTimer > 0) stunTimer -= deltaTime;
+        for (int i = 0; i < spellCooldownTimers.length; i++) {
+            if (spellCooldownTimers[i] > 0) spellCooldownTimers[i] -= deltaTime;
+        }
+    }
+
+    //we need to know if it was cast succesfully or no so we use a bool instead of a void
+    public boolean castSpell(int index, Entity target) {
+        if (index < 0 || index >= spells.size()) return false;
+        Spell spell = spells.get(index);
+        if (spellCooldownTimers[index] > 0) return false;   
+        if (mana < spell.getManaCost()) return false;       
+        mana -= spell.getManaCost();
+        spellCooldownTimers[index] = spell.getCooldown();
+        spell.cast(this, target);
+        return true;
+    }
+    public boolean isStunned() { return stunTimer > 0; }
+    
+    //this was impelmented to avoid the little bug or cheat of getting stunned by a stun of lower time while already being stunned and thus overriding it 
+    public void applyStun(double seconds) { stunTimer = Math.max(stunTimer, seconds); }
+    
     
     public void startRecall() {
         if (!active) return;
@@ -245,7 +263,7 @@ public abstract class Personnage extends Entity {
         damageTimestamps.put(target, System.currentTimeMillis());
     }
     @Override
-    public void takeDamage(double damage) {
+    public void takeDamage(double damage) {	
         interruptRecall();
         super.takeDamage(damage);
     }
@@ -267,4 +285,6 @@ public abstract class Personnage extends Entity {
     public boolean isRecalling() { return recalling; }
     public double getRecallTimer() { return recallTimer; }
     public double getRecallDuration() { return recallDuration; }
+    public List<Spell> getSpells() { return spells; }
+    public double[] getSpellCooldownTimers() { return spellCooldownTimers; }
 }

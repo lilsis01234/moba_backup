@@ -1,7 +1,6 @@
 package gui;
 
 import engine.mobile.Bot;
-import engine.mobile.Entity;
 import engine.mobile.Personnage;
 import engine.mobile.Player;
 import engine.process.Arena;
@@ -10,14 +9,15 @@ import data.model.KDA;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import  java.util.List;
-
 import data.model.Hero;
+import data.model.Spell;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 
 public class HUDRenderer {
     private final Player player;
     private final Arena arena;
-    private final TilesManager tilesManager;
     private int screenWidth;
     private int screenHeight;
     private boolean paused = false;
@@ -28,14 +28,15 @@ public class HUDRenderer {
     private MinimapRenderer minimapRenderer;
     private Hero hero;
     private engine.mobile.Bot targetedBot = null;
+    private HashMap<data.model.Spell.Type, BufferedImage> spellIcons = new java.util.HashMap<>();
 
     public HUDRenderer(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
         this.player = player;
         this.arena = arena;
-        this.tilesManager = tilesManager;
         this.matchStartTime = System.currentTimeMillis();
         this.minimapRenderer = new MinimapRenderer(player, arena, tilesManager, 0, 0, 180);
         this.hero = hero;
+        loadSpellIcons();
     }
 
     public void setScreenSize(int screenWidth, int screenHeight) {
@@ -423,15 +424,40 @@ public class HUDRenderer {
         for (int i = 0; i < 3; i++) {
             int slotX = startX + i * (slotSize + gap);
             int slotY = y + 6;
-            
+
+            // background
             g2.setColor(new Color(40, 40, 60));
             g2.fillRect(slotX, slotY, slotSize, slotSize);
+
+            // icon
+            if (i < player.getSpells().size()) {
+                Spell spell = player.getSpells().get(i);
+                BufferedImage icon = spellIcons.get(spell.getType());
+                if (icon != null)
+                    g2.drawImage(icon, slotX, slotY, slotSize, slotSize, null);
+
+                // cooldown 
+                double timeLeft = player.getSpellCooldownTimers()[i];
+                if (timeLeft > 0) {
+                    double duration = spell.getCooldown();
+                    int fillHeight = (int)((timeLeft / duration) * slotSize);
+                    g2.setColor(new Color(0, 0, 0, 150));
+                    g2.fillRect(slotX, slotY + (slotSize - fillHeight), slotSize, fillHeight);
+
+                    g2.setColor(Color.WHITE);
+                    g2.setFont(new Font("Arial", Font.BOLD, 11));
+                    g2.drawString(String.format("%.1fs", timeLeft), slotX + 10, slotY + slotSize - 20);
+                }
+            }
+
+            // border
             g2.setColor(new Color(70, 70, 90));
             g2.drawRect(slotX, slotY, slotSize, slotSize);
-            
+
+            // keybind number
             g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Arial", Font.BOLD, 14));
-            g2.drawString((i + 1) + "", slotX + 4, slotY + 16);
+            g2.setFont(new Font("Arial", Font.BOLD, 11));
+            g2.drawString((i + 1) + "", slotX + 3, slotY + 12);
         }
     }
  
@@ -581,5 +607,15 @@ public class HUDRenderer {
         
         return mouseX >= pauseMargin && mouseX <= pauseMargin + pauseSize &&
                mouseY >= pauseY && mouseY <= pauseY + pauseSize;
+    }
+    
+    private void loadSpellIcons() {
+        try {
+            spellIcons.put(Spell.Type.DAMAGE,ImageIO.read(getClass().getResourceAsStream("/res/Sorts/dmg.png")));
+            spellIcons.put(Spell.Type.CROWD_CONTROL,ImageIO.read(getClass().getResourceAsStream("/res/Sorts/cc.png")));
+            spellIcons.put(Spell.Type.SUPPORT,ImageIO.read(getClass().getResourceAsStream("/res/Sorts/heal.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

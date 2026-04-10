@@ -1,6 +1,11 @@
 package engine.process;
 
 import data.model.*;
+import engine.mobile.CCEffect;
+import engine.mobile.DamageEffect;
+import engine.mobile.SpellStrategy;
+import engine.mobile.SupportEffect;
+
 import java.io.*;
 import java.util.*;
 
@@ -57,13 +62,12 @@ public class JsonDataProvider {
     }
 
     private void parseHeroes(String json) {
-        // Simple JSON parser for the expected structure
+       
         List<Map<String, String>> heroObjects = parseJsonArray(json);
         
         for ( Map<String, String> heroMap : heroObjects) {
-            Hero hero = new Hero();
-            
-            // Required fields
+            Hero hero = new Hero();         
+            //heroes
             hero.setName(heroMap.get("name"));
             hero.setSpriteFile((heroMap.get("spriteFile")));
             hero.setHistory(heroMap.get("history"));
@@ -78,7 +82,7 @@ public class JsonDataProvider {
                         
             heroes.add(hero);
             
-            // Load spells
+            // spells
             List<Spell> spells = new ArrayList<>();
             List<Map<String, String>> spellObjects = parseJsonArray(heroMap.get("spells"));
             for (Map<String, String> spellMap : spellObjects) {
@@ -86,24 +90,33 @@ public class JsonDataProvider {
                 spell.setHeroId(hero.getId());
                 spell.setName(spellMap.get("name"));
                 spell.setDescription(spellMap.get("description"));
-                spell.setType(spellMap.get("type"));
+                Spell.Type spellType = switch (spellMap.get("type")) {
+                case "dmg" -> Spell.Type.DAMAGE;
+                case "CC"  -> Spell.Type.CROWD_CONTROL;
+                case "SP"  -> Spell.Type.SUPPORT;
+                default    -> Spell.Type.DAMAGE;
+                };
+                spell.setType(spellType);
                 spell.setDamage(parseInt(spellMap.get("damage")));
                 spell.setCooldown(parseDouble(spellMap.get("cooldown")));
                 spell.setManaCost(parseInt(spellMap.get("manaCost")));
+                //THIS IS A PLACEHOLDER, the effect value shall be calculated later
+                spell.setEffect(createEffect(spell.getType(), spell.getDamage()));
                 spells.add(spell);
             }
             heroSpells.put(hero.getId(), spells);
+            for (Spell s : spells) hero.addSpell(s);
         }
     }
     
     private List<Map<String, String>> parseJsonArray(String json) {
         List<Map<String, String>> result = new ArrayList<>();
-        // Remove outer array brackets
+   
         json = json.trim();
         if (json.startsWith("[")) json = json.substring(1);
         if (json.endsWith("]")) json = json.substring(0, json.length() - 1);
         
-        // Split objects at "}," separator (handles nested objects/arrays by tracking braces)
+       
         int braceCount = 0;
         int start = 0;
         for (int i = 0; i < json.length(); i++) {
@@ -113,11 +126,11 @@ public class JsonDataProvider {
             } else if (c == '}') {
                 braceCount--;
                 if (braceCount == 0) {
-                    // Found complete object
+                  
                     if (i + 1 < json.length() && json.charAt(i + 1) == ',') {
                         String objStr = json.substring(start, i + 1);
                         result.add(parseJsonObject(objStr));
-                        start = i + 2; // Skip comma
+                        start = i + 2; 
                     } else if (i + 1 >= json.length()) {
                         String objStr = json.substring(start, i + 1);
                         result.add(parseJsonObject(objStr));
@@ -130,12 +143,12 @@ public class JsonDataProvider {
     
     private Map<String, String> parseJsonObject(String json) {
         Map<String, String> result = new LinkedHashMap<>();
-        // Remove outer braces
+       
         json = json.trim();
         if (json.startsWith("{")) json = json.substring(1);
         if (json.endsWith("}")) json = json.substring(0, json.length() - 1);
         
-        // Parse key-value pairs
+        
         int pos = 0;
         while (pos < json.length()) {
             // Skip whitespace and commas
@@ -143,8 +156,7 @@ public class JsonDataProvider {
                 pos++;
             }
             if (pos >= json.length()) break;
-            
-            // Parse key (should be in quotes)
+           
             if (json.charAt(pos) != '"') break;
             int keyStart = pos + 1;
             int keyEnd = json.indexOf('"', keyStart);
@@ -166,14 +178,12 @@ public class JsonDataProvider {
             // Parse value
             String value;
             if (json.charAt(pos) == '"') {
-                // String value
                 int valStart = pos + 1;
                 int valEnd = json.indexOf('"', valStart);
                 if (valEnd == -1) break;
                 value = json.substring(valStart, valEnd);
                 pos = valEnd + 1;
             } else if (json.charAt(pos) == '[') {
-                // Array value - extract as string for nested parsing
                 int arrayStart = pos;
                 int braceCount = 0;
                 while (pos < json.length()) {
@@ -184,7 +194,6 @@ public class JsonDataProvider {
                 }
                 value = json.substring(arrayStart, pos);
             } else {
-                // Number or boolean/null
                 int valStart = pos;
                 while (pos < json.length() && !isDelimiter(json.charAt(pos))) {
                     pos++;
@@ -196,7 +205,16 @@ public class JsonDataProvider {
         }
         return result;
     }
-    
+        	
+	private SpellStrategy createEffect(Spell.Type type, int amount) {
+	    switch (type) {
+	        case DAMAGE:        return new DamageEffect(amount);
+	        case CROWD_CONTROL: return new CCEffect(amount);
+	        case SUPPORT:       return new SupportEffect(amount);
+	        default:            return new DamageEffect(amount);
+	    }
+    }
+
     private int parseInt(String s) {
         if (s == null || s.isEmpty()) return 0;
         try {

@@ -94,8 +94,17 @@ public class ArenaPanel extends JPanel {
         this.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
-                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_0 || e.getKeyCode() == java.awt.event.KeyEvent.VK_NUMPAD0) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_4 || e.getKeyCode() == java.awt.event.KeyEvent.VK_NUMPAD4) {
                     arena.getPlayer().startRecall();
+                }
+                int spellIndex = -1;
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_1) spellIndex = 0;
+                else if (e.getKeyCode() == java.awt.event.KeyEvent.VK_2) spellIndex = 1;
+                else if (e.getKeyCode() == java.awt.event.KeyEvent.VK_3) spellIndex = 2;
+                if (spellIndex >= 0) {
+                    // support spells target self, others target the current enemy target
+                    engine.mobile.Entity target = arena.getPlayer().getTargetEnemy();
+                    arena.getPlayer().castSpell(spellIndex, target);
                 }
             }
         });

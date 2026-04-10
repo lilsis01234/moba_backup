@@ -1,43 +1,25 @@
-in our current game we can:
-.move
-.generate mana automatically
-.move
-.lose hp when near enemy bots/turrets/base
-.die
-.respwan
-
-
-
-//added the 2d map finally, 
-
 TO DO:
-1/
 
--die and respawn for bots : fait 
+//attacking visual effect ? name becomes red? angry icon? 
+//visuals for recall? standing sprite? circlce, blood, angry
+//draw the 	attck radius around the player?
+// make a better respawning logic(depending on lvl can cause issues)
+//update the loot system( having to last hit to get any loot very difficult)
+//add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
+//bug in total kills where it includes enemies, HUD
+//stats HUD	
+//add lvl cap
+//properly calculate skill dmg/heal/stun
+//gatekeep bases
+//Spells
+//add keyboard mouvement
+//problem : if tower kills enemy : wasted kill + resources checkkill
 
-2/ LOOT
--Add gold and xp + level to Personnage
--Add a grantRewards(int gold, int xp) method to Entite so anything can drop loot on death
-
-3/
--When xp hits a threshold, call levelUp() bumps level, scales stats
-
-4/
--Implement Hero properly
-
-5/
--Implement Sort
-
-
-8/
--Recall: 5 second countdown, interrupted on damage/movement, on completion: teleport to fountain
-
-13/
--shop nd equipmens
+//note skills just target the last taret u were attacking can improve but not so bad
 
 
 
-TYPES OF SPELLS: (Aoe , single target)
+TYPES OF SPELLS in general: (Aoe , single target)
 -projectile? they take time to lanf
 -melee
 -heal
