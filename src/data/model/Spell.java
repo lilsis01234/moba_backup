@@ -13,6 +13,7 @@ public class Spell {
     private int damage;
     private double cooldown;
     private int manaCost;
+    private int spellLevel = 0; 
   
     //deleted the type class replaces by enum
     public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT; }
@@ -28,7 +29,7 @@ public class Spell {
     }
     
     public void cast(Personnage caster, Entity target) {
-        effect.cast(caster, target);
+        effect.cast(caster, target, spellLevel);
     }
     public void setEffect(SpellStrategy effect) {
         this.effect = effect;
@@ -92,4 +93,9 @@ public class Spell {
     public void setType(Type type) {
         this.type = type;
     }
+    public void upgrade() {
+        if (spellLevel < 5) spellLevel++;
+    }
+    public int getSpellLevel() { return spellLevel; }
+    public boolean isUnlocked() { return spellLevel > 0; }
 }

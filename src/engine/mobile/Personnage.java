@@ -10,7 +10,13 @@ import java.util.List;
 import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
-
+//krrp working on spell bug
+//uh if no targer and cast?
+//visual effects
+//spell clicking
+//spells on minions
+//assist on towers / minions loot
+//scaling
 
 
 public abstract class Personnage extends Entity {
@@ -46,6 +52,7 @@ public abstract class Personnage extends Entity {
     // spells
     protected List<Spell> spells = new ArrayList<>();
     protected double[] spellCooldownTimers = new double[3];
+    private int skillPoints = 1;
 
     // stun
     private double stunTimer = 0;
@@ -124,6 +131,7 @@ public abstract class Personnage extends Entity {
     }
 
     public void addXp(int XPReward) {
+    	if (level >= 15) return;
         xp += XPReward;
         int threshold = this.level * 100;
         if (xp >= threshold) {
@@ -185,11 +193,20 @@ public abstract class Personnage extends Entity {
     public boolean castSpell(int index, Entity target) {
         if (index < 0 || index >= spells.size()) return false;
         Spell spell = spells.get(index);
-        if (spellCooldownTimers[index] > 0) return false;   
-        if (mana < spell.getManaCost()) return false;       
+        if (!spell.isUnlocked()) return false;
+        if (spellCooldownTimers[index] > 0) return false;
+        if (mana < spell.getManaCost()) return false;
         mana -= spell.getManaCost();
         spellCooldownTimers[index] = spell.getCooldown();
         spell.cast(this, target);
+        return true;
+    }
+    public boolean upgradeSpell(int index) {
+        if (skillPoints <= 0) return false;
+        if (index < 0 || index >= spells.size()) return false;
+        if (spells.get(index).getSpellLevel() >= 5) return false;
+        spells.get(index).upgrade();
+        skillPoints--;
         return true;
     }
     public boolean isStunned() { return stunTimer > 0; }
@@ -287,4 +304,5 @@ public abstract class Personnage extends Entity {
     public double getRecallDuration() { return recallDuration; }
     public List<Spell> getSpells() { return spells; }
     public double[] getSpellCooldownTimers() { return spellCooldownTimers; }
+    public int getSkillPoints() { return skillPoints; }
 }

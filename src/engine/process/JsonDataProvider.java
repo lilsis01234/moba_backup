@@ -209,7 +209,7 @@ public class JsonDataProvider {
 	private SpellStrategy createEffect(Spell.Type type, int amount) {
 	    switch (type) {
 	        case DAMAGE:        return new DamageEffect(amount);
-	        case CROWD_CONTROL: return new CCEffect(amount);
+	        case CROWD_CONTROL: return new CCEffect(amount, 2.0);
 	        case SUPPORT:       return new SupportEffect(amount);
 	        default:            return new DamageEffect(amount);
 	    }
