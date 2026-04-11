@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Represente un equipement achetable par le joueur.
  * Un equipement peut etre basique (achat avec or) ou fusionne (creation a partir de 2 basiques).
@@ -5,6 +6,8 @@
  */
 
 
+=======
+>>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 package data.model;
 
 public class Equipment {

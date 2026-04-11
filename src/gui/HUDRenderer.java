@@ -1,7 +1,6 @@
 package gui;
 
 import engine.mobile.Bot;
-import engine.mobile.Entity;
 import engine.mobile.Personnage;
 import engine.mobile.Player;
 import engine.process.Arena;
@@ -14,11 +13,14 @@ import  java.util.List;
 import data.model.Equipment;
 
 import data.model.Hero;
+import data.model.Spell;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 
 public class HUDRenderer {
     private final Player player;
     private final Arena arena;
-    private final TilesManager tilesManager;
     private int screenWidth;
     private int screenHeight;
     private boolean paused = false;
@@ -29,14 +31,15 @@ public class HUDRenderer {
     private MinimapRenderer minimapRenderer;
     private Hero hero;
     private engine.mobile.Bot targetedBot = null;
+    private HashMap<data.model.Spell.Type, BufferedImage> spellIcons = new java.util.HashMap<>();
 
     public HUDRenderer(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
         this.player = player;
         this.arena = arena;
-        this.tilesManager = tilesManager;
         this.matchStartTime = System.currentTimeMillis();
         this.minimapRenderer = new MinimapRenderer(player, arena, tilesManager, 0, 0, 180);
         this.hero = hero;
+        loadSpellIcons();
     }
 
     public void setScreenSize(int screenWidth, int screenHeight) {
@@ -83,8 +86,8 @@ public class HUDRenderer {
         	renderEnemyPanel(g2, margin, screenHeight - 160 - 100);
         }
         
-        renderAbilityBar(g2, screenWidth - 140 - margin, screenHeight - 55);
-        
+        renderAbilityBar(g2, screenWidth - 170 - margin, screenHeight - 60);
+        renderRecallButton(g2,screenWidth - 170 - margin -60,screenHeight - 60);
         renderItemBar(g2, screenWidth - 140 - margin, screenHeight - 110);
         
         renderPauseButton(g2, margin, 100);
@@ -408,33 +411,114 @@ public class HUDRenderer {
     
 
     private void renderAbilityBar(Graphics2D g2, int x, int y) {
-        int width = 130;
-        int height = 45;
+        int width = 180;
+        int height = 95;
         
         g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);
         
-        int slotSize = 32;
-        int gap = 4;
-        int startX = x + 10;
+        int gap = 10;
+        int padding = 10;
+        int startX = x + padding;
+        int slotSize = (width - 2 * padding - 2 * gap) / 3;
         
         for (int i = 0; i < 3; i++) {
             int slotX = startX + i * (slotSize + gap);
             int slotY = y + 6;
-            
+
+<<<<<<< HEAD
+=======
+            // background
             g2.setColor(new Color(40, 40, 60));
             g2.fillRect(slotX, slotY, slotSize, slotSize);
+
+            // icon
+            if (i < player.getSpells().size()) {
+                Spell spell = player.getSpells().get(i);
+                BufferedImage icon = spellIcons.get(spell.getType());
+                if (icon != null)
+                    g2.drawImage(icon, slotX, slotY, slotSize, slotSize, null);
+
+                // cooldown 
+                double timeLeft = player.getSpellCooldownTimers()[i];
+                if (timeLeft > 0) {
+                    double duration = spell.getCooldown();
+                    int fillHeight = (int)((timeLeft / duration) * slotSize);
+                    g2.setColor(new Color(0, 0, 0, 150));
+                    g2.fillRect(slotX, slotY + (slotSize - fillHeight), slotSize, fillHeight);
+
+                    g2.setColor(Color.WHITE);
+                    g2.setFont(new Font("Arial", Font.BOLD, 11));
+                    g2.drawString(String.format("%.1fs", timeLeft), slotX + 10, slotY + slotSize - 20);
+                }
+            }
+
+            // border
             g2.setColor(new Color(70, 70, 90));
             g2.drawRect(slotX, slotY, slotSize, slotSize);
-            
+
+            // keybind number
             g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Arial", Font.BOLD, 14));
-            g2.drawString((i + 1) + "", slotX + 4, slotY + 16);
+            g2.setFont(new Font("Arial", Font.BOLD, 11));
+            g2.drawString((i + 1) + "", slotX + 3, slotY + 12);
         }
     }
+ 
+	private void renderRecallButton(Graphics2D g2, int x, int y) {
+	    int width = 60;
+	    int height = 95;
+	    
+	    g2.setColor(Theme.PANEL_BG);
+	    g2.fillRect(x, y, width, height);
+	    g2.setColor(Color.GRAY);
+	    g2.drawRect(x, y, width, height);
+	    
+	    int padding = 10;
+	    int slotSize = width - (padding * 2);
+	    int slotX = x + padding;
+	    int slotY = y + 10;
+	
+	    g2.setColor(new Color(40, 40, 60));
+	    g2.fillRect(slotX, slotY, slotSize, slotSize);
+	
+	    if (player.isRecalling()) {
+	        double timeLeft = player.getRecallTimer();
+	        double duration = player.getRecallDuration();
+	
+	        g2.setColor(new Color(0, 150, 255, 120));
+	        int fillHeight = (int)((timeLeft / duration) * slotSize);
+	        g2.fillRect(slotX, slotY + (slotSize - fillHeight), slotSize, fillHeight);
+	
+	        
+	        g2.setColor(Color.WHITE);
+	        g2.setFont(new Font("Arial", Font.BOLD, 14));
+	        g2.drawString(String.format("%.1fs", timeLeft), slotX + 6, slotY + 25);
+	    } else {
+	    	g2.setColor(new Color(155, 173, 199));
+	        g2.setFont(new Font("Arial", Font.BOLD, 22));
+	        g2.drawString("R", slotX + 11, slotY + 28);
+	    }
+	    
+	    g2.setColor(new Color(70, 70, 90));
+	    g2.drawRect(slotX, slotY, slotSize, slotSize);
+	}
 
+
+	public boolean handleRecallClick(int clickX, int clickY) {
+	    int margin = 10;
+	    int x = screenWidth - 170 - margin - 60;
+	    int y = screenHeight - 60;
+	    
+	    if (clickX >= x && clickX <= x + 60 && clickY >= y && clickY <= y + 95) {
+	        player.startRecall();
+	        return true;
+	    }
+	    return false;
+	}    
+
+>>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 private void renderItemBar(Graphics2D g2, int x, int y) {
     int width  = 210;
     int height = 45;
@@ -542,5 +626,15 @@ private Color typeColor(Equipment eq) {
         
         return mouseX >= pauseMargin && mouseX <= pauseMargin + pauseSize &&
                mouseY >= pauseY && mouseY <= pauseY + pauseSize;
+    }
+    
+    private void loadSpellIcons() {
+        try {
+            spellIcons.put(Spell.Type.DAMAGE,ImageIO.read(getClass().getResourceAsStream("/res/Sorts/dmg.png")));
+            spellIcons.put(Spell.Type.CROWD_CONTROL,ImageIO.read(getClass().getResourceAsStream("/res/Sorts/cc.png")));
+            spellIcons.put(Spell.Type.SUPPORT,ImageIO.read(getClass().getResourceAsStream("/res/Sorts/heal.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

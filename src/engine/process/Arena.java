@@ -90,10 +90,7 @@ public class Arena {
         // towers attack closest enemy
         for (Lane lane : lanes) {
             for (Tower t : lane.getAllTowers()) {
-                if (!t.isActive()) continue;
-                List<Entity> targets = t.getTeam() == 0 ? enemiesOfTeam0 : enemiesOfTeam1;
-                Entity closest = findClosestEnemy(t, targets);
-                if (closest != null) t.attack(closest, deltaTime);
+            	t.update(deltaTime, (t.getTeam() == 0) ? enemiesOfTeam0 : enemiesOfTeam1);
             }
         }
 

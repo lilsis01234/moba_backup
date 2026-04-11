@@ -41,6 +41,8 @@ public class Bot extends Personnage {
     	//die and respawn
         if (hp <= 0 && active) { die(); }
         if (!active) { super.respawn(deltaTime); return; }
+        updateTimers(deltaTime);
+        if (isStunned()) { updateAnimation(deltaTime); return; }
         //move
         Move(deltaTime, enemies, allBots, allPersonnages);
         //recall

@@ -38,6 +38,7 @@ public class Player extends Personnage {
         }
         //recalling 
         updateRecall(deltaTime);
+        updateTimers(deltaTime);
         //moving
 
         if (currentState == State.MOVING) {
@@ -114,4 +115,5 @@ public class Player extends Personnage {
     public double getCibleY() { return CibleY; }
     public State getState() { return currentState; }
     public void setTarget(Entity target) { this.targetEnemy = target; }
+    public Entity getTargetEnemy() { return targetEnemy; }
 }

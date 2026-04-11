@@ -3,6 +3,7 @@ package engine.mobile;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -57,6 +58,13 @@ public class Tower extends Entity {
             g2.drawRect(px - size/2, py - size/2, size, size);
         }
    
+    }
+    public void update(double deltaTime, ArrayList<Entity> enemies) {
+        if (!active) return;
+        Entity closest = EntityUtils.findClosest(this, enemies);      
+        if (closest != null) {
+            this.attack(closest, deltaTime);
+        }
     }
 
     public boolean isAlly()  { return team == 0; }
