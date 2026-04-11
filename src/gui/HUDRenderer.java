@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import  java.util.List;
+import data.model.Equipment;
 
 import data.model.Hero;
 
@@ -220,9 +221,9 @@ public class HUDRenderer {
         int statsY = y + 110;
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
-        g2.drawString("ATK: " + (hero != null ? player.getAtkDamage() : 20), x + 10, statsY);
-        g2.drawString("DEF: " + (hero != null ? hero.getDefense() : 0), x + 80, statsY);
-        g2.drawString("SPD: " + (int)(hero != null ? hero.getSpeed() : player.getSpeed()), x + 140, statsY);
+        g2.drawString("ATK: " + (int) player.getAtkDamage(), x + 10,  statsY);
+        g2.drawString("DEF: " + player.getDefense(),          x + 80,  statsY);
+        g2.drawString("SPD: " + (int) player.getSpeed(),      x + 150, statsY);
 }
     private void renderEnemyPanel(Graphics2D g2, int x, int y) {
         int width = 240;  
@@ -434,37 +435,50 @@ public class HUDRenderer {
         }
     }
 
-    private void renderItemBar(Graphics2D g2, int x, int y) {
-        int width = 130;
-        int height = 45;
-        
-        g2.setColor(Theme.PANEL_BG);
-        g2.fillRect(x, y, width, height);
-        g2.setColor(Color.GRAY);
-        g2.drawRect(x, y, width, height);
-        
-        g2.setColor(new Color(180, 180, 200));
-        g2.setFont(new Font("Arial", Font.BOLD, 10));
-        g2.drawString("ITEMS", x + 5, y + 12);
-        
-        int slotSize = 26;
-        int gap = 3;
-        int startX = x + 5;
-        
-        for (int i = 0; i < 4; i++) {
-            int slotX = startX + i * (slotSize + gap);
-            int slotY = y + 15;
-            
+private void renderItemBar(Graphics2D g2, int x, int y) {
+    int width  = 210;
+    int height = 45;
+
+    g2.setColor(Theme.PANEL_BG);
+    g2.fillRect(x, y, width, height);
+    g2.setColor(Color.GRAY);
+    g2.drawRect(x, y, width, height);
+
+    g2.setColor(new Color(180, 180, 200));
+    g2.setFont(new Font("Arial", Font.BOLD, 10));
+    g2.drawString("ITEMS  [B]=Boutique", x + 5, y + 12);
+
+    List<Equipment> gear = player.getEquippedGear();
+    int slotSize = 28;
+    int gap      = 3;
+
+    for (int i = 0; i < 6; i++) {
+        int slotX = x + 5 + i * (slotSize + gap);
+        int slotY = y + 15;
+
+        if (i < gear.size()) {
+            Equipment eq = gear.get(i);
+            g2.setColor(typeColor(eq));
+            g2.fillRect(slotX, slotY, slotSize, slotSize);
+            g2.setColor(Color.YELLOW);
+            g2.drawRect(slotX, slotY, slotSize, slotSize);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            g2.drawString(eq.getName().substring(0, 1), slotX + 9, slotY + 19);
+        } else {
             g2.setColor(new Color(40, 40, 60));
             g2.fillRect(slotX, slotY, slotSize, slotSize);
             g2.setColor(new Color(70, 70, 90));
             g2.drawRect(slotX, slotY, slotSize, slotSize);
-            
-            g2.setColor(new Color(150, 150, 170));
-            g2.setFont(new Font("Arial", Font.BOLD, 9));
-            g2.drawString((i + 1) + "", slotX + 3, slotY + 10);
         }
     }
+}
+
+private Color typeColor(Equipment eq) {
+    if (eq.getType() == data.model.EquipmentType.SWORD)  return new Color(160, 50, 50);
+    if (eq.getType() == data.model.EquipmentType.HELMET) return new Color(50, 80, 160);
+    return new Color(50, 130, 50);
+}
 
     private void renderPauseButton(Graphics2D g2, int x, int y) {
         int size = 30;
