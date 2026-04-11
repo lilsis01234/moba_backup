@@ -98,10 +98,11 @@ public class JsonDataProvider {
                 };
                 spell.setType(spellType);
                 spell.setDamage(parseInt(spellMap.get("damage")));
+                spell.setBuff(parseInt(spellMap.get("buff")));
                 spell.setCooldown(parseDouble(spellMap.get("cooldown")));
                 spell.setManaCost(parseInt(spellMap.get("manaCost")));
                 //THIS IS A PLACEHOLDER, the effect value shall be calculated later
-                spell.setEffect(createEffect(spell.getType(), spell.getDamage()));
+                spell.setEffect(createEffect(spell.getType(), spell.getDamage(), spell.getBuff()));
                 spells.add(spell);
             }
             heroSpells.put(hero.getId(), spells);
@@ -206,13 +207,13 @@ public class JsonDataProvider {
         return result;
     }
         	
-	private SpellStrategy createEffect(Spell.Type type, int amount) {
-	    switch (type) {
-	        case DAMAGE:        return new DamageEffect(amount);
-	        case CROWD_CONTROL: return new CCEffect(amount, 2.0);
-	        case SUPPORT:       return new SupportEffect(amount);
-	        default:            return new DamageEffect(amount);
-	    }
+    private SpellStrategy createEffect(Spell.Type type, int damage, int buff) {
+        switch (type) {
+            case DAMAGE:        return new DamageEffect(damage);
+            case CROWD_CONTROL: return new CCEffect(damage, 2.0);
+            case SUPPORT:       return new SupportEffect(buff); 
+            default:            return new DamageEffect(damage);
+        }
     }
 
     private int parseInt(String s) {

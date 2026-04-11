@@ -65,7 +65,20 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                  return;
 }
 
-                if (hudRenderer.handleRecallClick(mx, my)) return; 
+                if (hudRenderer.handleRecallClick(mx, my)) return;
+
+                // spell slot clicks: left-click = cast, right-click = upgrade
+                int spellSlot = hudRenderer.getSpellSlotAt(mx, my);
+                if (spellSlot >= 0) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        arena.getPlayer().upgradeSpell(spellSlot);
+                    } else if (e.getButton() == MouseEvent.BUTTON1) {
+                        engine.mobile.Entity target = arena.getPlayer().getTargetEnemy();
+                        arena.getPlayer().castSpell(spellSlot, target);
+                    }
+                    repaint();
+                    return;
+                }
 
                 if (hudRenderer.handlePauseButtonClick(mx, my)) {
                     if (pauseCallback != null) pauseCallback.run();
@@ -116,14 +129,23 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                 if (e.getKeyCode() == java.awt.event.KeyEvent.VK_4 || e.getKeyCode() == java.awt.event.KeyEvent.VK_NUMPAD4) {
                     arena.getPlayer().startRecall();
                 }
+
+                boolean ctrl = (e.getModifiersEx() & java.awt.event.InputEvent.CTRL_DOWN_MASK) != 0;
                 int spellIndex = -1;
                 if (e.getKeyCode() == java.awt.event.KeyEvent.VK_1) spellIndex = 0;
                 else if (e.getKeyCode() == java.awt.event.KeyEvent.VK_2) spellIndex = 1;
                 else if (e.getKeyCode() == java.awt.event.KeyEvent.VK_3) spellIndex = 2;
+
                 if (spellIndex >= 0) {
-                    // support spells target self, others target the current enemy target
-                    engine.mobile.Entity target = arena.getPlayer().getTargetEnemy();
-                    arena.getPlayer().castSpell(spellIndex, target);
+                    if (ctrl) {
+                        // Ctrl+1/2/3 to upgrase
+                        arena.getPlayer().upgradeSpell(spellIndex);
+                    } else {
+                        // 1/2/3 to cast
+                        engine.mobile.Entity target = arena.getPlayer().getTargetEnemy();
+                        arena.getPlayer().castSpell(spellIndex, target);
+                    }
+                    repaint();
                 }
             }
         });

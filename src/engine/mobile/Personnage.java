@@ -11,14 +11,14 @@ import java.util.HashMap;
 import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
-//krrp working on spell bug
+
 //uh if no targer and cast?
 //visual effects
-//spell clicking
-//spells on minions
+//bot spells
 //assist on towers / minions loot
 //scaling
-
+//healing problem add buff to json?
+//add a blink spell? sheild? slow? aoe melee?
 
 public abstract class Personnage extends Entity {
 
@@ -144,7 +144,7 @@ public abstract class Personnage extends Entity {
             maxHp     += GameConfiguration.LEVEL_HP_BONUS;
             maxMana   += GameConfiguration.LEVEL_MANA_BONUS;
             atkDamage += GameConfiguration.LEVEL_DMG_BONUS;
-
+            skillPoints++; // earn one skill point per level-up
         }
     }
     
@@ -208,7 +208,7 @@ public abstract class Personnage extends Entity {
     public boolean upgradeSpell(int index) {
         if (skillPoints <= 0) return false;
         if (index < 0 || index >= spells.size()) return false;
-        if (spells.get(index).getSpellLevel() >= 5) return false;
+        if (spells.get(index).getSpellLevel() >= Spell.MAX_LEVEL) return false;
         spells.get(index).upgrade();
         skillPoints--;
         return true;

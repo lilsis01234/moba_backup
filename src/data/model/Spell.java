@@ -11,9 +11,10 @@ public class Spell {
     private String name;
     private String description;
     private int damage;
+    private int buff;	
     private double cooldown;
     private int manaCost;
-    private int spellLevel = 1; 
+    private int spellLevel = 0; // starts locked; first skill point unlocks it (level 1)
   
     //deleted the type class replaces by enum
     public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT; }
@@ -93,9 +94,13 @@ public class Spell {
     public void setType(Type type) {
         this.type = type;
     }
+    public static final int MAX_LEVEL = 5;
+
     public void upgrade() {
-        if (spellLevel < 5) spellLevel++;
+        if (spellLevel < MAX_LEVEL) spellLevel++;
     }
     public int getSpellLevel() { return spellLevel; }
     public boolean isUnlocked() { return spellLevel > 0; }
+    public int getBuff() { return buff; }
+    public void setBuff(int buff) { this.buff = buff; }
 }

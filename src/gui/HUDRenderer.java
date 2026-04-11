@@ -324,11 +324,10 @@ public class HUDRenderer {
     }
 
     private void drawSideHeroPanel(Graphics2D g2, int x, int y, int w, int h, Personnage p, Color teamColor, boolean isAlly) {
-        // 1. Draw Panel Background
+        //  Draw Panel 
         g2.setColor(Theme.PANEL_BG); 
         g2.fillRect(x, y, w, h);
         
-        // 2. Panel Border
         g2.setColor(teamColor);
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(x, y, w, h);
@@ -413,17 +412,20 @@ public class HUDRenderer {
     private void renderAbilityBar(Graphics2D g2, int x, int y) {
         int width = 180;
         int height = 95;
-        
+
         g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
         g2.setColor(Color.GRAY);
         g2.drawRect(x, y, width, height);
-        
+
         int gap = 10;
         int padding = 10;
         int startX = x + padding;
         int slotSize = (width - 2 * padding - 2 * gap) / 3;
-        
+        int pipH = 4;   
+        int pipGap = 2;
+        int skillPts = player.getSkillPoints();
+
         for (int i = 0; i < 3; i++) {
             int slotX = startX + i * (slotSize + gap);
             int slotY = y + 6;
@@ -432,24 +434,63 @@ public class HUDRenderer {
             g2.setColor(new Color(40, 40, 60));
             g2.fillRect(slotX, slotY, slotSize, slotSize);
 
-            // icon
             if (i < player.getSpells().size()) {
                 Spell spell = player.getSpells().get(i);
+                boolean unlocked = spell.isUnlocked();
+                //icon
                 BufferedImage icon = spellIcons.get(spell.getType());
-                if (icon != null)
-                    g2.drawImage(icon, slotX, slotY, slotSize, slotSize, null);
+                if (icon != null) {
+                    if (unlocked) {
+                        g2.drawImage(icon, slotX, slotY, slotSize, slotSize, null);
+                    } else {
+                        // trancparency
+                        Composite orig = g2.getComposite();
+                        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
+                        g2.drawImage(icon, slotX, slotY, slotSize, slotSize, null);
+                        g2.setComposite(orig);
+                    }
+                }
 
-                // cooldown 
-                double timeLeft = player.getSpellCooldownTimers()[i];
-                if (timeLeft > 0) {
-                    double duration = spell.getCooldown();
-                    int fillHeight = (int)((timeLeft / duration) * slotSize);
-                    g2.setColor(new Color(0, 0, 0, 150));
-                    g2.fillRect(slotX, slotY + (slotSize - fillHeight), slotSize, fillHeight);
+                // locked
+                if (!unlocked) {
+                    g2.setColor(new Color(0, 0, 0, 160));
+                    g2.fillRect(slotX, slotY, slotSize, slotSize);
+                    
+                    g2.setColor(new Color(200, 200, 200, 200));
+                    g2.setFont(new Font("Arial", Font.BOLD, 18));
+                    
+                                    
+                    g2.setFont(new Font("Arial", Font.BOLD, 13));
+                    g2.drawString("LVL 0", slotX + 2, slotY + slotSize / 2 + 5);
+                } else {
+                    //cooldown left
+                    double timeLeft = player.getSpellCooldownTimers()[i];
+                    if (timeLeft > 0) {
+                        double duration = spell.getCooldown();
+                        int fillHeight = (int)((timeLeft / duration) * slotSize);
+                        g2.setColor(new Color(0, 0, 0, 150));
+                        g2.fillRect(slotX, slotY + (slotSize - fillHeight), slotSize, fillHeight);
+                        g2.setColor(Color.WHITE);
+                        g2.setFont(new Font("Arial", Font.BOLD, 11));
+                        g2.drawString(String.format("%.1fs", timeLeft), slotX + 4, slotY + slotSize - 5);
+                    }
+                }
 
-                    g2.setColor(Color.WHITE);
-                    g2.setFont(new Font("Arial", Font.BOLD, 11));
-                    g2.drawString(String.format("%.1fs", timeLeft), slotX + 10, slotY + slotSize - 20);
+                // level stripes
+                int totalPipWidth = Spell.MAX_LEVEL * (pipH + pipGap) - pipGap;
+                int pipStartX = slotX + (slotSize - totalPipWidth) / 2;
+                int pipY = slotY + slotSize + 3;
+                for (int p = 0; p < Spell.MAX_LEVEL; p++) {
+                    boolean filled = p < spell.getSpellLevel();
+                    g2.setColor(filled ? new Color(255, 210, 60) : new Color(70, 70, 90));
+                    g2.fillRect(pipStartX + p * (pipH + pipGap), pipY, pipH, pipH);
+                }
+
+                // the + upgradable
+                if (skillPts > 0 && spell.getSpellLevel() < Spell.MAX_LEVEL) {
+                    g2.setColor(new Color(100, 255, 100));
+                    g2.setFont(new Font("Arial", Font.BOLD, 16));
+                    g2.drawString("+", slotX + slotSize - 9, slotY + 11);
                 }
             }
 
@@ -457,10 +498,25 @@ public class HUDRenderer {
             g2.setColor(new Color(70, 70, 90));
             g2.drawRect(slotX, slotY, slotSize, slotSize);
 
-            // keybind number
+            // its keyboard num
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Arial", Font.BOLD, 11));
             g2.drawString((i + 1) + "", slotX + 3, slotY + 12);
+        }
+
+        // SP available
+        if (skillPts > 0) {
+            String badge = "SP:" + skillPts;
+            g2.setFont(new Font("Arial", Font.BOLD, 11));
+            FontMetrics fm = g2.getFontMetrics();
+            int bw = fm.stringWidth(badge) + 6;
+            int bh = 14;
+            int bx = x + width - bw - 3;
+            int by = y + 3;
+            g2.setColor(new Color(255, 200, 0));
+            g2.fillRoundRect(bx, by, bw, bh, 5, 5);
+            g2.setColor(Color.BLACK);
+            g2.drawString(badge, bx + 3, by + bh - 3);
         }
     }
  
@@ -514,7 +570,29 @@ public class HUDRenderer {
 	        return true;
 	    }
 	    return false;
-	}    
+	}
+
+    
+    public int getSpellSlotAt(int clickX, int clickY) {
+        int margin   = 10;
+        int barX     = screenWidth - 170 - margin;
+        int barY     = screenHeight - 60;
+        int width    = 180;
+        int gap      = 10;
+        int padding  = 10;
+        int slotSize = (width - 2 * padding - 2 * gap) / 3;
+        int startX   = barX + padding;
+
+        for (int i = 0; i < 3; i++) {
+            int slotX = startX + i * (slotSize + gap);
+            int slotY = barY + 6;
+            if (clickX >= slotX && clickX <= slotX + slotSize &&
+                clickY >= slotY && clickY <= slotY + slotSize) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
 private void renderItemBar(Graphics2D g2, int x, int y) {
     int width  = 210;

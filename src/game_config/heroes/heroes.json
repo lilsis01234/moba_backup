@@ -16,7 +16,8 @@
         "damage": 80,
         "cooldown": 8,
         "manaCost": 40,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Bouclier",
@@ -24,7 +25,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 50,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Frappe du Titan",
@@ -32,7 +34,8 @@
         "damage": 150,
         "cooldown": 12,
         "manaCost": 70,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       }
     ],
     "attackRange": 400,
@@ -55,7 +58,8 @@
         "damage": 100,
         "cooldown": 6,
         "manaCost": 45,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Épiderme de Pierre",
@@ -63,7 +67,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 60,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Cataclysme",
@@ -71,7 +76,8 @@
         "damage": 200,
         "cooldown": 15,
         "manaCost": 100,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       }
     ],
     "attackRange": 400,
@@ -94,7 +100,8 @@
         "damage": 120,
         "cooldown": 10,
         "manaCost": 55,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Armure Naturelle",
@@ -102,7 +109,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 70,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Impact Sismique",
@@ -110,7 +118,8 @@
         "damage": 180,
         "cooldown": 14,
         "manaCost": 90,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       }
     ],
     "attackRange": 400,
@@ -133,7 +142,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 65,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Contre-attaque",
@@ -141,7 +151,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 75,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Défense Ultime",
@@ -149,7 +160,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 100,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       }
     ],
     "attackRange": 400,
@@ -172,7 +184,8 @@
         "damage": 0,
         "cooldown": 0,
         "manaCost": 80,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Charge Protector",
@@ -180,7 +193,8 @@
         "damage": 0,
         "cooldown": 8,
         "manaCost": 45,
-        "type": "CC"
+        "type": "CC",
+        "buff": 0
       },
       {
         "name": "Coup de Bouclier",
@@ -188,7 +202,8 @@
         "damage": 90,
         "cooldown": 6,
         "manaCost": 40,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       }
     ],
     "attackRange": 400,
@@ -211,7 +226,8 @@
         "damage": 0,
         "cooldown": 15,
         "manaCost": 60,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Lien de Protection",
@@ -219,7 +235,8 @@
         "damage": 0,
         "cooldown": 20,
         "manaCost": 90,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Projectile Répresseur",
@@ -227,7 +244,8 @@
         "damage": 110,
         "cooldown": 7,
         "manaCost": 45,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       }
     ],
     "attackRange": 400,
@@ -250,7 +268,8 @@
         "damage": 0,
         "cooldown": 6,
         "manaCost": 40,
-        "type": "CC"
+        "type": "CC",
+        "buff": 0
       },
       {
         "name": "Barrière Inversée",
@@ -258,7 +277,8 @@
         "damage": 60,
         "cooldown": 9,
         "manaCost": 50,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Prison Magique",
@@ -266,7 +286,8 @@
         "damage": 0,
         "cooldown": 18,
         "manaCost": 100,
-        "type": "CC"
+        "type": "CC",
+        "buff": 0
       }
     ],
     "attackRange": 400,
@@ -289,7 +310,8 @@
         "damage": 0,
         "cooldown": 10,
         "manaCost": 60,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Rempart Mobile",
@@ -297,7 +319,8 @@
         "damage": 0,
         "cooldown": 15,
         "manaCost": 80,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Reconstruction",
@@ -305,7 +328,8 @@
         "damage": 0,
         "cooldown": 20,
         "manaCost": 100,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       }
     ],
     "attackRange": 400,
@@ -328,7 +352,8 @@
         "damage": 0,
         "cooldown": 12,
         "manaCost": 70,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Jugement Divin",
@@ -336,7 +361,8 @@
         "damage": 150,
         "cooldown": 14,
         "manaCost": 90,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Soin Lumière",
@@ -344,7 +370,8 @@
         "damage": 0,
         "cooldown": 8,
         "manaCost": 50,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       }
     ],
     "attackRange": 400,
@@ -367,7 +394,8 @@
         "damage": 0,
         "cooldown": 10,
         "manaCost": 65,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Provocation",
@@ -375,7 +403,8 @@
         "damage": 0,
         "cooldown": 8,
         "manaCost": 40,
-        "type": "CC"
+        "type": "CC",
+        "buff": 0
       },
       {
         "name": "Lien de Vie",
@@ -383,7 +412,8 @@
         "damage": 0,
         "cooldown": 12,
         "manaCost": 60,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       }
     ],
     "attackRange": 400,
@@ -406,7 +436,8 @@
         "damage": 0,
         "cooldown": 12,
         "manaCost": 75,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Déstabilisation",
@@ -414,7 +445,8 @@
         "damage": 120,
         "cooldown": 6,
         "manaCost": 45,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Imposant",
@@ -422,7 +454,8 @@
         "damage": 0,
         "cooldown": 16,
         "manaCost": 90,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       }
     ],
     "attackRange": 400,
@@ -445,7 +478,8 @@
         "damage": 0,
         "cooldown": 15,
         "manaCost": 80,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       },
       {
         "name": "Impact Piercing",
@@ -453,7 +487,8 @@
         "damage": 90,
         "cooldown": 8,
         "manaCost": 50,
-        "type": "dmg"
+        "type": "dmg",
+        "buff": 0
       },
       {
         "name": "Absorption",
@@ -461,7 +496,8 @@
         "damage": 0,
         "cooldown": 20,
         "manaCost": 100,
-        "type": "SP"
+        "type": "SP",
+        "buff": 80
       }
     ],
     "attackRange": 400,
