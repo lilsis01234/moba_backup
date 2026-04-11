@@ -14,9 +14,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
+import gui.ShopPanel;
+import engine.process.EquipmentLoader;
 
 public class ArenaPanel extends JPanel {
     private static final long serialVersionUID = 1L;
+    private ShopPanel shopPanel;
     private Arena arena;
     private int windowWidth;
     private int windowHeight;
@@ -39,12 +42,28 @@ public class ArenaPanel extends JPanel {
             arena.getTilesManager(),
             hero
         );
+        setFocusable(true);
+addKeyListener(new java.awt.event.KeyAdapter() {
+    @Override
+    public void keyPressed(java.awt.event.KeyEvent e) {
+        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_B) {
+            shopPanel.toggle();
+            repaint();
+        }
+    }
+});
+        EquipmentLoader loader = new EquipmentLoader();
+        shopPanel = new ShopPanel(arena.getPlayer(), loader);
 
         addMouseListener(new MouseAdapter() {
            @Override
             public void mousePressed(MouseEvent e) {
                 int mx = e.getX();
                 int my = e.getY();
+                if (shopPanel.handleClick(e.getX(), e.getY())) {
+                 repaint();
+                 return;
+}
 
                 if (hudRenderer.handleRecallClick(mx, my)) return; 
 
@@ -164,7 +183,12 @@ public class ArenaPanel extends JPanel {
         }
         hudRenderer.setKills(blue, red);
         
-        
         hudRenderer.render(g2);
+        shopPanel.render(g2, windowWidth, windowHeight);
+
+    }
+        public void toggleShop() {
+        shopPanel.toggle();
+        repaint();
     }
 }
