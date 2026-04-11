@@ -428,8 +428,6 @@ public class HUDRenderer {
             int slotX = startX + i * (slotSize + gap);
             int slotY = y + 6;
 
-<<<<<<< HEAD
-=======
             // background
             g2.setColor(new Color(40, 40, 60));
             g2.fillRect(slotX, slotY, slotSize, slotSize);
@@ -518,7 +516,6 @@ public class HUDRenderer {
 	    return false;
 	}    
 
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 private void renderItemBar(Graphics2D g2, int x, int y) {
     int width  = 210;
     int height = 45;
