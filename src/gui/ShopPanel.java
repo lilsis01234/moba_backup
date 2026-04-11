@@ -4,10 +4,7 @@ import data.model.Equipment;
 import data.model.EquipmentType;
 import engine.mobile.Player;
 import engine.process.EquipmentLoader;
-<<<<<<< HEAD
 import engine.process.ShopManager;
-=======
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +12,6 @@ import java.io.InputStream;
 import java.util.List;
 import javax.imageio.ImageIO;
 
-<<<<<<< HEAD
 /**
  * Interface graphique de la boutique d equipements.
  * Ne contient QUE le rendu graphique.
@@ -28,46 +24,24 @@ public class ShopPanel {
     private Equipment selected = null;
 
     private ShopManager shopManager;
-=======
-public class ShopPanel {
-
-    private boolean   visible  = false;
-    private int       tab      = 0;        // 0 = basiques, 1 = fusionnes
-    private Equipment selected = null;
-
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
     private List<Equipment> basicList;
     private List<Equipment> fusedList;
     private Player player;
 
-<<<<<<< HEAD
-=======
-    // Images des types d equipement
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
     private BufferedImage imgSword;
     private BufferedImage imgHelmet;
     private BufferedImage imgArmor;
 
-<<<<<<< HEAD
-=======
-    // Position du panneau
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
     private int px, py;
     private static final int W     = 600;
     private static final int H     = 430;
     private static final int ROW_H = 38;
 
     public ShopPanel(Player player, EquipmentLoader loader) {
-<<<<<<< HEAD
         this.player      = player;
         this.basicList   = loader.getBasicList();
         this.fusedList   = loader.getFusedList();
         this.shopManager = new ShopManager(player);
-=======
-        this.player    = player;
-        this.basicList = loader.getBasicList();
-        this.fusedList = loader.getFusedList();
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         loadImages();
     }
 
@@ -81,19 +55,11 @@ public class ShopPanel {
         try {
             InputStream is = getClass().getResourceAsStream(path);
             if (is != null) return ImageIO.read(is);
-<<<<<<< HEAD
         } catch (Exception e) {}
         return null;
     }
 
     // ── Affichage ──
-=======
-        } catch (Exception e) { /* fallback */ }
-        return null;
-    }
-
-    // ── Affichage ─
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 
     public void render(Graphics2D g2, int screenW, int screenH) {
         if (!visible) return;
@@ -101,43 +67,22 @@ public class ShopPanel {
         px = (screenW - W) / 2;
         py = (screenH - H) / 2;
 
-<<<<<<< HEAD
-=======
-        // Fond
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         g2.setColor(new Color(18, 18, 30, 245));
         g2.fillRect(px, py, W, H);
         g2.setColor(new Color(150, 130, 60));
         g2.drawRect(px, py, W, H);
 
-<<<<<<< HEAD
-=======
-        // Titre
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         g2.setColor(Color.YELLOW);
         g2.setFont(new Font("Arial", Font.BOLD, 17));
         g2.drawString("BOUTIQUE  [B] fermer", px + 15, py + 24);
 
-<<<<<<< HEAD
         g2.setFont(new Font("Arial", Font.BOLD, 13));
         g2.drawString("Or : " + player.getGold(), px + W - 110, py + 24);
-=======
-        // Or joueur
-        g2.setFont(new Font("Arial", Font.BOLD, 13));
-        String orStr = "Or : " + player.getGold();
-        g2.drawString(orStr, px + W - 110, py + 24);
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 
         renderTabs(g2);
         renderList(g2);
         if (selected != null) renderDetail(g2);
-<<<<<<< HEAD
     }
-=======
-        
-    }
-    
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 
     private void renderTabs(Graphics2D g2) {
         String[] labels = { "Basiques", "Fusionnes" };
@@ -162,10 +107,6 @@ public class ShopPanel {
         for (int i = 0; i < list.size(); i++) {
             Equipment eq = list.get(i);
 
-<<<<<<< HEAD
-=======
-            // Separateur de type
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
             if (eq.getType() != lastType) {
                 lastType = eq.getType();
                 g2.setColor(new Color(120, 120, 160));
@@ -174,25 +115,13 @@ public class ShopPanel {
                 ry += 16;
             }
 
-<<<<<<< HEAD
             g2.setColor(eq == selected ? new Color(80, 70, 20, 200) : new Color(35, 35, 50, 200));
             g2.fillRect(px + 10, ry, 340, ROW_H - 2);
 
-=======
-            // Fond de ligne
-            g2.setColor(eq == selected ? new Color(80, 70, 20, 200) : new Color(35, 35, 50, 200));
-            g2.fillRect(px + 10, ry, 340, ROW_H - 2);
-
-            // Image de l equipement (32x32)
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
             BufferedImage img = getImage(eq.getType());
             if (img != null) {
                 g2.drawImage(img, px + 13, ry + 3, 30, 30, null);
             } else {
-<<<<<<< HEAD
-=======
-                // Fallback : rectangle colore
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
                 g2.setColor(typeColor(eq.getType()));
                 g2.fillRect(px + 13, ry + 4, 28, 28);
                 g2.setColor(Color.WHITE);
@@ -200,18 +129,10 @@ public class ShopPanel {
                 g2.drawString(typeIcon(eq.getType()), px + 18, ry + 22);
             }
 
-<<<<<<< HEAD
-=======
-            // Nom
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Arial", Font.PLAIN, 13));
             g2.drawString(eq.getName(), px + 48, ry + 20);
 
-<<<<<<< HEAD
-=======
-            // Prix ou FUSION
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
             if (eq.isFused()) {
                 g2.setColor(new Color(120, 200, 255));
                 g2.setFont(new Font("Arial", Font.BOLD, 11));
@@ -232,10 +153,6 @@ public class ShopPanel {
         int dy = py + 62;
         int dw = W - 370;
         int dh = H - 72;
-<<<<<<< HEAD
-=======
-        
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 
         g2.setColor(new Color(22, 22, 38, 235));
         g2.fillRect(dx, dy, dw, dh);
@@ -243,18 +160,10 @@ public class ShopPanel {
         g2.drawRect(dx, dy, dw, dh);
 
         if (selected.isFused()) {
-<<<<<<< HEAD
             renderFusionTree(g2, dx, dy, dw, dh);
             return;
         }
 
-=======
-              renderFusionTree(g2, dx, dy, dw, dh);
-        return;
-    }
-
-        // Image grande (60x60)
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         BufferedImage img = getImage(selected.getType());
         if (img != null) {
             g2.drawImage(img, dx + 10, dy + 10, 60, 60, null);
@@ -266,105 +175,39 @@ public class ShopPanel {
             g2.drawString(typeIcon(selected.getType()), dx + 22, dy + 48);
         }
 
-<<<<<<< HEAD
-=======
-        // Nom
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         g2.setColor(Color.YELLOW);
         g2.setFont(new Font("Arial", Font.BOLD, 13));
         g2.drawString(selected.getName(), dx + 80, dy + 22);
 
-<<<<<<< HEAD
-=======
-        // Type
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         g2.setColor(typeColor(selected.getType()));
         g2.setFont(new Font("Arial", Font.PLAIN, 11));
         g2.drawString(typeName(selected.getType()), dx + 80, dy + 38);
 
-<<<<<<< HEAD
-=======
-        // Stats
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         g2.setColor(new Color(255, 120, 120));
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         g2.drawString("ATK : +" + selected.getAttackBonus(),  dx + 10, dy + 85);
         g2.setColor(new Color(120, 180, 255));
         g2.drawString("DEF : +" + selected.getDefenseBonus(), dx + 10, dy + 101);
 
-<<<<<<< HEAD
-=======
-        // Description
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         g2.setColor(new Color(200, 200, 200));
         g2.setFont(new Font("Arial", Font.PLAIN, 11));
         drawWrapped(g2, selected.getDescription(), dx + 10, dy + 122, dw - 20);
 
-<<<<<<< HEAD
         renderActionButton(g2, dx, dy, dw, dh);
     }
 
     // ── Clics 
-=======
-        // Requis fusion
-        if (selected.isFused()) {
-            g2.setColor(new Color(120, 200, 255));
-            g2.setFont(new Font("Arial", Font.BOLD, 11));
-            g2.drawString("Necessite :", dx + 10, dy + 175);
-            g2.setFont(new Font("Arial", Font.PLAIN, 11));
-            g2.drawString("- " + findName(selected.getReq1()), dx + 10, dy + 190);
-            g2.drawString("- " + findName(selected.getReq2()), dx + 10, dy + 205);
-        }
-
-        // Bouton
-        boolean canAct = canDoAction();
-        int bx = dx + 8;
-        int by = dy + dh - 42;
-        int bw = dw - 16;
-        int bh = 28;
-
-        g2.setColor(canAct ? new Color(55, 130, 55) : new Color(100, 40, 40));
-        g2.fillRect(bx, by, bw, bh);
-        g2.setColor(canAct ? Color.GREEN : Color.RED);
-        g2.drawRect(bx, by, bw, bh);
-
-        String label;
-        if (selected.isFused()) {
-            label = canAct ? "FUSIONNER" : "Items requis manquants";
-        } else {
-            label = canAct ? "ACHETER (" + selected.getPrice() + " or)" : "Or insuffisant";
-        }
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 12));
-        FontMetrics fm = g2.getFontMetrics();
-        g2.drawString(label, bx + (bw - fm.stringWidth(label)) / 2, by + 19);
-    }
-
-    // ── Clics ─────────────────────────────────────────────────────────────────
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 
     public boolean handleClick(int mx, int my) {
         if (!visible) return false;
 
-<<<<<<< HEAD
         if (mx >= px+10 && mx <= px+155 && my >= py+33 && my <= py+59) {
             tab = 0; selected = null; return true;
         }
-=======
-        // Onglet basiques
-        if (mx >= px+10 && mx <= px+155 && my >= py+33 && my <= py+59) {
-            tab = 0; selected = null; return true;
-        }
-        // Onglet fusionnes
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         if (mx >= px+165 && mx <= px+310 && my >= py+33 && my <= py+59) {
             tab = 1; selected = null; return true;
         }
 
-<<<<<<< HEAD
-=======
-        // Bouton acheter / fusionner
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         if (selected != null) {
             int dx = px + 360;
             int dy = py + 62;
@@ -378,10 +221,6 @@ public class ShopPanel {
             }
         }
 
-<<<<<<< HEAD
-=======
-        // Clic sur un item de la liste
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
         List<Equipment> list = tab == 0 ? basicList : fusedList;
         EquipmentType lastType = null;
         int ry = py + 70;
@@ -395,7 +234,6 @@ public class ShopPanel {
             ry += ROW_H;
         }
 
-<<<<<<< HEAD
         return true;
     }
 
@@ -410,36 +248,6 @@ public class ShopPanel {
     }
 
     // ── Helpers graphiques ─────────
-=======
-        return true; // absorbe tous les clics quand la boutique est ouverte
-    }
-
-    // ── Logique achat / fusion ────────────────────────────────────────────────
-
-    private boolean canDoAction() {
-        if (selected == null) return false;
-        if (selected.isFused()) {
-            return player.hasEquipment(selected.getReq1())
-                && player.hasEquipment(selected.getReq2());
-        }
-       
-        
-        return player.getGold() >= selected.getPrice();
-    }
-
-    private void doAction() {
-        if (!canDoAction()) return;
-        if (selected.isFused()) {
-            player.fuseEquipment(selected.getReq1(), selected.getReq2(), selected);
-        } else {
-            player.buyEquipment(selected);
-        }
-        selected = null;
-    }
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
     private BufferedImage getImage(EquipmentType t) {
         if (t == EquipmentType.SWORD)  return imgSword;
         if (t == EquipmentType.HELMET) return imgHelmet;
@@ -486,7 +294,6 @@ public class ShopPanel {
         }
         if (line.length() > 0) g2.drawString(line.toString(), x, cy);
     }
-<<<<<<< HEAD
 
     private void renderActionButton(Graphics2D g2, int dx, int dy, int dw, int dh) {
         boolean canAct = canDoAction();
@@ -593,116 +400,4 @@ public class ShopPanel {
         // Bouton
         renderActionButton(g2, dx, dy, dw, dh);
     }
-=======
-    private void renderActionButton(Graphics2D g2, int dx, int dy, int dw, int dh) {
-    boolean canAct = canDoAction();
-    int bx = dx + 8;
-    int by = dy + dh - 42;
-    int bw = dw - 16;
-    int bh = 28;
-
-    g2.setColor(canAct ? new Color(55, 130, 55) : new Color(100, 40, 40));
-    g2.fillRect(bx, by, bw, bh);
-    g2.setColor(canAct ? Color.GREEN : Color.RED);
-    g2.drawRect(bx, by, bw, bh);
-
-    String label;
-    if (selected.isFused()) {
-        label = canAct ? "FUSIONNER" : "Items requis manquants";
-    } else {
-        label = canAct ? "ACHETER (" + selected.getPrice() + " or)" : "Or insuffisant";
-    }
-    g2.setColor(Color.WHITE);
-    g2.setFont(new Font("Arial", Font.BOLD, 12));
-    FontMetrics fm = g2.getFontMetrics();
-    g2.drawString(label, bx + (bw - fm.stringWidth(label)) / 2, by + 19);
-}
-
-    public void toggle()       { visible = !visible; selected = null; }
-    public boolean isVisible() { return visible; }
-    private void renderFusionTree(Graphics2D g2, int dx, int dy, int dw, int dh) {
-
-    // Coordonnees des 3 noeuds
-    int rootX  = dx + dw / 2;
-    int rootY  = dy + 80;
-    int leftX  = dx + 55;
-    int rightX = dx + dw - 55;
-    int childY = dy + 200;
-    int r      = 28;
-
-    // Nom des items requis
-    String req1Name = findName(selected.getReq1());
-    String req2Name = findName(selected.getReq2());
-
-    // Dessiner les branches (comme le prof : drawLine)
-    g2.setColor(new Color(150, 130, 60));
-    g2.drawLine(rootX, rootY + r, leftX,  childY - r);
-    g2.drawLine(rootX, rootY + r, rightX, childY - r);
-
-    // Dessiner les 3 noeuds (comme le prof : drawOval)
-    // Noeud racine (fusionné)
-    g2.setColor(new Color(60, 50, 15));
-    g2.fillOval(rootX - r, rootY - r, r * 2, r * 2);
-    g2.setColor(new Color(200, 170, 60));
-    g2.drawOval(rootX - r, rootY - r, r * 2, r * 2);
-
-    // Noeud gauche (req1)
-    g2.setColor(new Color(25, 40, 80));
-    g2.fillOval(leftX - r, childY - r, r * 2, r * 2);
-    g2.setColor(new Color(80, 120, 220));
-    g2.drawOval(leftX - r, childY - r, r * 2, r * 2);
-
-    // Noeud droit (req2)
-    g2.setColor(new Color(25, 40, 80));
-    g2.fillOval(rightX - r, childY - r, r * 2, r * 2);
-    g2.setColor(new Color(80, 120, 220));
-    g2.drawOval(rightX - r, childY - r, r * 2, r * 2);
-
-    // Images dans les noeuds (si disponibles)
-BufferedImage img = getImage(selected.getType());
-if (img != null) {
-    g2.drawImage(img, rootX - 20, rootY - 20, 40, 40, null);
-    g2.drawImage(img, leftX  - 20, childY - 20, 40, 40, null);
-    g2.drawImage(img, rightX - 20, childY - 20, 40, 40, null);
-} else {
-    g2.setColor(Color.WHITE);
-    g2.setFont(new Font("Arial", Font.BOLD, 18));
-    FontMetrics fm2 = g2.getFontMetrics();
-    String icon = typeIcon(selected.getType());
-    g2.drawString(icon, rootX  - fm2.stringWidth(icon)/2, rootY  + 6);
-    g2.drawString(icon, leftX  - fm2.stringWidth(icon)/2, childY + 6);
-    g2.drawString(icon, rightX - fm2.stringWidth(icon)/2, childY + 6);
-}
-
-// Noms sous les noeuds
-
-   
-    g2.setColor(Color.YELLOW);
-    g2.setFont(new Font("Arial", Font.BOLD, 11));
-    FontMetrics fm = g2.getFontMetrics();
-    g2.drawString(selected.getName(),
-        rootX  - fm.stringWidth(selected.getName()) / 2,  rootY  + r + 14);
-
-    g2.setColor(new Color(120, 200, 255));
-    g2.setFont(new Font("Arial", Font.PLAIN, 10));
-    fm = g2.getFontMetrics();
-    g2.drawString(req1Name, leftX  - fm.stringWidth(req1Name)  / 2, childY + r + 14);
-    g2.drawString(req2Name, rightX - fm.stringWidth(req2Name) / 2, childY + r + 14);
-
-    // Stats
-    g2.setColor(new Color(255, 120, 120));
-    g2.setFont(new Font("Arial", Font.BOLD, 12));
-    g2.drawString("ATK : +" + selected.getAttackBonus(),  dx + 8, dy + dh - 110);
-    g2.setColor(new Color(120, 180, 255));
-    g2.drawString("DEF : +" + selected.getDefenseBonus(), dx + 8, dy + dh - 92);
-
-    // Description
-    g2.setColor(new Color(200, 200, 200));
-    g2.setFont(new Font("Arial", Font.PLAIN, 11));
-    drawWrapped(g2, selected.getDescription(), dx + 8, dy + dh - 68, dw - 16);
-
-    // Bouton fusionner
-    renderActionButton(g2, dx, dy, dw, dh);
-}
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 }

@@ -13,7 +13,7 @@ public class Spell {
     private int damage;
     private double cooldown;
     private int manaCost;
-    private int spellLevel = 0; 
+    private int spellLevel = 1; 
   
     //deleted the type class replaces by enum
     public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT; }

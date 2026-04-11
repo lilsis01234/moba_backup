@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Les trois types d equipements disponibles dans le jeu.
  * SWORD  : augmente l attaque du heros.
@@ -7,8 +6,6 @@
  */
 
 
-=======
->>>>>>> a21294ce31ad76f1554f0153f5c0906cd2a5fb2a
 package data.model;
 
 public enum EquipmentType {
