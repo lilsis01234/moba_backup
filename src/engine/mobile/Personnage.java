@@ -1,5 +1,7 @@
 package engine.mobile;
 import data.model.Hero;
+import data.model.Equipment;
+import java.util.List;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import data.model.KDA;
@@ -11,6 +13,7 @@ import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
 //attacking visual effect ? name becomes red? angry icon? 
+//visuals for recall? standing sprite?
 //draw the 	attck radius around the player?
 // make a better respawning logic(depending on lvl can cause issues)
 //update the loot system( having to last hit to get any loot very difficult)
@@ -32,6 +35,8 @@ public abstract class Personnage extends Entity {
     private int gold  = 0;
     private int xp    = 0;
     private int level = 1;
+    protected int defense = 0;
+    private List<Equipment> equippedGear = new ArrayList<Equipment>();
     
     //for KDA
     HashMap<Personnage, Long> damageTimestamps = new HashMap<>();
@@ -73,6 +78,7 @@ public abstract class Personnage extends Entity {
         this.atkRange  = hero.getAtkRange();
         this.atkCooldown = 1.0 / hero.getAttackSpeed();
         loadHeroGraphics(hero.getSpriteFile());
+        this.defense = hero.getDefense();
     }
     
     protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
@@ -240,19 +246,55 @@ public abstract class Personnage extends Entity {
     public void recordDamageDealtTo(Personnage target) {
         damageTimestamps.put(target, System.currentTimeMillis());
     }
-    @Override
+@Override
     public void takeDamage(double damage) {
-        interruptRecall();
-        super.takeDamage(damage);
-    }
+
+         interruptRecall();
+         double reduction = defense / (defense + 100.0);
+         double reduced   = Math.max(1.0, damage * (1.0 - reduction));
+         super.takeDamage(reduced);
+}
     
     //if interacted with target in less than 5seconds before its death u get assist
     public boolean assisted(Personnage target) {
         Long t = damageTimestamps.get(target);
         return t != null && (System.currentTimeMillis() - t) <= 5000;
     }
+public void buyEquipment(Equipment eq) {
+    if (gold < eq.getPrice()) return; 
+    if (equippedGear.size() >= 6) return;
+    gold -= eq.getPrice();
+    equippedGear.add(eq);
+    this.atkDamage += eq.getAttackBonus();
+    this.defense   += eq.getDefenseBonus();
+}
+
+    public void fuseEquipment(int id1, int id2, Equipment result) {
+    Equipment e1 = findEquipped(id1);
+    Equipment e2 = findEquipped(id2);
+    if (e1 == null || e2 == null) return;
+    equippedGear.remove(e1);
+    equippedGear.remove(e2);
+    this.atkDamage -= (e1.getAttackBonus()  + e2.getAttackBonus());
+    this.defense   -= (e1.getDefenseBonus() + e2.getDefenseBonus());
+    equippedGear.add(result);
+    this.atkDamage += result.getAttackBonus();
+    this.defense   += result.getDefenseBonus();
+}
+
+    private Equipment findEquipped(int id) {
+
+        for (Equipment e : equippedGear) {
+            if (e.getId() == id) return e;
+         }
+         return null;
+    }
+
+    public boolean hasEquipment(int id)          { return findEquipped(id) != null; }
+    public List<Equipment> getEquippedGear()     { return equippedGear; }
+    public int getDefense()                      { return defense; }
     
-    public double getSpeed() { return speed; }
+     public double getSpeed() { return speed; }
     public double getMana() { return mana; }
     public double getMaxMana() { return maxMana; }
     public int getLevel() { return level; }

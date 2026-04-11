@@ -181,25 +181,37 @@
 	        gameFrame.addKeyListener(new KeyAdapter() {
 	            @Override
 	            public void keyPressed(KeyEvent e) {
-	                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	                    if (isPaused) {
+
+					if (e.getKeyCode() == KeyEvent.VK_B) {
+           				 panel.toggleShop();
+       					 }
+
+					
+	              	if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	                   	if (isPaused) {
 	                        isPaused = false;
 	                        panel.setPaused(false);
 	                        glassPane.setVisible(false);
-	                    } else {
-	                        isPaused = true;
-	                        panel.setPaused(true);
-	                        pauseMenu.showMenu(screenWidth, screenHeight);
-	                        glassPane.setVisible(true);
-	                        glassPane.repaint();
-	                        pauseMenu.requestFocusInWindow();
-	                    }
+
+	                   		 } else {
+
+
+	                       		 isPaused = true;
+	                       		 panel.setPaused(true);
+	                      		  pauseMenu.showMenu(screenWidth, screenHeight);
+	                        	glassPane.setVisible(true);
+	                       		 glassPane.repaint();
+	                        	pauseMenu.requestFocusInWindow();
+
+	                   			 }
 	                }
 	            }
+				
 	        });
 
-	        panel.setFocusable(true);
-	        gameFrame.setVisible(true);
+			panel.setFocusable(true);
+			panel.requestFocusInWindow();
+			gameFrame.setVisible(true);
 	        isGameRunning = true;
 	    }
 	
