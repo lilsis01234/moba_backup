@@ -37,11 +37,11 @@ public class Arena {
     public Arena(Hero hero) {
     	
         this.selectedHero = hero;
-        tilesManager = new TilesManager("/game_config/map/map.txt");
+        tilesManager = TilesManager.getInstance();
         
         JsonDataProvider dataProvider;
         try {
-            dataProvider = new JsonDataProvider();
+            dataProvider = JsonDataProviderFactory.getInstance();
         } catch (IOException e) {
             throw new RuntimeException("Could not load heroes for bot assignment", e);
         }

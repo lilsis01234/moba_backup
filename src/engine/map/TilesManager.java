@@ -9,17 +9,29 @@ import java.io.InputStreamReader;
 
 public class TilesManager {
 
+    private static TilesManager instance;
     public Tile[] tiles;
     public int[][] mapTileNum;
 
     private static final int MAP_COLS = GameConfiguration.TILE_COLS;
     private static final int MAP_ROWS = GameConfiguration.TILE_ROWS;
 
-    public TilesManager(String mapPath) {
+    private TilesManager() {
         tiles = new Tile[10];
         mapTileNum = new int[MAP_ROWS][MAP_COLS];
         getTileImage();
-        loadMap(mapPath);
+        loadMap("/game_config/map/map.txt");
+    }
+
+    public static TilesManager getInstance() {
+        if (instance == null) {
+            instance = new TilesManager();
+        }
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
     }
 
     private void getTileImage() {

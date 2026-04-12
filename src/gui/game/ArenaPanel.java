@@ -52,8 +52,8 @@ addKeyListener(new java.awt.event.KeyAdapter() {
         }
     }
 });
-        EquipmentLoader loader = new EquipmentLoader();
-        shopPanel = new ShopPanel(arena.getPlayer(), loader);
+        EquipmentLoader loader = EquipmentLoader.getInstance();
+        shopPanel = new ShopPanel(arena.getPlayer());
 
         addMouseListener(new MouseAdapter() {
            @Override

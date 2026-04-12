@@ -4,20 +4,22 @@ import java.io.IOException;
 
 public class JsonDataProviderFactory {
     
-    private static JsonDataProvider cachedProvider;
+    private static JsonDataProvider singletonInstance;
     
-    public static JsonDataProvider create() throws IOException {
-        if (cachedProvider == null) {
-            cachedProvider = new JsonDataProvider();
+    private JsonDataProviderFactory() {}
+    
+    public static JsonDataProvider getInstance() throws IOException {
+        if (singletonInstance == null) {
+            singletonInstance = new JsonDataProvider();
         }
-        return cachedProvider;
+        return singletonInstance;
     }
     
-    public static JsonDataProvider createNew() throws IOException {
+    public static JsonDataProvider create() throws IOException {
         return new JsonDataProvider();
     }
     
     public static void reset() {
-        cachedProvider = null;
+        singletonInstance = null;
     }
 }

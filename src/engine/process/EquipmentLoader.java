@@ -11,11 +11,23 @@ import java.util.List;
 
 public class EquipmentLoader {
 
+    private static EquipmentLoader instance;
     private List<Equipment> basicList = new ArrayList<Equipment>();
     private List<Equipment> fusedList = new ArrayList<Equipment>();
 
-    public EquipmentLoader() {
+    private EquipmentLoader() {
         load();
+    }
+
+    public static EquipmentLoader getInstance() {
+        if (instance == null) {
+            instance = new EquipmentLoader();
+        }
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
     }
 
     private void load() {
