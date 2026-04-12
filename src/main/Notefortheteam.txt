@@ -14,8 +14,27 @@ TO DO:
 //Spells
 //add keyboard mouvement
 //problem : if tower kills enemy : wasted kill + resources checkkill
+//uh if no targer and cast?
+//visual effects
+//bot spells
+//assist on towers / minions loot
+//scaling
+//healing problem add buff to json?
+//add a blink spell? sheild? slow? aoe melee?
+//change shop to tab
 
 //note skills just target the last taret u were attacking can improve but not so bad
+
+
+Manual:
+left click:attack
+right click : move
+1/2/3 or left click on spells: cast spels
+ctrl+1/2/3 or right click on spells :upgrade spells
+4:recall
+B: shop
+
+
 
 
 

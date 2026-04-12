@@ -12,13 +12,6 @@ import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 
 
-//uh if no targer and cast?
-//visual effects
-//bot spells
-//assist on towers / minions loot
-//scaling
-//healing problem add buff to json?
-//add a blink spell? sheild? slow? aoe melee?
 
 public abstract class Personnage extends Entity {
 
