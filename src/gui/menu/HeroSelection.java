@@ -4,6 +4,7 @@ import gui.Theme;
 import data.model.Hero;
 import data.model.Category;
 import engine.process.JsonDataProvider;
+import engine.process.JsonDataProviderFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +49,7 @@ public class HeroSelection extends JPanel {
         setLayout(new BorderLayout());
 
         try {
-            JsonDataProvider provider = new JsonDataProvider();
+            JsonDataProvider provider = JsonDataProviderFactory.create(); 
             categories = provider.getAllCategories();
             groupHeroesByCategory(provider.getAllHeroes());
         } catch (IOException e) {
@@ -158,7 +159,7 @@ public class HeroSelection extends JPanel {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
         bottomPanel.setOpaque(false);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 180, 0));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
 
         hintLabel = new JLabel("← → naviguer  ↑ ↓ catégories  ENTRÉE confirmer  ÉCHAP retour", SwingConstants.CENTER);
         hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -262,8 +263,8 @@ public class HeroSelection extends JPanel {
 
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setPreferredSize(new Dimension(180, 260));
-        card.setMaximumSize(new Dimension(180, 260));
+        card.setPreferredSize(new Dimension(220, 360)); 
+        card.setMaximumSize(new Dimension(220, 360));
         card.setBackground(isSelected ? new Color(50, 45, 60) : Theme.BUTTON_BG);
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(
@@ -274,6 +275,10 @@ public class HeroSelection extends JPanel {
         ));
 
         SpritePreview preview = new SpritePreview(hero.getSpriteFile());
+        preview.setPreferredSize(new Dimension(90, 90)); 
+        preview.setMinimumSize(new Dimension(90, 90));
+        preview.setMaximumSize(new Dimension(90, 90));
+        preview.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(preview);
 
         JLabel nameLabel = new JLabel(hero.getName() != null ? hero.getName() : "???", SwingConstants.CENTER);
@@ -282,10 +287,10 @@ public class HeroSelection extends JPanel {
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 8, 0));
         card.add(nameLabel);
-
+    
         JPanel statsPanel = new JPanel(new GridLayout(3, 2, 8, 5));
         statsPanel.setOpaque(false);
-        statsPanel.setMaximumSize(new Dimension(150, 65));
+        statsPanel.setMaximumSize(new Dimension(200, 90));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         statsPanel.add(createStatLabel("HP",   hero.getMaxHp(),              CATEGORY_FORCE));
