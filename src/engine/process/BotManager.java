@@ -12,11 +12,28 @@ import engine.mobile.Personnage;
 
 public class BotManager {
 
+    private static BotManager instance;
     private List<Bot> bots      = new ArrayList<>();
     private List<Bot> enemyBots = new ArrayList<>();
     int T = GameConfiguration.TILE_SIZE;
 
-    public BotManager(List<Hero> allHeroes, Hero playerHero) {
+    private BotManager() {}
+
+    public static BotManager getInstance() {
+        return instance;
+    }
+
+    public static BotManager create(List<Hero> allHeroes, Hero playerHero) {
+        instance = new BotManager();
+        instance.init(allHeroes, playerHero);
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
+    }
+
+    public void init(List<Hero> allHeroes, Hero playerHero) {
         int T = GameConfiguration.TILE_SIZE;
 
         // get all the heros exept the player's cus allies cant have the same hero

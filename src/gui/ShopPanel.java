@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
  */
 public class ShopPanel {
 
+    private static ShopPanel instance;
     private boolean   visible  = false;
     private int       tab      = 0;
     private Equipment selected = null;
@@ -37,12 +38,28 @@ public class ShopPanel {
     private static final int H     = 430;
     private static final int ROW_H = 38;
 
-    public ShopPanel(Player player) {
+    private ShopPanel() {}
+
+    public static ShopPanel getInstance() {
+        return instance;
+    }
+
+    public static ShopPanel create(Player player) {
+        instance = new ShopPanel();
+        instance.init(player);
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
+    }
+
+    private void init(Player player) {
         this.player      = player;
         EquipmentLoader loader = EquipmentLoader.getInstance();
         this.basicList   = loader.getBasicList();
         this.fusedList   = loader.getFusedList();
-        this.shopManager = new ShopManager(player);
+        this.shopManager = ShopManager.create(player);
         loadImages();
     }
 

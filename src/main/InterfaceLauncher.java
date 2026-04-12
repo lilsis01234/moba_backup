@@ -48,10 +48,10 @@
 	        new Thread(this).start();
 	    }
 	
-	    private void showMainMenu() {
-	        getContentPane().removeAll();
-	        
-	        mainMenu = new MainMenu(new Dimension(screenWidth, screenHeight));
+private void showMainMenu() {
+        getContentPane().removeAll();
+        
+        mainMenu = MainMenu.getInstance(new Dimension(screenWidth, screenHeight));
 	        mainMenu.setMenuListener(new MainMenu.MenuListener() {
 	            @Override
 	            public void onStartGame() {
@@ -77,7 +77,7 @@
 	        gameOverFrame.setSize(screenWidth, screenHeight);
 	        gameOverFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	
-	        GameOverScreen screen = new GameOverScreen(result, new Dimension(screenWidth, screenHeight), new GameOverScreen.GameOverListener() {
+	        GameOverScreen screen = GameOverScreen.getInstance(result, new Dimension(screenWidth, screenHeight), new GameOverScreen.GameOverListener() {
 	            @Override
 	            public void onReturnToMenu() {
 	                gameOverFrame.dispose();
@@ -103,7 +103,7 @@
 	        selectionFrame.setSize(screenWidth, screenHeight);
 	        selectionFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	
-	        HeroSelection heroSelection = new HeroSelection(new Dimension(screenWidth, screenHeight));
+	        HeroSelection heroSelection = HeroSelection.getInstance(new Dimension(screenWidth, screenHeight));
 	        heroSelection.setHeroSelectionListener(new HeroSelection.HeroSelectionListener() {
 	            @Override
 	            public void onHeroSelected(Hero hero) {
@@ -124,15 +124,16 @@
 	    }
 	
 	    private void launchGame(Hero hero) {
-	        arena = new Arena(hero);
-	        panel = new ArenaPanel(arena, screenWidth, screenHeight, hero);
+Arena.init(hero);
+        arena = Arena.getInstance();
+        panel = new ArenaPanel(arena, screenWidth, screenHeight, hero);
 	        panel.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
 	        final JLayeredPane glassPane = new JLayeredPane();
 	        glassPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
 	        glassPane.setVisible(false);
 	        
-	        final PauseMenu pauseMenu = new PauseMenu();
+	        final PauseMenu pauseMenu = PauseMenu.getInstance();
 	        pauseMenu.setBounds(0, 0, screenWidth, screenHeight);
 	        pauseMenu.setFocusable(true);
 	        glassPane.add(pauseMenu, JLayeredPane.PALETTE_LAYER);

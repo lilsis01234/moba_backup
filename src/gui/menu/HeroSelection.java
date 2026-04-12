@@ -25,6 +25,7 @@ public class HeroSelection extends JPanel {
         void onBack();
     }
 
+    private static HeroSelection instance;
     private HeroSelectionListener listener;
     private Map<Integer, List<Hero>> heroesByCategory;
     private List<Category> categories;
@@ -42,12 +43,12 @@ public class HeroSelection extends JPanel {
     private static final Color CATEGORY_AGILITY = new Color(60, 160, 80);
     private static final Color CATEGORY_INTELLIGENCE = new Color(60, 100, 180);
 
-    public HeroSelection(Dimension screenSize) {
+private HeroSelection(Dimension screenSize) {
         setPreferredSize(screenSize);
         setBackground(Theme.BACKGROUND_DARK);
         setFocusable(true);
         setLayout(new BorderLayout());
-
+        
         try {
             JsonDataProvider provider = JsonDataProviderFactory.create(); 
             categories = provider.getAllCategories();
@@ -72,9 +73,20 @@ public class HeroSelection extends JPanel {
                     case KeyEvent.VK_ESCAPE: if (listener != null) listener.onBack(); break;
                 }
             }
-        });
+});
+    }
+    
+    public static HeroSelection getInstance(Dimension screenSize) {
+        if (instance == null) {
+            instance = new HeroSelection(screenSize);
+        }
+        return instance;
     }
 
+    public static void reset() {
+        instance = null;
+    }
+    
     private void groupHeroesByCategory(List<Hero> heroes) {
         heroesByCategory = new HashMap<>();
         for (Hero hero : heroes) {

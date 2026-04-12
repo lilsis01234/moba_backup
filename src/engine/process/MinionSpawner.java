@@ -11,9 +11,23 @@ public class MinionSpawner {
 
     private static final double SPAWN_INTERVAL = 14.0;
     private static final int MINIONS_PER_WAVE = 3;
+    private static MinionSpawner instance;
 
     private double timer = 0;
     private List<Minion> minions = new ArrayList<>();
+
+    private MinionSpawner() {}
+
+    public static MinionSpawner getInstance() {
+        if (instance == null) {
+            instance = new MinionSpawner();
+        }
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
+    }
 
     private static List<double[]> getWaypoints(int lane, int team) {
         int T = GameConfiguration.TILE_SIZE;

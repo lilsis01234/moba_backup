@@ -8,6 +8,7 @@ import java.awt.event.*;
 public class GameOverScreen extends JPanel {
 
     private static final long serialVersionUID = 1L;
+    private static GameOverScreen instance;
 
     public interface GameOverListener {
         void onReturnToMenu();
@@ -22,8 +23,20 @@ public class GameOverScreen extends JPanel {
     private static final Color WIN_COLOR = new Color(80, 220, 100);
     private static final Color LOSE_COLOR = new Color(220, 60, 60);
 
-    public GameOverScreen(String result, Dimension screenSize, GameOverListener listener) {
-        this.result   = result;
+    private GameOverScreen() {}
+
+    public static GameOverScreen getInstance(String result, Dimension screenSize, GameOverListener listener) {
+        instance = new GameOverScreen();
+        instance.init(result, screenSize, listener);
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
+    }
+
+    private void init(String result, Dimension screenSize, GameOverListener listener) {
+        this.result = result;
         this.listener = listener;
         setPreferredSize(screenSize);
         setBackground(Theme.BACKGROUND_DARK);

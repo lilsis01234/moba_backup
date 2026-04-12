@@ -19,8 +19,9 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 public class HUDRenderer {
-    private final Player player;
-    private final Arena arena;
+    private static HUDRenderer instance;
+    private Player player;
+    private Arena arena;
     private int screenWidth;
     private int screenHeight;
     private boolean paused = false;
@@ -33,7 +34,22 @@ public class HUDRenderer {
     private engine.mobile.Bot targetedBot = null;
     private HashMap<data.model.Spell.Type, BufferedImage> spellIcons = new java.util.HashMap<>();
 
-    public HUDRenderer(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
+    private HUDRenderer() {}
+
+    public static HUDRenderer getInstance() {
+        return instance;
+    }
+
+    public static void create(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
+        instance = new HUDRenderer();
+        instance.init(player, arena, tilesManager, hero);
+    }
+
+    public static void reset() {
+        instance = null;
+    }
+
+    private void init(Player player, Arena arena, TilesManager tilesManager, Hero hero) {
         this.player = player;
         this.arena = arena;
         this.matchStartTime = System.currentTimeMillis();

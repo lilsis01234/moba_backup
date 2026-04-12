@@ -11,13 +11,14 @@ public class PauseMenu extends JPanel {
         void onExit();
     }
     
+    private static PauseMenu instance;
     private PauseMenuListener listener;
     private int selectedIndex = 0;
     private int hoveredIndex = -1;
     private boolean isVisible = false;
     private String[] menuItems = {"RESUME", "EXIT"};
     
-    public PauseMenu() {
+    private PauseMenu() {
         setOpaque(false);
         setFocusable(false);
         setVisible(false);
@@ -67,6 +68,17 @@ public class PauseMenu extends JPanel {
         });
     }
     
+    public static PauseMenu getInstance() {
+        if (instance == null) {
+            instance = new PauseMenu();
+        }
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
+    }
+
     private void updateHoveredButton(int x, int y) {
         int w = getWidth();
         int h = getHeight();

@@ -20,6 +20,7 @@ import engine.mobile.Personnage;
 import game_config.GameConfiguration;
 
 public class Arena {
+    private static Arena instance;
     public List<Lane> lanes;
     private Player player;
     private Hero selectedHero;
@@ -34,8 +35,18 @@ public class Arena {
     private TilesManager tilesManager;
     int T = GameConfiguration.TILE_SIZE;
 
-    public Arena(Hero hero) {
-    	
+    private Arena() {}
+
+    public static Arena getInstance() {
+        return instance;
+    }
+
+    public static void init(Hero hero) {
+        instance = new Arena();
+        instance.setup(hero);
+    }
+
+    private void setup(Hero hero) {
         this.selectedHero = hero;
         tilesManager = TilesManager.getInstance();
         
@@ -45,12 +56,12 @@ public class Arena {
         } catch (IOException e) {
             throw new RuntimeException("Could not load heroes for bot assignment", e);
         }
-        botManager = new BotManager(dataProvider.getAllHeroes(), selectedHero);
+        botManager = BotManager.create(dataProvider.getAllHeroes(), selectedHero);
 
         lanes = new ArrayList<>();
-        lanes.add(new Lane(Lane.Type.top));
-        lanes.add(new Lane(Lane.Type.middle));
-        lanes.add(new Lane(Lane.Type.bot));
+        lanes.add(Lane.getInstance(Lane.Type.top));
+        lanes.add(Lane.getInstance(Lane.Type.middle));
+        lanes.add(Lane.getInstance(Lane.Type.bot));
         
         playerBase = new Base(7 * T, 53 * T, 0);  
         enemyBase  = new Base(53 * T, 7 * T, 1); 
@@ -60,7 +71,11 @@ public class Arena {
         playerFountain = new Fountain(4 * T, 56 * T, 0);
         enemyFountain  = new Fountain(56 * T, 4 * T, 1);
 
-        minionSpawner = new MinionSpawner();
+        minionSpawner = MinionSpawner.getInstance();
+    }
+
+    public static void reset() {
+        instance = null;
     }
 
     public void update(double deltaTime) {

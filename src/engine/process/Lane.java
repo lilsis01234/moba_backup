@@ -3,7 +3,9 @@ package engine.process;
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import game_config.GameConfiguration;
 import engine.mobile.Tower;
@@ -18,10 +20,20 @@ public class Lane {
     private List<Tower> towers;
     int T = GameConfiguration.TILE_SIZE;
 
-    public Lane(Type type) {
+    private static final Map<Type, Lane> instances = new HashMap<>();
+
+    private Lane(Type type) {
         this.type = type;
         this.towers = new ArrayList<>();
         initTowers();
+    }
+
+    public static Lane getInstance(Type type) {
+        return instances.computeIfAbsent(type, Lane::new);
+    }
+
+    public static void reset() {
+        instances.clear();
     }
 
     private void initTowers() {

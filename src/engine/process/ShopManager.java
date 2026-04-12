@@ -9,10 +9,23 @@ import engine.mobile.Player;
  */
 public class ShopManager {
 
+    private static ShopManager instance;
     private Player player;
 
-    public ShopManager(Player player) {
-        this.player = player;
+    private ShopManager() {}
+
+    public static ShopManager getInstance() {
+        return instance;
+    }
+
+    public static ShopManager create(Player player) {
+        instance = new ShopManager();
+        instance.player = player;
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
     }
 
     /**

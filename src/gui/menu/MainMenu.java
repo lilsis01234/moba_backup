@@ -8,6 +8,7 @@ import java.awt.event.*;
 public class MainMenu extends JPanel {
     
     private static final long serialVersionUID = 1L;
+    private static MainMenu instance;
 
 	public interface MenuListener {
         void onStartGame();
@@ -19,7 +20,7 @@ public class MainMenu extends JPanel {
     private int hoveredIndex = -1;
     private String[] menuItems = {"DEMARRER LE JEU", "QUITTER"};
 
-    public MainMenu(Dimension screenSize) {
+    private MainMenu(Dimension screenSize) {
         setPreferredSize(screenSize);
         setBackground(Theme.BACKGROUND_DARK);
         setFocusable(true);
@@ -51,6 +52,17 @@ public class MainMenu extends JPanel {
                 updateHoveredButton(e.getX(), e.getY());
             }
         });
+    }
+    
+    public static MainMenu getInstance(Dimension screenSize) {
+        if (instance == null) {
+            instance = new MainMenu(screenSize);
+        }
+        return instance;
+    }
+
+    public static void reset() {
+        instance = null;
     }
     
     private void updateHoveredButton(int x, int y) {

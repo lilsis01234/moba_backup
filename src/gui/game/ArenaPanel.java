@@ -36,12 +36,13 @@ public class ArenaPanel extends JPanel {
         setPreferredSize(new Dimension(windowWidth, windowHeight));
         setMinimumSize(new Dimension(800, 600));
         
-        this.hudRenderer = new HUDRenderer(
+        HUDRenderer.create(
             arena.getPlayer(), 
             arena, 
             arena.getTilesManager(),
             hero
         );
+        this.hudRenderer = HUDRenderer.getInstance();
         setFocusable(true);
 addKeyListener(new java.awt.event.KeyAdapter() {
     @Override
@@ -53,7 +54,7 @@ addKeyListener(new java.awt.event.KeyAdapter() {
     }
 });
         EquipmentLoader loader = EquipmentLoader.getInstance();
-        shopPanel = new ShopPanel(arena.getPlayer());
+        shopPanel = ShopPanel.create(arena.getPlayer());
 
         addMouseListener(new MouseAdapter() {
            @Override
