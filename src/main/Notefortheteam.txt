@@ -22,6 +22,7 @@ TO DO:
 //healing problem add buff to json?
 //add a blink spell? sheild? slow? aoe melee?
 //change shop to tab
+//lore
 
 //note skills just target the last taret u were attacking can improve but not so bad
 

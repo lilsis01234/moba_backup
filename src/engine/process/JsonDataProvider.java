@@ -90,12 +90,17 @@ public class JsonDataProvider {
                 spell.setHeroId(hero.getId());
                 spell.setName(spellMap.get("name"));
                 spell.setDescription(spellMap.get("description"));
-                Spell.Type spellType = switch (spellMap.get("type")) {
-                case "dmg" -> Spell.Type.DAMAGE;
-                case "CC"  -> Spell.Type.CROWD_CONTROL;
-                case "SP"  -> Spell.Type.SUPPORT;
-                default    -> Spell.Type.DAMAGE;
-                };
+                
+                //just fixed the issue with java 8
+                Spell.Type spellType;
+                String spellTypeStr = spellMap.get("type");
+                if ("CC".equals(spellTypeStr)) {
+                    spellType = Spell.Type.CROWD_CONTROL;
+                } else if ("SP".equals(spellTypeStr)) {
+                    spellType = Spell.Type.SUPPORT;
+                } else {
+                    spellType = Spell.Type.DAMAGE;
+                }
                 spell.setType(spellType);
                 spell.setDamage(parseInt(spellMap.get("damage")));
                 spell.setBuff(parseInt(spellMap.get("buff")));
