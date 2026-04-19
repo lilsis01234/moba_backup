@@ -59,10 +59,11 @@ public class Tower extends Entity {
         }
    
     }
+
     public void update(double deltaTime, ArrayList<Entity> enemies) {
         if (!active) return;
-        Entity closest = EntityUtils.findClosest(this, enemies);      
-        if (closest != null) {
+        Entity closest = EntityUtils.findClosest(this, enemies);
+        if (closest != null && closest.getTeam() != this.team) { 
             this.attack(closest, deltaTime);
         }
     }

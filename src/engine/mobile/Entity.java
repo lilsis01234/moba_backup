@@ -49,13 +49,14 @@ public abstract class Entity {
 
     public void takeDamage(double damage) {
         this.hp -= damage;
-        if (this.hp <= 0 && active) {
-        	//player and bot
-            if (this instanceof Personnage) {
-                ((Personnage) this).die();
-            } else { 
-            	//minions towers base
-                this.active = false; 
+        if (this.hp <= 0) {
+            this.hp = 0;
+            if (active) {
+                if (this instanceof Personnage) {
+                    ((Personnage) this).die();
+                } else {
+                    this.active = false;
+                }
             }
         }
     }
