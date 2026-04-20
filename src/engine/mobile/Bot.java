@@ -177,4 +177,7 @@ public class Bot extends Personnage {
     
     public double getRespawnTimer() { return respawnTimer; }
     
+    public String getHeroName() { return heroName; }
+    
+    public int getHeroId() { return 0; }
 }

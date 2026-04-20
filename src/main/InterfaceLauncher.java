@@ -19,12 +19,16 @@ import gui.menu.HeroSelection;
 import gui.menu.MainMenu;
 import game_config.GameConfiguration;
 import data.model.Hero;
+import data.model.GameStats;
+import gui.menu.AfterGamePanel;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -82,15 +86,66 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         mainMenu.requestFocusInWindow();
     }
 
+    private void showAfterGameScreen(String result) {
+        if (arena == null) return;
+        
+        GameStats stats = arena.buildGameStats(result);
+        
+        AfterGamePanel screen = new AfterGamePanel(stats,
+            new Dimension(screenWidth, screenHeight),
+            new AfterGamePanel.AfterGameListener() {
+                @Override
+                public void onReturnToMenu() {
+                    if (gameFrame != null) {
+                        gameFrame.setVisible(false);
+                    }
+                    gameOver = false;
+                    isGameRunning = false;
+                    isPaused = false;
+                    resetGameState();
+                    arena = null;
+                    setVisible(true);
+                    showMainMenu();
+                }
+                
+                @Override
+                public void onPlayAgain() {
+                    if (gameFrame != null) {
+                        gameFrame.setVisible(false);
+                    }
+                    gameOver = false;
+                    isGameRunning = false;
+                    isPaused = false;
+                    resetGameState();
+                    arena = null;
+                    startGame();
+                }
+            });
+
+        gameFrame.getContentPane().removeAll();
+        JPanel glass = new JPanel();
+        glass.setOpaque(false);
+        gameFrame.setGlassPane(glass);
+        glass.setVisible(false);
+        gameFrame.add(screen);
+        gameFrame.revalidate();
+        gameFrame.repaint();
+        screen.requestFocusInWindow();
+    }
+
     private void showGameOver(String result) {
+        if (arena == null) return;
+        
+        GameStats stats = arena.buildGameStats(result);
+        
         JFrame gameOverFrame = new JFrame("Game Over");
         gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameOverFrame.setSize(screenWidth, screenHeight);
         gameOverFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        GameOverScreen screen = GameOverScreen.getInstance(result,
+        AfterGamePanel screen = new AfterGamePanel(stats,
             new Dimension(screenWidth, screenHeight),
-            new GameOverScreen.GameOverListener() {
+            new AfterGamePanel.AfterGameListener() {
                 @Override
                 public void onReturnToMenu() {
                     gameOverFrame.dispose();
@@ -98,6 +153,14 @@ public class InterfaceLauncher extends JFrame implements Runnable {
                     resetGameState();
                     setVisible(true);
                     showMainMenu();
+                }
+                
+                @Override
+                public void onPlayAgain() {
+                    gameOverFrame.dispose();
+                    gameOver = false;
+                    resetGameState();
+                    startGame();
                 }
             });
 
@@ -234,6 +297,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         gameFrame.setVisible(true);
+        setVisible(false);
         isGameRunning = true;
     }
 
@@ -277,10 +341,10 @@ public class InterfaceLauncher extends JFrame implements Runnable {
                 if (result != null) {
                     gameOver = true;
                     isGameRunning = false;
+                    isPaused = false;
                     String finalResult = result;
                     SwingUtilities.invokeLater(() -> {
-                        gameFrame.dispose();
-                        showGameOver(finalResult);
+                        showAfterGameScreen(finalResult);
                     });
                 }
             }

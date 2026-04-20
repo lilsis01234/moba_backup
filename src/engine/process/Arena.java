@@ -13,6 +13,10 @@ import engine.map.TilesManager;
 import game_config.GameConfiguration;
 
 import data.model.Hero;
+import data.model.GameStats;
+import data.model.HeroStats;
+import data.model.TeamStats;
+import data.model.KDA;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -38,6 +42,8 @@ public class Arena {
     private Base enemyBase;
     private MinionSpawner minionSpawner;
     private TilesManager tilesManager;
+    private GameStats gameStats;
+    private long gameStartTime;
 
     private static final int TILE_SIZE = GameConfiguration.TILE_SIZE;
 
@@ -55,6 +61,7 @@ public class Arena {
 
     private void setup(Hero hero) {
         this.selectedHero = hero;
+        this.gameStartTime = System.currentTimeMillis();
         tilesManager = TilesManager.getInstance();
 
         JsonDataProvider dataProvider;
@@ -308,6 +315,106 @@ public class Arena {
         if (!enemyBase.isActive()) return "WIN";
         if (!playerBase.isActive()) return "LOSE";
         return null;
+    }
+
+    public GameStats buildGameStats(String result) {
+        long duration = System.currentTimeMillis() - gameStartTime;
+        
+        gameStats = new GameStats();
+        gameStats.setGameResult(result);
+        gameStats.setGameDuration(duration);
+        gameStats.setPlayerTeamId(0);
+        
+        int playerTowersDestroyed = countTowersDestroyedByTeam(1);
+        int enemyTowersDestroyed = countTowersDestroyedByTeam(0);
+        gameStats.setTowersDestroyed(playerTowersDestroyed);
+        gameStats.setEnemyTowersDestroyed(enemyTowersDestroyed);
+        gameStats.setDragonsKilled(0);
+        gameStats.setBaronKilled(0);
+        gameStats.setEnemyDragonsKilled(0);
+        gameStats.setEnemyBaronsKilled(0);
+
+        TeamStats blueTeam = new TeamStats(0);
+        TeamStats redTeam = new TeamStats(1);
+        blueTeam.setTowersDestroyed(playerTowersDestroyed);
+        redTeam.setTowersDestroyed(enemyTowersDestroyed);
+
+        if (player != null && player.getKDA() != null) {
+            KDA pk = player.getKDA();
+            System.out.println("[STATS] Player KDA - K: " + pk.getKills() + ", D: " + pk.getDeaths() + ", A: " + pk.getAssists());
+            HeroStats playerStats = new HeroStats(
+                selectedHero.getId(),
+                selectedHero.getName(),
+                0
+            );
+            int kills = pk.getKills();
+            int deaths = pk.getDeaths();
+            int assists = pk.getAssists();
+            for (int i = 0; i < kills; i++) playerStats.addKill();
+            for (int i = 0; i < deaths; i++) playerStats.addDeath();
+            for (int i = 0; i < assists; i++) playerStats.addAssist();
+            playerStats.setGoldEarned(player.getGold());
+            playerStats.setGoldSpent(0);
+            playerStats.setCsCreeps(0);
+            playerStats.setLevel(player.getLevel());
+            playerStats.setTimePlayed(duration);
+            playerStats.setTimeSpentDead(0);
+            playerStats.setPlayer(true);
+            playerStats.setLongestKillStreak(kills);
+            blueTeam.addHero(playerStats);
+        }
+
+        for (Bot bot : botManager.getAllBots()) {
+            KDA bk = bot.getKDA();
+            if (bk != null) {
+                System.out.println("[STATS] Bot " + bot.getHeroName() + " (Team " + bot.getTeam() + ") KDA - K: " + bk.getKills() + ", D: " + bk.getDeaths() + ", A: " + bk.getAssists());
+            }
+            HeroStats botStats = new HeroStats(
+                bot.getHeroId(),
+                bot.getHeroName(),
+                bot.getTeam()
+            );
+            if (bk != null) {
+                int bkKills = bk.getKills();
+                int bkDeaths = bk.getDeaths();
+                int bkAssists = bk.getAssists();
+                for (int i = 0; i < bkKills; i++) botStats.addKill();
+                for (int i = 0; i < bkDeaths; i++) botStats.addDeath();
+                for (int i = 0; i < bkAssists; i++) botStats.addAssist();
+                botStats.setLongestKillStreak(bkKills);
+            }
+            botStats.setGoldEarned(bot.getGold());
+            botStats.setGoldSpent(0);
+            botStats.setCsCreeps(0);
+            botStats.setLevel(bot.getLevel());
+            botStats.setTimePlayed(duration);
+            botStats.setTimeSpentDead(0);
+
+            if (bot.getTeam() == 0) {
+                blueTeam.addHero(botStats);
+            } else {
+                redTeam.addHero(botStats);
+            }
+        }
+
+        blueTeam.calculateTotals();
+        redTeam.calculateTotals();
+        gameStats.setTeamStats(0, blueTeam);
+        gameStats.setTeamStats(1, redTeam);
+
+        return gameStats;
+    }
+
+    private int countTowersDestroyedByTeam(int teamId) {
+        int count = 0;
+        for (Lane lane : lanes) {
+            for (Tower t : lane.getAllTowers()) {
+                if (t.getTeam() != teamId && !t.isActive()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     public BotManager getBotManager() {

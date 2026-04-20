@@ -115,6 +115,7 @@ public abstract class Personnage extends Entity {
 		        this.kda.addKill();
 	            Personnage deadTarget = (Personnage) target;
 	            deadTarget.kda.addDeath();
+	            System.out.println("[KDA] " + this.getClass().getSimpleName() + " killed " + deadTarget.getClass().getSimpleName() + " - Killer K/D/A: " + kda.getKills() + "/" + kda.getDeaths() + "/" + kda.getAssists());
 
 	            for (Personnage p : allPersonnages) {
 	                if (p == this) continue;
