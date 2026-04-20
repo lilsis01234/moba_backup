@@ -16,24 +16,20 @@ public class LoadingScreen extends JPanel {
     private Color textDim = new Color(160, 150, 130);
 
     public LoadingScreen(int width, int height) {
-        System.out.println("LoadingScreen created: " + width + "x" + height);
         setPreferredSize(new Dimension(width, height));
         setBackground(backgroundDark);
         setLayout(null);
         setOpaque(true);
-        message = "Initializing game...";
+        message = "Initialisation";
         dotCount = 0;
         
-        System.out.println("LoadingScreen: calling first repaint");
         repaint();
-        System.out.println("LoadingScreen: first repaint done");
-
+        
         new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(500);
                     dotCount = (dotCount + 1) % 4;
-                    System.out.println("Thread calling repaint, dotCount=" + dotCount);
                     repaint();
                 } catch (InterruptedException e) {
                     break;
@@ -104,7 +100,7 @@ public class LoadingScreen extends JPanel {
 
         g2.setFont(new Font("SansSerif", Font.PLAIN, 14));
         g2.setColor(textDim);
-        String hint = "Preparing battlefield...";
+        String hint = "Préparation de l'arène...";
         int hintWidth = g2.getFontMetrics().stringWidth(hint);
         g2.drawString(hint, (w - hintWidth) / 2, barY + barHeight + 60);
     }

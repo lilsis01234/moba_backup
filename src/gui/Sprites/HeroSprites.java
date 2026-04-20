@@ -3,8 +3,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class HeroSprites {
+    private static final Logger logger = Logger.getLogger(HeroSprites.class.getName());
     private BufferedImage[][] sprites;
     private int frames;
 
@@ -18,15 +20,15 @@ public class HeroSprites {
             java.io.InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
             
             if (is == null) {
-                System.err.println("File not found in classpath: " + filePath);
+                logger.warning("File not found in classpath: " + filePath);
                 this.frames = 1;
                 return;
             }
 
             BufferedImage sheet = ImageIO.read(is);
             
-            if (sheet == null) {  
-                System.err.println("ImageIO.read returned null for: " + filePath);
+            if (sheet == null) { 
+                logger.warning("ImageIO.read returned null for: " + filePath); 
                 this.frames = 1;
                 return;
             }
@@ -42,8 +44,8 @@ public class HeroSprites {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error cutting sprites: " + e.getMessage());
-            this.frames = 1;
+           logger.severe("Error cutting sprites: " + e.getMessage());
+           this.frames = 1;
         }
     }
     

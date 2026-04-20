@@ -21,10 +21,13 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import log.LoggerUtility;
+import org.apache.log4j.Logger;
 
 public class Arena {
     private static Arena instance;
-
+    private static final Logger logger = LoggerUtility.getLogger(Arena.class, "text");
+    
     private List<Lane> lanes;
     private Player player;
     private Hero selectedHero;
@@ -45,6 +48,7 @@ public class Arena {
     }
 
     public static void init(Hero hero) {
+        logger.info("Initialisation de l'arène avec le héros : " + (hero != null ? hero.getName() : "null"));
         instance = new Arena();
         instance.setup(hero);
     }
@@ -56,10 +60,13 @@ public class Arena {
         JsonDataProvider dataProvider;
         try {
             dataProvider = JsonDataProviderFactory.getInstance();
+            logger.info("héros chargé avec succès");
         } catch (IOException e) {
+            logger.fatal("Erreur : Impossible de charger les données JSON des héros");
             throw new RuntimeException("Could not load heroes for bot assignment", e);
         }
         botManager = BotManager.create(dataProvider.getAllHeroes(), selectedHero);
+        logger.info("BotManager créé avec " + botManager.getAllBots().size() + " bots.");
 
         lanes = new ArrayList<>();
         lanes.add(Lane.getInstance(Lane.Type.top));
@@ -74,14 +81,17 @@ public class Arena {
         enemyFountain = new Fountain(56 * TILE_SIZE, 4 * TILE_SIZE, 1);
 
         minionSpawner = MinionSpawner.getInstance();
+        logger.info("Installation de l'arène terminé.");
     }
 
     public static void reset() {
+        logger.info("Réinitialisation de l'arène.");
         instance = null;
     }
 
     public void update(double deltaTime) {
         if (deltaTime > 0.05) {
+            logger.warn("Pic de deltaTime détecté : " + deltaTime);
             deltaTime = 0.05;
         }
 
@@ -116,6 +126,11 @@ public class Arena {
         for (Minion m : minionSpawner.getMinions()) {
             ArrayList<Entity> targets = (m.getTeam() == 0) ? enemiesOfTeam0 : enemiesOfTeam1;
             m.update(deltaTime, targets);
+        }
+
+        String result = checkGameOver();
+        if (result != null) {
+            logger.info("Partie terminée, résultat : " + result);
         }
     }
 

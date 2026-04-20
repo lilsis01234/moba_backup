@@ -1,7 +1,8 @@
 package engine.map;
 
 import game_config.GameConfiguration;
-
+import log.LoggerUtility;
+import org.apache.log4j.Logger;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 
 public class TilesManager {
 
+    private static final Logger logger = LoggerUtility.getLogger(TilesManager.class, "text");
     private static TilesManager instance;
     public Tile[] tiles;
     public int[][] mapTileNum;
@@ -36,6 +38,7 @@ public class TilesManager {
 
     private void getTileImage() {
         try {
+            logger.info("Chargement des textures des tuiles");
             // Tile 0: Grass
             tiles[0] = new Tile();
             tiles[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/grass.png"));
@@ -55,10 +58,10 @@ public class TilesManager {
             tiles[3] = new Tile();
             tiles[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/grassB.png"));
             tiles[3].collision = true;
+            logger.info("Textures chargées avec succès.");
 
         } catch (Exception e) {
-            System.err.println("Exception loading tile images:");
-            e.printStackTrace();
+            logger.error("Erreur lors du chargement des images de tuiles : " + e.getMessage());
         }
     }
 
@@ -77,7 +80,7 @@ public class TilesManager {
             }
             br.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.fatal("Impossible de charger le fichier de map : " + mapPath, e);
         }
     }
 

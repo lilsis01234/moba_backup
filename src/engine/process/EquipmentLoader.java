@@ -2,6 +2,10 @@ package engine.process;
 
 import data.model.Equipment;
 import data.model.EquipmentType;
+import engine.mobile.Player;
+import log.LoggerUtility;
+
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -10,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EquipmentLoader {
-
+    private static final Logger logger = LoggerUtility.getLogger(EquipmentLoader.class, "html");
     private static EquipmentLoader instance;
     private List<Equipment> basicList = new ArrayList<Equipment>();
     private List<Equipment> fusedList = new ArrayList<Equipment>();
@@ -35,7 +39,6 @@ public class EquipmentLoader {
             InputStream is = getClass().getResourceAsStream(
                     "/game_config/equipment/equipement.json");
             if (is == null) {
-                System.err.println("equipment.json introuvable");
                 return;
             }
             StringBuilder sb = new StringBuilder();
@@ -57,7 +60,7 @@ public class EquipmentLoader {
             parseList(fusedBlock, true);
 
         } catch (Exception e) {
-            System.err.println("Erreur chargement equipment.json : " + e.getMessage());
+            
         }
     }
 
@@ -130,8 +133,9 @@ public class EquipmentLoader {
                                      price, description);
             }
         } catch (Exception e) {
-            System.err.println("Erreur parse objet : " + e.getMessage());
-            return null;
+           logger.error("Erreur critique de parsing sur l'objet : " + e.getMessage());
+           logger.debug("Contenu de l'objet en cause : " + obj);
+           return null;
         }
     }
 
