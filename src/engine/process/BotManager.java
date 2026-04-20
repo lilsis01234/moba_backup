@@ -15,7 +15,6 @@ public class BotManager {
     private static BotManager instance;
     private List<Bot> bots      = new ArrayList<>();
     private List<Bot> enemyBots = new ArrayList<>();
-    int T = GameConfiguration.TILE_SIZE;
 
     private BotManager() {}
 

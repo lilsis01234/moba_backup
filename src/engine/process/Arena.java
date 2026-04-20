@@ -90,9 +90,9 @@ public class Arena {
     }
 
     public void update(double deltaTime) {
-        if (deltaTime > 0.05) {
+        if (deltaTime > GameConfiguration.MAX_DELTA_TIME) {
             logger.warn("Pic de deltaTime détecté : " + deltaTime);
-            deltaTime = 0.05;
+            deltaTime = GameConfiguration.MAX_DELTA_TIME;
         }
 
         ArrayList<Personnage> allCharacters = new ArrayList<>();

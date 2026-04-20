@@ -31,7 +31,7 @@ public class GameConfiguration {
     
     
     //technical
-    public static final double AttackMargin =TILE_SIZE * 0.75;
+    public static final double ATTACK_MARGIN = TILE_SIZE * 0.75;
     public static final double RECALL_DURATION = 5.0;
     
     //retreat
@@ -78,4 +78,14 @@ public class GameConfiguration {
     public static final double MINION_MAX_HP = 60;
     public static final double MINION_ATTACK_COOLDOWN = 0.9;
     public static final double MINION_SPEED = 300.0; // pixels/sec
+
+    // Bot
+    public static final double WAYPOINT_CLOSE_THRESHOLD = 5.0;
+    public static final double WAYPOINT_REACHED_THRESHOLD = 8.0;
+    public static final double BOT_COLLISION_THRESHOLD = 0.6;
+
+    // Game
+    public static final double MAX_DELTA_TIME = 0.05;
+    public static final int ASSIST_TIME_WINDOW = 5000;
+    public static final int RESPAWN_BASE_TIME = 5;
 }

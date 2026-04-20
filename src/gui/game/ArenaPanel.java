@@ -98,7 +98,7 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                     hudRenderer.setTargetedBot(null);
                     arena.getPlayer().moveTo(worldX, worldY);
                 } else if (e.getButton() == MouseEvent.BUTTON1) {
-                    double clickRadius = GameConfiguration.AttackMargin;
+                    double clickRadius = GameConfiguration.ATTACK_MARGIN;
                     Entity clicked = arena.findClickedEnemy(worldX, worldY, clickRadius);
                     if (clicked != null) {
                         arena.getPlayer().setTarget(clicked);

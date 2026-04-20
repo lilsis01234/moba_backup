@@ -1,12 +1,8 @@
 package engine.mobile;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import data.model.Hero;
 import game_config.GameConfiguration;
@@ -44,12 +40,12 @@ public class Bot extends Personnage {
         updateTimers(deltaTime);
         if (isStunned()) { updateAnimation(deltaTime); return; }
         //move
-        Move(deltaTime, enemies, allBots, allPersonnages);
+        move(deltaTime, enemies, allBots, allPersonnages);
         //recall
         updateRecall(deltaTime);
     }
     
-    public void Move(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
+    public void move(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
         double hpPercent = hp / maxHp;
         
         if (hpPercent < retreatTresHold) {retreating = true;}
