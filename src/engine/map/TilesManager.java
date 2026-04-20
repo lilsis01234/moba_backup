@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 public class TilesManager {
 
-    private static final Logger logger = LoggerUtility.getLogger(TilesManager.class, "text");
+    private static final Logger logger = LoggerUtility.getLogger(TilesManager.class);
     private static TilesManager instance;
     public Tile[] tiles;
     public int[][] mapTileNum;

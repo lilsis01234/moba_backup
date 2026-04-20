@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EquipmentLoader {
-    private static final Logger logger = LoggerUtility.getLogger(EquipmentLoader.class, "html");
+    private static final Logger logger = LoggerUtility.getLogger(EquipmentLoader.class);
     private static EquipmentLoader instance;
     private List<Equipment> basicList = new ArrayList<Equipment>();
     private List<Equipment> fusedList = new ArrayList<Equipment>();

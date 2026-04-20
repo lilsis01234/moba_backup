@@ -20,7 +20,7 @@ public class Player extends Personnage {
     private double CibleX, CibleY;
     private Entity targetEnemy = null; //we need it to attack found using a method
 
-    private static final Logger logger = LoggerUtility.getLogger(Player.class, "text");
+    private static final Logger logger = LoggerUtility.getLogger(Player.class);
 
 
 

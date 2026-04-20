@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 
 public class Arena {
     private static Arena instance;
-    private static final Logger logger = LoggerUtility.getLogger(Arena.class, "text");
+    private static final Logger logger = LoggerUtility.getLogger(Arena.class);
     
     private List<Lane> lanes;
     private Player player;
