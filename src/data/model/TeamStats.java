@@ -10,8 +10,6 @@ public class TeamStats {
     private int totalDeaths;
     private int totalAssists;
     private int towersDestroyed;
-    private int dragonsKilled;
-    private int baronsKilled;
     private int goldEarned;
     private int totalDamageDealt;
 
@@ -62,12 +60,6 @@ public class TeamStats {
 
     public int getTowersDestroyed() { return towersDestroyed; }
     public void setTowersDestroyed(int towersDestroyed) { this.towersDestroyed = towersDestroyed; }
-
-    public int getDragonsKilled() { return dragonsKilled; }
-    public void setDragonsKilled(int dragonsKilled) { this.dragonsKilled = dragonsKilled; }
-
-    public int getBaronsKilled() { return baronsKilled; }
-    public void setBaronKilled(int baronsKilled) { this.baronsKilled = baronsKilled; }
 
     public int getGoldEarned() { return goldEarned; }
     public void setGoldEarned(int goldEarned) { this.goldEarned = goldEarned; }

@@ -328,11 +328,7 @@ public class Arena {
         int playerTowersDestroyed = countTowersDestroyedByTeam(1);
         int enemyTowersDestroyed = countTowersDestroyedByTeam(0);
         gameStats.setTowersDestroyed(playerTowersDestroyed);
-        gameStats.setEnemyTowersDestroyed(enemyTowersDestroyed);
-        gameStats.setDragonsKilled(0);
-        gameStats.setBaronKilled(0);
-        gameStats.setEnemyDragonsKilled(0);
-        gameStats.setEnemyBaronsKilled(0);
+        gameStats.setTowersLost(enemyTowersDestroyed);
 
         TeamStats blueTeam = new TeamStats(0);
         TeamStats redTeam = new TeamStats(1);
@@ -341,7 +337,6 @@ public class Arena {
 
         if (player != null && player.getKDA() != null) {
             KDA pk = player.getKDA();
-            System.out.println("[STATS] Player KDA - K: " + pk.getKills() + ", D: " + pk.getDeaths() + ", A: " + pk.getAssists());
             HeroStats playerStats = new HeroStats(
                 selectedHero.getId(),
                 selectedHero.getName(),
@@ -366,9 +361,6 @@ public class Arena {
 
         for (Bot bot : botManager.getAllBots()) {
             KDA bk = bot.getKDA();
-            if (bk != null) {
-                System.out.println("[STATS] Bot " + bot.getHeroName() + " (Team " + bot.getTeam() + ") KDA - K: " + bk.getKills() + ", D: " + bk.getDeaths() + ", A: " + bk.getAssists());
-            }
             HeroStats botStats = new HeroStats(
                 bot.getHeroId(),
                 bot.getHeroName(),

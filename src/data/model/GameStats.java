@@ -11,11 +11,6 @@ public class GameStats {
     private Map<Integer, TeamStats> teamStatsMap;
     private int towersDestroyed;
     private int towersLost;
-    private int dragonsKilled;
-    private int baronsKilled;
-    private int enemyTowersDestroyed;
-    private int enemyDragonsKilled;
-    private int enemyBaronsKilled;
 
     public GameStats() {
         this.heroStatsMap = new HashMap<>();
@@ -60,21 +55,6 @@ public class GameStats {
 
     public int getTowersLost() { return towersLost; }
     public void setTowersLost(int towersLost) { this.towersLost = towersLost; }
-
-    public int getDragonsKilled() { return dragonsKilled; }
-    public void setDragonsKilled(int dragonsKilled) { this.dragonsKilled = dragonsKilled; }
-
-    public int getBaronsKilled() { return baronsKilled; }
-    public void setBaronKilled(int baronsKilled) { this.baronsKilled = baronsKilled; }
-
-    public int getEnemyTowersDestroyed() { return enemyTowersDestroyed; }
-    public void setEnemyTowersDestroyed(int enemyTowersDestroyed) { this.enemyTowersDestroyed = enemyTowersDestroyed; }
-
-    public int getEnemyDragonsKilled() { return enemyDragonsKilled; }
-    public void setEnemyDragonsKilled(int enemyDragonsKilled) { this.enemyDragonsKilled = enemyDragonsKilled; }
-
-    public int getEnemyBaronsKilled() { return enemyBaronsKilled; }
-    public void setEnemyBaronsKilled(int enemyBaronsKilled) { this.enemyBaronsKilled = enemyBaronsKilled; }
 
     public int getTotalKills() {
         int total = 0;

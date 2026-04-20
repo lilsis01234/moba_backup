@@ -1,8 +1,5 @@
 package data.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class HeroStats {
     private int heroId;
     private String heroName;
@@ -16,22 +13,15 @@ public class HeroStats {
     private int goldEarned;
     private int goldSpent;
     private int csCreeps;
-    private int jungleCreeps;
     private long timePlayed;
     private long timeSpentDead;
     private int longestKillStreak;
     private int longestDeathStreak;
     private int multiKills;
-    private int wardsPlaced;
-    private int wardsCleared;
     private boolean isPlayer;
-    private Map<String, Integer> damageBySource;
-    private Map<String, Integer> healingBySource;
 
     public HeroStats() {
         this.kda = new KDA();
-        this.damageBySource = new HashMap<>();
-        this.healingBySource = new HashMap<>();
     }
 
     public HeroStats(int heroId, String heroName, int teamId) {
@@ -39,8 +29,6 @@ public class HeroStats {
         this.heroName = heroName;
         this.teamId = teamId;
         this.kda = new KDA();
-        this.damageBySource = new HashMap<>();
-        this.healingBySource = new HashMap<>();
     }
 
     public void addKill() { kda.addKill(); }
@@ -94,10 +82,6 @@ public class HeroStats {
 
     public int getCsCreeps() { return csCreeps; }
     public void setCsCreeps(int csCreeps) { this.csCreeps = csCreeps; }
-    public void addCsCreeps(int cs) { this.csCreeps += cs; }
-
-    public int getJungleCreeps() { return jungleCreeps; }
-    public void setJungleCreeps(int jungleCreeps) { this.jungleCreeps = jungleCreeps; }
 
     public long getTimePlayed() { return timePlayed; }
     public void setTimePlayed(long timePlayed) { this.timePlayed = timePlayed; }
@@ -114,25 +98,12 @@ public class HeroStats {
     public int getMultiKills() { return multiKills; }
     public void setMultiKills(int multiKills) { this.multiKills = multiKills; }
 
-    public int getWardsPlaced() { return wardsPlaced; }
-    public void setWardsPlaced(int wardsPlaced) { this.wardsPlaced = wardsPlaced; }
-
-    public int getWardsCleared() { return wardsCleared; }
-    public void setWardsCleared(int wardsCleared) { this.wardsCleared = wardsCleared; }
-
     public boolean isPlayer() { return isPlayer; }
     public void setPlayer(boolean isPlayer) { this.isPlayer = isPlayer; }
-
-    public int getTotalCreeps() { return csCreeps + jungleCreeps; }
 
     public int getGoldPerMinute() {
         if (timePlayed == 0) return 0;
         return (int)((goldEarned * 60000.0) / timePlayed);
-    }
-
-    public int getXpPerMinute() {
-        if (timePlayed == 0) return 0;
-        return (int)((level * 100.0) / (timePlayed / 60000.0));
     }
 
     public String getNetWorth() {

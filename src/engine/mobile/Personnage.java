@@ -98,8 +98,14 @@ public abstract class Personnage extends Entity {
 	        if (target instanceof Personnage) {
 	            recordDamageDealtTo((Personnage) target);
 	        }
+	        
+	        boolean wasActive = target.isActive();
 	        target.takeDamage(atkDamage);
-	        checkKill(target, allPersonnages);
+	        
+	        if (wasActive) {
+	            checkKill(target, allPersonnages);
+	        }
+	        
 	        atkTimer = atkCooldown;
 	        return true;
 	    }
@@ -112,16 +118,19 @@ public abstract class Personnage extends Entity {
 	        this.addXp(target.getXPLoot());
 
 	        if (target instanceof Personnage) {
-		        this.kda.addKill();
 	            Personnage deadTarget = (Personnage) target;
+	            
+	            this.kda.addKill();
 	            deadTarget.kda.addDeath();
-	            System.out.println("[KDA] " + this.getClass().getSimpleName() + " killed " + deadTarget.getClass().getSimpleName() + " - Killer K/D/A: " + kda.getKills() + "/" + kda.getDeaths() + "/" + kda.getAssists());
+	            
+	            System.out.println("[KILL] " + this.getClass().getSimpleName() + " killed " + deadTarget.getClass().getSimpleName() + " | Killer: " + kda.getKills() + " | Dead: " + deadTarget.kda.getDeaths());
 
 	            for (Personnage p : allPersonnages) {
 	                if (p == this) continue;
 	                if (p.getTeam() != this.getTeam()) continue;
 	                if (p.assisted(deadTarget)) {
 	                    p.kda.addAssist();
+	                    System.out.println("[ASSIST] " + p.getClass().getSimpleName() + " assisted");
 	                }
 	            }
 	        }

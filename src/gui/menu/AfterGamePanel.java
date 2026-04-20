@@ -131,7 +131,6 @@ public class AfterGamePanel extends JPanel {
             addStatRow(stats, "KDA", String.format("%.2f", team.getTeamKDA()));
             addStatRow(stats, "Tours détruites", String.valueOf(team.getTowersDestroyed()));
             addStatRow(stats, "Or total", formatGold(team.getGoldEarned()));
-            addStatRow(stats, "Dégats totaux", formatNumber(team.getTotalDamageDealt()));
         } else {
             addStatRow(stats, "-", "-");
         }
