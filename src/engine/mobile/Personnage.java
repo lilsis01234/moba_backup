@@ -9,10 +9,10 @@ import data.model.KDA;
 import java.util.ArrayList;
 import java.util.HashMap;
 import game_config.GameConfiguration;
+import gui.ShopPanel;
 import gui.Sprites.HeroSprites;
-
-
-
+import log.LoggerUtility;
+import org.apache.log4j.Logger;
 public abstract class Personnage extends Entity {
 
     protected double speed;
@@ -52,6 +52,9 @@ public abstract class Personnage extends Entity {
 
     // stun
     private double stunTimer = 0;
+
+    private static final Logger logger = LoggerUtility.getLogger(Personnage.class);
+
     
     public Personnage(double x, double y, int team,Hero hero) {
         super(x, y, 1, team);
@@ -290,27 +293,30 @@ public abstract class Personnage extends Entity {
         Long t = damageTimestamps.get(target);
         return t != null && (System.currentTimeMillis() - t) <= 5000;
     }
-public void buyEquipment(Equipment eq) {
-    if (gold < eq.getPrice()) return; 
-    if (equippedGear.size() >= 6) return;
-    gold -= eq.getPrice();
-    equippedGear.add(eq);
-    this.atkDamage += eq.getAttackBonus();
-    this.defense   += eq.getDefenseBonus();
-}
+
+    public void buyEquipment(Equipment eq) {
+        if (gold < eq.getPrice()) return; 
+        if (equippedGear.size() >= 6) return;
+        gold -= eq.getPrice();
+        equippedGear.add(eq);
+        this.atkDamage += eq.getAttackBonus();
+        this.defense   += eq.getDefenseBonus();
+        logger.info("achat d'équipement réussi");
+    }
 
     public void fuseEquipment(int id1, int id2, Equipment result) {
-    Equipment e1 = findEquipped(id1);
-    Equipment e2 = findEquipped(id2);
-    if (e1 == null || e2 == null) return;
-    equippedGear.remove(e1);
-    equippedGear.remove(e2);
-    this.atkDamage -= (e1.getAttackBonus()  + e2.getAttackBonus());
-    this.defense   -= (e1.getDefenseBonus() + e2.getDefenseBonus());
-    equippedGear.add(result);
-    this.atkDamage += result.getAttackBonus();
-    this.defense   += result.getDefenseBonus();
-}
+        Equipment e1 = findEquipped(id1);
+        Equipment e2 = findEquipped(id2);
+        if (e1 == null || e2 == null) return;
+        equippedGear.remove(e1);
+        equippedGear.remove(e2);
+        this.atkDamage -= (e1.getAttackBonus()  + e2.getAttackBonus());
+        this.defense   -= (e1.getDefenseBonus() + e2.getDefenseBonus());
+        equippedGear.add(result);
+        this.atkDamage += result.getAttackBonus();
+        this.defense   += result.getDefenseBonus();
+        logger.info("fusion d'équipement réussi");
+    }
 
     private Equipment findEquipped(int id) {
 

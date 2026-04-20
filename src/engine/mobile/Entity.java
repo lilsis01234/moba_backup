@@ -2,12 +2,16 @@ package engine.mobile;
 
 import java.awt.*;
 
+import log.LoggerUtility;
+import org.apache.log4j.Logger;
+
 /**
  * @author RAHARIMANANA Tianantenaina BOUKIRAT Thafat
  */
 
 public abstract class Entity {
 
+    private static final Logger logger = LoggerUtility.getLogger(Entity.class);
     protected double x, y;
     protected double hp;
     protected double maxHp;
@@ -52,6 +56,7 @@ public abstract class Entity {
         if (this.hp <= 0) {
             this.hp = 0;
             if (active) {
+                logger.info("[MORT] " + this.getClass().getSimpleName() + " de l'équipe " + this.team + " détruit/tué.");
                 if (this instanceof Personnage) {
                     ((Personnage) this).die();
                 } else {
@@ -66,6 +71,8 @@ public abstract class Entity {
     public void attack(Entity target, double deltaTime) {
         atkTimer -= deltaTime;
         if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
+            logger.debug("[ATTAQUE] " + this.getClass().getSimpleName() + " attaque " + 
+                         target.getClass().getSimpleName() + " (Dégâts: " + atkDamage + ")");
             target.takeDamage(atkDamage);
             atkTimer = atkCooldown;
         }

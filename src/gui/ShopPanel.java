@@ -5,6 +5,8 @@ import data.model.EquipmentType;
 import engine.mobile.Player;
 import engine.process.EquipmentLoader;
 import engine.process.ShopManager;
+import log.LoggerUtility;
+import org.apache.log4j.Logger;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,12 +14,9 @@ import java.io.InputStream;
 import java.util.List;
 import javax.imageio.ImageIO;
 
-/**
- * Interface graphique de la boutique d equipements.
- * Ne contient QUE le rendu graphique.
- * La logique d achat et de fusion est deleguee a ShopManager.
- */
 public class ShopPanel {
+
+    private static final Logger logger = LoggerUtility.getLogger(ShopPanel.class);
 
     private static ShopPanel instance;
     private boolean   visible  = false;
@@ -51,6 +50,7 @@ public class ShopPanel {
     }
 
     public static void reset() {
+        logger.info("ShopPanel réinitialisé");
         instance = null;
     }
 
@@ -60,6 +60,8 @@ public class ShopPanel {
         this.basicList   = loader.getBasicList();
         this.fusedList   = loader.getFusedList();
         this.shopManager = ShopManager.create(player);
+        logger.info("ShopPanel initialisé - " + basicList.size()
+                  + " items basiques, " + fusedList.size() + " items fusionnés");
         loadImages();
     }
 
@@ -67,17 +69,22 @@ public class ShopPanel {
         imgSword  = loadImg("/res/equipment/sword.png");
         imgHelmet = loadImg("/res/equipment/helmet.png");
         imgArmor  = loadImg("/res/equipment/armor.png");
+
+        logger.debug("Images chargées =" + (imgSword  != null)
+                   + " helmet=" + (imgHelmet != null)
+                   + " armor="  + (imgArmor  != null));
     }
 
     private BufferedImage loadImg(String path) {
         try {
             InputStream is = getClass().getResourceAsStream(path);
             if (is != null) return ImageIO.read(is);
-        } catch (Exception e) {}
+            logger.warn("Image introuvable : " + path);
+        } catch (Exception e) {
+            logger.error("Erreur chargement image " + path + " : " + e.getMessage());
+        }
         return null;
     }
-
-    // ── Affichage ──
 
     public void render(Graphics2D g2, int screenW, int screenH) {
         if (!visible) return;
@@ -214,15 +221,15 @@ public class ShopPanel {
         renderActionButton(g2, dx, dy, dw, dh);
     }
 
-    // ── Clics 
-
     public boolean handleClick(int mx, int my) {
         if (!visible) return false;
 
         if (mx >= px+10 && mx <= px+155 && my >= py+33 && my <= py+59) {
+            logger.debug("Onglet basiques sélectionné");
             tab = 0; selected = null; return true;
         }
         if (mx >= px+165 && mx <= px+310 && my >= py+33 && my <= py+59) {
+            logger.debug("Onglet fusionnés sélectionné");
             tab = 1; selected = null; return true;
         }
 
@@ -247,6 +254,8 @@ public class ShopPanel {
             if (eq.getType() != lastType) { lastType = eq.getType(); ry += 16; }
             if (mx >= px+10 && mx <= px+350 && my >= ry && my <= ry+ROW_H-2) {
                 selected = (selected == eq) ? null : eq;
+                logger.debug("Item sélectionné : "
+                    + (selected != null ? selected.getName() : "aucun"));
                 return true;
             }
             ry += ROW_H;
@@ -255,17 +264,38 @@ public class ShopPanel {
         return true;
     }
 
-    // ── Delegation a ShopManager ──────
     private boolean canDoAction() {
         return shopManager.canDoAction(selected);
     }
 
     private void doAction() {
-        shopManager.doAction(selected);
+        if (selected == null) return;
+        boolean fused = selected.isFused();
+        String nom    = selected.getName();
+
+        boolean ok = shopManager.canDoAction(selected);
+        if (ok) {
+            shopManager.doAction(selected);
+            if (fused) {
+                logger.info("Fusion réussie : " + nom
+                    + " (or restant : " + player.getGold() + ")");
+            } else {
+                logger.info("Achat réussi : " + nom
+                    + " - prix : " + selected.getPrice()
+                    + " - or restant : " + player.getGold());
+            }
+        } else {
+            if (fused) {
+                logger.warn("Fusion impossible : items requis manquants pour " + nom);
+            } else {
+                logger.warn("Achat impossible : or insuffisant pour " + nom
+                    + " (prix : " + selected.getPrice()
+                    + ", or : " + player.getGold() + ")");
+            }
+        }
         selected = null;
     }
 
-    // ── Helpers graphiques ─────────
     private BufferedImage getImage(EquipmentType t) {
         if (t == EquipmentType.SWORD)  return imgSword;
         if (t == EquipmentType.HELMET) return imgHelmet;
@@ -302,13 +332,13 @@ public class ShopPanel {
         String[] words = text.split(" ");
         StringBuilder line = new StringBuilder();
         int cy = y;
-        for (int i = 0; i < words.length; i++) {
-            if (fm.stringWidth(line.toString() + words[i]) > maxW) {
+        for (String word : words) {
+            if (fm.stringWidth(line.toString() + word) > maxW) {
                 g2.drawString(line.toString(), x, cy);
                 cy += 14;
                 line = new StringBuilder();
             }
-            line.append(words[i]).append(" ");
+            line.append(word).append(" ");
         }
         if (line.length() > 0) g2.drawString(line.toString(), x, cy);
     }
@@ -337,7 +367,12 @@ public class ShopPanel {
         g2.drawString(label, bx + (bw - fm.stringWidth(label)) / 2, by + 19);
     }
 
-    public void toggle()       { visible = !visible; selected = null; }
+    public void toggle() {
+        visible = !visible;
+        selected = null;
+        logger.debug("ShopPanel " + (visible ? "ouvert" : "fermé"));
+    }
+
     public boolean isVisible() { return visible; }
 
     private void renderFusionTree(Graphics2D g2, int dx, int dy, int dw, int dh) {
@@ -351,30 +386,25 @@ public class ShopPanel {
         String req1Name = findName(selected.getReq1());
         String req2Name = findName(selected.getReq2());
 
-        // Branches
         g2.setColor(new Color(150, 130, 60));
         g2.drawLine(rootX, rootY + r, leftX,  childY - r);
         g2.drawLine(rootX, rootY + r, rightX, childY - r);
 
-        // Noeud racine
         g2.setColor(new Color(60, 50, 15));
         g2.fillOval(rootX - r, rootY - r, r * 2, r * 2);
         g2.setColor(new Color(200, 170, 60));
         g2.drawOval(rootX - r, rootY - r, r * 2, r * 2);
 
-        // Noeud gauche
         g2.setColor(new Color(25, 40, 80));
         g2.fillOval(leftX - r, childY - r, r * 2, r * 2);
         g2.setColor(new Color(80, 120, 220));
         g2.drawOval(leftX - r, childY - r, r * 2, r * 2);
 
-        // Noeud droit
         g2.setColor(new Color(25, 40, 80));
         g2.fillOval(rightX - r, childY - r, r * 2, r * 2);
         g2.setColor(new Color(80, 120, 220));
         g2.drawOval(rightX - r, childY - r, r * 2, r * 2);
 
-        // Images ou initiales
         BufferedImage img = getImage(selected.getType());
         if (img != null) {
             g2.drawImage(img, rootX - 20, rootY - 20, 40, 40, null);
@@ -390,7 +420,6 @@ public class ShopPanel {
             g2.drawString(icon, rightX - fm2.stringWidth(icon)/2, childY + 6);
         }
 
-        // Noms
         g2.setColor(Color.YELLOW);
         g2.setFont(new Font("Arial", Font.BOLD, 11));
         FontMetrics fm = g2.getFontMetrics();
@@ -403,19 +432,16 @@ public class ShopPanel {
         g2.drawString(req1Name, leftX  - fm.stringWidth(req1Name)  / 2, childY + r + 14);
         g2.drawString(req2Name, rightX - fm.stringWidth(req2Name) / 2, childY + r + 14);
 
-        // Stats
         g2.setColor(new Color(255, 120, 120));
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         g2.drawString("ATK : +" + selected.getAttackBonus(),  dx + 8, dy + dh - 110);
         g2.setColor(new Color(120, 180, 255));
         g2.drawString("DEF : +" + selected.getDefenseBonus(), dx + 8, dy + dh - 92);
 
-        // Description
         g2.setColor(new Color(200, 200, 200));
         g2.setFont(new Font("Arial", Font.PLAIN, 11));
         drawWrapped(g2, selected.getDescription(), dx + 8, dy + dh - 68, dw - 16);
 
-        // Bouton
         renderActionButton(g2, dx, dy, dw, dh);
     }
 }

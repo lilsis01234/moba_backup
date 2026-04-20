@@ -133,7 +133,7 @@ public class EquipmentLoader {
                                      price, description);
             }
         } catch (Exception e) {
-           logger.error("Erreur critique de parsing sur l'objet : " + e.getMessage());
+           logger.error("Erreur de parsing sur l'objet : " + e.getMessage());
            logger.debug("Contenu de l'objet en cause : " + obj);
            return null;
         }
