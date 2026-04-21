@@ -1,3 +1,4 @@
+
 package gui.game;
 
 import engine.process.Arena;
@@ -13,7 +14,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.function.Consumer;
 import gui.ShopPanel;
 import engine.process.EquipmentLoader;
 
@@ -44,37 +44,36 @@ public class ArenaPanel extends JPanel {
         );
         this.hudRenderer = HUDRenderer.getInstance();
         setFocusable(true);
-addKeyListener(new java.awt.event.KeyAdapter() {
-    @Override
-    public void keyPressed(java.awt.event.KeyEvent e) {
-        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_B) {
-            shopPanel.toggle();
-            repaint();
-        }
-    }
-});
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_B) {
+                    shopPanel.toggle();
+                    repaint();
+                }
+            }
+        });
         EquipmentLoader loader = EquipmentLoader.getInstance();
         shopPanel = ShopPanel.create(arena.getPlayer());
 
         addMouseListener(new MouseAdapter() {
-           @Override
+            @Override
             public void mousePressed(MouseEvent e) {
                 int mx = e.getX();
                 int my = e.getY();
                 if (shopPanel.handleClick(e.getX(), e.getY())) {
-                 repaint();
-                 return;
-}
+                    repaint();
+                    return;
+                }
 
                 if (hudRenderer.handleRecallClick(mx, my)) return;
 
-                // spell slot clicks: left-click = cast, right-click = upgrade
                 int spellSlot = hudRenderer.getSpellSlotAt(mx, my);
                 if (spellSlot >= 0) {
                     if (e.getButton() == MouseEvent.BUTTON3) {
                         arena.getPlayer().upgradeSpell(spellSlot);
                     } else if (e.getButton() == MouseEvent.BUTTON1) {
-                        engine.mobile.Entity target = arena.getPlayer().getTargetEnemy();
+                        Entity target = arena.getPlayer().getTargetEnemy();
                         arena.getPlayer().castSpell(spellSlot, target);
                     }
                     repaint();
@@ -90,7 +89,7 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                 double worldX = world[0];
                 double worldY = world[1];
 
-                if (worldX < 0 || worldX > GameConfiguration.WORLD_WIDTH  ||
+                if (worldX < 0 || worldX > GameConfiguration.WORLD_WIDTH ||
                     worldY < 0 || worldY > GameConfiguration.WORLD_HEIGHT) return;
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
@@ -98,6 +97,7 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                     hudRenderer.setTargetedBot(null);
                     arena.getPlayer().moveTo(worldX, worldY);
                 } else if (e.getButton() == MouseEvent.BUTTON1) {
+                    arena.getPlayer().showAttackRadius();
                     double clickRadius = GameConfiguration.ATTACK_MARGIN;
                     Entity clicked = arena.findClickedEnemy(worldX, worldY, clickRadius);
                     if (clicked != null) {
@@ -109,7 +109,9 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                         }
                     }
                 }
-        }});
+            }
+        });
+
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             @Override
             public void mouseMoved(java.awt.event.MouseEvent e) {
@@ -122,7 +124,7 @@ addKeyListener(new java.awt.event.KeyAdapter() {
                 }
             }
         });
-   
+
         this.setFocusable(true);
         this.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
@@ -139,10 +141,8 @@ addKeyListener(new java.awt.event.KeyAdapter() {
 
                 if (spellIndex >= 0) {
                     if (ctrl) {
-                        // Ctrl+1/2/3 to upgrase
                         arena.getPlayer().upgradeSpell(spellIndex);
                     } else {
-                        // 1/2/3 to cast
                         engine.mobile.Entity target = arena.getPlayer().getTargetEnemy();
                         arena.getPlayer().castSpell(spellIndex, target);
                     }
@@ -165,7 +165,7 @@ addKeyListener(new java.awt.event.KeyAdapter() {
     public void setPauseCallback(Runnable callback) {
         this.pauseCallback = callback;
     }
-    
+
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
@@ -195,9 +195,8 @@ addKeyListener(new java.awt.event.KeyAdapter() {
         g2.setTransform(original);
 
         hudRenderer.setScreenSize(windowWidth, windowHeight);
-        
         hudRenderer.setGold(arena.getPlayer().getGold());
-        
+
         int blue = 0, red = 0;
         blue += arena.getPlayer().getKDA().getKills();
         for (Bot b : arena.getBotManager().getAllBots()) {
@@ -205,12 +204,12 @@ addKeyListener(new java.awt.event.KeyAdapter() {
             else red += b.getKDA().getKills();
         }
         hudRenderer.setKills(blue, red);
-        
+
         hudRenderer.render(g2);
         shopPanel.render(g2, windowWidth, windowHeight);
-
     }
-        public void toggleShop() {
+
+    public void toggleShop() {
         shopPanel.toggle();
         repaint();
     }

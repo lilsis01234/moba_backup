@@ -14,6 +14,10 @@ public class Player extends Personnage {
 
     private double targetX, targetY;
     private Entity targetEnemy = null;
+    
+    //visual purposes
+    private double attackRadiusTimer = 0;
+    private static final double ATTACK_RADIUS_DURATION = 0.5;
 
     private static final Logger logger = LoggerUtility.getLogger(Player.class);
 
@@ -26,6 +30,8 @@ public class Player extends Personnage {
             mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
             if (mana > maxMana) mana = maxMana;
         }
+        if (attackRadiusTimer > 0) attackRadiusTimer -= deltaTime;
+        
         updateRecall(deltaTime);
         updateTimers(deltaTime);
 
@@ -77,6 +83,13 @@ public class Player extends Personnage {
     @Override
     public void render(Graphics2D g2, int width, int height) {
         if (!active) return;
+        if (attackRadiusTimer > 0) {
+            int r = (int) atkRange;
+            g2.setColor(new Color(255, 0, 0, 40));
+            g2.fillOval((int)x - r, (int)y - r, r * 2, r * 2);
+            g2.setColor(new Color(255, 0, 0, 120));
+            g2.drawOval((int)x - r, (int)y - r, r * 2, r * 2);
+        }
         renderSprite(g2);
     }
 
@@ -87,7 +100,11 @@ public class Player extends Personnage {
         this.currentState = State.MOVING;
         this.targetEnemy = null;
     }
-
+    //for the attack visual effect
+    public void showAttackRadius() {
+        attackRadiusTimer = ATTACK_RADIUS_DURATION;
+    }
+    
     public double getTargetX() { return targetX; }
     public double getTargetY() { return targetY; }
     public State getState() { return currentState; }

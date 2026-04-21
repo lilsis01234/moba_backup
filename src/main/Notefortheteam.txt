@@ -1,31 +1,29 @@
 TO DO:
 
-//attacking visual effect ? name becomes red? angry icon? 
-//visuals for recall? standing sprite? circlce, blood, angry
-//draw the 	attck radius around the player?
-// make a better respawning logic(depending on lvl can cause issues)
+
+
 //update the loot system( having to last hit to get any loot very difficult)
-//add assist option nd reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
-//bug in total kills where it includes enemies, HUD
+//assist reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
+//problem : if tower kills enemy : wasted kill + resources checkkill
 //stats HUD	
-//add lvl cap
 //properly calculate skill dmg/heal/stun
 //gatekeep bases
-//Spells
 //add keyboard mouvement
-//problem : if tower kills enemy : wasted kill + resources checkkill
+//spell cast visual effect
 //uh if no targer and cast?
 //visual effects
-//bot spells
-//assist on towers / minions loot
-//scaling
-//healing problem add buff to json?
-//add a blink spell? sheild? slow? aoe melee?
-//change shop to tab
 //lore
 
-//note skills just target the last taret u were attacking can improve but not so bad
+//add scoreboard (tab) that shows all characters stats kda gold level equipement
 
+
+
+CAN BE IGNORED:
+//note skills just target the last taret u were attacking can improve but not so bad
+// make a better respawning logic(depending on lvl can cause issues)
+//visuals for recall? standing sprite? circlce, blood, angry
+//bot spells
+//add a blink spell? sheild? slow? aoe melee?
 
 Manual:
 left click:attack
