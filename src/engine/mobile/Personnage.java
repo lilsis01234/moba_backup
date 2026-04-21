@@ -13,6 +13,10 @@ import gui.ShopPanel;
 import gui.Sprites.HeroSprites;
 import log.LoggerUtility;
 import org.apache.log4j.Logger;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 public abstract class Personnage extends Entity {
 
     protected double speed;
@@ -53,6 +57,25 @@ public abstract class Personnage extends Entity {
     // stun
     private double stunTimer = 0;
 
+    //spell effects 
+    private static BufferedImage effectAttacked;
+    private static BufferedImage effectHealed;
+    private static BufferedImage effectStunned;
+    private double effectTimer = 0;
+    private BufferedImage currentEffect = null;
+    private static final double EFFECT_DURATION = 1.0;
+
+    static {
+    try {
+        effectAttacked = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/attacked.png"));
+        effectHealed   = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/healed.png"));
+        effectStunned  = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/stunned.png"));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+    
+    
     private static final Logger logger = LoggerUtility.getLogger(Personnage.class);
 
     
@@ -193,11 +216,12 @@ public abstract class Personnage extends Entity {
     }
 
     public void updateTimers(double deltaTime) {
-        if (stunTimer > 0) stunTimer -= deltaTime;
-        for (int i = 0; i < spellCooldownTimers.length; i++) {
-            if (spellCooldownTimers[i] > 0) spellCooldownTimers[i] -= deltaTime;
-        }
+    if (stunTimer > 0) stunTimer -= deltaTime;
+    if (effectTimer > 0) effectTimer -= deltaTime;
+    for (int i = 0; i < spellCooldownTimers.length; i++) {
+        if (spellCooldownTimers[i] > 0) spellCooldownTimers[i] -= deltaTime;
     }
+}
 
     //we need to know if it was cast succesfully or no so we use a bool instead of a void
     public boolean castSpell(int index, Entity target) {
@@ -222,7 +246,10 @@ public abstract class Personnage extends Entity {
     public boolean isStunned() { return stunTimer > 0; }
     
     //this was impelmented to avoid the little bug or cheat of getting stunned by a stun of lower time while already being stunned and thus overriding it 
-    public void applyStun(double seconds) { stunTimer = Math.max(stunTimer, seconds); }
+    public void applyStun(double seconds) {
+        stunTimer = Math.max(stunTimer, seconds);
+        showEffect(effectStunned);
+    }
     
     
     public void startRecall() {
@@ -269,6 +296,10 @@ public abstract class Personnage extends Entity {
             BufferedImage frame = heroSprites.get(dirIndex, animFrame);
             if (frame != null) {
                 g2.drawImage(frame, px - imgSize / 2, py - imgSize / 2, imgSize, imgSize, null);
+                if (effectTimer > 0 && currentEffect != null) {
+                    int iconSize = GameConfiguration.TILE_SIZE*2;
+                    g2.drawImage(currentEffect, px - iconSize / 2+8, py - GameConfiguration.TILE_SIZE * 2 - iconSize -30, iconSize, iconSize, null);
+                }
                 return;
             }
         }    //in case img didnt load
@@ -276,6 +307,7 @@ public abstract class Personnage extends Entity {
         g2.fillOval(px - size / 2, py - size / 2, size, size);
         g2.setColor(Color.BLACK);
         g2.drawOval(px - size / 2, py - size / 2, size, size);
+
     }
     
     public void loadHeroGraphics(String path) {
@@ -289,14 +321,24 @@ public abstract class Personnage extends Entity {
     public void recordDamageDealtTo(Personnage target) {
         damageTimestamps.put(target, System.currentTimeMillis());
     }
-@Override
+    @Override
     public void takeDamage(double damage) {
-
-         interruptRecall();
-         double reduction = defense / (defense + 100.0);
-         double reduced   = Math.max(1.0, damage * (1.0 - reduction));
-         super.takeDamage(reduced);
-}
+        interruptRecall();
+        double reduction = defense / (defense + 100.0);
+        double reduced = Math.max(1.0, damage * (1.0 - reduction));
+        super.takeDamage(reduced);
+        showEffect(effectAttacked);
+    }
+    @Override
+    public void heal(double amount) {
+        super.heal(amount);
+        showEffect(effectHealed);
+    }
+    
+    private void showEffect(BufferedImage img) {
+        currentEffect = img;
+        effectTimer = EFFECT_DURATION;
+    }
     
     //if interacted with target in less than 5seconds before its death u get assist
     public boolean assisted(Personnage target) {
@@ -336,11 +378,12 @@ public abstract class Personnage extends Entity {
          return null;
     }
 
-    public boolean hasEquipment(int id)          { return findEquipped(id) != null; }
-    public List<Equipment> getEquippedGear()     { return equippedGear; }
-    public int getDefense()                      { return defense; }
+    public boolean hasEquipment(int id) { return findEquipped(id) != null; }
     
-     public double getSpeed() { return speed; }
+    
+    public List<Equipment> getEquippedGear() { return equippedGear; }
+    public int getDefense()  { return defense; }
+    public double getSpeed() { return speed; }
     public double getMana() { return mana; }
     public double getMaxMana() { return maxMana; }
     public int getLevel() { return level; }
