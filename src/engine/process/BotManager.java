@@ -8,9 +8,14 @@ import engine.mobile.Entity;
 import game_config.GameConfiguration;
 
 import java.awt.Graphics2D;
+import org.apache.log4j.Logger;
+
 import engine.mobile.Personnage;
+import log.LoggerUtility;
 
 public class BotManager {
+
+    private static final Logger logger = LoggerUtility.getLogger(BotManager.class);
 
     private static BotManager instance;
     private List<Bot> bots      = new ArrayList<>();
@@ -23,6 +28,7 @@ public class BotManager {
     }
 
     public static BotManager create(List<Hero> allHeroes, Hero playerHero) {
+        logger.info("Creating BotManager with " + allHeroes.size() + " heroes, player hero: " + playerHero.getName());
         instance = new BotManager();
         instance.init(allHeroes, playerHero);
         return instance;
@@ -33,6 +39,7 @@ public class BotManager {
     }
 
 public void init(List<Hero> allHeroes, Hero playerHero) {
+        logger.info("Initializing BotManager bots");
         List<Hero> allyPool = new ArrayList<>(allHeroes);
         allyPool.removeIf(h -> h.getName().equals(playerHero.getName()));
         Collections.shuffle(allyPool);
@@ -41,6 +48,7 @@ public void init(List<Hero> allHeroes, Hero playerHero) {
         bots.add(new Bot(getBotWaypoints("Bot2"), 0, "Bot2", allyPool.get(1)));
         bots.add(new Bot(getBotWaypoints("Bot3"), 0, "Bot3", allyPool.get(2)));
         bots.add(new Bot(getBotWaypoints("Bot4"), 0, "Bot4", allyPool.get(3)));
+        logger.debug("Created " + bots.size() + " ally bots");
 
         
         List<Hero> enemyPool = new ArrayList<>(allHeroes);
@@ -51,6 +59,7 @@ public void init(List<Hero> allHeroes, Hero playerHero) {
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot3"), 1, "EBot3", enemyPool.get(2)));
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot4"), 1, "EBot4", enemyPool.get(3)));
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot5"), 1, "EBot5", enemyPool.get(4)));
+        logger.debug("Created " + enemyBots.size() + " enemy bots");
     }
 
     public void update(double deltaTime, List<Entity> enemiesTeam0, ArrayList<Entity> enemiesTeam1, ArrayList<Personnage> allPersonnages) {
