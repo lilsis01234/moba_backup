@@ -4,11 +4,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import data.model.Hero;
 import game_config.GameConfiguration;
+import log.LoggerUtility;
 
 public class Bot extends Personnage {
 
+    private static final Logger logger = LoggerUtility.getLogger(Bot.class);
 
     private String name;      
     private String heroName;
@@ -31,6 +35,7 @@ public class Bot extends Personnage {
         this.waypoints = waypoints;
         this.name      = name;
         this.heroName  = hero.getName();
+        logger.debug("Bot created: " + name + " using hero " + heroName + " for team " + team);
     }
 
 public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
@@ -38,6 +43,7 @@ public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, Ar
         if (!active) { super.respawn(deltaTime); return; }
         updateTimers(deltaTime);
         if (isStunned()) { updateAnimation(deltaTime); return; }
+        logger.debug("Bot " + name + " updating - HP: " + hp + "/" + maxHp + ", state: " + currentState);
         move(deltaTime, enemies, allBots, allPersonnages);
         updateRecall(deltaTime);
     }
@@ -49,11 +55,12 @@ public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, Ar
         if (retreating) {
             handleRetreat(deltaTime, enemies, allBots);
         } else {
-            Entity target = EntityUtils.findClosest(this, enemies);
-            if (target != null && getDistanceTo(target) <= atkRange) {
-                currentState = State.IDLE;
-                attack(target, deltaTime, allPersonnages);
-            } else {
+Entity target = EntityUtils.findClosest(this, enemies);
+        if (target != null && getDistanceTo(target) <= atkRange) {
+            currentState = State.IDLE;
+            logger.debug("Bot " + name + " attacking target at distance " + getDistanceTo(target));
+            attack(target, deltaTime, allPersonnages);
+        } else {
                 boolean moved = followWaypoints(deltaTime, allBots);
                 currentState = moved ? State.MOVING : State.IDLE;
             }
