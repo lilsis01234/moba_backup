@@ -198,16 +198,21 @@ public class AfterGamePanel extends JPanel {
             true, true, false
         );
 
+        chart.getTitle().setPaint(TEXT_PRIMARY);
+        chart.getTitle().setFont(new Font("Arial", Font.BOLD, 14));
+        chart.getLegend().setItemPaint(TEXT_PRIMARY);
+
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setBackgroundPaint(BG_CARD);
-        chart.setBackgroundPaint(BG_CARD);
         plot.setRangeGridlinePaint(BORDER_SUBTLE);
-        chart.getTitle().setPaint(TEXT_PRIMARY);
-        chart.getLegend().setItemPaint(TEXT_PRIMARY);
-        chart.setBackgroundPaint(Color.WHITE);
+        plot.getDomainAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 12));
+        plot.getRangeAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 11));
 
         ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(screenSize.width / 3, 250));
         chartPanel.setBackground(BG_CARD);
+        chartPanel.setMinimumSize(new Dimension(200, 200));
+        chartPanel.setMaximumSize(new Dimension(400, 300));
 
         panel.add(chartPanel, BorderLayout.CENTER);
         return panel;
@@ -235,12 +240,22 @@ public class AfterGamePanel extends JPanel {
             goldData, true, true, false
         );
         
+        chart.setBackgroundPaint(Color.WHITE);
+        chart.getTitle().setPaint(TEXT_PRIMARY);
+        chart.getTitle().setFont(new Font("Arial", Font.BOLD, 14));
+        
         PiePlot pie = (PiePlot) chart.getPlot();
         pie.setBackgroundPaint(Color.WHITE);
-        chart.setBackgroundPaint(Color.WHITE);
+        pie.setLabelFont(new Font("Arial", Font.PLAIN, 12));
+        pie.setSectionPaint(0, BLUE_ACCENT);
+        pie.setSectionPaint(1, RED_ACCENT);
+        pie.setStartAngle(90);
 
         ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(screenSize.width / 3, 250));
         chartPanel.setBackground(BG_CARD);
+        chartPanel.setMinimumSize(new Dimension(200, 200));
+        chartPanel.setMaximumSize(new Dimension(400, 300));
 
         panel.add(chartPanel, BorderLayout.CENTER);
         return panel;
