@@ -32,18 +32,10 @@ public class BotManager {
         instance = null;
     }
 
-    public void init(List<Hero> allHeroes, Hero playerHero) {
-        int T = GameConfiguration.TILE_SIZE;
-
-        // get all the heros exept the player's cus allies cant have the same hero
+public void init(List<Hero> allHeroes, Hero playerHero) {
         List<Hero> allyPool = new ArrayList<>(allHeroes);
-        //compare names
-	     allyPool.removeIf(h -> h.getName().equals(playerHero.getName()));		     
-	     Collections.shuffle(allyPool);
-        
-        System.out.println("allyPool size: " + allyPool.size());
-        System.out.println("allHeroes size: " + allHeroes.size());
-        System.out.println("playerHero: " + playerHero.getName());
+        allyPool.removeIf(h -> h.getName().equals(playerHero.getName()));
+        Collections.shuffle(allyPool);
 
         bots.add(new Bot(getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
         bots.add(new Bot(getBotWaypoints("Bot2"), 0, "Bot2", allyPool.get(1)));
