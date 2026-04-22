@@ -5,13 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.Logger;
+
 import game_config.GameConfiguration;
 import java.util.List;
-
-
+import log.LoggerUtility;
 
 public class Base extends Entity {
 
+    private static final Logger logger = LoggerUtility.getLogger(Base.class);
 
     private static BufferedImage AllyImg;
     private static BufferedImage EnemyImg;
@@ -21,7 +23,7 @@ public class Base extends Entity {
         this.atkDamage   = GameConfiguration.BASE_DAMAGE;
         this.atkRange    = GameConfiguration.BASE_RANGE;
         this.atkCooldown = 2.0;
-
+        logger.debug("Base created at (" + x + ", " + y + ") for team " + team + " with HP " + maxHp);
         if (AllyImg == null || EnemyImg == null) {
             try {
                 AllyImg  = ImageIO.read(Base.class.getResourceAsStream("/res/BaseFountain/AllyBase.png"));
@@ -64,7 +66,11 @@ public class Base extends Entity {
     
     public void update(double deltaTime, List<Entity> enemies) {
         if (!active) return;
+        logger.debug("Base updating - HP: " + hp + "/" + maxHp + ", active: " + active);
         Entity closest = EntityUtils.findClosestNotOnTeam(this, enemies, team);
-        if (closest != null) attack(closest, deltaTime);
+        if (closest != null) {
+            logger.debug("Base attacking at distance " + getDistanceTo(closest));
+            attack(closest, deltaTime);
+        }
     }
 }
