@@ -43,21 +43,20 @@ public class BotManager {
         
         System.out.println("allyPool size: " + allyPool.size());
         System.out.println("allHeroes size: " + allHeroes.size());
-        System.out.println("Création Bot1 avec hero: " + allyPool.get(0).getName());
-        bots.add(new Bot(getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
+        System.out.println("playerHero: " + playerHero.getName());
 
-        bots.add(new Bot( getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
-        bots.add(new Bot (getBotWaypoints("Bot2"), 0, "Bot2", allyPool.get(1)));
-        bots.add(new Bot( getBotWaypoints("Bot3"), 0, "Bot3", allyPool.get(2)));
+        bots.add(new Bot(getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
+        bots.add(new Bot(getBotWaypoints("Bot2"), 0, "Bot2", allyPool.get(1)));
+        bots.add(new Bot(getBotWaypoints("Bot3"), 0, "Bot3", allyPool.get(2)));
         bots.add(new Bot(getBotWaypoints("Bot4"), 0, "Bot4", allyPool.get(3)));
 
         
         List<Hero> enemyPool = new ArrayList<>(allHeroes);
         Collections.shuffle(enemyPool);
 
-        enemyBots.add(new Bot( getBotWaypoints("ENEMY_Bot1"), 1, "EBot1", enemyPool.get(0)));
-        enemyBots.add(new Bot( getBotWaypoints("ENEMY_Bot2"), 1, "EBot2", enemyPool.get(1)));
-        enemyBots.add(new Bot( getBotWaypoints("ENEMY_Bot3"), 1, "EBot3", enemyPool.get(2)));
+        enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot1"), 1, "EBot1", enemyPool.get(0)));
+        enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot2"), 1, "EBot2", enemyPool.get(1)));
+        enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot3"), 1, "EBot3", enemyPool.get(2)));
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot4"), 1, "EBot4", enemyPool.get(3)));
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot5"), 1, "EBot5", enemyPool.get(4)));
     }
