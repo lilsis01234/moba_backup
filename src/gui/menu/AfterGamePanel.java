@@ -290,7 +290,7 @@ public class AfterGamePanel extends JPanel {
             new EmptyBorder(30, 30, 30, 30)
         ));
 
-        JLabel mvpTitle = new JLabel("🏆 MVP", SwingConstants.CENTER);
+        JLabel mvpTitle = new JLabel("MVP", SwingConstants.CENTER);
         mvpTitle.setFont(new Font("Arial", Font.BOLD, 28));
         mvpTitle.setForeground(BLUE_ACCENT);
         mvpCard.add(mvpTitle, BorderLayout.NORTH);
