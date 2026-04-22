@@ -7,9 +7,14 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.Logger;
+
 import game_config.GameConfiguration;
+import log.LoggerUtility;
 
 public class Minion extends Entity {
+
+    private static final Logger logger = LoggerUtility.getLogger(Minion.class);
 
     private double speed;
 
@@ -32,6 +37,7 @@ public class Minion extends Entity {
         this.atkDamage = GameConfiguration.MINION_DMG;
         this.atkRange = GameConfiguration.MINION_RANGE;
         this.atkCooldown = GameConfiguration.MINION_ATTACK_COOLDOWN;
+        logger.debug("Minion created at (" + x + ", " + y + ") for team " + team);
         try {
             AllyImg  = ImageIO.read(getClass().getResourceAsStream("/res/minions/AllyMinions.png"));
             EnemyImg = ImageIO.read(getClass().getResourceAsStream("/res/minions/EnemyMinions.png"));
@@ -43,7 +49,9 @@ public class Minion extends Entity {
     public void update(double deltaTime, List<Entity> enemies) {
         if (!active) return;
         Entity target = findTarget(enemies);
+        logger.debug("Minion updating - HP: " + hp + "/" + maxHp + ", active: " + active);
         if (target != null && getDistanceTo(target) <= atkRange) {
+            logger.debug("Minion attacking target at distance " + getDistanceTo(target));
             attack(target, deltaTime);
         } else {
             followWaypoints(deltaTime);
