@@ -1,7 +1,6 @@
 package engine.mobile;
 
 import java.util.List;
-import java.awt.geom.Point2D;
 
 public class EntityUtils {
 
@@ -19,6 +18,21 @@ public class EntityUtils {
         return closest;
     }
 
+    public static <T extends Entity> T findClosestOfType(Entity source, List<T> entities, Class<T> type) {
+        T closest = null;
+        double closestDist = Double.MAX_VALUE;
+        for (T e : entities) {
+            if (!e.isActive()) continue;
+            if (!type.isInstance(e)) continue;
+            double d = source.getDistanceTo(e);
+            if (d < closestDist) {
+                closestDist = d;
+                closest = type.cast(e);
+            }
+        }
+        return closest;
+    }
+
     public static Entity findClosestActive(Entity source, List<Entity> entities) {
         return findClosest(source, entities);
     }
@@ -31,5 +45,20 @@ public class EntityUtils {
 
     public static double getDistance(Entity a, Entity b) {
         return getDistance(a.getX(), a.getY(), b.getX(), b.getY());
+    }
+
+    public static Entity findClosestNotOnTeam(Entity source, List<Entity> entities, int team) {
+        Entity closest = null;
+        double closestDist = Double.MAX_VALUE;
+        for (Entity e : entities) {
+            if (!e.isActive()) continue;
+            if (e.getTeam() == team) continue;
+            double d = source.getDistanceTo(e);
+            if (d < closestDist) {
+                closestDist = d;
+                closest = e;
+            }
+        }
+        return closest;
     }
 }
