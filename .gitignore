@@ -1,5 +1,27 @@
+# build output
 out/
+bin/
 logs/
+build/
+
+# IDE
 .idea/
 .vscode/
-/bin/
+*.iml
+*.classpath
+.project
+.settings/
+
+# scripts
+*.ps1
+build.ps1
+run.ps1
+
+# archives
+*.zip
+*.tar.gz
+*.rar
+
+# OS
+.DS_Store
+Thumbs.db
