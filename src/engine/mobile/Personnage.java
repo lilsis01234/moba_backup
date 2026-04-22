@@ -1,22 +1,21 @@
 package engine.mobile;
-import data.model.Hero;
-import data.model.Spell;
 import data.model.Equipment;
-import java.util.List;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import data.model.Hero;
 import data.model.KDA;
-import java.util.ArrayList;
-import java.util.HashMap;
+import data.model.Spell;
 import game_config.GameConfiguration;
-import gui.ShopPanel;
 import gui.Sprites.HeroSprites;
 import log.LoggerUtility;
 import org.apache.log4j.Logger;
-import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
-import java.io.File;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public abstract class Personnage extends Entity {
 
     protected double speed;
@@ -123,9 +122,9 @@ public abstract class Personnage extends Entity {
 	        
 	        boolean wasActive = target.isActive();
 	        target.takeDamage(atkDamage);
-	        
+
 	        if (wasActive) {
-	            checkKill(target, allPersonnages);
+	            recordKill((Personnage) target);
 	        }
 	        
 	        atkTimer = atkCooldown;
@@ -134,30 +133,33 @@ public abstract class Personnage extends Entity {
 	    return false;
 	}
     
-   private void checkKill(Entity target, ArrayList<Personnage> allPersonnages) {
-	    if (!target.isActive()) {
-	        this.addGold(target.getLoot());
-	        this.addXp(target.getXPLoot());
+   private void recordKill(Personnage victim) {
+        this.addGold(victim.getLoot());
+        this.addXp(victim.getXPLoot());
+        this.kda.addKill();
+        victim.kda.addDeath();
+        this.assessAssists(victim);
+    }
 
-	        if (target instanceof Personnage) {
-	            Personnage deadTarget = (Personnage) target;
-	            
-	            this.kda.addKill();
-	            deadTarget.kda.addDeath();
-	            
-	            System.out.println("[KILL] " + this.getClass().getSimpleName() + " killed " + deadTarget.getClass().getSimpleName() + " | Killer: " + kda.getKills() + " | Dead: " + deadTarget.kda.getDeaths());
+    private void assessAssists(Personnage victim) {
+        for (Personnage p : getNearbyAssisters(victim)) {
+            p.kda.addAssist();
+        }
+    }
 
-	            for (Personnage p : allPersonnages) {
-	                if (p == this) continue;
-	                if (p.getTeam() != this.getTeam()) continue;
-	                if (p.assisted(deadTarget)) {
-	                    p.kda.addAssist();
-	                    System.out.println("[ASSIST] " + p.getClass().getSimpleName() + " assisted");
-	                }
-	            }
-	        }
-	    }
-	}
+    private List<Personnage> getNearbyAssisters(Personnage victim) {
+        List<Personnage> assisters = new ArrayList<>();
+        for (Map.Entry<Personnage, Long> entry : damageTimestamps.entrySet()) {
+            if (entry.getKey() == this) continue;
+            if (entry.getKey().getTeam() != this.getTeam()) continue;
+            if (entry.getKey() == victim) {
+                if ((System.currentTimeMillis() - entry.getValue()) <= GameConfiguration.ASSIST_TIME_WINDOW) {
+                    assisters.add(entry.getKey());
+                }
+            }
+        }
+        return assisters;
+    }
     public void addGold(int Goldreward) {
         gold += Goldreward;
     }
