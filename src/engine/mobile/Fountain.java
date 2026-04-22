@@ -37,13 +37,7 @@ public class Fountain extends Entity {
                 }
             }
         }
-        Entity closest = null;
-        double closestDist = Double.MAX_VALUE;
-        for (Entity e : enemies) {
-            if (!e.isActive()) continue;
-            double d = getDistanceTo(e);
-            if (d < closestDist) { closestDist = d; closest = e; }
-        }
+        Entity closest = EntityUtils.findClosestNotOnTeam(this, enemies, team);
         if (closest != null) attack(closest, deltaTime);
     }
 
