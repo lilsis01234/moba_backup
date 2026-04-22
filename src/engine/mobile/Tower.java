@@ -7,9 +7,14 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.Logger;
+
 import game_config.GameConfiguration;
+import log.LoggerUtility;
 
 public class Tower extends Entity {
+
+    private static final Logger logger = LoggerUtility.getLogger(Tower.class);
 
     private static BufferedImage AllyImg;
     private static BufferedImage EnemyImg;
@@ -24,8 +29,9 @@ public class Tower extends Entity {
          // attack stats
          this.atkDamage   = GameConfiguration.TOWER_DAMAGE;
          this.atkRange    = GameConfiguration.TOWER_RANGE;
-         this.atkCooldown = 1.5;
-         try {
+this.atkCooldown = 1.5;
+        logger.debug("Tower created at (" + x + ", " + y + ") for team " + team + " with HP " + maxHp);
+        try {
              AllyImg  = ImageIO.read(Tower.class.getResourceAsStream("/res/towers/AllyTowers.png"));
              EnemyImg = ImageIO.read(Tower.class.getResourceAsStream("/res/towers/EnemyTowers.png"));
          } catch (IOException e) {
@@ -62,8 +68,10 @@ public class Tower extends Entity {
 
     public void update(double deltaTime, ArrayList<Entity> enemies) {
         if (!active) return;
+        logger.debug("Tower updating - HP: " + hp + "/" + maxHp + ", active: " + active);
         Entity closest = EntityUtils.findClosest(this, enemies);
-        if (closest != null && closest.getTeam() != this.team) { 
+        if (closest != null && closest.getTeam() != this.team) {
+            logger.debug("Tower attacking enemy at distance " + getDistanceTo(closest));
             this.attack(closest, deltaTime);
         }
     }
