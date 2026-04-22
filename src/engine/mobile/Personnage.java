@@ -123,7 +123,7 @@ public abstract class Personnage extends Entity {
 	        boolean wasActive = target.isActive();
 	        target.takeDamage(atkDamage);
 
-	        if (wasActive) {
+	        if (wasActive && target instanceof Personnage) {
 	            recordKill((Personnage) target);
 	        }
 	        
