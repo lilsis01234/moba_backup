@@ -103,9 +103,9 @@ public class Arena {
         instance = null;
     }
 
-    public void update(double deltaTime) {
+public void update(double deltaTime) {
         if (deltaTime > GameConfiguration.MAX_DELTA_TIME) {
-            logger.warn("Pic de deltaTime détecté : " + deltaTime);
+            logger.warn("Pic de deltaTime detecte : " + deltaTime);
             deltaTime = GameConfiguration.MAX_DELTA_TIME;
         }
 
@@ -142,10 +142,7 @@ public class Arena {
             m.update(deltaTime, targets);
         }
 
-        String result = checkGameOver();
-        if (result != null) {
-            logger.info("Partie terminée, résultat : " + result);
-        }
+checkGameOver();
     }
 
     public void renderMinimapEntities(Graphics2D g2, int miniX, int miniY, int miniWidth, int miniHeight) {
