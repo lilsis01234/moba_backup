@@ -297,27 +297,35 @@ public class ShopPanel {
     }
 
     private BufferedImage getImage(EquipmentType t) {
-        if (t == EquipmentType.SWORD)  return imgSword;
-        if (t == EquipmentType.HELMET) return imgHelmet;
-        return imgArmor;
+        switch (t) {
+            case SWORD: return imgSword;
+            case HELMET: return imgHelmet;
+            default: return imgArmor;
+        }
     }
 
     private String typeName(EquipmentType t) {
-        if (t == EquipmentType.SWORD)  return "Epees";
-        if (t == EquipmentType.HELMET) return "Casques";
-        return "Armures";
+        switch (t) {
+            case SWORD: return "Epees";
+            case HELMET: return "Casques";
+            default: return "Armures";
+        }
     }
 
     private String typeIcon(EquipmentType t) {
-        if (t == EquipmentType.SWORD)  return "E";
-        if (t == EquipmentType.HELMET) return "C";
-        return "A";
+        switch (t) {
+            case SWORD: return "E";
+            case HELMET: return "C";
+            default: return "A";
+        }
     }
 
     private Color typeColor(EquipmentType t) {
-        if (t == EquipmentType.SWORD)  return new Color(220, 80, 80);
-        if (t == EquipmentType.HELMET) return new Color(80, 120, 220);
-        return new Color(80, 180, 80);
+        switch (t) {
+            case SWORD: return new Color(220, 80, 80);
+            case HELMET: return new Color(80, 120, 220);
+            default: return new Color(80, 180, 80);
+        }
     }
 
     private String findName(int id) {
