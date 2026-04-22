@@ -3,6 +3,8 @@ package gui.menu;
 import data.model.GameStats;
 import data.model.HeroStats;
 import data.model.TeamStats;
+import gui.Theme;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,10 +27,17 @@ public class AfterGamePanel extends JPanel {
     private Dimension screenSize;
     private AfterGameListener listener;
     
-    private Color BLUE_TEAM = new Color(70, 130, 180);
-    private Color RED_TEAM = new Color(180, 70, 70);
-    private Color BG = new Color(240, 240, 245);
-    private Color CARD_BG = Color.WHITE;
+    private static final Color BG_DARK       = new Color(12, 14, 20);
+    private static final Color BG_CARD       = new Color(20, 24, 34);
+    private static final Color BG_ROW_ALT    = new Color(26, 30, 44);
+    private static final Color BORDER_SUBTLE = new Color(40, 46, 64);
+
+    private static final Color BLUE_ACCENT   = new Color(56, 140, 230);
+    private static final Color RED_ACCENT    = new Color(220, 60, 60);
+    private static final Color GOLD_COLOR    = new Color(240, 185, 50);
+
+    private static final Color TEXT_PRIMARY  = new Color(220, 225, 240);
+    private static final Color TEXT_MUTED    = new Color(120, 130, 155);
 
     public interface AfterGameListener {
         void onReturnToMenu();
@@ -40,8 +49,8 @@ public class AfterGamePanel extends JPanel {
         this.screenSize = screenSize;
         this.listener = listener;
         setPreferredSize(screenSize);
-        setBackground(BG);
-        setLayout(new BorderLayout(10, 10));
+        setBackground(BG_DARK);
+        setLayout(new BorderLayout(0, 0));
 
         add(createHeader(), BorderLayout.NORTH);
         add(createTabPanel(), BorderLayout.CENTER);
@@ -52,32 +61,31 @@ public class AfterGamePanel extends JPanel {
     }
 
     private JPanel createHeader() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(40, 40, 50));
-        panel.setBorder(new EmptyBorder(20, 30, 20, 30));
+        boolean win = gameStats != null && "WIN".equals(gameStats.getGameResult());
+        Color resultColor = win ? new Color(80,220,130) : new Color(220,80,80);
+        String resultText = win ? "VICTOIRE" : "DÉFAITE";
 
-        String resultText = "MATCH FINI";
-        if (gameStats != null && gameStats.getGameResult() != null) {
-            resultText = gameStats.getGameResult().equals("WIN") ? "VICTOIRE!" : "DÉFAITE";
-        }
+        JPanel panel = new JPanel(new BorderLayout()) {
+            @Override protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(win ? new Color(14,28,18) : new Color(28,14,14));
+                g2.fillRect(0,0,getWidth(),getHeight());
+                g2.setColor(resultColor);
+                g2.fillRect(0,getHeight()-3,getWidth(),3);
+                g2.dispose();
+            }
+        };
+
+        panel.setBorder(new EmptyBorder(22,32,22,32));
 
         JLabel title = new JLabel(resultText, SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 32));
-        title.setForeground(Color.WHITE);
-        panel.add(title, BorderLayout.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 36));
+        title.setForeground(resultColor);
 
-        if (gameStats != null) {
-            long secs = gameStats.getGameDuration() / 1000;
-            String time = String.format("%02d:%02d", secs / 60, secs % 60);
-            JLabel duration = new JLabel("Durée: " + time);
-            duration.setFont(new Font("Arial", Font.PLAIN, 14));
-            duration.setForeground(new Color(200, 200, 200));
-            panel.add(duration, BorderLayout.EAST);
-        }
+        panel.add(title, BorderLayout.CENTER);
 
         return panel;
     }
-
     private JTabbedPane createTabPanel() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -93,16 +101,16 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createScoreboardTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(BG);
+        panel.setBackground(BG_DARK);
         panel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         TeamStats blue = gameStats != null ? gameStats.getTeamStats(0) : null;
         TeamStats red = gameStats != null ? gameStats.getTeamStats(1) : null;
 
         JPanel teamsPanel = new JPanel(new GridLayout(1, 2, 20, 10));
-        teamsPanel.setBackground(BG);
-        teamsPanel.add(createTeamCard("ÉQUIPE BLEUE (VOTRE ÉQUIPE)", blue, BLUE_TEAM, true));
-        teamsPanel.add(createTeamCard("ÉQUIPE ROUGE (ENNEMIE)", red, RED_TEAM, false));
+        teamsPanel.setBackground(BG_DARK);
+        teamsPanel.add(createTeamCard("ÉQUIPE BLEUE (VOTRE ÉQUIPE)", blue, BLUE_ACCENT, true));
+        teamsPanel.add(createTeamCard("ÉQUIPE ROUGE (ENNEMIE)", red, RED_ACCENT, false));
 
         panel.add(teamsPanel, BorderLayout.CENTER);
         return panel;
@@ -110,7 +118,7 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createTeamCard(String title, TeamStats team, Color color, boolean isPlayerTeam) {
         JPanel card = new JPanel(new BorderLayout(10, 10));
-        card.setBackground(CARD_BG);
+        card.setBackground(BG_CARD);
         card.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(color, 2),
             new EmptyBorder(15, 15, 15, 15)
@@ -122,7 +130,7 @@ public class AfterGamePanel extends JPanel {
         card.add(titleLabel, BorderLayout.NORTH);
 
         JPanel stats = new JPanel(new GridLayout(0, 2, 10, 8));
-        stats.setBackground(CARD_BG);
+        stats.setBackground(BG_CARD);
 
         if (team != null) {
             addStatRow(stats, "Kills", String.valueOf(team.getTotalKills()));
@@ -155,7 +163,7 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createPlayerStatsPanel(HeroStats player) {
         JPanel panel = new JPanel(new GridLayout(0, 4, 10, 5));
-        panel.setBackground(CARD_BG);
+        panel.setBackground(BG_CARD);
         panel.setBorder(new EmptyBorder(10, 0, 0, 0));
 
         addStatRow(panel, "Niveau", String.valueOf(player.getLevel()));
@@ -168,7 +176,7 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createPerformanceTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(BG);
+        panel.setBackground(BG_DARK);
         panel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         DefaultCategoryDataset barData = new DefaultCategoryDataset();
@@ -191,12 +199,15 @@ public class AfterGamePanel extends JPanel {
         );
 
         CategoryPlot plot = chart.getCategoryPlot();
-        plot.setBackgroundPaint(Color.WHITE);
-        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        plot.setBackgroundPaint(BG_CARD);
+        chart.setBackgroundPaint(BG_CARD);
+        plot.setRangeGridlinePaint(BORDER_SUBTLE);
+        chart.getTitle().setPaint(TEXT_PRIMARY);
+        chart.getLegend().setItemPaint(TEXT_PRIMARY);
         chart.setBackgroundPaint(Color.WHITE);
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setBackground(CARD_BG);
+        chartPanel.setBackground(BG_CARD);
 
         panel.add(chartPanel, BorderLayout.CENTER);
         return panel;
@@ -204,7 +215,7 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createEconomyTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(BG);
+        panel.setBackground(BG_DARK);
         panel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         DefaultPieDataset goldData = new DefaultPieDataset();
@@ -229,7 +240,7 @@ public class AfterGamePanel extends JPanel {
         chart.setBackgroundPaint(Color.WHITE);
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setBackground(CARD_BG);
+        chartPanel.setBackground(BG_CARD);
 
         panel.add(chartPanel, BorderLayout.CENTER);
         return panel;
@@ -237,7 +248,7 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createItemsTab() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(BG);
+        panel.setBackground(BG_DARK);
         panel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         JLabel label = new JLabel("Inventaire final", SwingConstants.CENTER);
@@ -245,7 +256,7 @@ public class AfterGamePanel extends JPanel {
         label.setForeground(Color.GRAY);
         
         JPanel placeholder = new JPanel();
-        placeholder.setBackground(CARD_BG);
+        placeholder.setBackground(BG_CARD);
         placeholder.add(label);
         
         panel.add(placeholder, BorderLayout.CENTER);
@@ -254,23 +265,23 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createMVPTab() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(BG);
+        panel.setBackground(BG_DARK);
         panel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         JPanel mvpCard = new JPanel(new BorderLayout(20, 20));
-        mvpCard.setBackground(CARD_BG);
+        mvpCard.setBackground(BG_CARD);
         mvpCard.setBorder(BorderFactory.createCompoundBorder(
-            new LineBorder(BLUE_TEAM, 3),
+            new LineBorder(BLUE_ACCENT, 3),
             new EmptyBorder(30, 30, 30, 30)
         ));
 
         JLabel mvpTitle = new JLabel("🏆 MVP", SwingConstants.CENTER);
         mvpTitle.setFont(new Font("Arial", Font.BOLD, 28));
-        mvpTitle.setForeground(BLUE_TEAM);
+        mvpTitle.setForeground(BLUE_ACCENT);
         mvpCard.add(mvpTitle, BorderLayout.NORTH);
 
         JPanel stats = new JPanel(new GridLayout(0, 2, 20, 15));
-        stats.setBackground(CARD_BG);
+        stats.setBackground(BG_CARD);
 
         if (gameStats != null) {
             TeamStats blue = gameStats.getTeamStats(0);
@@ -293,13 +304,13 @@ public class AfterGamePanel extends JPanel {
 
     private void addStatRow(JPanel parent, String label, String value) {
         JLabel lbl = new JLabel(label);
-        lbl.setFont(new Font("Arial", Font.PLAIN, 13));
-        lbl.setForeground(Color.GRAY);
+        lbl.setForeground(TEXT_MUTED);
+        lbl.setFont(new Font("Arial", Font.PLAIN, 12));
         parent.add(lbl);
 
         JLabel val = new JLabel(value);
+        val.setForeground(TEXT_PRIMARY);
         val.setFont(new Font("Arial", Font.BOLD, 13));
-        val.setForeground(Color.DARK_GRAY);
         parent.add(val);
     }
 
@@ -315,14 +326,14 @@ public class AfterGamePanel extends JPanel {
 
     private JPanel createFooter() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 15));
-        panel.setBackground(BG);
+        panel.setBackground(BG_DARK);
 
         JButton menuBtn = createButton("MENU PRINCIPAL", new Color(100, 100, 100));
         menuBtn.addActionListener(e -> {
             if (listener != null) listener.onReturnToMenu();
         });
 
-        JButton replayBtn = createButton("REJOUER", BLUE_TEAM);
+        JButton replayBtn = createButton("REJOUER", Theme.ACCENT);
         replayBtn.addActionListener(e -> {
             if (listener != null) listener.onPlayAgain();
         });
@@ -333,34 +344,32 @@ public class AfterGamePanel extends JPanel {
         return panel;
     }
 
-    private JButton createButton(String text, Color color) {
-        JButton btn = new JButton(text);
-        btn.setFont(new Font("Arial", Font.BOLD, 14));
-        btn.setForeground(Color.WHITE);
-        btn.setBackground(color);
-        btn.setOpaque(true);
-        btn.setFocusPainted(false);
-        btn.setPreferredSize(new Dimension(160, 45));
-        btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    private JButton createButton(String text, Color bg) {
+        JButton btn = new JButton(text) {
+            @Override protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0,0,getWidth(),getHeight(),10,10);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
 
-        final Color baseColor = color;
+        btn.setFont(new Font("Arial", Font.BOLD, 13));
+        btn.setForeground(TEXT_PRIMARY);
+        btn.setBackground(bg);
+        btn.setContentAreaFilled(false);
+        btn.setFocusPainted(false);
+        btn.setBorder(new EmptyBorder(10,25,10,25));
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         btn.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseEntered(MouseEvent e) {
-                Window win = SwingUtilities.getWindowAncestor(btn);
-                if (win != null) win.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                btn.setBackground(new Color(
-                    Math.max(0, baseColor.getRed() - 30),
-                    Math.max(0, baseColor.getGreen() - 30),
-                    Math.max(0, baseColor.getBlue() - 30)
-                ));
+                btn.setBackground(bg.brighter());
             }
-            @Override
             public void mouseExited(MouseEvent e) {
-                Window win = SwingUtilities.getWindowAncestor(btn);
-                if (win != null) win.setCursor(Cursor.getDefaultCursor());
-                btn.setBackground(baseColor);
+                btn.setBackground(bg);
             }
         });
 

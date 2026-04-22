@@ -25,7 +25,6 @@ public class ArenaPanel extends JPanel {
     private int windowHeight;
     private HUDRenderer hudRenderer;
     private Runnable pauseCallback;
-    private boolean paused = false;
     private Entity hoveredEntity = null;
 
     public ArenaPanel(Arena arena, int windowWidth, int windowHeight, Hero hero) {
@@ -167,7 +166,6 @@ public class ArenaPanel extends JPanel {
     }
 
     public void setPaused(boolean paused) {
-        this.paused = paused;
     }
 
     @Override

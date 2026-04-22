@@ -72,7 +72,14 @@ public class Arena {
             logger.fatal("Erreur : Impossible de charger les données JSON des héros");
             throw new RuntimeException("Could not load heroes for bot assignment", e);
         }
-        botManager = BotManager.create(dataProvider.getAllHeroes(), selectedHero);
+        try {
+            botManager = BotManager.create(dataProvider.getAllHeroes(), selectedHero);
+        } catch (ExceptionInInitializerError e) {
+            System.err.println("=== CAUSE RÉELLE ===");
+            e.getCause().printStackTrace();
+            throw e;
+        }
+        // botManager = BotManager.create(dataProvider.getAllHeroes(), selectedHero);
         logger.info("BotManager créé avec " + botManager.getAllBots().size() + " bots.");
 
         lanes = new ArrayList<>();

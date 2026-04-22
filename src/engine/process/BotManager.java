@@ -41,7 +41,11 @@ public class BotManager {
 	     allyPool.removeIf(h -> h.getName().equals(playerHero.getName()));		     
 	     Collections.shuffle(allyPool);
         
-        
+        System.out.println("allyPool size: " + allyPool.size());
+        System.out.println("allHeroes size: " + allHeroes.size());
+        System.out.println("Création Bot1 avec hero: " + allyPool.get(0).getName());
+        bots.add(new Bot(getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
+
         bots.add(new Bot( getBotWaypoints("Bot1"), 0, "Bot1", allyPool.get(0)));
         bots.add(new Bot (getBotWaypoints("Bot2"), 0, "Bot2", allyPool.get(1)));
         bots.add(new Bot( getBotWaypoints("Bot3"), 0, "Bot3", allyPool.get(2)));

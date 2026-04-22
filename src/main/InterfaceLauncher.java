@@ -19,6 +19,8 @@ import gui.menu.HeroSelection;
 import gui.menu.MainMenu;
 import game_config.GameConfiguration;
 import data.model.Hero;
+import data.model.HeroStats;
+import data.model.TeamStats;
 import data.model.GameStats;
 import gui.menu.AfterGamePanel;
 

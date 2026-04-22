@@ -66,15 +66,14 @@ public abstract class Personnage extends Entity {
     private static final double EFFECT_DURATION = 1.0;
 
     static {
-    try {
-        effectAttacked = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/attacked.png"));
-        effectHealed   = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/healed.png"));
-        effectStunned  = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/stunned.png"));
-    } catch (IOException e) {
-        e.printStackTrace();
+        try {
+            effectAttacked = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/attacked.png"));
+            effectHealed   = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/healed.png"));
+            effectStunned  = ImageIO.read(Personnage.class.getClassLoader().getResourceAsStream("res/Sorts/effects/stunned.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
-    
     
     private static final Logger logger = LoggerUtility.getLogger(Personnage.class);
 

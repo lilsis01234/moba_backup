@@ -124,7 +124,6 @@ public class MainMenu extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // Désactiver l'anti-aliasing pour un look "Pixel" net
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
  
         GradientPaint gradient = new GradientPaint(0, 0, Theme.BACKGROUND_DARK, 0, getHeight(), new Color(10, 10, 20));
@@ -175,7 +174,6 @@ public class MainMenu extends JPanel {
             g2.drawString(txt, btnX + (btnWidth - btnFm.stringWidth(txt)) / 2, btnY + (btnHeight + btnFm.getAscent()) / 2 - 4);
         }
 
-        // 4. FOOTER (Version)
         g2.setColor(Theme.TEXT_DIM);
         g2.setFont(new Font("Monospaced", Font.PLAIN, 12));
         String ver = "v0.0.1 - Alpha";
