@@ -1,51 +1,50 @@
 package gui.menu;
 
+import gui.ButtonLayout;
 import gui.Theme;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class MainMenu extends JPanel {
-    
+
     private static final long serialVersionUID = 1L;
     private static MainMenu instance;
 
-	public interface MenuListener {
+    public interface MenuListener {
         void onStartGame();
         void onExit();
     }
-    
+
     private MenuListener listener;
     private int selectedIndex = 0;
     private int hoveredIndex = -1;
-    private String[] menuItems = {"DEMARRER LE JEU", "QUITTER"};
+    private String[] menuItems = {"START GAME", "QUIT"};
 
     private MainMenu(Dimension screenSize) {
         setPreferredSize(screenSize);
         setBackground(Theme.BACKGROUND_DARK);
         setFocusable(true);
         setLayout(null);
-        
-        // Gestion clavier
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-            	switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:    navigate(-1); break;
-                case KeyEvent.VK_DOWN:  navigate(1); break;
-                case KeyEvent.VK_ENTER: handleSelection(); break;
-            }
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP: navigate(-1); break;
+                    case KeyEvent.VK_DOWN: navigate(1); break;
+                    case KeyEvent.VK_ENTER: handleSelection(); break;
+                }
             }
         });
-        
-        // Gestion Souris
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 handleClick(e.getX(), e.getY());
             }
         });
-        
+
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -53,7 +52,7 @@ public class MainMenu extends JPanel {
             }
         });
     }
-    
+
     public static MainMenu getInstance(Dimension screenSize) {
         if (instance == null) {
             instance = new MainMenu(screenSize);
@@ -64,23 +63,11 @@ public class MainMenu extends JPanel {
     public static void reset() {
         instance = null;
     }
-    
+
     private void updateHoveredButton(int x, int y) {
         int w = getWidth(), h = getHeight();
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = h / 2 - 50;
-        
-        int newHovered = -1;
-        for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-            
-            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
-                newHovered = i;
-                break;
-            }
-        }
-        
+        ButtonLayout[] btns = makeButtons(w, h);
+        int newHovered = ButtonLayout.findButtonAt(x, y, btns);
         if (newHovered != hoveredIndex) {
             hoveredIndex = newHovered;
             setCursor(newHovered >= 0 ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
@@ -92,40 +79,42 @@ public class MainMenu extends JPanel {
         selectedIndex = (selectedIndex + dir + menuItems.length) % menuItems.length;
         repaint();
     }
-    
+
+    private ButtonLayout[] makeButtons(int w, int h) {
+        ButtonLayout[] btns = new ButtonLayout[menuItems.length];
+        for (int i = 0; i < btns.length; i++) {
+            btns[i] = new ButtonLayout(w, h, i, 220, 50, 15, -50);
+        }
+        return btns;
+    }
+
     public void setMenuListener(MenuListener listener) {
         this.listener = listener;
     }
-    
+
     private void handleClick(int x, int y) {
         int w = getWidth(), h = getHeight();
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = h / 2 - 50;
-        
-        for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-            
-            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
-                selectedIndex = i;
-                handleSelection();
-            }
+        ButtonLayout[] btns = makeButtons(w, h);
+        int clicked = ButtonLayout.findButtonAt(x, y, btns);
+        if (clicked >= 0) {
+            selectedIndex = clicked;
+            handleSelection();
         }
     }
-    
+
     private void handleSelection() {
         if (listener == null) return;
         if (selectedIndex == 0) listener.onStartGame();
         else if (selectedIndex == 1) listener.onExit();
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
- 
+
         GradientPaint gradient = new GradientPaint(0, 0, Theme.BACKGROUND_DARK, 0, getHeight(), new Color(10, 10, 20));
         g2.setPaint(gradient);
         g2.fillRect(0, 0, getWidth(), getHeight());
@@ -135,7 +124,7 @@ public class MainMenu extends JPanel {
         String title = "MOBA";
         int titleX = (getWidth() - fm.stringWidth(title)) / 2;
         int titleY = getHeight() / 4;
-     
+
         g2.setColor(new Color(0, 0, 0, 150));
         g2.drawString(title, titleX + 4, titleY + 4);
         g2.setColor(Theme.ACCENT);
@@ -143,35 +132,10 @@ public class MainMenu extends JPanel {
         g2.setColor(Theme.ACCENT_BRIGHT);
         g2.fillRect(titleX - 20, titleY + 15, fm.stringWidth(title) + 40, 3);
 
-        // BOUTONS
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = getHeight() / 2 - 50;
-        
-        for (int i = 0; i < menuItems.length; i++) {
-            boolean isSelected = (i == selectedIndex);
-            int btnX = (getWidth() - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-
-            if (isSelected) {
-                g2.setColor(new Color(0, 0, 0, 100));
-                g2.fillRect(btnX + 4, btnY + 4, btnWidth, btnHeight);
-            }
-
-            g2.setColor(isSelected ? Theme.BUTTON_HOVER : Theme.BUTTON_BG);
-            g2.fillRect(btnX, btnY, btnWidth, btnHeight);
-
-            g2.setColor(isSelected ? Theme.ACCENT : Theme.BUTTON_BORDER);
-            int b = 2; // épaisseur bordure
-            g2.fillRect(btnX, btnY, btnWidth, b);              // haut
-            g2.fillRect(btnX, btnY + btnHeight - b, btnWidth, b); // bas
-            g2.fillRect(btnX, btnY, b, btnHeight);             // gauche
-            g2.fillRect(btnX + btnWidth - b, btnY, b, btnHeight); // droite
-
-            g2.setColor(isSelected ? Theme.TEXT_MAIN : Theme.TEXT_DIM);
-            g2.setFont(new Font("SansSerif", Font.BOLD, 18));
-            FontMetrics btnFm = g2.getFontMetrics();
-            String txt = menuItems[i];
-            g2.drawString(txt, btnX + (btnWidth - btnFm.stringWidth(txt)) / 2, btnY + (btnHeight + btnFm.getAscent()) / 2 - 4);
+        int w = getWidth(), h = getHeight();
+        ButtonLayout[] btns = makeButtons(w, h);
+        for (int i = 0; i < btns.length; i++) {
+            ButtonLayout.renderButton(g2, btns[i], i == selectedIndex, menuItems[i]);
         }
 
         g2.setColor(Theme.TEXT_DIM);
