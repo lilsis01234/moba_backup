@@ -1,5 +1,6 @@
 package gui.menu;
 
+import gui.ButtonLayout;
 import gui.Theme;
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class GameOverScreen extends JPanel {
     private String result;
     private int selectedIndex = 0;
     private int hoveredIndex = -1;
-    private String[] menuItems = {"RETOUR AU MENU", "QUITTER"};
+    private String[] menuItems = {"RETURN TO MENU", "QUIT"};
 
     private static final Color WIN_COLOR = new Color(80, 220, 100);
     private static final Color LOSE_COLOR = new Color(220, 60, 60);
@@ -47,8 +48,8 @@ public class GameOverScreen extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:    navigate(-1); break;
-                    case KeyEvent.VK_DOWN:  navigate(1); break;
+                    case KeyEvent.VK_UP: navigate(-1); break;
+                    case KeyEvent.VK_DOWN: navigate(1); break;
                     case KeyEvent.VK_ENTER: handleSelection(); break;
                 }
             }
@@ -60,7 +61,7 @@ public class GameOverScreen extends JPanel {
                 handleClick(e.getX(), e.getY());
             }
         });
-        
+
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -68,23 +69,11 @@ public class GameOverScreen extends JPanel {
             }
         });
     }
-    
+
     private void updateHoveredButton(int x, int y) {
         int w = getWidth(), h = getHeight();
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = h / 2 + 20;
-        
-        int newHovered = -1;
-        for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-            
-            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
-                newHovered = i;
-                break;
-            }
-        }
-        
+        ButtonLayout[] btns = makeButtons(w, h);
+        int newHovered = ButtonLayout.findButtonAt(x, y, btns);
         if (newHovered != hoveredIndex) {
             hoveredIndex = newHovered;
             setCursor(newHovered >= 0 ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
@@ -97,18 +86,21 @@ public class GameOverScreen extends JPanel {
         repaint();
     }
 
+    private ButtonLayout[] makeButtons(int w, int h) {
+        ButtonLayout[] btns = new ButtonLayout[menuItems.length];
+        for (int i = 0; i < btns.length; i++) {
+            btns[i] = new ButtonLayout(w, h, i, 220, 50, 15, 20);
+        }
+        return btns;
+    }
+
     private void handleClick(int x, int y) {
         int w = getWidth(), h = getHeight();
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = h / 2 + 20;
-
-        for (int i = 0; i < menuItems.length; i++) {
-            int btnX = (w - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-            if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
-                selectedIndex = i;
-                handleSelection();
-            }
+        ButtonLayout[] btns = makeButtons(w, h);
+        int clicked = ButtonLayout.findButtonAt(x, y, btns);
+        if (clicked >= 0) {
+            selectedIndex = clicked;
+            handleSelection();
         }
     }
 
@@ -130,9 +122,8 @@ public class GameOverScreen extends JPanel {
         g2.setPaint(gradient);
         g2.fillRect(0, 0, getWidth(), getHeight());
 
-        // title
-        String title = result.equals("WIN") ? "VICTOIRE !" : "DÉFAITE...";
-        Color titleColor = result.equals("WIN") ? WIN_COLOR : LOSE_COLOR;
+        String title = "WIN".equals(result) ? "VICTORY !" : "DEFEAT...";
+        Color titleColor = "WIN".equals(result) ? WIN_COLOR : LOSE_COLOR;
         g2.setFont(new Font("Serif", Font.BOLD, 64));
         FontMetrics fm = g2.getFontMetrics();
         int titleX = (getWidth() - fm.stringWidth(title)) / 2;
@@ -145,35 +136,10 @@ public class GameOverScreen extends JPanel {
         g2.setColor(Theme.ACCENT_BRIGHT);
         g2.fillRect(titleX - 20, titleY + 15, fm.stringWidth(title) + 40, 3);
 
-        // buttons
-        int btnWidth = 220, btnHeight = 50, spacing = 15;
-        int startY = getHeight() / 2 + 20;
-
-        for (int i = 0; i < menuItems.length; i++) {
-            boolean isSelected = (i == selectedIndex);
-            int btnX = (getWidth() - btnWidth) / 2;
-            int btnY = startY + i * (btnHeight + spacing);
-
-            if (isSelected) {
-                g2.setColor(new Color(0, 0, 0, 100));
-                g2.fillRect(btnX + 4, btnY + 4, btnWidth, btnHeight);
-            }
-
-            g2.setColor(isSelected ? Theme.BUTTON_HOVER : Theme.BUTTON_BG);
-            g2.fillRect(btnX, btnY, btnWidth, btnHeight);
-
-            g2.setColor(isSelected ? Theme.ACCENT : Theme.BUTTON_BORDER);
-            int b = 2;
-            g2.fillRect(btnX, btnY, btnWidth, b);
-            g2.fillRect(btnX, btnY + btnHeight - b, btnWidth, b);
-            g2.fillRect(btnX, btnY, b, btnHeight);
-            g2.fillRect(btnX + btnWidth - b, btnY, b, btnHeight);
-
-            g2.setColor(isSelected ? Theme.TEXT_MAIN : Theme.TEXT_DIM);
-            g2.setFont(new Font("SansSerif", Font.BOLD, 18));
-            FontMetrics btnFm = g2.getFontMetrics();
-            String txt = menuItems[i];
-            g2.drawString(txt, btnX + (btnWidth - btnFm.stringWidth(txt)) / 2, btnY + (btnHeight + btnFm.getAscent()) / 2 - 4);
+        int w = getWidth(), h = getHeight();
+        ButtonLayout[] btns = makeButtons(w, h);
+        for (int i = 0; i < btns.length; i++) {
+            ButtonLayout.renderButton(g2, btns[i], i == selectedIndex, menuItems[i]);
         }
 
         g2.setColor(Theme.TEXT_DIM);
