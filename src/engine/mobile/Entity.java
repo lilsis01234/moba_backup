@@ -56,7 +56,7 @@ public abstract class Entity {
         if (this.hp <= 0) {
             this.hp = 0;
             if (active) {
-                logger.info("[MORT] " + this.getClass().getSimpleName() + " de l'équipe " + this.team + " détruit/tué.");
+                logger.info("[MORT] " + this.getClass().getSimpleName() + " de l'equipe " + this.team + " detruit/tue.");
                 if (this instanceof Personnage) {
                     ((Personnage) this).die();
                 } else {
