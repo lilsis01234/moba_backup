@@ -103,17 +103,14 @@ public class HeroStats {
 
     public int getGoldPerMinute() {
         if (timePlayed == 0) return 0;
-        return (int)((goldEarned * 60000.0) / timePlayed);
+        return (int)((goldEarned * 60_000.0) / timePlayed);
     }
 
     public String getNetWorth() {
-        return formatNumber(goldEarned - goldSpent);
+        return util.FormatUtils.formatNumber(goldEarned - goldSpent);
     }
 
     public String formatNumber(int num) {
-        if (num >= 1000) {
-            return String.format("%.1fk", num / 1000.0);
-        }
-        return String.valueOf(num);
+        return util.FormatUtils.formatNumber(num);
     }
 }
