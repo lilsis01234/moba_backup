@@ -151,7 +151,7 @@ private HeroSelection(Dimension screenSize) {
         cardsContainer.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         add(cardsContainer, BorderLayout.CENTER);
 
-        hintLabel = new JLabel("← → naviguer  ↑ ↓ catégories  ENTRÉE confirmer  ÉCHAP retour", SwingConstants.CENTER);
+        hintLabel = new JLabel("<- -> naviguer  ^ v categories  ENTER confirmer  ECHAP retour", SwingConstants.CENTER);
         hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
         hintLabel.setForeground(Theme.TEXT_DIM);
         hintLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
@@ -173,7 +173,7 @@ private HeroSelection(Dimension screenSize) {
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
 
-        hintLabel = new JLabel("← → naviguer  ↑ ↓ catégories  ENTRÉE confirmer  ÉCHAP retour", SwingConstants.CENTER);
+        hintLabel = new JLabel("<- -> naviguer  ^ v categories  ENTER confirmer  ECHAP retour", SwingConstants.CENTER);
         hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
         hintLabel.setForeground(Theme.TEXT_DIM);
         hintLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
