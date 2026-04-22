@@ -17,7 +17,15 @@ public class Spell {
     private int spellLevel = 0; // starts locked; first skill point unlocks it (level 1)
   
     //deleted the type class replaces by enum
-    public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT; }
+    public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT;
+
+        public static Type fromCode(String code) {
+            if ("CC".equals(code)) return CROWD_CONTROL;
+            if ("SP".equals(code)) return SUPPORT;
+            return DAMAGE;
+        }
+    }
+
     private Type type;
     
     private SpellStrategy effect;
