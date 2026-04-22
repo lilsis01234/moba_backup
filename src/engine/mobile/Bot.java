@@ -33,38 +33,32 @@ public class Bot extends Personnage {
         this.heroName  = hero.getName();
     }
 
-    public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
-    	//die and respawn
+public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
         if (hp <= 0 && active) { die(); }
         if (!active) { super.respawn(deltaTime); return; }
         updateTimers(deltaTime);
         if (isStunned()) { updateAnimation(deltaTime); return; }
-        //move
         move(deltaTime, enemies, allBots, allPersonnages);
-        //recall
         updateRecall(deltaTime);
     }
-    
+
     public void move(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
         double hpPercent = hp / maxHp;
-        
-        if (hpPercent < retreatTresHold) {retreating = true;}
-        else {retreating = false;}
-        
-        if (retreating) { handleRetreat(deltaTime, enemies, allBots);}
-        
-        else {
-        	Entity target = EntityUtils.findClosest(this, enemies);
-	        if (target != null && getDistanceTo(target) <= atkRange) {
-	            currentState = State.IDLE;
-	            attack(target, deltaTime, allPersonnages);
-	        } else {
-	            boolean moved = followWaypoints(deltaTime, allBots);
-	            currentState = moved ? State.MOVING : State.IDLE;
-	        }
-	    }
-	        updateAnimation(deltaTime);
-	        
+        retreating = hpPercent < retreatTresHold;
+
+        if (retreating) {
+            handleRetreat(deltaTime, enemies, allBots);
+        } else {
+            Entity target = EntityUtils.findClosest(this, enemies);
+            if (target != null && getDistanceTo(target) <= atkRange) {
+                currentState = State.IDLE;
+                attack(target, deltaTime, allPersonnages);
+            } else {
+                boolean moved = followWaypoints(deltaTime, allBots);
+                currentState = moved ? State.MOVING : State.IDLE;
+            }
+        }
+        updateAnimation(deltaTime);
     }
         
     private void handleRetreat(double deltaTime, List<Entity> enemies, List<Bot> allBots) {
