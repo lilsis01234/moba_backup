@@ -51,14 +51,7 @@ public class Minion extends Entity {
     }
 
     private Entity findTarget(List<Entity> enemies) {
-        Entity closest = null;
-        double closestDist = Double.MAX_VALUE;
-        for (Entity e : enemies) {
-            if (!e.isActive()) continue;
-            double dist = getDistanceTo(e);
-            if (dist < closestDist) { closestDist = dist; closest = e; }
-        }
-        return closest;
+        return EntityUtils.findClosest(this, enemies);
     }
 
     private void followWaypoints(double deltaTime) {
