@@ -92,15 +92,7 @@ public class JsonDataProvider {
                 spell.setDescription(spellMap.get("description"));
                 
                 //just fixed the issue with java 8
-                Spell.Type spellType;
-                String spellTypeStr = spellMap.get("type");
-                if ("CC".equals(spellTypeStr)) {
-                    spellType = Spell.Type.CROWD_CONTROL;
-                } else if ("SP".equals(spellTypeStr)) {
-                    spellType = Spell.Type.SUPPORT;
-                } else {
-                    spellType = Spell.Type.DAMAGE;
-                }
+                Spell.Type spellType = Spell.Type.fromCode(spellMap.get("type"));
                 spell.setType(spellType);
                 spell.setDamage(parseInt(spellMap.get("damage")));
                 spell.setBuff(parseInt(spellMap.get("buff")));
@@ -224,16 +216,16 @@ public class JsonDataProvider {
     private int parseInt(String s) {
         if (s == null || s.isEmpty()) return 0;
         try {
-            return Integer.parseInt(s);
+            return Integer.parseInt(s.trim());
         } catch (NumberFormatException e) {
             return 0;
         }
     }
-    
+
     private double parseDouble(String s) {
         if (s == null || s.isEmpty()) return 0.0;
         try {
-            return Double.parseDouble(s);
+            return Double.parseDouble(s.trim());
         } catch (NumberFormatException e) {
             return 0.0;
         }
