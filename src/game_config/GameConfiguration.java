@@ -18,6 +18,7 @@ public class GameConfiguration {
     public static final int GOLD_MINION = 20;
     public static final int GOLD_CHAR    = 100;
     public static final int GOLD_TOWER  = 150;
+    public static final int STARTING_GOLD = 500;
     
     //XP reward
     public static final int XP_MINION = 15;
