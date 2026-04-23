@@ -352,7 +352,7 @@ checkGameOver();
             for (int i = 0; i < kills; i++) playerStats.addKill();
             for (int i = 0; i < deaths; i++) playerStats.addDeath();
             for (int i = 0; i < assists; i++) playerStats.addAssist();
-            playerStats.setGoldEarned(player.getGold());
+            playerStats.setGoldEarned(player.getTotalGoldEarned());
             playerStats.setGoldSpent(0);
             playerStats.setCsCreeps(0);
             playerStats.setLevel(player.getLevel());
@@ -379,7 +379,7 @@ checkGameOver();
                 for (int i = 0; i < bkAssists; i++) botStats.addAssist();
                 botStats.setLongestKillStreak(bkKills);
             }
-            botStats.setGoldEarned(bot.getGold());
+            botStats.setGoldEarned(bot.getTotalGoldEarned());
             botStats.setGoldSpent(0);
             botStats.setCsCreeps(0);
             botStats.setLevel(bot.getLevel());
