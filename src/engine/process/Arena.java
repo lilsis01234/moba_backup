@@ -205,15 +205,16 @@ checkGameOver();
         g2.setTransform(original);
 
         if (player.isActive()) {
-            int screenX = (int) (player.getX() * scale + offsetX);
-            int screenY = (int) (player.getY() * scale + offsetY);
+            int screenX = (int) Math.round(player.getX() * scale + offsetX);
+            int screenY = (int) Math.round(player.getY() * scale + offsetY);
 
             g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Arial", Font.BOLD, 14));
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
             String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
             FontMetrics fm = g2.getFontMetrics();
             int textWidth = fm.stringWidth(heroName);
-            g2.drawString(heroName, screenX - textWidth / 2, screenY - 100);
+            int heroTop = screenY - TILE_SIZE * 3 / 2;
+            g2.drawString(heroName, screenX - textWidth / 2, heroTop - 10);
         }
     }
 
