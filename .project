@@ -8,6 +8,22 @@
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
+				<dictionary>
+					<key>org.eclipse.jdt.core.compiler.source</key>
+					<value>UTF-8</value>
+				</dictionary>
+				<dictionary>
+					<key>org.eclipse.jdt.core.compiler.codegen.source</key>
+					<value>UTF-8</value>
+				</dictionary>
+				<dictionary>
+					<key>org.eclipse.jdt.core.compiler.codegen.targetPlatform</key>
+					<value>UTF-8</value>
+				</dictionary>
+				<dictionary>
+					<key>org.eclipse.jdt.core.compiler.compliance</key>
+					<value>UTF-8</value>
+				</dictionary>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
