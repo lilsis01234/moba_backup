@@ -378,6 +378,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        java.util.Locale.setDefault(java.util.Locale.FRENCH);
         new InterfaceLauncher();
     }
 }
