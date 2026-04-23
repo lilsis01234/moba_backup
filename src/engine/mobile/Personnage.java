@@ -134,7 +134,7 @@ public abstract class Personnage extends Entity {
 	}
     
    private void recordKill(Personnage victim) {
-        this.addGold(victim.getLoot());
+        this.addGold(victim.getLoot() + GameConfiguration.GOLD_CHAR);
         this.addXp(victim.getXPLoot());
         this.kda.addKill();
         victim.kda.addDeath();
@@ -144,6 +144,7 @@ public abstract class Personnage extends Entity {
     private void assessAssists(Personnage victim) {
         for (Personnage p : getNearbyAssisters(victim)) {
             p.kda.addAssist();
+            p.addGold(GameConfiguration.GOLD_CHAR / 5);
         }
     }
 
