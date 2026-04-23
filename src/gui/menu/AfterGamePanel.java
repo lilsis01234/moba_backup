@@ -207,8 +207,12 @@ public class AfterGamePanel extends JPanel {
         plot.setRangeGridlinePaint(BORDER_SUBTLE);
         plot.getDomainAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 12));
         plot.getRangeAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 11));
-        plot.getDomainAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 12));
-        plot.getRangeAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 11));
+        
+        plot.getRenderer().setSeriesPaint(0, BLUE_ACCENT);
+        plot.getRenderer().setSeriesPaint(1, RED_ACCENT);
+        org.jfree.chart.renderer.category.BarRenderer renderer = (org.jfree.chart.renderer.category.BarRenderer) plot.getRenderer();
+        renderer.setMaximumBarWidth(0.3);
+        renderer.setBarPainter(new org.jfree.chart.renderer.category.StandardBarPainter());
 
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(screenSize.width / 3, 250));
