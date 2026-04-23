@@ -205,11 +205,14 @@ public class JsonDataProvider {
     }
         	
     private SpellStrategy createEffect(Spell.Type type, int damage, int buff) {
-        switch (type) {
-            case DAMAGE:        return new DamageEffect(damage);
-            case CROWD_CONTROL: return new CCEffect(damage, 2.0);
-            case SUPPORT:       return new SupportEffect(buff); 
-            default:            return new DamageEffect(damage);
+        if (type == Spell.Type.DAMAGE) {
+            return new DamageEffect(damage);
+        } else if (type == Spell.Type.CROWD_CONTROL) {
+            return new CCEffect(damage, 2.0);
+        } else if (type == Spell.Type.SUPPORT) {
+            return new SupportEffect(buff);
+        } else {
+            return new DamageEffect(damage);
         }
     }
 
