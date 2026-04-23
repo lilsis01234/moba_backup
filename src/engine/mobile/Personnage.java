@@ -286,12 +286,16 @@ public abstract class Personnage extends Entity {
 
         if (heroSprites != null) {
             int dirIndex;
-            switch (currentDirection) {
-                case UP:    dirIndex = 0; break;
-                case LEFT:  dirIndex = 1; break;
-                case DOWN:  dirIndex = 2; break;
-                case RIGHT: dirIndex = 3; break;
-                default:    dirIndex = 2;
+            if (currentDirection == Direction.UP) {
+                dirIndex = 0;
+            } else if (currentDirection == Direction.LEFT) {
+                dirIndex = 1;
+            } else if (currentDirection == Direction.DOWN) {
+                dirIndex = 2;
+            } else if (currentDirection == Direction.RIGHT) {
+                dirIndex = 3;
+            } else {
+                dirIndex = 2;
             }
             BufferedImage frame = heroSprites.get(dirIndex, animFrame);
             if (frame != null) {
