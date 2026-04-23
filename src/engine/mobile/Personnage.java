@@ -211,7 +211,7 @@ public abstract class Personnage extends Entity {
         this.hp = 0;
         this.respawnTimer = 5.0 + (this.getLevel() * 2.0);
         this.currentState = State.IDLE;
-        int goldLost = Math.min(gold, 50);
+        int goldLost = (int)(gold * 0.15);
         gold -= goldLost;
     }
     public void updateRecall(double deltaTime) {
