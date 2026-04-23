@@ -183,9 +183,13 @@ public class AfterGamePanel extends JPanel {
         DefaultCategoryDataset barData = new DefaultCategoryDataset();
         
         if (gameStats != null) {
-            for (TeamStats team : gameStats.getTeamStatsMap().values()) {
-                String teamName = team.getTeamId() == 0 ? "Bleu" : "Rouge";
-                barData.setValue(team.getTotalDamageDealt(), "Dégats", teamName);
+            TeamStats blue = gameStats.getTeamStats(0);
+            TeamStats red = gameStats.getTeamStats(1);
+            if (blue != null) {
+                barData.setValue(blue.getTotalDamageDealt(), "Bleu", "Équipe");
+            }
+            if (red != null) {
+                barData.setValue(red.getTotalDamageDealt(), "Rouge", "Équipe");
             }
         }
 
@@ -212,17 +216,8 @@ public class AfterGamePanel extends JPanel {
         renderer.setMaximumBarWidth(0.15);
         renderer.setBarPainter(new org.jfree.chart.renderer.category.StandardBarPainter());
         
-        if (gameStats != null) {
-            TeamStats blue = gameStats.getTeamStats(0);
-            TeamStats red = gameStats.getTeamStats(1);
-            if (blue != null) {
-                renderer.setSeriesPaint(0, BLUE_ACCENT);
-            }
-            if (red != null) {
-                int redIndex = blue != null ? 1 : 0;
-                renderer.setSeriesPaint(redIndex, RED_ACCENT);
-            }
-        }
+        renderer.setSeriesPaint(0, BLUE_ACCENT);
+        renderer.setSeriesPaint(1, RED_ACCENT);
 
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(screenSize.width / 3, 250));
