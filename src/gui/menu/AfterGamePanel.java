@@ -207,6 +207,8 @@ public class AfterGamePanel extends JPanel {
         plot.setRangeGridlinePaint(BORDER_SUBTLE);
         plot.getDomainAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 12));
         plot.getRangeAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 11));
+        plot.getDomainAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 12));
+        plot.getRangeAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 11));
 
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(screenSize.width / 3, 250));
