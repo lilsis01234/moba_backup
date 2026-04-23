@@ -186,10 +186,10 @@ public class AfterGamePanel extends JPanel {
             TeamStats blue = gameStats.getTeamStats(0);
             TeamStats red = gameStats.getTeamStats(1);
             if (blue != null) {
-                barData.setValue(blue.getTotalDamageDealt(), "Bleu", "Équipe");
+                barData.setValue(blue.getTotalDamageDealt(), "Bleu", "Bleu");
             }
             if (red != null) {
-                barData.setValue(red.getTotalDamageDealt(), "Rouge", "Équipe");
+                barData.setValue(red.getTotalDamageDealt(), "Rouge", "Rouge");
             }
         }
 
