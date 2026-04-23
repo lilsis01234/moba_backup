@@ -209,7 +209,9 @@ checkGameOver();
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
-        g2.drawString(heroName, screenX - 15, screenY - 20);
+        FontMetrics fm = g2.getFontMetrics();
+        int textWidth = fm.stringWidth(heroName);
+        g2.drawString(heroName, screenX - textWidth / 2, screenY - 20);
     }
 
     private void renderHealthBar(Graphics2D g2, Entity entity) {
