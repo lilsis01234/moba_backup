@@ -64,13 +64,18 @@ private HeroSelection(Dimension screenSize) {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:   navigate(-1); break;
-                    case KeyEvent.VK_RIGHT:  navigate(1); break;
-                    case KeyEvent.VK_UP:     selectCategory(-1); break;
-                    case KeyEvent.VK_DOWN:   selectCategory(1); break;
-                    case KeyEvent.VK_ENTER:  confirmSelection(); break;
-                    case KeyEvent.VK_ESCAPE: if (listener != null) listener.onBack(); break;
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    navigate(-1);
+                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    navigate(1);
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    selectCategory(-1);
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    selectCategory(1);
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    confirmSelection();
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    if (listener != null) listener.onBack();
                 }
             }
 });
