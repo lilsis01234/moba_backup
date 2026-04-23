@@ -204,15 +204,17 @@ checkGameOver();
 
         g2.setTransform(original);
 
-        int screenX = (int) Math.round(player.getX() * scale + offsetX);
-        int screenY = (int) Math.round(player.getY() * scale + offsetY);
+        if (player.isActive()) {
+            int screenX = (int) Math.round(player.getX() * scale + offsetX);
+            int screenY = (int) Math.round(player.getY() * scale + offsetY);
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 12));
-        String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
-        FontMetrics fm = g2.getFontMetrics();
-        int textWidth = fm.stringWidth(heroName);
-        g2.drawString(heroName, screenX - textWidth / 2, screenY - 15);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
+            FontMetrics fm = g2.getFontMetrics();
+            int textWidth = fm.stringWidth(heroName);
+            g2.drawString(heroName, screenX - textWidth / 2, screenY - 15);
+        }
     }
 
     private void renderHealthBar(Graphics2D g2, Entity entity) {
