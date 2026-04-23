@@ -91,6 +91,7 @@ public class Arena {
         enemyBase = new Base(53 * TILE_SIZE, 7 * TILE_SIZE, 1);
 
         player = new Player(hero);
+        player.addGold(GameConfiguration.STARTING_GOLD);
         playerFountain = new Fountain(4 * TILE_SIZE, 56 * TILE_SIZE, 0);
         enemyFountain = new Fountain(56 * TILE_SIZE, 4 * TILE_SIZE, 1);
 
