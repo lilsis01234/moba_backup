@@ -45,6 +45,10 @@ public class HeroStats {
         return (double)(kda.getKills() + kda.getAssists()) / deaths;
     }
 
+    public int getMVPScore() {
+        return kda.getKills() * 100 + kda.getAssists() * 50 + (damageDealtToHeroes + damageDealtToBuildings) / 10;
+    }
+
     public boolean isMVP() {
         return isPlayer;
     }

@@ -137,6 +137,7 @@ public class AfterGamePanel extends JPanel {
             addStatRow(stats, "Deaths", String.valueOf(team.getTotalDeaths()));
             addStatRow(stats, "Assists", String.valueOf(team.getTotalAssists()));
             addStatRow(stats, "KDA", String.format("%.2f", team.getTeamKDA()));
+            addStatRow(stats, "Dégats", formatNumber(team.getTotalDamageDealt()));
             addStatRow(stats, "Tours détruites", String.valueOf(team.getTowersDestroyed()));
             addStatRow(stats, "Or total", formatGold(team.getGoldEarned()));
         } else {
@@ -307,7 +308,7 @@ public class AfterGamePanel extends JPanel {
                 addStatRow(stats, "Héros", mvp.getHeroName());
                 addStatRow(stats, "K/D/A", mvp.getKills() + "/" + mvp.getDeaths() + "/" + mvp.getAssists());
                 addStatRow(stats, "KDA", String.format("%.2f", mvp.getKDA()));
-                addStatRow(stats, "Dégats", formatNumber(mvp.getDamageDealtToHeroes()));
+                addStatRow(stats, "Dégats", formatNumber(mvp.getDamageDealtToHeroes() + mvp.getDamageDealtToBuildings()));
             }
         } else {
             addStatRow(stats, "Joueur", "Héros");

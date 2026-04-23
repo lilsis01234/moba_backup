@@ -31,6 +31,8 @@ public abstract class Personnage extends Entity {
     
     //for KDA
     HashMap<Personnage, Long> damageTimestamps = new HashMap<>();
+    private int damageDealtToHeroes = 0;
+    private int damageDealtToBuildings = 0;
     private KDA kda = new KDA();
     
     protected double respawnTimer = 0;
@@ -120,6 +122,9 @@ public abstract class Personnage extends Entity {
 	    	interruptRecall();
 	        if (target instanceof Personnage) {
 	            recordDamageDealtTo((Personnage) target);
+	            addDamageToHeroes((int) atkDamage);
+	        } else if (target instanceof Tower || target instanceof Base) {
+	            addDamageToBuildings((int) atkDamage);
 	        }
 	        
 	        target.takeDamage(atkDamage);
@@ -345,6 +350,17 @@ public abstract class Personnage extends Entity {
     public void recordDamageDealtTo(Personnage target) {
         damageTimestamps.put(target, System.currentTimeMillis());
     }
+    
+    public void addDamageToHeroes(int dmg) {
+        damageDealtToHeroes += dmg;
+    }
+    
+    public void addDamageToBuildings(int dmg) {
+        damageDealtToBuildings += dmg;
+    }
+    
+    public int getDamageDealtToHeroes() { return damageDealtToHeroes; }
+    public int getDamageDealtToBuildings() { return damageDealtToBuildings; }
     @Override
     public void takeDamage(double damage) {
         interruptRecall();

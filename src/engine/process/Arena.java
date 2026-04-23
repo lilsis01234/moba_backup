@@ -361,6 +361,8 @@ checkGameOver();
             playerStats.setTimeSpentDead(0);
             playerStats.setPlayer(true);
             playerStats.setLongestKillStreak(kills);
+            playerStats.addDamageToHeroes((int) player.getDamageDealtToHeroes());
+            playerStats.addDamageToBuildings((int) player.getDamageDealtToBuildings());
             blueTeam.addHero(playerStats);
         }
 
@@ -386,6 +388,8 @@ checkGameOver();
             botStats.setLevel(bot.getLevel());
             botStats.setTimePlayed(duration);
             botStats.setTimeSpentDead(0);
+            botStats.addDamageToHeroes((int) bot.getDamageDealtToHeroes());
+            botStats.addDamageToBuildings((int) bot.getDamageDealtToBuildings());
 
             if (bot.getTeam() == 0) {
                 blueTeam.addHero(botStats);
@@ -396,6 +400,10 @@ checkGameOver();
 
         blueTeam.calculateTotals();
         redTeam.calculateTotals();
+        
+        blueTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
+        redTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
+        
         gameStats.setTeamStats(0, blueTeam);
         gameStats.setTeamStats(1, redTeam);
 
