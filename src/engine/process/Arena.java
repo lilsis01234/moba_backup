@@ -213,7 +213,7 @@ checkGameOver();
             String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
             FontMetrics fm = g2.getFontMetrics();
             int textWidth = fm.stringWidth(heroName);
-            g2.drawString(heroName, screenX - textWidth / 2, screenY - 15);
+            g2.drawString(heroName, screenX - textWidth / 2, screenY - 25);
         }
     }
 
