@@ -1,17 +1,17 @@
 [
   {
-    "name": "Goliath",
+    "name": "Dragonoid",
     "spriteFile": "res/HeroSprites/Demon.png",
     "history": "Un guerrier colossal dont la peau est aussi dure que le granit. Il défend ses alliés avec une détermination inébranlable.",
     "category": "Force",
-    "maxHp": 220,
-    "attack": 350,
+    "maxHp": 550,
+    "attack": 65,
     "defense": 75,
-    "attackSpeed": 0.7,
+    "attackSpeed": 0.6,
     "maxMana": 200,
     "spells": [
       {
-        "name": "Écraser",
+        "name": "Onde de Granite",
         "description": "Écrase le sol, infligeant 80 dégâts aux ennemis proches et les ralentit.",
         "damage": 80,
         "cooldown": 8,
@@ -20,7 +20,7 @@
         "buff": 0
       },
       {
-        "name": "Bouclier",
+        "name": "Écailles Éternelles",
         "description": "Augmente sa défense de 30% pendant 5 secondes.",
         "damage": 0,
         "cooldown": 0,
@@ -29,7 +29,7 @@
         "buff": 80
       },
       {
-        "name": "Frappe du Titan",
+        "name": "Jugement du Démon",
         "description": "Attaque puissante infligeant 150 dégâts à une cible unique.",
         "damage": 150,
         "cooldown": 12,
@@ -38,22 +38,22 @@
         "buff": 0
       }
     ],
-    "attackRange": 400,
-    "speed": 480
+    "attackRange": 450,
+    "speed": 450
   },
   {
-    "name": "Titan",
+    "name": "Muriel",
     "spriteFile": "res/HeroSprites/Angel.png",
     "history": "Un colosse antique réveillé pour la bataille. Sa force massive terrasse ses ennemis en un seul coup.",
     "category": "Force",
-    "maxHp": 220,
-    "attack": 50,
-    "defense": 80,
-    "attackSpeed": 0.6,
+    "maxHp": 650,
+    "attack": 45,
+    "defense": 90,
+    "attackSpeed": 0.5,
     "maxMana": 180,
     "spells": [
       {
-        "name": "Lancer de Roc",
+        "name": "Sentence Céleste",
         "description": "Lance un rocher qui inflige 100 dégâts et étourdit 1 seconde.",
         "damage": 100,
         "cooldown": 6,
@@ -62,7 +62,7 @@
         "buff": 0
       },
       {
-        "name": "Épiderme de Pierre",
+        "name": "Grâce de Marbre",
         "description": "Réduit tous les dégâts subis de 20% pendant 6 secondes.",
         "damage": 0,
         "cooldown": 0,
@@ -71,7 +71,7 @@
         "buff": 80
       },
       {
-        "name": "Cataclysme",
+        "name": "Colère de l'Éden",
         "description": "Frappe le sol créant une secousse qui inflige 200 dégâts sur une zone large.",
         "damage": 200,
         "cooldown": 15,
@@ -81,21 +81,21 @@
       }
     ],
     "attackRange": 400,
-    "speed": 480
+    "speed": 420
   },
   {
-    "name": "Boulder",
+    "name": "Sir Lancelot",
     "spriteFile": "res/HeroSprites/Jacko.png",
     "history": "Une entité de pierre vivante qui roule sur le champ de bataille, écrasant tout sur son passage.",
     "category": "Force",
-    "maxHp": 220,
-    "attack": 45,
+    "maxHp": 600,
+    "attack": 50,
     "defense": 85,
-    "attackSpeed": 0.5,
+    "attackSpeed": 0.7,
     "maxMana": 150,
     "spells": [
       {
-        "name": "Roulement",
+        "name": "Course Macabre",
         "description": "Se met à rouler, infligeant 120 dégâts et repoussant les ennemis.",
         "damage": 120,
         "cooldown": 10,
@@ -104,7 +104,7 @@
         "buff": 0
       },
       {
-        "name": "Armure Naturelle",
+        "name": "Écorce Maudite",
         "description": "Gagne une armure bonus équivalente à 50% de ses PV maximums pendant 4 secondes.",
         "damage": 0,
         "cooldown": 0,
@@ -113,7 +113,7 @@
         "buff": 80
       },
       {
-        "name": "Impact Sismique",
+        "name": "Glas de Jacko",
         "description": "Écrasement final infligeant 180 dégâts et renversant les ennemis.",
         "damage": 180,
         "cooldown": 14,
@@ -126,18 +126,18 @@
     "speed": 480
   },
   {
-    "name": "Fortress",
+    "name": "Captain Eldridge",
     "spriteFile": "res/HeroSprites/Pirate.png",
     "history": "Une forteresse ambulante impénétrable. Aucune arme ne peut percer ses défenses.",
     "category": "Force",
-    "maxHp": 220,
+    "maxHp": 500,
     "attack": 40,
-    "defense": 90,
-    "attackSpeed": 0.4,
+    "defense": 150,
+    "attackSpeed": 0.5,
     "maxMana": 120,
     "spells": [
       {
-        "name": "Rempart",
+        "name": "Bordée Fantôme",
         "description": "Déploie un rempart temporaire qui bloque les projectiles et réduit les dégâts de 40%.",
         "damage": 0,
         "cooldown": 0,
@@ -146,7 +146,7 @@
         "buff": 80
       },
       {
-        "name": "Contre-attaque",
+        "name": "Rancœur du Corsaire",
         "description": "Renvoie 50% des dégâts subis aux attaquants pendant 5 secondes.",
         "damage": 0,
         "cooldown": 0,
@@ -155,7 +155,7 @@
         "buff": 80
       },
       {
-        "name": "Défense Ultime",
+        "name": "Trésor des Abysses",
         "description": "Devient invulnérable pendant 3 secondes mais ne peut pas attaquer.",
         "damage": 0,
         "cooldown": 0,
@@ -165,18 +165,18 @@
       }
     ],
     "attackRange": 400,
-    "speed": 480
+    "speed": 470
   },
   {
-    "name": "Ironclad",
+    "name": "Erode",
     "spriteFile": "res/HeroSprites/Zombie.png",
     "history": "Un chevalier dont l'armure est forgée dans l'acier le plus pur. Il résiste à toute attaque.",
     "category": "Agilite",
-    "maxHp": 220,
-    "attack": 60,
+    "maxHp": 300,
+    "attack": 100,
     "defense": 78,
-    "attackSpeed": 0.75,
-    "maxMana": 220,
+    "attackSpeed": 1.2,
+    "maxMana": 200,
     "spells": [
       {
         "name": "Muraille",
@@ -188,7 +188,7 @@
         "buff": 80
       },
       {
-        "name": "Charge Protector",
+        "name": "Élan du Trépas",
         "description": "Se précipite vers un allié, réduisant tous les dégâts qu'il subit de 40% pendant 3 secondes.",
         "damage": 0,
         "cooldown": 8,
@@ -197,7 +197,7 @@
         "buff": 0
       },
       {
-        "name": "Coup de Bouclier",
+        "name": "Heurt des Tombes",
         "description": "Attaque avec son bouclier, infligeant 90 dégâts et renversant la cible.",
         "damage": 90,
         "cooldown": 6,
@@ -206,18 +206,18 @@
         "buff": 0
       }
     ],
-    "attackRange": 400,
-    "speed": 520
+    "attackRange": 450,
+    "speed": 550
   },
   {
     "name": "Sentinel",
     "spriteFile": "res/HeroSprites/Werewolf.png",
     "history": "Le gardien éternel des portes sacrées. Sa vigilance ne faiblit jamais.",
     "category": "Agilite",
-    "maxHp": 220,
-    "attack": 48,
+    "maxHp": 320,
+    "attack": 85,
     "defense": 82,
-    "attackSpeed": 0.65,
+    "attackSpeed": 1.4,
     "maxMana": 190,
     "spells": [
       {
@@ -239,7 +239,7 @@
         "buff": 80
       },
       {
-        "name": "Projectile Répresseur",
+        "name": "Pacte de Sang",
         "description": "Tire un projectile qui inflige 110 dégâts et silence l'ennemi pendant 2 secondes.",
         "damage": 110,
         "cooldown": 7,
@@ -248,22 +248,22 @@
         "buff": 0
       }
     ],
-    "attackRange": 400,
-    "speed": 520
+    "attackRange": 450,
+    "speed": 580
   },
   {
-    "name": "Warden",
+    "name": "The Warden",
     "spriteFile": "res/HeroSprites/Hare.png",
     "history": "Le gardien des prisons infernales. Ses chaînes peuvent lier n'importe quel ennemi.",
     "category": "Agilite",
-    "maxHp": 220,
-    "attack": 52,
+    "maxHp": 250,
+    "attack": 130,
     "defense": 76,
-    "attackSpeed": 0.6,
+    "attackSpeed": 1.3,
     "maxMana": 170,
     "spells": [
       {
-        "name": "Chaînes du Destin",
+        "name": "Rancœur de Fer",
         "description": "Lance des chaînes qui immobilisent la cible pendant 3 secondes.",
         "damage": 0,
         "cooldown": 6,
@@ -272,7 +272,7 @@
         "buff": 0
       },
       {
-        "name": "Barrière Inversée",
+        "name": "Instinct de Meute",
         "description": "Repousse tous les ennemis autour de lui et les inflige 60 dégâts.",
         "damage": 60,
         "cooldown": 9,
@@ -290,22 +290,22 @@
         "buff": 0
       }
     ],
-    "attackRange": 400,
-    "speed": 520
+    "attackRange": 420,
+    "speed": 600
   },
   {
-    "name": "Bastion",
+    "name": "Amaterasu",
     "spriteFile": "res/HeroSprites/Samurai.png",
     "history": "Une forteresse mobile qui peut se transformer en position défensive.",
     "category": "Agilite",
-    "maxHp": 220,
-    "attack": 35,
+    "maxHp": 350,
+    "attack": 105,
     "defense": 95,
-    "attackSpeed": 0.3,
+    "attackSpeed": 1.45,
     "maxMana": 100,
     "spells": [
       {
-        "name": "Position Défensive",
+        "name": "Posture du Ronin",
         "description": "Augmente l'armure de 60% mais ne peut pas se déplacer pendant 5 secondes.",
         "damage": 0,
         "cooldown": 10,
@@ -314,7 +314,7 @@
         "buff": 80
       },
       {
-        "name": "Rempart Mobile",
+        "name": "Voie du Bushido",
         "description": "Avance en protégeant les alliés derrière lui, réduisant les dégâts de zone de 50%.",
         "damage": 0,
         "cooldown": 15,
@@ -323,7 +323,7 @@
         "buff": 80
       },
       {
-        "name": "Reconstruction",
+        "name": "Esprit de l'Aube",
         "description": "Régénère 300 PV par seconde pendant 3 secondes.",
         "damage": 0,
         "cooldown": 20,
@@ -332,25 +332,25 @@
         "buff": 80
       }
     ],
-    "attackRange": 400,
-    "speed": 520
+    "attackRange": 480,
+    "speed": 530
   },
   {
-    "name": "Crusader",
+    "name": "Fae",
     "spriteFile": "res/HeroSprites/Fairy.png",
     "history": "Un champion de la lumière dont la foi protège les faibles.",
     "category": "Intelligence",
-    "maxHp": 220,
-    "attack": 62,
+    "maxHp": 250,
+    "attack": 50,
     "defense": 68,
     "attackSpeed": 0.72,
-    "maxMana": 200,
+    "maxMana": 400,
     "spells": [
       {
         "name": "Aura de Sacrifice",
         "description": "Prend 50% des dégâts subis par un allié ciblé pendant 6 secondes.",
         "damage": 0,
-        "cooldown": 12,
+        "cooldown": 4,
         "manaCost": 70,
         "type": "SP",
         "buff": 80
@@ -359,26 +359,26 @@
         "name": "Jugement Divin",
         "description": "Invoque un rayon de lumière qui inflige 150 dégâts et étourdit 1.5 secondes.",
         "damage": 150,
-        "cooldown": 14,
+        "cooldown": 5,
         "manaCost": 90,
         "type": "dmg",
         "buff": 0
       },
       {
-        "name": "Soin Lumière",
+        "name": "Éclat de Séléné",
         "description": "Soigne un allié de 200 PV.",
         "damage": 0,
-        "cooldown": 8,
+        "cooldown": 7,
         "manaCost": 50,
         "type": "SP",
-        "buff": 80
+        "buff": 100
       }
     ],
-    "attackRange": 400,
+    "attackRange": 750,
     "speed": 500
   },
   {
-    "name": "Guardian",
+    "name": "Ignis",
     "spriteFile": "res/HeroSprites/FireMage.png",
     "history": "Le protecteur des royaumes oubliés. Sa présence inspire le courage.",
     "category": "Intelligence",
@@ -389,7 +389,7 @@
     "maxMana": 180,
     "spells": [
       {
-        "name": "Bouclier Divin",
+        "name": "Cocon de Braise",
         "description": "Absorbe jusqu'à 300 dégâts pour un allié pendant 8 secondes.",
         "damage": 0,
         "cooldown": 10,
@@ -407,7 +407,7 @@
         "buff": 0
       },
       {
-        "name": "Lien de Vie",
+        "name": "Flamme Partagée",
         "description": "Partage sa régénération de PV avec un allié pendant 8 secondes.",
         "damage": 0,
         "cooldown": 12,
@@ -420,84 +420,84 @@
     "speed": 500
   },
   {
-    "name": "Juggernaut",
+    "name": "Dorothy",	
     "spriteFile": "res/HeroSprites/GoblinMage.png",
     "history": "Une machine de guerre inarrêtable. Plus il subit de dégâts, plus il devient fort.",
     "category": "Intelligence",
     "maxHp": 220,
-    "attack": 65,
+    "attack": 55,
     "defense": 70,
     "attackSpeed": 0.55,
     "maxMana": 160,
     "spells": [
       {
-        "name": "Colère",
+        "name": "Rage du Malicieux",
         "description": "Gagne 1% d'augmentation de dégâts par point de PV manquant pendant 10 secondes.",
         "damage": 0,
-        "cooldown": 12,
+        "cooldown": 5,
         "manaCost": 75,
         "type": "SP",
         "buff": 80
       },
       {
-        "name": "Déstabilisation",
+        "name": "Frappe Sournoise",
         "description": "Attaque qui ignore 50% de l'armure de la cible.",
-        "damage": 120,
+        "damage": 150,
         "cooldown": 6,
         "manaCost": 45,
         "type": "dmg",
         "buff": 0
       },
       {
-        "name": "Imposant",
+        "name": "Gourmandise Sombre",
         "description": "Gagne +1% de taille et +2% de PV par point d'armure pendant 8 secondes.",
         "damage": 0,
-        "cooldown": 16,
+        "cooldown": 8,
         "manaCost": 90,
         "type": "SP",
-        "buff": 80
+        "buff": 120
       }
     ],
-    "attackRange": 400,
-    "speed": 500
+    "attackRange": 800,
+    "speed": 480
   },
   {
-    "name": "Aegis",
+    "name": "Wanderer",
     "spriteFile": "res/HeroSprites/Prophet.png",
     "history": "Le bouclier vivant. Son corps peut résister aux attaques les plus puissantes.",
     "category": "Intelligence",
-    "maxHp": 220,
-    "attack": 38,
+    "maxHp": 280,
+    "attack": 55,
     "defense": 88,
     "attackSpeed": 0.48,
     "maxMana": 140,
     "spells": [
       {
-        "name": "Réflexion",
+        "name": "Miroir d'Âme",
         "description": "Renvoie 80% des dégâts subis aux attaquants pendant 5 secondes.",
         "damage": 0,
-        "cooldown": 15,
+        "cooldown": 2,
         "manaCost": 80,
         "type": "SP",
         "buff": 80
       },
       {
-        "name": "Impact Piercing",
+        "name": "Sagesse Tranchante",
         "description": "Attaque qui traverse les ennemis et ignore leur défense.",
-        "damage": 90,
-        "cooldown": 8,
+        "damage": 140,
+        "cooldown": 4,
         "manaCost": 50,
         "type": "dmg",
         "buff": 0
       },
       {
-        "name": "Absorption",
+        "name": "Voile de l'Oracle",
         "description": "Absorbe jusqu'à 500 dégâts pendant 5 secondes.",
         "damage": 0,
-        "cooldown": 20,
+        "cooldown": 6,
         "manaCost": 100,
         "type": "SP",
-        "buff": 80
+        "buff": 200
       }
     ],
     "attackRange": 400,
