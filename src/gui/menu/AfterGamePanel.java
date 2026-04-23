@@ -186,7 +186,6 @@ public class AfterGamePanel extends JPanel {
             for (TeamStats team : gameStats.getTeamStatsMap().values()) {
                 String teamName = team.getTeamId() == 0 ? "Bleu" : "Rouge";
                 barData.setValue(team.getTotalDamageDealt(), "Dégats", teamName);
-                barData.setValue(team.getTowersDestroyed() * 500, "Objectif", teamName);
             }
         }
 
