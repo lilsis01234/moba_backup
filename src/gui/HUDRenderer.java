@@ -651,10 +651,12 @@ public class HUDRenderer {
     }
 
     private Color typeColor(Equipment eq) {
-        switch (eq.getType()) {
-            case SWORD: return new Color(160, 50, 50);
-            case HELMET: return new Color(50, 80, 160);
-            default: return new Color(50, 130, 50);
+        if (eq.getType() == EquipmentType.SWORD) {
+            return new Color(160, 50, 50);
+        } else if (eq.getType() == EquipmentType.HELMET) {
+            return new Color(50, 80, 160);
+        } else {
+            return new Color(50, 130, 50);
         }
     }
 
