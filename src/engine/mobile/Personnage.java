@@ -23,6 +23,7 @@ public abstract class Personnage extends Entity {
     protected double maxMana;
     private int gold  = 0;
     private int totalGoldEarned = 0;
+    private double goldAccumulator = 0;
     private int xp    = 0;
     private int level = 1;
     protected int defense = 0;
@@ -164,6 +165,16 @@ public abstract class Personnage extends Entity {
     public void addGold(int Goldreward) {
         gold += Goldreward;
         totalGoldEarned += Goldreward;
+    }
+    
+    public void addPassiveGold(double amount) {
+        goldAccumulator += amount;
+        int goldToAdd = (int)goldAccumulator;
+        if (goldToAdd > 0) {
+            gold += goldToAdd;
+            totalGoldEarned += goldToAdd;
+            goldAccumulator -= goldToAdd;
+        }
     }
     
     public int getTotalGoldEarned() {

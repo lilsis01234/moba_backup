@@ -60,6 +60,13 @@ public void init(List<Hero> allHeroes, Hero playerHero) {
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot4"), 1, "EBot4", enemyPool.get(3)));
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot5"), 1, "EBot5", enemyPool.get(4)));
         logger.debug("Created " + enemyBots.size() + " enemy bots");
+        
+        for (Bot b : bots) {
+            b.addGold(GameConfiguration.STARTING_GOLD);
+        }
+        for (Bot b : enemyBots) {
+            b.addGold(GameConfiguration.STARTING_GOLD);
+        }
     }
 
     public void update(double deltaTime, List<Entity> enemiesTeam0, ArrayList<Entity> enemiesTeam1, ArrayList<Personnage> allPersonnages) {

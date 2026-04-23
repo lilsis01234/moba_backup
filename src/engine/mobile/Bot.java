@@ -42,6 +42,9 @@ public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, Ar
         if (hp <= 0 && active) { die(); }
         if (!active) { super.respawn(deltaTime); return; }
         updateTimers(deltaTime);
+        
+        addPassiveGold(game_config.GameConfiguration.PASSIVE_GOLD_PER_SECOND * deltaTime);
+        
         if (isStunned()) { updateAnimation(deltaTime); return; }
         logger.debug("Bot " + name + " updating - HP: " + hp + "/" + maxHp + ", state: " + currentState);
         move(deltaTime, enemies, allBots, allPersonnages);
