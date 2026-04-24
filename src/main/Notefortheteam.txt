@@ -1,20 +1,18 @@
 TO DO:
 
 
+//hero selection gui, items bar
+//stun?
+//gold and xp when assistng (60% of the reward when hitting withing 5 seconds before kill)
+//visual effect when casting? when basic attacking? when base attack on cooldown
+//equipement tab button
 
-//update the loot system( having to last hit to get any loot very difficult)
-//assist reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
-//problem : if tower kills enemy : wasted kill + resources checkkill
-//stats HUD	
-//properly calculate skill dmg/heal/stun
-//gatekeep bases
-//add keyboard mouvement
-//spell cast visual effect
-//uh if no targer and cast?
+
+//gatekeep bases?
+//add keyboard mouvement?
 //visual effects
-//lore
 
-//add scoreboard (tab) that shows all characters stats kda gold level equipement
+
 
 
 

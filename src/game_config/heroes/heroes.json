@@ -524,8 +524,11 @@
   {
     "name": "Wanderer",
     "spriteFile": "res/HeroSprites/Prophet.png",
-    "history": "Clad in simple, travel-worn robes and carrying only a weathered wooden staff, he is known to many simply as the Wanderer or the prophet. He claims no throne and seeks no glory, moving silently through the world’s forgotten paths. With eyes that have seen the unfolding of ages, he offers his vast wisdom to those who listen and his healing touch to every broken creature he encounters. He is a man of quiet virtue, walking not to reach a destination, but to mend the world as he passes through it.
-	'Too much light blinds; too much dark consumes.'"
+    "history": "	Clad in simple, travel-worn robes and carrying only a weathered wooden staff, he is known to many simply as the Wanderer
+	 or the prophet. He claims no throne and seeks no glory, moving silently through the world’s forgotten paths. With eyes that have seen the
+	  unfolding of ages, he offers his vast wisdom to those who listen and his healing touch to every broken creature he encounters. He is a 
+	  man of quiet virtue, walking not to reach a destination, but to mend the world as he passes through it.
+	'Too much light blinds, too much dark consumes.'"
 	"category": "Intelligence",
     "maxHp": 280,
     "attack": 55,
