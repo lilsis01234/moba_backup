@@ -43,14 +43,14 @@ public class HeroSelection extends JPanel {
     private static final Color CATEGORY_AGILITY = new Color(60, 160, 80);
     private static final Color CATEGORY_INTELLIGENCE = new Color(60, 100, 180);
 
-private HeroSelection(Dimension screenSize) {
+    private HeroSelection(Dimension screenSize) {
         setPreferredSize(screenSize);
         setBackground(Theme.BACKGROUND_DARK);
         setFocusable(true);
         setLayout(new BorderLayout());
-        
+
         try {
-            JsonDataProvider provider = JsonDataProviderFactory.create(); 
+            JsonDataProvider provider = JsonDataProviderFactory.create();
             categories = provider.getAllCategories();
             groupHeroesByCategory(provider.getAllHeroes());
         } catch (IOException e) {
@@ -78,9 +78,9 @@ private HeroSelection(Dimension screenSize) {
                     if (listener != null) listener.onBack();
                 }
             }
-});
+        });
     }
-    
+
     public static HeroSelection getInstance(Dimension screenSize) {
         if (instance == null) {
             instance = new HeroSelection(screenSize);
@@ -91,7 +91,7 @@ private HeroSelection(Dimension screenSize) {
     public static void reset() {
         instance = null;
     }
-    
+
     private void groupHeroesByCategory(List<Hero> heroes) {
         heroesByCategory = new HashMap<>();
         for (Hero hero : heroes) {
@@ -122,7 +122,7 @@ private HeroSelection(Dimension screenSize) {
         headerPanel.add(backButton);
         headerPanel.add(Box.createHorizontalGlue());
 
-        titleLabel = new JLabel("CHOISIR UN HÉROS");
+        titleLabel = new JLabel("CHOISIR UN HEROS");
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
         titleLabel.setForeground(Theme.ACCENT);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -156,14 +156,7 @@ private HeroSelection(Dimension screenSize) {
         cardsContainer.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         add(cardsContainer, BorderLayout.CENTER);
 
-        hintLabel = new JLabel("<- -> naviguer  ^ v categories  ENTER confirmer  ECHAP retour", SwingConstants.CENTER);
-        hintLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        hintLabel.setForeground(Theme.TEXT_DIM);
-        hintLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
-        
-        //added a selection button at the button to not shrink the images
-        
-        JButton selectBtn = new JButton("SÉLECTIONNER");
+        JButton selectBtn = new JButton("SELECTIONNER");
         selectBtn.setFont(new Font("SansSerif", Font.BOLD, 13));
         selectBtn.setForeground(Theme.BACKGROUND_DARK);
         selectBtn.setBackground(Theme.ACCENT_BRIGHT);
@@ -214,10 +207,9 @@ private HeroSelection(Dimension screenSize) {
         return btn;
     }
 
-
     private void updateCategoryButtons() {
         Color[] categoryColors = {CATEGORY_FORCE, CATEGORY_AGILITY, CATEGORY_INTELLIGENCE};
-        
+
         for (int i = 0; i < categoryButtons.size(); i++) {
             JButton btn = categoryButtons.get(i);
             if (i == selectedCategoryIndex) {
@@ -280,19 +272,19 @@ private HeroSelection(Dimension screenSize) {
 
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setPreferredSize(new Dimension(220, 360)); 
+        card.setPreferredSize(new Dimension(220, 360));
         card.setMaximumSize(new Dimension(220, 360));
         card.setBackground(isSelected ? new Color(50, 45, 60) : Theme.BUTTON_BG);
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(
-                isSelected ? Theme.ACCENT_BRIGHT : Theme.BUTTON_BORDER, 
+                isSelected ? Theme.ACCENT_BRIGHT : Theme.BUTTON_BORDER,
                 isSelected ? 3 : 1
             ),
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
 
         SpritePreview preview = new SpritePreview(hero.getSpriteFile());
-        preview.setPreferredSize(new Dimension(90, 90)); 
+        preview.setPreferredSize(new Dimension(90, 90));
         preview.setMinimumSize(new Dimension(90, 90));
         preview.setMaximumSize(new Dimension(90, 90));
         preview.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -304,25 +296,80 @@ private HeroSelection(Dimension screenSize) {
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 8, 0));
         card.add(nameLabel);
-    
+
         JPanel statsPanel = new JPanel(new GridLayout(3, 2, 8, 5));
         statsPanel.setOpaque(false);
         statsPanel.setMaximumSize(new Dimension(200, 90));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        statsPanel.add(createStatLabel("HP",   hero.getMaxHp(),              CATEGORY_FORCE));
-        statsPanel.add(createStatLabel("ATK",  hero.getAttack(),             new Color(200, 80, 80)));
-        statsPanel.add(createStatLabel("DEF",  hero.getDefense(),            new Color(80, 150, 200)));
-        statsPanel.add(createStatLabel("SPD",  (int) hero.getSpeed(),        new Color(180, 180, 80)));
-        statsPanel.add(createStatLabel("MANA", hero.getMaxMana(),            new Color(80, 120, 220)));
+        statsPanel.add(createStatLabel("HP",   hero.getMaxHp(),               CATEGORY_FORCE));
+        statsPanel.add(createStatLabel("ATK",  hero.getAttack(),              new Color(200, 80, 80)));
+        statsPanel.add(createStatLabel("DEF",  hero.getDefense(),             new Color(80, 150, 200)));
+        statsPanel.add(createStatLabel("SPD",  (int) hero.getSpeed(),         new Color(180, 180, 80)));
+        statsPanel.add(createStatLabel("MANA", hero.getMaxMana(),             new Color(80, 120, 220)));
         statsPanel.add(createStatLabel("ASPD", (int)(hero.getAttackSpeed() * 100), new Color(180, 100, 200)));
 
         statsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(statsPanel);
 
-        
+        card.add(Box.createVerticalStrut(10));
+
+        JButton loreBtn = new JButton("Lore");
+        loreBtn.setFont((new Font("SansSerif", Font.BOLD, 15)));
+        loreBtn.setForeground(Theme.ACCENT_BRIGHT);
+        loreBtn.setBackground(Theme.BUTTON_BG);
+        loreBtn.setBorderPainted(false);
+        loreBtn.setFocusPainted(false);
+        loreBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        loreBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loreBtn.addActionListener(e -> showLoreDialog(hero));
+        card.add(loreBtn);
 
         return card;
+    }
+
+    //Jdiag
+    private void showLoreDialog(Hero hero) {
+        JDialog dialog = new JDialog(
+            SwingUtilities.getWindowAncestor(this) instanceof Frame
+                ? (Frame) SwingUtilities.getWindowAncestor(this) : null,
+            hero.getName(), true);
+        dialog.setSize(600, 500);
+        dialog.setLocationRelativeTo(this);
+        dialog.getContentPane().setBackground(Theme.BACKGROUND_DARK);
+        dialog.setLayout(new BorderLayout());
+
+        JLabel nameLabel = new JLabel(hero.getName(), SwingConstants.CENTER);
+        nameLabel.setFont(new Font("Serif", Font.BOLD, 28));
+        nameLabel.setForeground(Theme.ACCENT_BRIGHT);
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
+        dialog.add(nameLabel, BorderLayout.NORTH);
+
+        JTextArea loreArea = new JTextArea(hero.getHistory() != null ? hero.getHistory() : "");
+        loreArea.setFont(new Font("Serif", Font.PLAIN, 16));
+        loreArea.setForeground(new Color(200, 190, 220));
+        loreArea.setBackground(Theme.BACKGROUND_DARK);
+        loreArea.setEditable(false);
+        loreArea.setLineWrap(true);
+        loreArea.setWrapStyleWord(true);
+        loreArea.setFocusable(false);
+        loreArea.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        dialog.add(loreArea, BorderLayout.CENTER);
+
+        JButton close = new JButton("Fermer");
+        close.setBackground(Theme.BUTTON_BG);
+        close.setForeground(Theme.TEXT_DIM);
+        close.setBorderPainted(false);
+        close.setFocusPainted(false);
+        close.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        close.addActionListener(e -> dialog.dispose());
+        JPanel south = new JPanel();
+        south.setOpaque(false);
+        south.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        south.add(close);
+        dialog.add(south, BorderLayout.SOUTH);
+
+        dialog.setVisible(true);
     }
 
     private JLabel createStatLabel(String label, int value, Color color) {
@@ -335,7 +382,7 @@ private HeroSelection(Dimension screenSize) {
     private void navigate(int dir) {
         List<Hero> currentCategoryHeroes = heroesByCategory.getOrDefault(selectedCategoryIndex + 1, new ArrayList<>());
         if (currentCategoryHeroes.isEmpty()) return;
-        
+
         selectedHeroIndex = (selectedHeroIndex + dir + currentCategoryHeroes.size()) % currentCategoryHeroes.size();
         refreshCards();
     }
