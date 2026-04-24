@@ -31,7 +31,7 @@ public class Player extends Personnage {
             if (mana > maxMana) mana = maxMana;
         }
         
-        addPassiveGold(GameConfiguration.PASSIVE_GOLD_PER_SECOND * deltaTime);
+        addPassiveGold(GameConfiguration.PASSIVE_GOLD_PER_SECOND, deltaTime);
         
         if (attackRadiusTimer > 0) attackRadiusTimer -= deltaTime;
         

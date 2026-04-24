@@ -56,14 +56,14 @@ public class GameConfiguration {
     
 
     // Tower
-    public static final double TOWER_RANGE            = 200.0; // pixels
+    public static final double TOWER_RANGE = 200.0; 
     public static final double TOWER_DAMAGE  = 10.0;
-    public static final double TOWER_COLLISION_RADIUS = 32.0;  // pixels
-    public static final double TOWER_MAX_HP           = 900;
+    public static final double TOWER_COLLISION_RADIUS = 32.0;  
+    public static final double TOWER_MAX_HP  = 1500;
 
     //Base
     public static final double BASE_RANGE = 420.0;
-    public static final double BASE_MAX_HP = 500;
+    public static final double BASE_MAX_HP = 2000;
     public static final double BASE_DAMAGE = 100;
 
     // Fountain

@@ -24,6 +24,7 @@ public abstract class Personnage extends Entity {
     private int gold  = 0;
     private int totalGoldEarned = 0;
     private double goldAccumulator = 0;
+    private double goldFlushTimer = 0;
     private int xp    = 0;
     private int level = 1;
     protected int defense = 0;
@@ -126,10 +127,9 @@ public abstract class Personnage extends Entity {
 	            recordDamageDealtTo((Personnage) target);
 	            addDamageToHeroes((int) atkDamage);
 	        } else if (target instanceof Tower || target instanceof Base) {
-	            recordDamageDealtToEntity(target);
 	            addDamageToBuildings((int) atkDamage);
 	        }
-
+	        recordDamageDealtToEntity(target);
 	        target.takeDamage(atkDamage);
 
 	        if (!target.isActive()) {
@@ -154,6 +154,26 @@ public abstract class Personnage extends Entity {
         this.assessAssists(victim);
     }
 
+    private void assessAssists(Personnage victim) {
+        for (Personnage p : getNearbyAssisters(victim)) {
+            p.kda.addAssist();
+            p.addGold(GameConfiguration.GOLD_CHAR / 5);
+        }
+    }
+
+    private List<Personnage> getNearbyAssisters(Personnage victim) {
+        List<Personnage> assisters = new ArrayList<>();
+        for (Map.Entry<Personnage, Long> entry : damageTimestamps.entrySet()) {
+            if (entry.getKey() == this) continue;
+            if (entry.getKey().getTeam() != this.getTeam()) continue;
+            if (entry.getKey() == victim) {
+                if ((System.currentTimeMillis() - entry.getValue()) <= GameConfiguration.ASSIST_TIME_WINDOW) {
+                    assisters.add(entry.getKey());
+                }
+            }
+        }
+        return assisters;
+    }
     private void recordKillEntity(Entity target, ArrayList<Personnage> allPersonnages) {
         this.addGold(target.getLoot());
         this.addXp(target.getXPLoot());
@@ -186,38 +206,22 @@ public abstract class Personnage extends Entity {
         entityDamageTimestamps.put(target, System.currentTimeMillis());
     }
 
-    private void assessAssists(Personnage victim) {
-        for (Personnage p : getNearbyAssisters(victim)) {
-            p.kda.addAssist();
-            p.addGold(GameConfiguration.GOLD_CHAR / 5);
-        }
-    }
-
-    private List<Personnage> getNearbyAssisters(Personnage victim) {
-        List<Personnage> assisters = new ArrayList<>();
-        for (Map.Entry<Personnage, Long> entry : damageTimestamps.entrySet()) {
-            if (entry.getKey() == this) continue;
-            if (entry.getKey().getTeam() != this.getTeam()) continue;
-            if (entry.getKey() == victim) {
-                if ((System.currentTimeMillis() - entry.getValue()) <= GameConfiguration.ASSIST_TIME_WINDOW) {
-                    assisters.add(entry.getKey());
-                }
-            }
-        }
-        return assisters;
-    }
     public void addGold(int Goldreward) {
         gold += Goldreward;
         totalGoldEarned += Goldreward;
     }
     
-    public void addPassiveGold(double amount) {
-        goldAccumulator += amount;
-        int goldToAdd = (int)goldAccumulator;
-        if (goldToAdd > 0) {
-            gold += goldToAdd;
-            totalGoldEarned += goldToAdd;
-            goldAccumulator -= goldToAdd;
+    public void addPassiveGold(double ratePerSecond, double deltaTime) {
+        goldAccumulator += ratePerSecond * deltaTime;
+        goldFlushTimer  += deltaTime;
+        if (goldFlushTimer >= 1.0) {
+            goldFlushTimer -= 1.0;
+            int goldToAdd = (int) goldAccumulator;
+            if (goldToAdd > 0) {
+                gold += goldToAdd;
+                totalGoldEarned += goldToAdd;
+                goldAccumulator -= goldToAdd;
+            }
         }
     }
     
@@ -467,8 +471,6 @@ public abstract class Personnage extends Entity {
     public double getMaxMana() { return maxMana; }
     public int getLevel() { return level; }
     public int getGold()  { return gold; }
-    public int getCsCreeps() { return csCreeps; }
-    public void addCsCreep() { csCreeps++; }
     public int getXp()    { return xp; }
     public double getRespawnTimer() {return respawnTimer;}
     public KDA getKDA() { return kda; }
@@ -478,4 +480,6 @@ public abstract class Personnage extends Entity {
     public List<Spell> getSpells() { return spells; }
     public double[] getSpellCooldownTimers() { return spellCooldownTimers; }
     public int getSkillPoints() { return skillPoints; }
+    public int getCsCreeps() { return csCreeps; }
+    public void addCsCreep() { csCreeps++; }
 }

@@ -6,13 +6,14 @@ TO DO:
 //gold and xp when assistng (60% of the reward when hitting withing 5 seconds before kill)
 //visual effect when casting? when basic attacking? when base attack on cooldown
 //equipement tab button
-
-
+//healing icon show up only if not full?
+//base max hp
+//bot waypoint
 //gatekeep bases?
 //add keyboard mouvement?
 //visual effects
-
-
+// problem: the safe area id defined based on range so he could be recalling while being hit by a somoene with a higher range
+//problem : a bug in assist
 
 
 
