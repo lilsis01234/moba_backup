@@ -360,7 +360,7 @@ checkGameOver();
             for (int i = 0; i < assists; i++) playerStats.addAssist();
             playerStats.setGoldEarned(player.getTotalGoldEarned());
             playerStats.setGoldSpent(0);
-            playerStats.setCsCreeps(0);
+            playerStats.setCsCreeps(player.getCsCreeps());
             playerStats.setLevel(player.getLevel());
             playerStats.setTimePlayed(duration);
             playerStats.setTimeSpentDead(0);
@@ -389,7 +389,7 @@ checkGameOver();
             }
             botStats.setGoldEarned(bot.getTotalGoldEarned());
             botStats.setGoldSpent(0);
-            botStats.setCsCreeps(0);
+            botStats.setCsCreeps(bot.getCsCreeps());
             botStats.setLevel(bot.getLevel());
             botStats.setTimePlayed(duration);
             botStats.setTimeSpentDead(0);

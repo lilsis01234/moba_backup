@@ -31,9 +31,11 @@ public abstract class Personnage extends Entity {
     
     //for KDA
     HashMap<Personnage, Long> damageTimestamps = new HashMap<>();
+    HashMap<Entity, Long> entityDamageTimestamps = new HashMap<>();
     private int damageDealtToHeroes = 0;
     private int damageDealtToBuildings = 0;
     private KDA kda = new KDA();
+    private int csCreeps = 0;
     
     protected double respawnTimer = 0;
     
@@ -124,13 +126,18 @@ public abstract class Personnage extends Entity {
 	            recordDamageDealtTo((Personnage) target);
 	            addDamageToHeroes((int) atkDamage);
 	        } else if (target instanceof Tower || target instanceof Base) {
+	            recordDamageDealtToEntity(target);
 	            addDamageToBuildings((int) atkDamage);
 	        }
-	        
+
 	        target.takeDamage(atkDamage);
 
-	        if (!target.isActive() && target instanceof Personnage) {
-	            recordKill((Personnage) target);
+	        if (!target.isActive()) {
+	            if (target instanceof Personnage) {
+	                recordKill((Personnage) target);
+	            } else {
+	                recordKillEntity(target, allPersonnages);
+	            }
 	        }
 	        
 	        atkTimer = atkCooldown;
@@ -145,6 +152,38 @@ public abstract class Personnage extends Entity {
         this.kda.addKill();
         victim.kda.addDeath();
         this.assessAssists(victim);
+    }
+
+    private void recordKillEntity(Entity target, ArrayList<Personnage> allPersonnages) {
+        this.addGold(target.getLoot());
+        this.addXp(target.getXPLoot());
+        this.addCsCreep();
+        assessAssistsForEntity(target, allPersonnages);
+    }
+
+    private void assessAssistsForEntity(Entity target, ArrayList<Personnage> allPersonnages) {
+        for (Personnage p : getNearbyEntityAssisters(target, allPersonnages)) {
+            p.kda.addAssist();
+            p.addGold(GameConfiguration.GOLD_CHAR / 5);
+            p.addCsCreep();
+        }
+    }
+
+    private List<Personnage> getNearbyEntityAssisters(Entity target, ArrayList<Personnage> allPersonnages) {
+        List<Personnage> assisters = new ArrayList<>();
+        for (Personnage p : allPersonnages) {
+            if (p == this) continue;
+            if (p.getTeam() != this.getTeam()) continue;
+            Long t = entityDamageTimestamps.get(target);
+            if (t != null && (System.currentTimeMillis() - t) <= GameConfiguration.ASSIST_TIME_WINDOW) {
+                assisters.add(p);
+            }
+        }
+        return assisters;
+    }
+
+    private void recordDamageDealtToEntity(Entity target) {
+        entityDamageTimestamps.put(target, System.currentTimeMillis());
     }
 
     private void assessAssists(Personnage victim) {
@@ -428,6 +467,8 @@ public abstract class Personnage extends Entity {
     public double getMaxMana() { return maxMana; }
     public int getLevel() { return level; }
     public int getGold()  { return gold; }
+    public int getCsCreeps() { return csCreeps; }
+    public void addCsCreep() { csCreeps++; }
     public int getXp()    { return xp; }
     public double getRespawnTimer() {return respawnTimer;}
     public KDA getKDA() { return kda; }
