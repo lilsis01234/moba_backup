@@ -33,16 +33,14 @@ public class MinionSpawner {
         int T = GameConfiguration.TILE_SIZE;
         List<double[]> wp = new ArrayList<>();
         if (team == 0) {
-            switch (lane) {
-            case 0: // top ally
+            if (lane == 0) {
                 wp.add(new double[]{6 * T, 52 * T});
                 wp.add(new double[]{6 * T, 39 * T});
                 wp.add(new double[]{6 * T, 24 * T});
                 wp.add(new double[]{6 * T, 7 * T});
                 wp.add(new double[]{21 * T, 6 * T});
                 wp.add(new double[]{52 * T, 6 * T});
-                break;
-            case 1: // mid ally
+            } else if (lane == 1) {
                 wp.add(new double[]{9 * T, 52 * T});
                 wp.add(new double[]{11 * T, 49 * T});
                 wp.add(new double[]{17 * T, 43 * T});
@@ -51,26 +49,21 @@ public class MinionSpawner {
                 wp.add(new double[]{34 * T, 26 * T});
                 wp.add(new double[]{41 * T, 19 * T});
                 wp.add(new double[]{52 * T, 8 * T});
-                break;
-            case 2: // bot ally
+            } else if (lane == 2) {
                 wp.add(new double[]{8 * T, 54 * T});
                 wp.add(new double[]{26* T, 54 * T});
                 wp.add(new double[]{52 * T, 54 * T});
                 wp.add(new double[]{54 * T, 41 * T});
                 wp.add(new double[]{54 * T, 9 * T});
-                break;
-
             }
         } else {
-            switch (lane) {
-            case 0: // top enemy
+            if (lane == 0) {
                 wp.add(new double[]{52 * T, 6 * T});
                 wp.add(new double[]{29 * T, 6 * T});
                 wp.add(new double[]{7 * T, 6 * T});
                 wp.add(new double[]{6 * T, 21 * T});
                 wp.add(new double[]{6 * T, 52 * T});
-                break;
-            case 1: // mid enemy
+            } else if (lane == 1) {
                 wp.add(new double[]{52 * T, 8 * T});
                 wp.add(new double[]{41 * T, 19 * T});
                 wp.add(new double[]{34 * T, 26 * T});
@@ -79,14 +72,12 @@ public class MinionSpawner {
                 wp.add(new double[]{17 * T, 43 * T});
                 wp.add(new double[]{11 * T, 49 * T});
                 wp.add(new double[]{9 * T, 52 * T});
-                break;
-            case 2: // bot enemy
+            } else if (lane == 2) {
                 wp.add(new double[]{54 * T, 8 * T});
                 wp.add(new double[]{54 * T, 26 * T});
                 wp.add(new double[]{54 * T, 52 * T});
                 wp.add(new double[]{41 * T, 54 * T});
                 wp.add(new double[]{9 * T, 54 * T});
-                break;
             }
         }
         return wp;

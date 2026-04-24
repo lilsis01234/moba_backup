@@ -29,22 +29,17 @@ public class PauseMenu extends JPanel {
             public void keyPressed(KeyEvent e) {
                 if (!isVisible) return;
                 
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
-                        repaint();
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        selectedIndex = (selectedIndex + 1) % menuItems.length;
-                        repaint();
-                        break;
-                    case KeyEvent.VK_ENTER:
-                        handleSelection();
-                        break;
-                    case KeyEvent.VK_ESCAPE:
-                        hideMenu();
-                        if (listener != null) listener.onResume();
-                        break;
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+                    repaint();
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    selectedIndex = (selectedIndex + 1) % menuItems.length;
+                    repaint();
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    handleSelection();
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    hideMenu();
+                    if (listener != null) listener.onResume();
                 }
             }
         });
@@ -139,15 +134,12 @@ public class PauseMenu extends JPanel {
     private void handleSelection() {
         if (listener == null) return;
         
-        switch (selectedIndex) {
-            case 0:
-                hideMenu();
-                listener.onResume();
-                break;
-            case 1:
-                hideMenu();
-                listener.onExit();
-                break;
+        if (selectedIndex == 0) {
+            hideMenu();
+            listener.onResume();
+        } else if (selectedIndex == 1) {
+            hideMenu();
+            listener.onExit();
         }
     }
     

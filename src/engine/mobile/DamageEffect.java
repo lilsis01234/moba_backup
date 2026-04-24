@@ -12,6 +12,11 @@ public class DamageEffect implements SpellStrategy {
         if (target != null) {
             int scaled = (int)(damage * (1 + 0.2 * spellLevel));
             target.takeDamage(scaled);
+            if (target instanceof Personnage) {
+                caster.addDamageToHeroes(scaled);
+            } else if (target instanceof Tower || target instanceof Base) {
+                caster.addDamageToBuildings(scaled);
+            }
         }
     }
 }

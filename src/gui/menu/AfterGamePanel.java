@@ -137,6 +137,7 @@ public class AfterGamePanel extends JPanel {
             addStatRow(stats, "Deaths", String.valueOf(team.getTotalDeaths()));
             addStatRow(stats, "Assists", String.valueOf(team.getTotalAssists()));
             addStatRow(stats, "KDA", String.format("%.2f", team.getTeamKDA()));
+            addStatRow(stats, "Dégats", formatNumber(team.getTotalDamageDealt()));
             addStatRow(stats, "Tours détruites", String.valueOf(team.getTowersDestroyed()));
             addStatRow(stats, "Or total", formatGold(team.getGoldEarned()));
         } else {
@@ -182,10 +183,13 @@ public class AfterGamePanel extends JPanel {
         DefaultCategoryDataset barData = new DefaultCategoryDataset();
         
         if (gameStats != null) {
-            for (TeamStats team : gameStats.getTeamStatsMap().values()) {
-                String teamName = team.getTeamId() == 0 ? "Bleu" : "Rouge";
-                barData.setValue(team.getTotalDamageDealt(), "Dégats", teamName);
-                barData.setValue(team.getTowersDestroyed() * 500, "Objectif", teamName);
+            TeamStats blue = gameStats.getTeamStats(0);
+            TeamStats red = gameStats.getTeamStats(1);
+            if (blue != null) {
+                barData.setValue(blue.getTotalDamageDealt(), "Bleu", "Bleu");
+            }
+            if (red != null) {
+                barData.setValue(red.getTotalDamageDealt(), "Rouge", "Rouge");
             }
         }
 
@@ -200,13 +204,26 @@ public class AfterGamePanel extends JPanel {
 
         chart.getTitle().setPaint(TEXT_PRIMARY);
         chart.getTitle().setFont(new Font("Arial", Font.BOLD, 14));
+        
         chart.getLegend().setItemPaint(TEXT_PRIMARY);
+        chart.getLegend().setItemFont(new Font("Arial", Font.PLAIN, 11));
+        
+        chart.setTextAntiAlias(true);
 
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setBackgroundPaint(BG_CARD);
         plot.setRangeGridlinePaint(BORDER_SUBTLE);
         plot.getDomainAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 12));
+        plot.getDomainAxis().setLabelFont(new Font("Arial", Font.BOLD, 12));
         plot.getRangeAxis().setTickLabelFont(new Font("Arial", Font.PLAIN, 11));
+        plot.getRangeAxis().setLabelFont(new Font("Arial", Font.BOLD, 12));
+        
+        org.jfree.chart.renderer.category.BarRenderer renderer = (org.jfree.chart.renderer.category.BarRenderer) plot.getRenderer();
+        renderer.setMaximumBarWidth(0.15);
+        renderer.setBarPainter(new org.jfree.chart.renderer.category.StandardBarPainter());
+        
+        renderer.setSeriesPaint(0, BLUE_ACCENT);
+        renderer.setSeriesPaint(1, RED_ACCENT);
 
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(screenSize.width / 3, 250));
@@ -305,7 +322,7 @@ public class AfterGamePanel extends JPanel {
                 addStatRow(stats, "Héros", mvp.getHeroName());
                 addStatRow(stats, "K/D/A", mvp.getKills() + "/" + mvp.getDeaths() + "/" + mvp.getAssists());
                 addStatRow(stats, "KDA", String.format("%.2f", mvp.getKDA()));
-                addStatRow(stats, "Dégats", formatNumber(mvp.getDamageDealtToHeroes()));
+                addStatRow(stats, "Dégats", formatNumber(mvp.getDamageDealtToHeroes() + mvp.getDamageDealtToBuildings()));
             }
         } else {
             addStatRow(stats, "Joueur", "Héros");

@@ -37,58 +37,48 @@ public class Lane {
     }
 
     private void initTowers() {
-        switch (type) {
-        case top:
+        if (type == Lane.Type.top) {
             towers.add(new Tower(6 * T, 44 * T, 0));  
             towers.add(new Tower(6 * T, 30 * T, 0));  
             towers.add(new Tower(6 * T, 15 * T, 0));  
             towers.add(new Tower(11 * T, 6 * T, 1));  
             towers.add(new Tower(26 * T, 6 * T, 1));   
             towers.add(new Tower(41 * T, 6 * T, 1));   
-            break;
-
-        case middle:
+        } else if (type == Lane.Type.middle) {
             towers.add(new Tower(14 * T, 46 * T, 0));
             towers.add(new Tower(20 * T, 40 * T, 0));
             towers.add(new Tower(26 * T, 34 * T, 0));
             towers.add(new Tower(34 * T, 26 * T, 1));
             towers.add(new Tower(40 * T, 20 * T, 1));
             towers.add(new Tower(46 * T, 14 * T, 1));
-            break;
-
-        case bot:
+        } else if (type == Lane.Type.bot) {
             towers.add(new Tower(17 * T, 54 * T, 0));  
             towers.add(new Tower(32 * T, 54 * T, 0)); 
             towers.add(new Tower(47 * T, 54 * T, 0));  
             towers.add(new Tower(54 * T, 49 * T, 1));  
             towers.add(new Tower(54 * T, 34 * T, 1));  
             towers.add(new Tower(54 * T, 19 * T, 1)); 
-            break;
         }
     }
 
     public void render(Graphics2D g2, int width, int height, int lane_width) {
         g2.setColor(new Color(200, 200, 200));
-        switch (this.type) {
-            case top:
-                g2.fillRect(0, 0, width, lane_width);
-                g2.fillRect(0, 0, lane_width, height);
-                break;
-            case bot:
-                g2.fillRect(0, height - lane_width, width, lane_width);
-                g2.fillRect(width - lane_width, 0, lane_width, height);
-                break;
-            case middle:
-                Path2D mid = new Path2D.Double();
-                mid.moveTo(0, height);
-                mid.lineTo(lane_width, height);
-                mid.lineTo(width, lane_width);
-                mid.lineTo(width, 0);
-                mid.lineTo(width - lane_width, 0);
-                mid.lineTo(0, height - lane_width);
-                mid.closePath();
-                g2.fill(mid);
-                break;
+        if (this.type == Lane.Type.top) {
+            g2.fillRect(0, 0, width, lane_width);
+            g2.fillRect(0, 0, lane_width, height);
+        } else if (this.type == Lane.Type.bot) {
+            g2.fillRect(0, height - lane_width, width, lane_width);
+            g2.fillRect(width - lane_width, 0, lane_width, height);
+        } else if (this.type == Lane.Type.middle) {
+            Path2D mid = new Path2D.Double();
+            mid.moveTo(0, height);
+            mid.lineTo(lane_width, height);
+            mid.lineTo(width, lane_width);
+            mid.lineTo(width, 0);
+            mid.lineTo(width - lane_width, 0);
+            mid.lineTo(0, height - lane_width);
+            mid.closePath();
+            g2.fill(mid);
         }
 
         for (Tower tower : towers) {

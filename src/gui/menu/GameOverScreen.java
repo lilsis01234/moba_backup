@@ -47,10 +47,12 @@ public class GameOverScreen extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP: navigate(-1); break;
-                    case KeyEvent.VK_DOWN: navigate(1); break;
-                    case KeyEvent.VK_ENTER: handleSelection(); break;
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    navigate(-1);
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    navigate(1);
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    handleSelection();
                 }
             }
         });

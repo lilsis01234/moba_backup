@@ -22,6 +22,8 @@ public abstract class Personnage extends Entity {
     protected double mana;
     protected double maxMana;
     private int gold  = 0;
+    private int totalGoldEarned = 0;
+    private double goldAccumulator = 0;
     private int xp    = 0;
     private int level = 1;
     protected int defense = 0;
@@ -29,6 +31,8 @@ public abstract class Personnage extends Entity {
     
     //for KDA
     HashMap<Personnage, Long> damageTimestamps = new HashMap<>();
+    private int damageDealtToHeroes = 0;
+    private int damageDealtToBuildings = 0;
     private KDA kda = new KDA();
     
     protected double respawnTimer = 0;
@@ -118,6 +122,9 @@ public abstract class Personnage extends Entity {
 	    	interruptRecall();
 	        if (target instanceof Personnage) {
 	            recordDamageDealtTo((Personnage) target);
+	            addDamageToHeroes((int) atkDamage);
+	        } else if (target instanceof Tower || target instanceof Base) {
+	            addDamageToBuildings((int) atkDamage);
 	        }
 	        
 	        target.takeDamage(atkDamage);
@@ -133,7 +140,7 @@ public abstract class Personnage extends Entity {
 	}
     
    private void recordKill(Personnage victim) {
-        this.addGold(victim.getLoot());
+        this.addGold(victim.getLoot() + GameConfiguration.GOLD_CHAR);
         this.addXp(victim.getXPLoot());
         this.kda.addKill();
         victim.kda.addDeath();
@@ -143,6 +150,7 @@ public abstract class Personnage extends Entity {
     private void assessAssists(Personnage victim) {
         for (Personnage p : getNearbyAssisters(victim)) {
             p.kda.addAssist();
+            p.addGold(GameConfiguration.GOLD_CHAR / 5);
         }
     }
 
@@ -161,6 +169,21 @@ public abstract class Personnage extends Entity {
     }
     public void addGold(int Goldreward) {
         gold += Goldreward;
+        totalGoldEarned += Goldreward;
+    }
+    
+    public void addPassiveGold(double amount) {
+        goldAccumulator += amount;
+        int goldToAdd = (int)goldAccumulator;
+        if (goldToAdd > 0) {
+            gold += goldToAdd;
+            totalGoldEarned += goldToAdd;
+            goldAccumulator -= goldToAdd;
+        }
+    }
+    
+    public int getTotalGoldEarned() {
+        return totalGoldEarned;
     }
 
     public void addXp(int XPReward) {
@@ -204,6 +227,8 @@ public abstract class Personnage extends Entity {
         this.hp = 0;
         this.respawnTimer = 5.0 + (this.getLevel() * 2.0);
         this.currentState = State.IDLE;
+        int goldLost = (int)(gold * 0.15);
+        gold -= goldLost;
     }
     public void updateRecall(double deltaTime) {
         if (!recalling) return;
@@ -286,12 +311,16 @@ public abstract class Personnage extends Entity {
 
         if (heroSprites != null) {
             int dirIndex;
-            switch (currentDirection) {
-                case UP:    dirIndex = 0; break;
-                case LEFT:  dirIndex = 1; break;
-                case DOWN:  dirIndex = 2; break;
-                case RIGHT: dirIndex = 3; break;
-                default:    dirIndex = 2;
+            if (currentDirection == Direction.UP) {
+                dirIndex = 0;
+            } else if (currentDirection == Direction.LEFT) {
+                dirIndex = 1;
+            } else if (currentDirection == Direction.DOWN) {
+                dirIndex = 2;
+            } else if (currentDirection == Direction.RIGHT) {
+                dirIndex = 3;
+            } else {
+                dirIndex = 2;
             }
             BufferedImage frame = heroSprites.get(dirIndex, animFrame);
             if (frame != null) {
@@ -321,6 +350,17 @@ public abstract class Personnage extends Entity {
     public void recordDamageDealtTo(Personnage target) {
         damageTimestamps.put(target, System.currentTimeMillis());
     }
+    
+    public void addDamageToHeroes(int dmg) {
+        damageDealtToHeroes += dmg;
+    }
+    
+    public void addDamageToBuildings(int dmg) {
+        damageDealtToBuildings += dmg;
+    }
+    
+    public int getDamageDealtToHeroes() { return damageDealtToHeroes; }
+    public int getDamageDealtToBuildings() { return damageDealtToBuildings; }
     @Override
     public void takeDamage(double damage) {
         interruptRecall();

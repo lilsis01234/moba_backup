@@ -3,6 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
+			<attribute name="org.eclipse.jdt.launching.VM_ARGS" value="-Dfile.encoding=UTF-8"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
