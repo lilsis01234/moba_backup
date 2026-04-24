@@ -86,6 +86,7 @@ public class HeroStats {
 
     public int getCsCreeps() { return csCreeps; }
     public void setCsCreeps(int csCreeps) { this.csCreeps = csCreeps; }
+    public void addCsCreep() { this.csCreeps++; }
 
     public long getTimePlayed() { return timePlayed; }
     public void setTimePlayed(long timePlayed) { this.timePlayed = timePlayed; }
