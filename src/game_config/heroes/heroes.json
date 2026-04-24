@@ -2,19 +2,15 @@
   {
     "name": "Dragonoid",
     "spriteFile": "res/HeroSprites/Demon.png",
-    "history": "Founded on the principles of absolute justice and unbreakable kinship, the White Knights are the silver shield of the
-	 kingdom. More than a mere military order, they are a family bound by a sacred oath rather than blood. Each knight is chosen not 
-	 only for their prowess in battle but for their unwavering devotion to their brothers and sisters-in-arms.
-	 And in the ranks of this organization grew a very ambitious dragon: Dragonoid!
-	 With the strength of a dragon and the discipline of a soldier, she charges into battle, fueled by the unwavering belief that justice must prevail. To her, the Order is her home, her family, and her entire world. She will stop at nothing to ensure the light of the kingdom never fades.
-	'I will vanquish all evil!'”
-",
+    "history": "Founded on the principles of absolute justice and unbreakable kinship, the White Knights are the silver shield of the kingdom. More than a mere military order, they are a family bound by a sacred oath rather than blood. Each knight is chosen not only for their prowess in battle but for their unwavering devotion to their brothers and sisters-in-arms. And in the ranks of this organization grew a very ambitious dragon: Dragonoid! With the strength of a dragon and the discipline of a soldier, she charges into battle, fueled by the unwavering belief that justice must prevail. To her, the Order is her home, her family, and her entire world. She will stop at nothing to ensure the light of the kingdom never fades. 'I will vanquish all evil!'",
     "category": "Force",
-    "maxHp": 550,
-    "attack": 65,
-    "defense": 75,
-    "attackSpeed": 0.6,
+    "maxHp": 700,
+    "attack": 60,
+    "defense": 80,
+    "attackSpeed": 0.55,
     "maxMana": 200,
+    "attackRange": 400,
+    "speed": 380,
     "spells": [
       {
         "name": "Onde de Granite",
@@ -43,25 +39,20 @@
         "type": "dmg",
         "buff": 0
       }
-    ],
-    "attackRange": 450,
-    "speed": 450
+    ]
   },
   {
     "name": "Muriel",
     "spriteFile": "res/HeroSprites/Angel.png",
-    "history": " member of the White Knights, Muriel is a rare soul among the heavenly inhabitants. While his kin looks down upon humanity 
-	as flawed beings filled with imperfections, Muriel is deeply fascinated by them.
-	He sees beauty in those imperfections, the continuous human pursuit of meaning through trial and error. the ability to fall and bounce
-	 back, to struggle and leave a trace of oneself behind, 
-	And thus he has decided to be the eternal guardian over humanity, vowing to protect their spark until his very last breath. 
-	 'Humans are such wonderful creatures'"
-	"category": "Force",
-    "maxHp": 650,
+    "history": "A member of the White Knights, Muriel is a rare soul among the heavenly inhabitants. While his kin looks down upon humanity as flawed beings filled with imperfections, Muriel is deeply fascinated by them. He sees beauty in those imperfections, the continuous human pursuit of meaning through trial and error, the ability to fall and bounce back, to struggle and leave a trace of oneself behind. And thus he has decided to be the eternal guardian over humanity, vowing to protect their spark until his very last breath. 'Humans are such wonderful creatures'",
+    "category": "Force",
+    "maxHp": 750,
     "attack": 45,
     "defense": 90,
-    "attackSpeed": 0.5,
+    "attackSpeed": 0.50,
     "maxMana": 180,
+    "attackRange": 400,
+    "speed": 360,
     "spells": [
       {
         "name": "Sentence Celeste",
@@ -90,25 +81,20 @@
         "type": "dmg",
         "buff": 0
       }
-    ],
-    "attackRange": 400,
-    "speed": 420
+    ]
   },
   {
     "name": "Sir Lancelot",
     "spriteFile": "res/HeroSprites/Jacko.png",
-    "history": "The paragon of chivalry and nobility, Sir Lancelot fell in love with a woman he could never have. This forbidden passion
-	 forced him to betray his King.
-	 As punishment for his treason, the court mage Elphaba struck him with a curse of invisibility, 
-	Refusing to vanish into history, the proud knight donned his boots and gloves, using a hollowed pumpkin as a helmet, set off on 
-	a relentless journey to track down the sorceress and break the spell.
-	 'JUST YOU WAIT ELPHABA! JUST YOU WAIT UNTIL I CATCH YOU, YOU WITCH!'"
-	"category": "Force",
-    "maxHp": 600,
-    "attack": 50,
+    "history": "The paragon of chivalry and nobility, Sir Lancelot fell in love with a woman he could never have. This forbidden passion forced him to betray his King. As punishment for his treason, the court mage Elphaba struck him with a curse of invisibility. Refusing to vanish into history, the proud knight donned his boots and gloves, using a hollowed pumpkin as a helmet, set off on a relentless journey to track down the sorceress and break the spell. 'JUST YOU WAIT ELPHABA! JUST YOU WAIT UNTIL I CATCH YOU, YOU WITCH!'",
+    "category": "Force",
+    "maxHp": 680,
+    "attack": 55,
     "defense": 85,
-    "attackSpeed": 0.7,
+    "attackSpeed": 0.60,
     "maxMana": 150,
+    "attackRange": 400,
+    "speed": 400,
     "spells": [
       {
         "name": "Course Macabre",
@@ -137,25 +123,20 @@
         "type": "dmg",
         "buff": 0
       }
-    ],
-    "attackRange": 400,
-    "speed": 480
+    ]
   },
   {
     "name": "Captain Peter",
     "spriteFile": "res/HeroSprites/Pirate.png",
-    "history": "Oh, Peter? I remember when he used to crow at the moon. I remember the smell of the fairy dust as we flew together 
-	and the way he’d laugh at the stars like they were his personal toys. But time is a rot, even in a place that’s supposed to be forever. 
-	One day, the laughter just…
-	Now, he doesn't fly anymore. He stomps across the deck with heavy steps, his eyes as cold as the deep sea. 
-	He sails the seas looking for those still clinging to their 'childish' dreams. 
-	'It’s time to grow up, don’t you think?'"
-	"category": "Force",
-    "maxHp": 500,
+    "history": "Oh, Peter? I remember when he used to crow at the moon. I remember the smell of the fairy dust as we flew together and the way he'd laugh at the stars like they were his personal toys. But time is a rot, even in a place that's supposed to be forever. One day, the laughter just stopped. Now, he doesn't fly anymore. He stomps across the deck with heavy steps, his eyes as cold as the deep sea. He sails the seas looking for those still clinging to their childish dreams. 'It's time to grow up, don't you think?'",
+    "category": "Force",
+    "maxHp": 800,
     "attack": 40,
-    "defense": 150,
-    "attackSpeed": 0.5,
+    "defense": 95,
+    "attackSpeed": 0.45,
     "maxMana": 120,
+    "attackRange": 400,
+    "speed": 350,
     "spells": [
       {
         "name": "Bordee Fantome",
@@ -184,23 +165,20 @@
         "type": "SP",
         "buff": 80
       }
-    ],
-    "attackRange": 400,
-    "speed": 470
+    ]
   },
   {
     "name": "Erode",
     "spriteFile": "res/HeroSprites/Zombie.png",
-    "history": "There is no thought behind his deformed eyes, an abomination left to wander for eternity. He does not fear, he does not hunger; making him  merely an empty shell devoid of all emotion. Perhaps he once had a name, a family, or a grand purpose, but those memories have long decayed.
-	He is left to slowly wither, and waste away aimlessly walking a path without an end while his body is falling apart. He is not living, he is not dead; he is simply eroding.
-	'…ughhh… what am i...'"
-
+    "history": "There is no thought behind his deformed eyes, an abomination left to wander for eternity. He does not fear, he does not hunger; making him merely an empty shell devoid of all emotion. Perhaps he once had a name, a family, or a grand purpose, but those memories have long decayed. He is left to slowly wither, and waste away aimlessly walking a path without an end while his body is falling apart. He is not living, he is not dead; he is simply eroding. '...ughhh... what am i...'",
     "category": "Agilite",
-    "maxHp": 300,
-    "attack": 100,
-    "defense": 78,
-    "attackSpeed": 1.2,
-    "maxMana": 200,
+    "maxHp": 380,
+    "attack": 95,
+    "defense": 40,
+    "attackSpeed": 1.20,
+    "maxMana": 150,
+    "attackRange": 420,
+    "speed": 560,
     "spells": [
       {
         "name": "Muraille",
@@ -229,27 +207,20 @@
         "type": "dmg",
         "buff": 0
       }
-    ],
-    "attackRange": 450,
-    "speed": 550
+    ]
   },
   {
     "name": "Sentinel",
     "spriteFile": "res/HeroSprites/Werewolf.png",
-    "history": "A werewolf assassin who has spent her life perfecting the art of disappearing. Raised on the cold, unforgiving streets, 
-	she learned early on that showing weakness was a death sentence. She keeps her identity hidden beneath a heavy cloak, passing as a human 
-	to move through the cities undetected.
-	No one knows anything about her, nor has anyone seen her face before, yet her reputation shakes even the strongest and wealthiest of men. 
-	Once she sets her eyes on you, there is no going back. She is a shadow for hire who trusts no one; for her, the darkness isn't just a place 
-	to hide, it's the only thing she could trust. 
-	'I embraced the shadows, the shadows embraced me back'"
-
+    "history": "A werewolf assassin who has spent her life perfecting the art of disappearing. Raised on the cold, unforgiving streets, she learned early on that showing weakness was a death sentence. She keeps her identity hidden beneath a heavy cloak, passing as a human to move through the cities undetected. No one knows anything about her, nor has anyone seen her face before, yet her reputation shakes even the strongest and wealthiest of men. Once she sets her eyes on you, there is no going back. She is a shadow for hire who trusts no one; for her, the darkness isn't just a place to hide, it's the only thing she could trust. 'I embraced the shadows, the shadows embraced me back'",
     "category": "Agilite",
-    "maxHp": 320,
+    "maxHp": 350,
     "attack": 85,
-    "defense": 82,
-    "attackSpeed": 1.4,
-    "maxMana": 190,
+    "defense": 35,
+    "attackSpeed": 1.35,
+    "maxMana": 160,
+    "attackRange": 430,
+    "speed": 590,
     "spells": [
       {
         "name": "Oeil de la Verite",
@@ -278,26 +249,20 @@
         "type": "dmg",
         "buff": 0
       }
-    ],
-    "attackRange": 450,
-    "speed": 580
+    ]
   },
   {
     "name": "The Warden",
     "spriteFile": "res/HeroSprites/Hare.png",
-    "history": "A young man, unable to stand the longing for his recently departed beloved, visited her grave under the cover of night.
-	 An inhumane shadow lurked behind him. As the sky cleared, revealing some moonlight, he saw it: a hairless, pale mass of human skin 
-	 stretched tight over the shape of a rabbit. No fur, no warmth. Only a fixed, glassy stare watching him with patience.
-	In a split second, the creature was gone. The only sound left was a swift “thud” coming from a shovel hitting something, followed by 
-	the sound of wet stitching in the dark. After some time, the young man was nowhere to be seen, and another rabbit head joined the rows
-	 of the silent.
-	 'Ah... why is your head like that? Lemme fix it for you.'"
-	"category": "Agilite",
-    "maxHp": 250,
-    "attack": 130,
-    "defense": 76,
-    "attackSpeed": 1.3,
-    "maxMana": 170,
+    "history": "A young man, unable to stand the longing for his recently departed beloved, visited her grave under the cover of night. An inhumane shadow lurked behind him. As the sky cleared, revealing some moonlight, he saw it: a hairless, pale mass of human skin stretched tight over the shape of a rabbit. No fur, no warmth. Only a fixed, glassy stare watching him with patience. In a split second, the creature was gone. The only sound left was a swift thud coming from a shovel hitting something, followed by the sound of wet stitching in the dark. After some time, the young man was nowhere to be seen, and another rabbit head joined the rows of the silent. 'Ah... why is your head like that? Lemme fix it for you.'",
+    "category": "Agilite",
+    "maxHp": 300,
+    "attack": 100,
+    "defense": 30,
+    "attackSpeed": 1.30,
+    "maxMana": 140,
+    "attackRange": 420,
+    "speed": 610,
     "spells": [
       {
         "name": "Rancoeur de Fer",
@@ -326,26 +291,20 @@
         "type": "CC",
         "buff": 0
       }
-    ],
-    "attackRange": 420,
-    "speed": 600
+    ]
   },
   {
     "name": "Amaterasu",
     "spriteFile": "res/HeroSprites/Samurai.png",
-    "history": "The sun goddess locked herself away in a dark cave, refusing to share her light with the world. In a desperate attempt to 
-	cheer her up and lure her out, the other gods placed a mirror at the cave’s entrance.
-	When she peeked out, not realizing she was looking at her own reflection; she saw a goddess as bright and brilliant as her. she struck 
-	the glass with divine fury. Now, she can be seen wearing a shard of that mirror as a monocle, a trophy of the day she 'extinguished'
-	 her only rival.
-	'The sky is too small for two suns'"
-
-	"category": "Agilite",
-    "maxHp": 350,
-    "attack": 105,
-    "defense": 95,
-    "attackSpeed": 1.45,
+    "history": "The sun goddess locked herself away in a dark cave, refusing to share her light with the world. In a desperate attempt to cheer her up and lure her out, the other gods placed a mirror at the cave's entrance. When she peeked out, not realizing she was looking at her own reflection, she saw a goddess as bright and brilliant as her, she struck the glass with divine fury. Now, she can be seen wearing a shard of that mirror as a monocle, a trophy of the day she extinguished her only rival. 'The sky is too small for two suns'",
+    "category": "Agilite",
+    "maxHp": 420,
+    "attack": 90,
+    "defense": 45,
+    "attackSpeed": 1.20,
     "maxMana": 100,
+    "attackRange": 450,
+    "speed": 540,
     "spells": [
       {
         "name": "Posture du Ronin",
@@ -374,26 +333,20 @@
         "type": "SP",
         "buff": 80
       }
-    ],
-    "attackRange": 480,
-    "speed": 530
+    ]
   },
   {
     "name": "Fae",
     "spriteFile": "res/HeroSprites/Fairy.png",
-    "history": "	In the deep forest you’ll find a willow tree so magnificent , it is said that it was once a plain withered tree but 
-	reached enlightenment after a prophet passed by. The tree eventually gave its heart to create a new life: a fairy, small and beautiful.
-	Although Fae is bound to the forest, she loves watching the travelers who pass through. She listens to their weary stories, her face 
-	shifting from excitement to sorrow to happiness as she hears of the lands beyond. She stays hidden in the leaves, dreaming of one day
-	having her own adventure to tell.
-	'I wonder... do cats and dogs really fall from the sky?'"
-
-	"category": "Intelligence",
-    "maxHp": 250,
-    "attack": 50,
-    "defense": 68,
-    "attackSpeed": 0.72,
-    "maxMana": 400,
+    "history": "In the deep forest you'll find a willow tree so magnificent, it is said that it was once a plain withered tree but reached enlightenment after a prophet passed by. The tree eventually gave its heart to create a new life: a fairy, small and beautiful. Although Fae is bound to the forest, she loves watching the travelers who pass through. She listens to their weary stories, her face shifting from excitement to sorrow to happiness as she hears of the lands beyond. She stays hidden in the leaves, dreaming of one day having her own adventure to tell. 'I wonder... do cats and dogs really fall from the sky?'",
+    "category": "Intelligence",
+    "maxHp": 280,
+    "attack": 45,
+    "defense": 30,
+    "attackSpeed": 0.65,
+    "maxMana": 450,
+    "attackRange": 800,
+    "speed": 460,
     "spells": [
       {
         "name": "Aura de Sacrifice",
@@ -422,27 +375,20 @@
         "type": "SP",
         "buff": 100
       }
-    ],
-    "attackRange": 780,
-    "speed": 500
+    ]
   },
   {
     "name": "Ignis",
     "spriteFile": "res/HeroSprites/FireMage.png",
-    "history": "Being hot-headed and fiercely ambitious, Ignis once challenged the Sun Goddess herself. For her insolence, Amaterasu 
-	punished her with a radiance so intense it left Ignis eternally blinded. 
-	she sought out the Prophet to heal her sight, but to no avail. as he told her her heart was a raging inferno, unstable and consumed by
-	 fury, he urged her to find peace before she could truly see again. 
-	However Ignis paid his wisdom no mind. Instead, she let her hatred stoke her inner flames, vowing that her fire will eventually surpass 
-	the sun that blinded her
-	'Burn strong brighter than the sun'"
-
-	"category": "Intelligence",
-    "maxHp": 220,
-    "attack": 42,
-    "defense": 84,
-    "attackSpeed": 0.58,
-    "maxMana": 180,
+    "history": "Being hot-headed and fiercely ambitious, Ignis once challenged the Sun Goddess herself. For her insolence, Amaterasu punished her with a radiance so intense it left Ignis eternally blinded. She sought out the Prophet to heal her sight, but to no avail, as he told her her heart was a raging inferno, unstable and consumed by fury, he urged her to find peace before she could truly see again. However Ignis paid his wisdom no mind. Instead, she let her hatred stoke her inner flames, vowing that her fire will eventually surpass the sun that blinded her. 'Burn strong, brighter than the sun'",
+    "category": "Intelligence",
+    "maxHp": 260,
+    "attack": 40,
+    "defense": 35,
+    "attackSpeed": 0.60,
+    "maxMana": 420,
+    "attackRange": 750,
+    "speed": 450,
     "spells": [
       {
         "name": "Cocon de Braise",
@@ -471,24 +417,20 @@
         "type": "SP",
         "buff": 80
       }
-    ],
-    "attackRange": 750,
-    "speed": 500
+    ]
   },
   {
     "name": "Dorothy",
     "spriteFile": "res/HeroSprites/GoblinMage.png",
-    "history": "After casting a slightly-too-permanent curse on a certain high-and-mighty knight, Dorothy found herself in a rather 
-	bizarre situation: a weird man waving his sword shooting her name on the streets promising a reckoning,
-	Terrified of a vengeful set of invisible boots and the angry, floating pumpkin that comes with them 
-	She slapped on a not-so-obvious Sleeping mask and began a new life, 
-	'Elphaba? Never heard of her. Sounds like a very... talented person, though!'" 
-	"category": "Intelligence",
-    "maxHp": 220,
-    "attack": 55,
-    "defense": 70,
+    "history": "After casting a slightly-too-permanent curse on a certain high-and-mighty knight, Dorothy found herself in a rather bizarre situation: a weird man waving his sword shooting her name on the streets promising a reckoning. Terrified of a vengeful set of invisible boots and the angry, floating pumpkin that comes with them, she slapped on a not-so-obvious sleeping mask and began a new life. 'Elphaba? Never heard of her. Sounds like a very... talented person though!'",
+    "category": "Intelligence",
+    "maxHp": 240,
+    "attack": 50,
+    "defense": 25,
     "attackSpeed": 0.55,
-    "maxMana": 160,
+    "maxMana": 380,
+    "attackRange": 820,
+    "speed": 440,
     "spells": [
       {
         "name": "Rage du Malicieux",
@@ -517,24 +459,20 @@
         "type": "SP",
         "buff": 120
       }
-    ],
-    "attackRange": 800,
-    "speed": 480
+    ]
   },
   {
     "name": "Wanderer",
     "spriteFile": "res/HeroSprites/Prophet.png",
-    "history": "	Clad in simple, travel-worn robes and carrying only a weathered wooden staff, he is known to many simply as the Wanderer
-	 or the prophet. He claims no throne and seeks no glory, moving silently through the world’s forgotten paths. With eyes that have seen the
-	  unfolding of ages, he offers his vast wisdom to those who listen and his healing touch to every broken creature he encounters. He is a 
-	  man of quiet virtue, walking not to reach a destination, but to mend the world as he passes through it.
-	'Too much light blinds, too much dark consumes.'"
-	"category": "Intelligence",
-    "maxHp": 280,
-    "attack": 55,
-    "defense": 88,
-    "attackSpeed": 0.48,
-    "maxMana": 140,
+    "history": "Clad in simple, travel-worn robes and carrying only a weathered wooden staff, he is known to many simply as the Wanderer or the prophet. He claims no throne and seeks no glory, moving silently through the world's forgotten paths. With eyes that have seen the unfolding of ages, he offers his vast wisdom to those who listen and his healing touch to every broken creature he encounters. He is a man of quiet virtue, walking not to reach a destination, but to mend the world as he passes through it. 'Too much light blinds, too much dark consumes.'",
+    "category": "Intelligence",
+    "maxHp": 300,
+    "attack": 45,
+    "defense": 40,
+    "attackSpeed": 0.50,
+    "maxMana": 350,
+    "attackRange": 780,
+    "speed": 460,
     "spells": [
       {
         "name": "Miroir d'Ame",
@@ -563,8 +501,6 @@
         "type": "SP",
         "buff": 200
       }
-    ],
-    "attackRange": 820,
-    "speed": 500
+    ]
   }
 ]
