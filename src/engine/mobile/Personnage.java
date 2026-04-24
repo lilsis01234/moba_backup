@@ -1,4 +1,5 @@
 package engine.mobile;
+
 import data.model.Equipment;
 import data.model.Hero;
 import data.model.KDA;
@@ -13,26 +14,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 public abstract class Personnage extends Entity {
 
     protected double speed;
     protected double mana;
     protected double maxMana;
-    private int gold  = 0;
+    private int gold = 0;
     private int totalGoldEarned = 0;
     private double goldAccumulator = 0;
     private double goldFlushTimer = 0;
-    private int xp    = 0;
+    private int xp = 0;
     private int level = 1;
     protected int defense = 0;
     private List<Equipment> equippedGear = new ArrayList<Equipment>();
     
     //for KDA
-    HashMap<Personnage, Long> damageTimestamps = new HashMap<>();
-    HashMap<Entity, Long> entityDamageTimestamps = new HashMap<>();
     private int damageDealtToHeroes = 0;
     private int damageDealtToBuildings = 0;
     private KDA kda = new KDA();
@@ -41,8 +39,7 @@ public abstract class Personnage extends Entity {
     protected double respawnTimer = 0;
     
     //animation
-    
-    protected enum State  {IDLE,MOVING,ATTACKING}; //can add attacking animation if we have time
+    protected enum State {IDLE, MOVING, ATTACKING}; //can add attacking animation if we have time
     protected State currentState = State.IDLE;
     protected HeroSprites heroSprites;
     protected Direction currentDirection = Direction.DOWN;
@@ -53,7 +50,7 @@ public abstract class Personnage extends Entity {
     //recall    
     private boolean recalling = false;
     private double recallTimer = 0;
-    private double recallDuration=GameConfiguration.RECALL_DURATION;
+    private double recallDuration = GameConfiguration.RECALL_DURATION;
 
     // spells
     protected List<Spell> spells = new ArrayList<>();
@@ -83,8 +80,7 @@ public abstract class Personnage extends Entity {
     
     private static final Logger logger = LoggerUtility.getLogger(Personnage.class);
 
-    
-    public Personnage(double x, double y, int team,Hero hero) {
+    public Personnage(double x, double y, int team, Hero hero) {
         super(x, y, 1, team);
         this.loot   = GameConfiguration.GOLD_CHAR;
         this.XPloot = GameConfiguration.XP_CHAR; 
@@ -119,91 +115,60 @@ public abstract class Personnage extends Entity {
     
     public abstract void render(Graphics2D g2, int width, int height);
 
-	public boolean attack(Entity target, double deltaTime, ArrayList<Personnage> allPersonnages) {
-	    atkTimer -= deltaTime;
-	    if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
-	    	interruptRecall();
-	        if (target instanceof Personnage) {
-	            recordDamageDealtTo((Personnage) target);
-	            addDamageToHeroes((int) atkDamage);
-	        } else if (target instanceof Tower || target instanceof Base) {
-	            addDamageToBuildings((int) atkDamage);
-	        }
-	        recordDamageDealtToEntity(target);
-	        target.takeDamage(atkDamage);
+    public boolean attack(Entity target, double deltaTime, ArrayList<Personnage> allPersonnages) {
+        atkTimer -= deltaTime;
+        if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
+            interruptRecall();
+            
+            // Track damage on the target for assist calculation
+            target.trackDamage(this);
 
-	        if (!target.isActive()) {
-	            if (target instanceof Personnage) {
-	                recordKill((Personnage) target);
-	            } else {
-	                recordKillEntity(target, allPersonnages);
-	            }
-	        }
-	        
-	        atkTimer = atkCooldown;
-	        return true;
-	    }
-	    return false;
-	}
+            if (target instanceof Personnage) {
+                addDamageToHeroes((int) atkDamage);
+            } else if (target instanceof Tower || target instanceof Base) {
+                addDamageToBuildings((int) atkDamage);
+            }
+            
+            target.takeDamage(atkDamage);
+
+            if (!target.isActive()) {
+                distributeRewards(target);
+            }
+            
+            atkTimer = atkCooldown;
+            return true;
+        }
+        return false;
+    }
     
-   private void recordKill(Personnage victim) {
-        this.addGold(victim.getLoot() + GameConfiguration.GOLD_CHAR);
+    private void distributeRewards(Entity victim) {
+        // Killer rewards
+        this.addGold(victim.getLoot());
         this.addXp(victim.getXPLoot());
-        this.kda.addKill();
-        victim.kda.addDeath();
-        this.assessAssists(victim);
-    }
 
-    private void assessAssists(Personnage victim) {
-        for (Personnage p : getNearbyAssisters(victim)) {
-            p.kda.addAssist();
-            p.addGold(GameConfiguration.GOLD_CHAR / 5);
+        if (victim instanceof Personnage) {
+            this.kda.addKill();
+            ((Personnage) victim).getKDA().addDeath();
+        } else {
+            this.addCsCreep();
+        }
+
+        // Assist rewards (60% to teammates who hit victim in last 5s)
+        int assistGold = (int) (victim.getLoot() * 0.6);
+        int assistXp = (int) (victim.getXPLoot() * 0.6);
+
+       for (Personnage helper : victim.getAttackers().keySet()) {
+		    if (helper == this || helper.getTeam() != this.getTeam()) continue;
+		    long timestamp = victim.getAttackers().get(helper);
+		    if (System.currentTimeMillis() - timestamp <= 5000) {
+		        helper.addGold(assistGold);
+		        helper.addXp(assistXp);
+		        helper.getKDA().addAssist();
+		        if (!(victim instanceof Personnage)) {
+		            helper.addCsCreep();
         }
     }
-
-    private List<Personnage> getNearbyAssisters(Personnage victim) {
-        List<Personnage> assisters = new ArrayList<>();
-        for (Map.Entry<Personnage, Long> entry : damageTimestamps.entrySet()) {
-            if (entry.getKey() == this) continue;
-            if (entry.getKey().getTeam() != this.getTeam()) continue;
-            if (entry.getKey() == victim) {
-                if ((System.currentTimeMillis() - entry.getValue()) <= GameConfiguration.ASSIST_TIME_WINDOW) {
-                    assisters.add(entry.getKey());
-                }
-            }
-        }
-        return assisters;
-    }
-    private void recordKillEntity(Entity target, ArrayList<Personnage> allPersonnages) {
-        this.addGold(target.getLoot());
-        this.addXp(target.getXPLoot());
-        this.addCsCreep();
-        assessAssistsForEntity(target, allPersonnages);
-    }
-
-    private void assessAssistsForEntity(Entity target, ArrayList<Personnage> allPersonnages) {
-        for (Personnage p : getNearbyEntityAssisters(target, allPersonnages)) {
-            p.kda.addAssist();
-            p.addGold(GameConfiguration.GOLD_CHAR / 5);
-            p.addCsCreep();
-        }
-    }
-
-    private List<Personnage> getNearbyEntityAssisters(Entity target, ArrayList<Personnage> allPersonnages) {
-        List<Personnage> assisters = new ArrayList<>();
-        for (Personnage p : allPersonnages) {
-            if (p == this) continue;
-            if (p.getTeam() != this.getTeam()) continue;
-            Long t = entityDamageTimestamps.get(target);
-            if (t != null && (System.currentTimeMillis() - t) <= GameConfiguration.ASSIST_TIME_WINDOW) {
-                assisters.add(p);
-            }
-        }
-        return assisters;
-    }
-
-    private void recordDamageDealtToEntity(Entity target) {
-        entityDamageTimestamps.put(target, System.currentTimeMillis());
+}
     }
 
     public void addGold(int Goldreward) {
@@ -230,7 +195,7 @@ public abstract class Personnage extends Entity {
     }
 
     public void addXp(int XPReward) {
-    	if (level >= 15) return;
+        if (level >= 15) return;
         xp += XPReward;
         int threshold = this.level * 100;
         if (xp >= threshold) {
@@ -247,6 +212,7 @@ public abstract class Personnage extends Entity {
         mana += amount;
         if (mana > maxMana) mana = maxMana;
     }
+
     public void respawn(double deltaTime) {
         if (!active) {
             respawnTimer -= deltaTime;
@@ -257,8 +223,8 @@ public abstract class Personnage extends Entity {
     }
  
     protected void onRespawn() {
-    	this.x= (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y; 
-        this.y= (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
+        this.x = (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y; 
+        this.y = (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
         this.hp = maxHp;
         this.mana = maxMana;
         this.active = true;
@@ -273,23 +239,24 @@ public abstract class Personnage extends Entity {
         int goldLost = (int)(gold * 0.15);
         gold -= goldLost;
     }
+
     public void updateRecall(double deltaTime) {
         if (!recalling) return;
         recallTimer -= deltaTime;
         if (recallTimer <= 0) {
             recalling = false;
-            this.x= (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y; 
-            this.y= (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
+            this.x = (team == 0) ? GameConfiguration.START_X : GameConfiguration.START_Y; 
+            this.y = (team == 0) ? GameConfiguration.START_Y : GameConfiguration.START_X; 
         }
     }
 
     public void updateTimers(double deltaTime) {
-    if (stunTimer > 0) stunTimer -= deltaTime;
-    if (effectTimer > 0) effectTimer -= deltaTime;
-    for (int i = 0; i < spellCooldownTimers.length; i++) {
-        if (spellCooldownTimers[i] > 0) spellCooldownTimers[i] -= deltaTime;
+        if (stunTimer > 0) stunTimer -= deltaTime;
+        if (effectTimer > 0) effectTimer -= deltaTime;
+        for (int i = 0; i < spellCooldownTimers.length; i++) {
+            if (spellCooldownTimers[i] > 0) spellCooldownTimers[i] -= deltaTime;
+        }
     }
-}
 
     //we need to know if it was cast succesfully or no so we use a bool instead of a void
     public boolean castSpell(int index, Entity target) {
@@ -303,6 +270,7 @@ public abstract class Personnage extends Entity {
         spell.cast(this, target);
         return true;
     }
+
     public boolean upgradeSpell(int index) {
         if (skillPoints <= 0) return false;
         if (index < 0 || index >= spells.size()) return false;
@@ -311,6 +279,7 @@ public abstract class Personnage extends Entity {
         skillPoints--;
         return true;
     }
+
     public boolean isStunned() { return stunTimer > 0; }
     
     //this was impelmented to avoid the little bug or cheat of getting stunned by a stun of lower time while already being stunned and thus overriding it 
@@ -319,33 +288,33 @@ public abstract class Personnage extends Entity {
         showEffect(effectStunned);
     }
     
-    
     public void startRecall() {
         if (!active) return;
         currentState = State.IDLE;
         recalling = true;
         recallTimer = recallDuration;
     }
+
     public void interruptRecall() {
         recalling = false;
         recallTimer = 0;
     }
     
     protected void updateAnimation(double deltaTime) {
-    	
-    	//stop animation
+        //stop animation
         if (currentState == State.IDLE) { 
-            animFrame = 0; 	
+            animFrame = 0;  
             animTimer = 0;
             return;
         }
         animTimer += deltaTime;
         if (animTimer >= FRAME_DURATION) {
             animTimer = 0;
-            int totalFrames = (heroSprites != null) ? heroSprites.getFramesPerDirection() :1;
+            int totalFrames = (heroSprites != null) ? heroSprites.getFramesPerDirection() : 1;
             animFrame = (animFrame + 1) % totalFrames;
         }
     }
+
     protected void renderSprite(Graphics2D g2) {
         int size = GameConfiguration.TILE_SIZE;
         int px   = (int) x;
@@ -379,19 +348,15 @@ public abstract class Personnage extends Entity {
         g2.fillOval(px - size / 2, py - size / 2, size, size);
         g2.setColor(Color.BLACK);
         g2.drawOval(px - size / 2, py - size / 2, size, size);
-
     }
     
     public void loadHeroGraphics(String path) {
         this.heroSprites = new HeroSprites(path);
-    }	
+    }   
     
     public BufferedImage getFrontFrame() {
         if (heroSprites == null) return null;
         return heroSprites.get(2, 0); 
-    }
-    public void recordDamageDealtTo(Personnage target) {
-        damageTimestamps.put(target, System.currentTimeMillis());
     }
     
     public void addDamageToHeroes(int dmg) {
@@ -404,6 +369,7 @@ public abstract class Personnage extends Entity {
     
     public int getDamageDealtToHeroes() { return damageDealtToHeroes; }
     public int getDamageDealtToBuildings() { return damageDealtToBuildings; }
+
     @Override
     public void takeDamage(double damage) {
         interruptRecall();
@@ -412,10 +378,13 @@ public abstract class Personnage extends Entity {
         super.takeDamage(reduced);
         showEffect(effectAttacked);
     }
+
     @Override
     public void heal(double amount) {
-        super.heal(amount);
-        showEffect(effectHealed);
+        if (this.hp < this.maxHp) {
+            super.heal(amount);
+            showEffect(effectHealed);
+        }
     }
     
     private void showEffect(BufferedImage img) {
@@ -423,12 +392,6 @@ public abstract class Personnage extends Entity {
         effectTimer = EFFECT_DURATION;
     }
     
-    //if interacted with target in less than 5seconds before its death u get assist
-    public boolean assisted(Personnage target) {
-        Long t = damageTimestamps.get(target);
-        return t != null && (System.currentTimeMillis() - t) <= 5000;
-    }
-
     public void buyEquipment(Equipment eq) {
         if (gold < eq.getPrice()) return; 
         if (equippedGear.size() >= 6) return;
@@ -454,7 +417,6 @@ public abstract class Personnage extends Entity {
     }
 
     private Equipment findEquipped(int id) {
-
         for (Equipment e : equippedGear) {
             if (e.getId() == id) return e;
          }
@@ -462,7 +424,6 @@ public abstract class Personnage extends Entity {
     }
 
     public boolean hasEquipment(int id) { return findEquipped(id) != null; }
-    
     
     public List<Equipment> getEquippedGear() { return equippedGear; }
     public int getDefense()  { return defense; }
