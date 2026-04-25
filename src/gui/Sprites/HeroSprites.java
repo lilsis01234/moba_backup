@@ -54,5 +54,6 @@ public class HeroSprites {
         return sprites[dirIndex ][frame];
     }
     
+    
     public int getFramesPerDirection() { return frames; }
 }

@@ -14,8 +14,8 @@ TO DO:
 //visual effects
 // problem: the safe area id defined based on range so he could be recalling while being hit by a somoene with a higher range
 //problem : a bug in assist
-//does stun work?
-
+//does stun work? the effect gets hidden by attack effect?
+//app icon
 
 CAN BE IGNORED:
 //note skills just target the last taret u were attacking can improve but not so bad

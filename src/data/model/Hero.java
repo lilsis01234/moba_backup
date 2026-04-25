@@ -30,7 +30,9 @@ public class Hero {
 
     private List<Item> items;
     
+    //animation
     private String spriteFile;
+    private String atkSpriteFile;
 
 
     
@@ -140,9 +142,13 @@ public class Hero {
         this.speed = speed;
     }
     
-    public double getAtkRange() { return atkRange; }
+    public double getAtkRange() { 
+    	return atkRange;
+    	}
     
-    public void setAtkRange(double atkRange) { this.atkRange = atkRange; }
+    public void setAtkRange(double atkRange) { 
+    	this.atkRange = atkRange;
+    	}
     
     public List<Spell> getSpells() {
         return spells;
@@ -155,13 +161,21 @@ public class Hero {
     public void addSpell(Spell spell) {
         this.spells.add(spell);
     }
+    
     public List<Item> getItems() {
-    return items;
+    	return items;
 }
 
     public void addItem(Item item) {
     items.add(item);
 }
+    public String getAtkSpriteFile() {
+    	return atkSpriteFile; 
+    	}
+    
+    public void setAtkSpriteFile(String atkSpriteFile) { 
+    	this.atkSpriteFile = atkSpriteFile; 
+    	}
     
 
     

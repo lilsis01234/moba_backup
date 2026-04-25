@@ -26,35 +26,36 @@ public class Player extends Personnage {
     }
 
     public void update(double deltaTime, Arena arena, ArrayList<Personnage> allPersonnages) {
-        if (mana < maxMana) {
-            mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
-            if (mana > maxMana) mana = maxMana;
-        }
-        
-        addPassiveGold(GameConfiguration.PASSIVE_GOLD_PER_SECOND, deltaTime);
-        
-        if (attackRadiusTimer > 0) attackRadiusTimer -= deltaTime;
-        
-        updateRecall(deltaTime);
-        updateTimers(deltaTime);
+    if (mana < maxMana) {
+        mana += GameConfiguration.PLAYER_MANA_REGEN * deltaTime;
+        if (mana > maxMana) mana = maxMana;
+    }
+    
+    addPassiveGold(GameConfiguration.PASSIVE_GOLD_PER_SECOND, deltaTime);
+    
+    if (attackRadiusTimer > 0) attackRadiusTimer -= deltaTime;
+    
+    updateRecall(deltaTime);
+    updateTimers(deltaTime);
 
-        if (currentState == State.MOVING) {
-            updatePosition(deltaTime, arena);
-        }
-        updateAnimation(deltaTime);
+    if (currentState == State.MOVING) {
+        updatePosition(deltaTime, arena);
+    }
 
-        if (targetEnemy != null) {
-            if (!targetEnemy.isActive()) {
+    if (targetEnemy != null) {
+        if (!targetEnemy.isActive()) {
+            targetEnemy = null;
+        } else {
+            boolean fired = attack(targetEnemy, deltaTime, allPersonnages);
+            if (fired) {
+                interruptRecall();
                 targetEnemy = null;
-            } else {
-                boolean fired = attack(targetEnemy, deltaTime, allPersonnages);
-                if (fired) {
-                    interruptRecall();
-                    targetEnemy = null;
-                }
             }
         }
     }
+
+    updateAnimation(deltaTime);
+}
 
     public void updatePosition(double deltaTime, Arena arena) {
         double dx = targetX - x;

@@ -38,18 +38,18 @@ public class Bot extends Personnage {
         logger.debug("Bot created: " + name + " using hero " + heroName + " for team " + team);
     }
 
-public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
-        if (hp <= 0 && active) { die(); }
-        if (!active) { super.respawn(deltaTime); return; }
-        updateTimers(deltaTime);
-        
-        addPassiveGold(game_config.GameConfiguration.PASSIVE_GOLD_PER_SECOND, deltaTime);
-        
-        if (isStunned()) { updateAnimation(deltaTime); return; }
-        logger.debug("Bot " + name + " updating - HP: " + hp + "/" + maxHp + ", state: " + currentState);
-        move(deltaTime, enemies, allBots, allPersonnages);
-        updateRecall(deltaTime);
-    }
+	public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
+	        if (hp <= 0 && active) { die(); }
+	        if (!active) { super.respawn(deltaTime); return; }
+	        updateTimers(deltaTime);
+	        
+	        addPassiveGold(game_config.GameConfiguration.PASSIVE_GOLD_PER_SECOND, deltaTime);
+	        
+	        if (isStunned()) { currentState = State.IDLE; updateAnimation(deltaTime); return; }
+	        logger.debug("Bot " + name + " updating - HP: " + hp + "/" + maxHp + ", state: " + currentState);
+	        move(deltaTime, enemies, allBots, allPersonnages);
+	        updateRecall(deltaTime);
+	    }
 
     public void move(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {
         double hpPercent = hp / maxHp;
@@ -58,9 +58,8 @@ public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, Ar
         if (retreating) {
             handleRetreat(deltaTime, enemies, allBots);
         } else {
-Entity target = EntityUtils.findClosest(this, enemies);
+        	Entity target = EntityUtils.findClosest(this, enemies);
         if (target != null && getDistanceTo(target) <= atkRange) {
-            currentState = State.IDLE;
             logger.debug("Bot " + name + " attacking target at distance " + getDistanceTo(target));
             attack(target, deltaTime, allPersonnages);
         } else {
