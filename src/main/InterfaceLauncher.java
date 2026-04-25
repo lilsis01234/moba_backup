@@ -24,6 +24,7 @@ import data.model.TeamStats;
 import data.model.GameStats;
 import gui.menu.AfterGamePanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -35,6 +36,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class InterfaceLauncher extends JFrame implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -57,6 +60,11 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         screenHeight = (int) screenSize.getHeight();
 
         setTitle("MOBA");
+        try {
+        	setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setLocationRelativeTo(null);
@@ -177,7 +185,12 @@ public class InterfaceLauncher extends JFrame implements Runnable {
     }
 
     private void showHeroSelection() {
-        JFrame selectionFrame = new JFrame("MOBA - Sélection du héros");
+    	JFrame selectionFrame = new JFrame("MOBA - Sélection du héros");
+    	try {
+    		selectionFrame.setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
         selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         selectionFrame.setSize(screenWidth, screenHeight);
         selectionFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -278,6 +291,12 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         });
 
         gameFrame = new JFrame("MOBA - Game");
+        try {
+        	gameFrame.setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.add(panel);
         gameFrame.setGlassPane(glassPane);
