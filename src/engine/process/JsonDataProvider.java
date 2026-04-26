@@ -5,6 +5,7 @@ import engine.mobile.CCEffect;
 import engine.mobile.DamageEffect;
 import engine.mobile.SpellStrategy;
 import engine.mobile.SupportEffect;
+import game_config.GameConfiguration;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -210,7 +211,7 @@ public class JsonDataProvider {
         if (type == Spell.Type.DAMAGE) {
             return new DamageEffect(damage);
         } else if (type == Spell.Type.CROWD_CONTROL) {
-            return new CCEffect(damage, 2.0);
+        	return new CCEffect(damage, GameConfiguration.STUN_DURATION);
         } else if (type == Spell.Type.SUPPORT) {
             return new SupportEffect(buff);
         } else {
