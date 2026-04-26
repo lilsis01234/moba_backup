@@ -266,7 +266,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         gameFrame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                if (e.getKeyCode() == KeyEvent.VK_A) {
                     panel.toggleShop();
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     togglePause(!isPaused);
