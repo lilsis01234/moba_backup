@@ -100,39 +100,6 @@ public abstract class Personnage extends Entity {
 
     public void addCsCreep() { csCreeps++; }
     
-    private void recordKill(Personnage victim, ArrayList<Personnage> allPersonnages)  {
-        this.addGold(victim.getLoot() + GameConfiguration.GOLD_CHAR);
-        this.addXp(victim.getXPLoot());
-        this.kda.addKill();
-        victim.kda.addDeath();
-        this.assessAssists(victim, allPersonnages);
-    }
-
-    private void assessAssists(Personnage victim) {
-        for (Personnage p : allPersonnages) {
-            if (p == this) continue;                   
-            if (p.getTeam() != this.getTeam()) continue; 
-            if (p.assisted(victim)) {                  
-                p.kda.addAssist();
-                p.addGold(GameConfiguration.GOLD_CHAR / 5);
-            }
-        }
-    }
-
-    private List<Personnage> getNearbyAssisters(Personnage victim) {
-        List<Personnage> assisters = new ArrayList<>();
-        for (Map.Entry<Personnage, Long> entry : damageTimestamps.entrySet()) {
-            if (entry.getKey() == this) continue;
-            if (entry.getKey().getTeam() != this.getTeam()) continue;
-            if (entry.getKey() == victim) {
-                if ((System.currentTimeMillis() - entry.getValue()) <= GameConfiguration.ASSIST_TIME_WINDOW) {
-                    assisters.add(entry.getKey());
-                }
-            }
-        }
-        return assisters;
-    }
-
     public void addDamageToBuildings(int dmg) {
         damageDealtToBuildings += dmg;
     }
@@ -184,8 +151,7 @@ public abstract class Personnage extends Entity {
         atkTimer -= deltaTime;
         if (atkTimer <= 0 && getDistanceTo(target) <= atkRange && target.isActive()) {
             interruptRecall();
-            
-            // Track damage on the target for assists
+ 
             target.trackDamage(this);
 
             if (target instanceof Personnage) {
@@ -199,13 +165,12 @@ public abstract class Personnage extends Entity {
             if (!target.isActive()) {
                 distributeRewards(target);
             }         
+
             atkTimer = atkCooldown;
-            
             currentState = State.ATTACKING;
             attackAnimTimer = ATTACK_ANIM_DURATION;
             animFrame = 0;
             animTimer = 0;
-            
             return true;
         }
         return false;
@@ -245,34 +210,33 @@ public abstract class Personnage extends Entity {
 
     private void distributeRewards(Entity victim) {
         if (victim.isActive()) return;
-        // Killer rewards
+
         this.addGold(victim.getLoot());
         this.addXp(victim.getXPLoot());
 
         if (victim instanceof Personnage) {
             this.kda.addKill();
             ((Personnage) victim).getKDA().addDeath();
-            this.assessAssists((Personnage) victim);
+
+            int assistGold = (int) (victim.getLoot() * 0.6);
+            int assistXp = (int) (victim.getXPLoot() * 0.6);
+
+            for (Map.Entry<Personnage, Long> entry : victim.getAttackers().entrySet()) {
+                Personnage helper = entry.getKey();
+                long timestamp = entry.getValue();
+
+                if (helper != this && helper.getTeam() == this.getTeam()) {
+                    if (System.currentTimeMillis() - timestamp <= 5000) {
+                        helper.addGold(assistGold);
+                        helper.addXp(assistXp);
+                        helper.getKDA().addAssist();
+                    }
+                }
+            }
         } else {
             this.addCsCreep();
         }
 
-        // Assist rewards (60% to teammates who hit victim in last 5s)
-        int assistGold = (int) (victim.getLoot() * 0.6);
-        int assistXp = (int) (victim.getXPLoot() * 0.6);
-
-       for (Personnage helper : victim.getAttackers().keySet()) {
-		    if (helper == this || helper.getTeam() != this.getTeam()) continue;
-		    long timestamp = victim.getAttackers().get(helper);
-		    if (System.currentTimeMillis() - timestamp <= 5000) {
-		        helper.addGold(assistGold);
-		        helper.addXp(assistXp);
-		        helper.getKDA().addAssist();
-		        if (!(victim instanceof Personnage)) {
-		            helper.addCsCreep();
-                }
-            }
-        }
         victim.getAttackers().clear();
     }
 
