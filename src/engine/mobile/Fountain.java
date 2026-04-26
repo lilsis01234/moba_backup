@@ -8,6 +8,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import game_config.GameConfiguration;
+import sun.awt.GlobalCursorManager;
 
 public class Fountain extends Entity {
 
@@ -19,7 +20,7 @@ public class Fountain extends Entity {
         super(x, y, 100,team);
         this.atkDamage   = GameConfiguration.FOUNTAIN_DAMAGE;
         this.atkRange    = GameConfiguration.FOUNTAIN_RADIUS;
-        this.atkCooldown = 0.5; // make global later
+        this.atkCooldown = GameConfiguration.FOUNTAIN_ATTACK_COOLDOWN;
         try {
             AllyImg  = ImageIO.read(getClass().getResourceAsStream("/res/BaseFountain/AllyFountaine.png"));
             EnemyImg = ImageIO.read(getClass().getResourceAsStream("/res/BaseFountain/EnemyFountaine.png"));
