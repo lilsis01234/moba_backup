@@ -71,7 +71,7 @@ public class GameConfiguration {
 
     // Fountain
     public static final double FOUNTAIN_RADIUS = 500.0;
-    public static final double FOUNTAIN_HEAL_PER_SEC = 20.0;
+    public static final double FOUNTAIN_HEAL_PER_SEC = 50.0;
     public static final double FOUNTAIN_DAMAGE = 150.0;
 
     // Game loop
