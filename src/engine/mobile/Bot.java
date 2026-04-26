@@ -22,7 +22,7 @@ public class Bot extends Personnage {
     private int waypointIndex = 0;
     private List<double[]> waypoints;
 
-    // BUG 3 FIX: track whether the bot is at base waiting to fully heal
+
     private boolean waitingAtBase = false;
 
     public Bot(List<double[]> waypoints, int team, String name, Hero hero) {
@@ -117,7 +117,7 @@ public class Bot extends Personnage {
         Entity closestEnemy = EntityUtils.findClosest(this, enemies);
         double distToEnemy = (closestEnemy != null) ? getDistanceTo(closestEnemy) : Double.MAX_VALUE;
 
-        // Close to fountain: walk to it and mark that we are waiting to heal (BUG 3 FIX)
+        // Close to fountain: walk to it and mark that we are waiting to heal 
         if (distToFountain <= retreatSafeRadius) {
             interruptRecall();
             moveToPoint(fX, fY, deltaTime);
