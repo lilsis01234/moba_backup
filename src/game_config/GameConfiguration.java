@@ -37,6 +37,7 @@ public class GameConfiguration {
     //technical
     public static final double ATTACK_MARGIN = TILE_SIZE * 0.75;
     public static final double RECALL_DURATION = 5.0;
+    public static final double STUN_DURATION = 2.0;
     
     //retreat
     public static final double RETREAT_HP_THRESHOLD = 0.30;
