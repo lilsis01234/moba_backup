@@ -46,7 +46,7 @@ public class ArenaPanel extends JPanel {
         addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
-                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_B) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_A) {
                     shopPanel.toggle();
                     repaint();
                 }

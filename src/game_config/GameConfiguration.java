@@ -19,6 +19,7 @@ public class GameConfiguration {
     public static final int GOLD_CHAR    = 150;
     public static final int GOLD_TOWER  = 200;
     public static final int STARTING_GOLD = 300;
+    
     //((3900/3)/7)/60 3900 being the average price of 4 equipements, so 1/3 of it should be earned passively on the duration of 7 minutes
     public static final int PASSIVE_GOLD_PER_SECOND = 3;
     
@@ -51,10 +52,7 @@ public class GameConfiguration {
     public static final double START_Y= TILE_SIZE * 56;
     public static final double PLAYER_MANA_REGEN = 2.0;
     
-    
-
-    
-    
+   
 
     // Tower
     public static final double TOWER_RANGE = 200.0; 
@@ -70,14 +68,16 @@ public class GameConfiguration {
 
     // Fountain
     public static final double FOUNTAIN_RADIUS = 500.0;
-    public static final double FOUNTAIN_HEAL_PER_SEC = 20.0;
-    public static final double FOUNTAIN_DAMAGE = 5.0;
+    public static final double FOUNTAIN_HEAL_PER_SEC = 50.0;
+    public static final double FOUNTAIN_DAMAGE = 150.0;
+    public static final double FOUNTAIN_ATTACK_COOLDOWN = 0.5;
+    
 
     // Game loop
     public static final int GAME_SPEED = 10;
 
     // Minion
-    public static final double MINION_DMG    = 3.0;
+    public static final double MINION_DMG    = 5.0;
     public static final double MINION_RANGE = 250; 
     public static final double MINION_MAX_HP = 60;
     public static final double MINION_ATTACK_COOLDOWN = 0.9;

@@ -8,7 +8,7 @@ import game_config.GameConfiguration;
 import gui.Sprites.HeroSprites;
 import log.LoggerUtility;
 import org.apache.log4j.Logger;
-
+import java.util.Map;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
