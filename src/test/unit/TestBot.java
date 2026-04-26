@@ -73,7 +73,6 @@ public class TestBot {
 
     @Test
     public void testBotHasWaypoints() {
-        Bot bot = new Bot(waypoints, 0, "Bot1", testHero);
         assertTrue(waypoints.size() > 0);
     }
 

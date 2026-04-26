@@ -15,16 +15,17 @@ public class GameConfiguration {
 
     
     //Gold reward    
-    public static final int GOLD_MINION = 20;
-    public static final int GOLD_CHAR    = 100;
-    public static final int GOLD_TOWER  = 150;
-    public static final int STARTING_GOLD = 100;
-    public static final int PASSIVE_GOLD_PER_SECOND = 10;
+    public static final int GOLD_MINION = 50;
+    public static final int GOLD_CHAR    = 150;
+    public static final int GOLD_TOWER  = 200;
+    public static final int STARTING_GOLD = 300;
+    //((3900/3)/7)/60 3900 being the average price of 4 equipements, so 1/3 of it should be earned passively on the duration of 7 minutes
+    public static final int PASSIVE_GOLD_PER_SECOND = 3;
     
     //XP reward
-    public static final int XP_MINION = 15;
-    public static final int XP_CHAR    = 80;
-    public static final int XP_TOWER  = 100;
+    public static final int XP_MINION = 30;
+    public static final int XP_CHAR    = 130;
+    public static final int XP_TOWER  = 150;
     
 	 // Level up stats Bonus
     public static final double LEVEL_HP_BONUS   = 20.0;
@@ -46,8 +47,8 @@ public class GameConfiguration {
     public static final int MINIMAP_MARGIN = 10;
 
     // Player
-    public static final double START_X    = TILE_SIZE * 4;
-    public static final double START_Y    = TILE_SIZE * 56;
+    public static final double START_X = TILE_SIZE * 4;
+    public static final double START_Y= TILE_SIZE * 56;
     public static final double PLAYER_MANA_REGEN = 2.0;
     
     
@@ -57,17 +58,18 @@ public class GameConfiguration {
 
     // Tower
     public static final double TOWER_RANGE = 200.0; 
-    public static final double TOWER_DAMAGE  = 10.0;
-    public static final double TOWER_COLLISION_RADIUS = 32.0;  
+    public static final double TOWER_DAMAGE  = 50.0;
     public static final double TOWER_MAX_HP  = 1500;
+    public static final double TOWER_ATTACK_COOLDOWN = 1;
 
     //Base
     public static final double BASE_RANGE = 420.0;
     public static final double BASE_MAX_HP = 2000;
     public static final double BASE_DAMAGE = 100;
+    public static final double BASE_ATTACK_COOLDOWN  = 1.2;
 
     // Fountain
-    public static final double FOUNTAIN_RADIUS = 350.0;
+    public static final double FOUNTAIN_RADIUS = 500.0;
     public static final double FOUNTAIN_HEAL_PER_SEC = 20.0;
     public static final double FOUNTAIN_DAMAGE = 5.0;
 
@@ -76,10 +78,10 @@ public class GameConfiguration {
 
     // Minion
     public static final double MINION_DMG    = 3.0;
-    public static final double MINION_RANGE = 250; // pixels
+    public static final double MINION_RANGE = 250; 
     public static final double MINION_MAX_HP = 60;
     public static final double MINION_ATTACK_COOLDOWN = 0.9;
-    public static final double MINION_SPEED = 300.0; // pixels/sec
+    public static final double MINION_SPEED = 300.0; 
 
     // Bot
     public static final double WAYPOINT_CLOSE_THRESHOLD = 5.0;

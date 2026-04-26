@@ -1,8 +1,6 @@
 package gui;
 
 import engine.map.TilesManager;
-import engine.mobile.Bot;
-import engine.mobile.Minion;
 import engine.mobile.Player;
 import engine.process.Arena;
 import engine.process.Lane;

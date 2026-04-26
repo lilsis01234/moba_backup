@@ -2,7 +2,6 @@ package engine.process;
 
 import data.model.Equipment;
 import data.model.EquipmentType;
-import engine.mobile.Player;
 import log.LoggerUtility;
 
 import org.apache.log4j.Logger;

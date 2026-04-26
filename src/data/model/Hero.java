@@ -2,7 +2,7 @@ package data.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import data.model.Item;
+
 
 /**
  * Représente un héros jouable dans le jeu.

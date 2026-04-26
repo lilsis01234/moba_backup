@@ -22,7 +22,7 @@ public class Base extends Entity {
         super(x, y, GameConfiguration.BASE_MAX_HP, team);
         this.atkDamage   = GameConfiguration.BASE_DAMAGE;
         this.atkRange    = GameConfiguration.BASE_RANGE;
-        this.atkCooldown = 2.0;
+        this.atkCooldown = GameConfiguration.BASE_ATTACK_COOLDOWN;
         logger.debug("Base created at (" + x + ", " + y + ") for team " + team + " with HP " + maxHp);
         if (AllyImg == null || EnemyImg == null) {
             try {

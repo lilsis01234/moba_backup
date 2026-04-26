@@ -9,7 +9,7 @@ import engine.mobile.Entity;
 import game_config.GameConfiguration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 public class TestMinions {

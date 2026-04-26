@@ -30,6 +30,8 @@ public abstract class Personnage extends Entity {
     protected int defense = 0;
     private List<Equipment> equippedGear = new ArrayList<Equipment>();
     
+    protected Hero hero;
+    
     //for KDA
     private int damageDealtToHeroes = 0;
     private int damageDealtToBuildings = 0;
@@ -68,9 +70,9 @@ public abstract class Personnage extends Entity {
     private double stunTimer = 0;
 
     //spell effects 
-    private static BufferedImage effectAttacked;
-    private static BufferedImage effectHealed;
-    private static BufferedImage effectStunned;
+    private static BufferedImage effectAttacked = load("attacked.png");
+    private static BufferedImage effectHealed   = load("healed.png");
+    private static BufferedImage effectStunned  = load("stunned.png");
     private double effectTimer = 0;
     private BufferedImage currentEffect = null;
     private static final double EFFECT_DURATION = 1.0;
@@ -89,6 +91,7 @@ public abstract class Personnage extends Entity {
 
     public Personnage(double x, double y, int team, Hero hero) {
         super(x, y, 1, team);
+        this.hero = hero;
         this.loot   = GameConfiguration.GOLD_CHAR;
         this.XPloot = GameConfiguration.XP_CHAR; 
         this.currentState = State.IDLE;
@@ -326,11 +329,19 @@ public abstract class Personnage extends Entity {
     public void interruptRecall() {
         recalling = false;
         recallTimer = 0;
+        currentState = State.IDLE;  
     }
 
     public boolean isRecalling() { return recalling; }
 
     public boolean isStunned() { return stunTimer > 0; }
+    
+    
+    private static BufferedImage load(String name) {
+        try {
+            return ImageIO.read(Personnage.class.getResourceAsStream("/res/Sorts/effects/" + name));
+        } catch (Exception e) { return null; }
+    }
 
     public void loadAtkGraphics(String path) {
         this.atkSprites = new HeroSprites(path);

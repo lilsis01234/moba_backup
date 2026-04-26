@@ -7,7 +7,6 @@ import org.junit.Test;
 import data.model.Hero;
 import data.model.Spell;
 import data.model.Spell.Type;
-import data.model.Item;
 
 public class TestHero {
 

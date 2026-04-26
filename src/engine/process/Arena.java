@@ -4,7 +4,7 @@ import java.awt.FontMetrics;
 import engine.mobile.Base;
 import engine.mobile.Bot;
 import engine.mobile.Entity;
-import engine.mobile.EntityUtils;
+
 import engine.mobile.Fountain;
 import engine.mobile.Minion;
 import engine.mobile.Personnage;

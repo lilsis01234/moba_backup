@@ -1,6 +1,6 @@
 package gui.menu;
 
-import gui.ButtonLayout;
+
 import gui.Theme;
 import data.model.Hero;
 import data.model.Category;
@@ -274,12 +274,14 @@ public class HeroSelection extends JPanel {
                 g2.setColor(Theme.TEXT_DIM);
                 String hint = "<- -> naviguer  ^ v categories  ENTER confirmer  ECHAP retour";
                 FontMetrics fm = g2.getFontMetrics();
+                //
                 g2.drawString(hint, (getWidth() - fm.stringWidth(hint)) / 2, 18);
 
                 // Select button
                 int bw = 200, bh = 35;
                 int x = (getWidth() - bw) / 2;
-                int y = 28;
+                //
+                int y = 40;
                 selectRect.setBounds(x, y, bw, bh);
 
                 Color bg = hoveredFooter == 1 ? Theme.ACCENT_BRIGHT.brighter() : Theme.ACCENT_BRIGHT;
@@ -296,7 +298,8 @@ public class HeroSelection extends JPanel {
             }
         };
         bottom.setOpaque(false);
-        bottom.setPreferredSize(new Dimension(0, 70));
+        //
+        bottom.setPreferredSize(new Dimension(0, 200));
 
         bottom.addMouseListener(new MouseAdapter() {
             @Override
@@ -366,13 +369,12 @@ public class HeroSelection extends JPanel {
      * Builds a single hero card panel with sprite, stats, and Lore button.
      */
     private JPanel buildCard(Hero hero, boolean isSelected) {
-        Color[] categoryColors = {CATEGORY_FORCE, CATEGORY_AGILITY, CATEGORY_INTELLIGENCE};
-        Color borderColor = categoryColors[selectedCategoryIndex % categoryColors.length];
+
 
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setPreferredSize(new Dimension(220, 360));
-        card.setMaximumSize(new Dimension(220, 360));
+        card.setPreferredSize(new Dimension(240, 340));
+        card.setMaximumSize(new Dimension(240, 340));
         card.setBackground(isSelected ? new Color(50, 45, 60) : Theme.BUTTON_BG);
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(
@@ -384,15 +386,15 @@ public class HeroSelection extends JPanel {
 
         // Sprite preview
         SpritePreview preview = new SpritePreview(hero.getSpriteFile());
-        preview.setPreferredSize(new Dimension(90, 90));
-        preview.setMinimumSize(new Dimension(90, 90));
-        preview.setMaximumSize(new Dimension(90, 90));
+        preview.setPreferredSize(new Dimension(130, 130));
+        preview.setMinimumSize(new Dimension(130, 130));
+        preview.setMaximumSize(new Dimension(130, 130));
         preview.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(preview);
 
         // Hero name
         JLabel nameLabel = new JLabel(hero.getName() != null ? hero.getName() : "???", SwingConstants.CENTER);
-        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+        nameLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
         nameLabel.setForeground(isSelected ? Theme.ACCENT_BRIGHT : Theme.TEXT_MAIN);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 8, 0));
@@ -401,7 +403,7 @@ public class HeroSelection extends JPanel {
         // Stats grid
         JPanel statsPanel = new JPanel(new GridLayout(3, 2, 8, 5));
         statsPanel.setOpaque(false);
-        statsPanel.setMaximumSize(new Dimension(200, 90));
+        statsPanel.setMaximumSize(new Dimension(220, 120));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         statsPanel.add(createStatLabel("HP",   hero.getMaxHp(),                    CATEGORY_FORCE));
         statsPanel.add(createStatLabel("ATK",  hero.getAttack(),                   new Color(200, 80, 80)));
@@ -417,7 +419,6 @@ public class HeroSelection extends JPanel {
         // Lore button 
         JPanel loreBtn = new JPanel(null) {
             private boolean hovered = false;
-
             {
                 setOpaque(false);
                 setPreferredSize(new Dimension(190, 30));
@@ -442,9 +443,7 @@ public class HeroSelection extends JPanel {
                 g2.setColor(hovered ? Theme.ACCENT_BRIGHT.brighter() : Theme.ACCENT_BRIGHT);
                 FontMetrics fm = g2.getFontMetrics();
                 String label = "Lore";
-                g2.drawString(label,
-                    (getWidth() - fm.stringWidth(label)) / 2,
-                    (getHeight() + fm.getAscent() - fm.getDescent()) / 2);
+                g2.drawString(label, (getWidth() - fm.stringWidth(label)) / 2, (getHeight() + fm.getAscent() - fm.getDescent()) / 2);
             }
         };
         card.add(loreBtn);

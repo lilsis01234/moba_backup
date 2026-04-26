@@ -1,21 +1,15 @@
 TO DO:
 
-//gold 3/per sec( ((3900/3)/7)/60 3900 being the average price of 4 equipements, so 1/3 of it should be earned passively on the duration of 7 minutes
 //hero selection gui, items bar
-//stun?
-//gold and xp when assistng (60% of the reward when hitting withing 5 seconds before kill)
-//visual effect when casting? when basic attacking? when base attack on cooldown
-//equipement tab button
-//healing icon show up only if not full?
-//base max hp
+
+//visual effect when casting? when base attack on cooldown
 //bot waypoint
-//gatekeep bases?
-//add keyboard mouvement?
-//visual effects
-// problem: the safe area id defined based on range so he could be recalling while being hit by a somoene with a higher range
-//problem : a bug in assist
-//does stun work? the effect gets hidden by attack effect?
-//app icon
+
+//visual effects : recall?	
+//buff skills
+
+
+//tf does sprite preview do
 
 CAN BE IGNORED:
 //note skills just target the last taret u were attacking can improve but not so bad
@@ -23,6 +17,19 @@ CAN BE IGNORED:
 //visuals for recall? standing sprite? circlce, blood, angry
 //bot spells
 //add a blink spell? sheild? slow? aoe melee?
+// problem: the safe area id defined based on range so he could be recalling while being hit by a somoene with a higher range
+//add keyboard mouvement?
+
+//improvements:
+more spells
+more equipements
+//bugs
+//names are weird white chunks ? not rendered properly remove em
+sometimes they dont heal fully 
+sometimes they dont move unless an enemy is nearby or low hp they just stay still waiting 
+assists is bugged i can see it go up even when no personnages were killed
+
+
 
 Manual:
 left click:attack
