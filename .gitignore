@@ -1,7 +1,5 @@
 # build output
 out/
-bin/
-out/
 *.zip
 *.ps1
 logs/

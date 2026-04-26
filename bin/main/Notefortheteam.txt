@@ -1,0 +1,60 @@
+TO DO:
+
+//hero selection gui, items bar
+
+//visual effect when casting? when base attack on cooldown
+//bot waypoint
+
+//visual effects : recall?	
+//buff skills
+
+
+//tf does sprite preview do
+
+CAN BE IGNORED:
+//note skills just target the last taret u were attacking can improve but not so bad
+// make a better respawning logic(depending on lvl can cause issues)
+//visuals for recall? standing sprite? circlce, blood, angry
+//bot spells
+//add a blink spell? sheild? slow? aoe melee?
+// problem: the safe area id defined based on range so he could be recalling while being hit by a somoene with a higher range
+//add keyboard mouvement?
+
+//improvements:
+more spells
+more equipements
+//bugs
+//names are weird white chunks ? not rendered properly remove em
+sometimes they dont heal fully 
+sometimes they dont move unless an enemy is nearby or low hp they just stay still waiting 
+assists is bugged i can see it go up even when no personnages were killed
+
+
+
+Manual:
+left click:attack
+right click : move
+1/2/3 or left click on spells: cast spels
+ctrl+1/2/3 or right click on spells :upgrade spells
+4:recall
+B: shop
+
+
+
+
+
+TYPES OF SPELLS in general: (Aoe , single target)
+-projectile? they take time to lanf
+-melee
+-heal
+-cc(slow down, stun)
+-buff dmg
+-sheild
+-deathTimeReduction?
+-dash
+-immunity?
+-raise stats for a while?
+-example : SKILL HEAL :REMOVES own HP and heals ALLIES
+
+
+

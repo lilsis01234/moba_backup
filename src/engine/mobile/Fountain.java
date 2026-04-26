@@ -8,7 +8,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import game_config.GameConfiguration;
-import sun.awt.GlobalCursorManager;
 
 public class Fountain extends Entity {
 
