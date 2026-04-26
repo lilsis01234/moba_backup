@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Personnage extends Entity {
 
@@ -215,6 +216,11 @@ public abstract class Personnage extends Entity {
         this.addXp(victim.getXPLoot());
 
         if (victim instanceof Personnage) {
+            // Safety: KDA/assists should only be attributed for enemy hero deaths.
+            if (victim.getTeam() == this.getTeam()) {
+                victim.getAttackers().clear();
+                return;
+            }
             this.kda.addKill();
             ((Personnage) victim).getKDA().addDeath();
 
@@ -225,7 +231,7 @@ public abstract class Personnage extends Entity {
                 Personnage helper = entry.getKey();
                 long timestamp = entry.getValue();
 
-                if (helper != this && helper.getTeam() == this.getTeam()) {
+                if (helper != this && helper.isActive() && helper.getTeam() == this.getTeam() && helper.getTeam() != victim.getTeam()) {
                     if (System.currentTimeMillis() - timestamp <= 5000) {
                         helper.addGold(assistGold);
                         helper.addXp(assistXp);
