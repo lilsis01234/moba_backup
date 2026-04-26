@@ -1,0 +1,114 @@
+package data.model;
+
+import engine.mobile.Entity;
+
+import engine.mobile.Personnage;
+import engine.mobile.SpellStrategy;
+
+public class Spell {
+    private int id;
+    private int heroId;
+    private String name;
+    private String description;
+    private int damage;
+    private int buff;	
+    private double cooldown;
+    private int manaCost;
+    private int spellLevel = 0; // starts locked; first skill point unlocks it (level 1)
+  
+    //deleted the type class replaces by enum
+    public enum Type { DAMAGE, CROWD_CONTROL, SUPPORT;
+
+        public static Type fromCode(String code) {
+            if ("CC".equals(code)) return CROWD_CONTROL;
+            if ("SP".equals(code)) return SUPPORT;
+            return DAMAGE;
+        }
+    }
+
+    private Type type;
+    
+    private SpellStrategy effect;
+ 
+    public Spell() {}
+  
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void cast(Personnage caster, Entity target) {
+        effect.cast(caster, target, spellLevel);
+    }
+    public void setEffect(SpellStrategy effect) {
+        this.effect = effect;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getHeroId() {
+        return heroId;
+    }
+    
+    public void setHeroId(int heroId) {
+        this.heroId = heroId;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public int getDamage() {
+        return damage;
+    }
+    
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+    
+    public double getCooldown() {
+        return cooldown;
+    }
+    
+    public void setCooldown(double cooldown) {
+        this.cooldown = cooldown;
+    }
+    
+    public int getManaCost() {
+        return manaCost;
+    }
+    
+    public void setManaCost(int manaCost) {
+        this.manaCost = manaCost;
+    }
+    
+    public Type getType() {
+        return type;
+    }
+    
+    public void setType(Type type) {
+        this.type = type;
+    }
+    public static final int MAX_LEVEL = 5;
+
+    public void upgrade() {
+        if (spellLevel < MAX_LEVEL) spellLevel++;
+    }
+    public int getSpellLevel() { return spellLevel; }
+    public boolean isUnlocked() { return spellLevel > 0; }
+    public int getBuff() { return buff; }
+    public void setBuff(int buff) { this.buff = buff; }
+}

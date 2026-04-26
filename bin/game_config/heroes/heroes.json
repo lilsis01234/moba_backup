@@ -1,0 +1,518 @@
+[
+  {
+    "name": "Dragonoid",
+    "spriteFile": "res/HeroSprites/Demon.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/DemonATK.png",
+    "history": "Founded on the principles of absolute justice and unbreakable kinship, the White Knights are the silver shield of the kingdom. More than a mere military order, they are a family bound by a sacred oath rather than blood. Each knight is chosen not only for their prowess in battle but for their unwavering devotion to their brothers and sisters-in-arms. And in the ranks of this organization grew a very ambitious dragon: Dragonoid! With the strength of a dragon and the discipline of a soldier, she charges into battle, fueled by the unwavering belief that justice must prevail. To her, the Order is her home, her family, and her entire world. She will stop at nothing to ensure the light of the kingdom never fades. 'I will vanquish all evil!'",
+    "category": "Force",
+    "maxHp": 700,
+    "attack": 60,
+    "defense": 80,
+    "attackSpeed": 0.55,
+    "maxMana": 200,
+    "attackRange": 400,
+    "speed": 380,
+    "spells": [
+      {
+        "name": "Onde de Granite",
+        "description": "Ecrase le sol, infligeant 80 degats aux ennemis proches et les ralentit.",
+        "damage": 80,
+        "cooldown": 8,
+        "manaCost": 40,
+        "type": "CC",
+        "buff": 0
+      },
+      {
+        "name": "Ecailles Eternelles",
+        "description": "Augmente sa defense de 30% pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 50,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Jugement du Demon",
+        "description": "Attaque puissante infligeant 150 degats a une cible unique.",
+        "damage": 150,
+        "cooldown": 12,
+        "manaCost": 70,
+        "type": "dmg",
+        "buff": 0
+      }
+    ]
+  },
+  {
+    "name": "Muriel",
+    "spriteFile": "res/HeroSprites/Angel.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/AngelATK.png",
+    "history": "A member of the White Knights, Muriel is a rare soul among the heavenly inhabitants. While his kin looks down upon humanity as flawed beings filled with imperfections, Muriel is deeply fascinated by them. He sees beauty in those imperfections, the continuous human pursuit of meaning through trial and error, the ability to fall and bounce back, to struggle and leave a trace of oneself behind. And thus he has decided to be the eternal guardian over humanity, vowing to protect their spark until his very last breath. 'Humans are such wonderful creatures'",
+    "category": "Force",
+    "maxHp": 750,
+    "attack": 45,
+    "defense": 90,
+    "attackSpeed": 0.50,
+    "maxMana": 180,
+    "attackRange": 400,
+    "speed": 360,
+    "spells": [
+      {
+        "name": "Sentence Celeste",
+        "description": "Lance un rocher qui inflige 100 degats et etourdit 1 seconde.",
+        "damage": 100,
+        "cooldown": 6,
+        "manaCost": 45,
+        "type": "CC",
+        "buff": 0
+      },
+      {
+        "name": "Grace de Marbre",
+        "description": "Reduit tous les degats subis de 20% pendant 6 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 60,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Colere de l'Eden",
+        "description": "Frappe le sol creant une secousse qui inflige 200 degats sur une zone large.",
+        "damage": 200,
+        "cooldown": 15,
+        "manaCost": 100,
+        "type": "dmg",
+        "buff": 0
+      }
+    ]
+  },
+  {
+    "name": "Sir Lancelot",
+    "spriteFile": "res/HeroSprites/Jacko.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/JackoATK.png",
+    "history": "The paragon of chivalry and nobility, Sir Lancelot fell in love with a woman he could never have. This forbidden passion forced him to betray his King. As punishment for his treason, the court mage Elphaba struck him with a curse of invisibility. Refusing to vanish into history, the proud knight donned his boots and gloves, using a hollowed pumpkin as a helmet, set off on a relentless journey to track down the sorceress and break the spell. 'JUST YOU WAIT ELPHABA! JUST YOU WAIT UNTIL I CATCH YOU, YOU WITCH!'",
+    "category": "Force",
+    "maxHp": 680,
+    "attack": 55,
+    "defense": 85,
+    "attackSpeed": 0.60,
+    "maxMana": 150,
+    "attackRange": 400,
+    "speed": 400,
+    "spells": [
+      {
+        "name": "Course Macabre",
+        "description": "Se met a rouler, infligeant 120 degats et repoussant les ennemis.",
+        "damage": 120,
+        "cooldown": 10,
+        "manaCost": 55,
+        "type": "dmg",
+        "buff": 0
+      },
+      {
+        "name": "Ecorce Maudite",
+        "description": "Gagne une armure bonus equivalente a 50% de ses PV maximums pendant 4 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 70,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Glas de Jacko",
+        "description": "Ecrasement final infligeant 180 degats et renversant les ennemis.",
+        "damage": 180,
+        "cooldown": 14,
+        "manaCost": 90,
+        "type": "CC",
+        "buff": 0
+      }
+    ]
+  },
+  {
+    "name": "Captain Peter",
+    "spriteFile": "res/HeroSprites/Pirate.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/PirateATK.png",
+    "history": "Oh, Peter? I remember when he used to crow at the moon. I remember the smell of the fairy dust as we flew together and the way he'd laugh at the stars like they were his personal toys. But time is a rot, even in a place that's supposed to be forever. One day, the laughter just stopped. Now, he doesn't fly anymore. He stomps across the deck with heavy steps, his eyes as cold as the deep sea. He sails the seas looking for those still clinging to their childish dreams. 'It's time to grow up, don't you think?'",
+    "category": "Force",
+    "maxHp": 800,
+    "attack": 40,
+    "defense": 95,
+    "attackSpeed": 0.45,
+    "maxMana": 120,
+    "attackRange": 400,
+    "speed": 350,
+    "spells": [
+      {
+        "name": "Bordee Fantome",
+        "description": "Deploie un rempart temporaire qui bloque les projectiles et reduit les degats de 40%.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 65,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Rancoeur du Corsaire",
+        "description": "Renvoie 50% des degats subis aux attaquants pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 75,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Tresor des Abysses",
+        "description": "Devient invulnerable pendant 3 secondes et inflige 60 degats aux ennemis proches.",
+        "damage": 60,
+        "cooldown": 18,
+        "manaCost": 100,
+        "type": "CC",
+        "buff": 80
+      }
+    ]
+  },
+  {
+    "name": "Erode",
+    "spriteFile": "res/HeroSprites/Zombie.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/ZombieATK.png",
+    "history": "There is no thought behind his deformed eyes, an abomination left to wander for eternity. He does not fear, he does not hunger; making him merely an empty shell devoid of all emotion. Perhaps he once had a name, a family, or a grand purpose, but those memories have long decayed. He is left to slowly wither, and waste away aimlessly walking a path without an end while his body is falling apart. He is not living, he is not dead; he is simply eroding. '...ughhh... what am i...'",
+    "category": "Agilite",
+    "maxHp": 380,
+    "attack": 55,
+    "defense": 40,
+    "attackSpeed": 1.20,
+    "maxMana": 150,
+    "attackRange": 420,
+    "speed": 560,
+    "spells": [
+      {
+        "name": "Muraille",
+        "description": "Cree une barriere qui bloque les projectiles ennemis pendant 6 secondes.",
+        "damage": 0,
+        "cooldown": 0,
+        "manaCost": 80,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Elan du Trepas",
+        "description": "Se precipite vers un allie, infligeant 40 degats aux ennemis sur le passage.",
+        "damage": 40,
+        "cooldown": 8,
+        "manaCost": 45,
+        "type": "CC",
+        "buff": 0
+      },
+      {
+        "name": "Heurt des Tombes",
+        "description": "Attaque avec son bouclier, infligeant 90 degats et renversant la cible.",
+        "damage": 90,
+        "cooldown": 6,
+        "manaCost": 40,
+        "type": "dmg",
+        "buff": 0
+      }
+    ]
+  },
+  {
+    "name": "Sentinel",
+    "spriteFile": "res/HeroSprites/Werewolf.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/WerewolfATK.png",
+    "history": "A werewolf assassin who has spent her life perfecting the art of disappearing. Raised on the cold, unforgiving streets, she learned early on that showing weakness was a death sentence. She keeps her identity hidden beneath a heavy cloak, passing as a human to move through the cities undetected. No one knows anything about her, nor has anyone seen her face before, yet her reputation shakes even the strongest and wealthiest of men. Once she sets her eyes on you, there is no going back. She is a shadow for hire who trusts no one; for her, the darkness isn't just a place to hide, it's the only thing she could trust. 'I embraced the shadows, the shadows embraced me back'",
+    "category": "Agilite",
+    "maxHp": 350,
+    "attack": 55,
+    "defense": 35,
+    "attackSpeed": 1.35,
+    "maxMana": 160,
+    "attackRange": 430,
+    "speed": 590,
+    "spells": [
+      {
+        "name": "Oeil de la Verite",
+        "description": "Revele les ennemis invisibles dans une grande zone et inflige 35 degats par seconde.",
+        "damage": 35,
+        "cooldown": 15,
+        "manaCost": 60,
+        "type": "CC",
+        "buff": 80
+      },
+      {
+        "name": "Lien de Protection",
+        "description": "Lie sa vie a un allie, partageant 30% des degats qu'il subit.",
+        "damage": 0,
+        "cooldown": 20,
+        "manaCost": 90,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Pacte de Sang",
+        "description": "Tire un projectile qui inflige 110 degats et silence l'ennemi pendant 2 secondes.",
+        "damage": 110,
+        "cooldown": 7,
+        "manaCost": 45,
+        "type": "dmg",
+        "buff": 0
+      }
+    ]
+  },
+  {
+    "name": "The Warden",
+    "spriteFile": "res/HeroSprites/Hare.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/HareATK.png",
+    "history": "A young man, unable to stand the longing for his recently departed beloved, visited her grave under the cover of night. An inhumane shadow lurked behind him. As the sky cleared, revealing some moonlight, he saw it: a hairless, pale mass of human skin stretched tight over the shape of a rabbit. No fur, no warmth. Only a fixed, glassy stare watching him with patience. In a split second, the creature was gone. The only sound left was a swift thud coming from a shovel hitting something, followed by the sound of wet stitching in the dark. After some time, the young man was nowhere to be seen, and another rabbit head joined the rows of the silent. 'Ah... why is your head like that? Lemme fix it for you.'",
+    "category": "Agilite",
+    "maxHp": 300,
+    "attack": 65,
+    "defense": 30,
+    "attackSpeed": 1.30,
+    "maxMana": 140,
+    "attackRange": 420,
+    "speed": 610,
+    "spells": [
+      {
+        "name": "Rancoeur de Fer",
+        "description": "Lance des chaines qui infligent 45 degats et immobilisent la cible.",
+        "damage": 45,
+        "cooldown": 6,
+        "manaCost": 40,
+        "type": "CC",
+        "buff": 0
+      },
+      {
+        "name": "Instinct de Meute",
+        "description": "Repousse tous les ennemis autour de lui et les inflige 60 degats.",
+        "damage": 60,
+        "cooldown": 9,
+        "manaCost": 50,
+        "type": "dmg",
+        "buff": 0
+      },
+      {
+        "name": "Prison Magique",
+        "description": "Emprisonne un ennemi dans une faille spatiale et inflige 55 degats.",
+        "damage": 55,
+        "cooldown": 18,
+        "manaCost": 100,
+        "type": "CC",
+        "buff": 0
+      }
+    ]
+  },
+  {
+    "name": "Amaterasu",
+    "spriteFile": "res/HeroSprites/Samurai.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/SamuraiATK.png",
+    "history": "The sun goddess locked herself away in a dark cave, refusing to share her light with the world. In a desperate attempt to cheer her up and lure her out, the other gods placed a mirror at the cave's entrance. When she peeked out, not realizing she was looking at her own reflection, she saw a goddess as bright and brilliant as her, she struck the glass with divine fury. Now, she can be seen wearing a shard of that mirror as a monocle, a trophy of the day she extinguished her only rival. 'The sky is too small for two suns'",
+    "category": "Agilite",
+    "maxHp": 420,
+    "attack": 60,
+    "defense": 45,
+    "attackSpeed": 1.20,
+    "maxMana": 100,
+    "attackRange": 450,
+    "speed": 540,
+    "spells": [
+      {
+        "name": "Posture du Ronin",
+        "description": "Augmente l'armure de 60% mais ne peut pas se deplacer pendant 5 secondes.",
+        "damage": 60,
+        "cooldown": 10,
+        "manaCost": 60,
+        "type": "dmg",
+        "buff": 80
+      },
+      {
+        "name": "Voie du Bushido",
+        "description": "Avance en protegeant les allies derriere lui, reduisant les degats de zone de 50%.",
+        "damage": 0,
+        "cooldown": 15,
+        "manaCost": 80,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Esprit de l'Aube",
+        "description": "Regenere 300 PV par seconde pendant 3 secondes.",
+        "damage": 0,
+        "cooldown": 20,
+        "manaCost": 100,
+        "type": "dmg",
+        "buff": 80
+      }
+    ]
+  },
+  {
+    "name": "Fae",
+    "spriteFile": "res/HeroSprites/Fairy.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/FairyATK.png",
+    "history": "In the deep forest you'll find a willow tree so magnificent, it is said that it was once a plain withered tree but reached enlightenment after a prophet passed by. The tree eventually gave its heart to create a new life: a fairy, small and beautiful. Although Fae is bound to the forest, she loves watching the travelers who pass through. She listens to their weary stories, her face shifting from excitement to sorrow to happiness as she hears of the lands beyond. She stays hidden in the leaves, dreaming of one day having her own adventure to tell. 'I wonder... do cats and dogs really fall from the sky?'",
+    "category": "Intelligence",
+    "maxHp": 280,
+    "attack": 45,
+    "defense": 30,
+    "attackSpeed": 0.65,
+    "maxMana": 450,
+    "attackRange": 800,
+    "speed": 460,
+    "spells": [
+      {
+        "name": "Aura de Sacrifice",
+        "description": "Prend 50% des degats subis par un allie cible pendant 6 secondes.",
+        "damage": 0,
+        "cooldown": 4,
+        "manaCost": 70,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Jugement Divin",
+        "description": "Invoque un rayon de lumiere qui inflige 150 degats et etourdit 1.5 secondes.",
+        "damage": 150,
+        "cooldown": 5,
+        "manaCost": 90,
+        "type": "dmg",
+        "buff": 0
+      },
+      {
+        "name": "Eclat de Selene",
+        "description": "Soigne un allie de 200 PV.",
+        "damage": 0,
+        "cooldown": 6,
+        "manaCost": 50,
+        "type": "SP",
+        "buff": 100
+      }
+    ]
+  },
+  {
+    "name": "Ignis",
+    "spriteFile": "res/HeroSprites/FireMage.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/FireMageATK.png",
+    "history": "Being hot-headed and fiercely ambitious, Ignis once challenged the Sun Goddess herself. For her insolence, Amaterasu punished her with a radiance so intense it left Ignis eternally blinded. She sought out the Prophet to heal her sight, but to no avail, as he told her her heart was a raging inferno, unstable and consumed by fury, he urged her to find peace before she could truly see again. However Ignis paid his wisdom no mind. Instead, she let her hatred stoke her inner flames, vowing that her fire will eventually surpass the sun that blinded her. 'Burn strong, brighter than the sun'",
+    "category": "Intelligence",
+    "maxHp": 260,
+    "attack": 40,
+    "defense": 35,
+    "attackSpeed": 0.60,
+    "maxMana": 420,
+    "attackRange": 750,
+    "speed": 450,
+    "spells": [
+      {
+        "name": "Cocon de Braise",
+        "description": "Absorbe jusqu'a 300 degats pour un allie pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 5,
+        "manaCost": 65,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Provocation",
+        "description": "Force les ennemis proches a attaquer et inflige 30 degats par seconde.",
+        "damage": 30,
+        "cooldown": 5,
+        "manaCost": 40,
+        "type": "CC",
+        "buff": 0
+      },
+      {
+        "name": "Flamme Partagee",
+        "description": "Partage sa regeneration de PV with un allie pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 6,
+        "manaCost": 60,
+        "type": "SP",
+        "buff": 80
+      }
+    ]
+  },
+  {
+    "name": "Dorothy",
+    "spriteFile": "res/HeroSprites/GoblinMage.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/GoblinMageATK.png",
+    "history": "After casting a slightly-too-permanent curse on a certain high-and-mighty knight, Dorothy found herself in a rather bizarre situation: a weird man waving his sword shooting her name on the streets promising a reckoning. Terrified of a vengeful set of invisible boots and the angry, floating pumpkin that comes with them, she slapped on a not-so-obvious sleeping mask and began a new life. 'Elphaba? Never heard of her. Sounds like a very... talented person though!'",
+    "category": "Intelligence",
+    "maxHp": 240,
+    "attack": 50,
+    "defense": 25,
+    "attackSpeed": 0.55,
+    "maxMana": 380,
+    "attackRange": 820,
+    "speed": 440,
+    "spells": [
+      {
+        "name": "Rage du Malicieux",
+        "description": "Gagne 1% d'augmentation de degats par point de PV manquant pendant 10 secondes.",
+        "damage": 0,
+        "cooldown": 5,
+        "manaCost": 75,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Frappe Sournoise",
+        "description": "Attaque qui ignore 50% de l'armure de la cible.",
+        "damage": 150,
+        "cooldown": 6,
+        "manaCost": 45,
+        "type": "dmg",
+        "buff": 0
+      },
+      {
+        "name": "Gourmandise Sombre",
+        "description": "Gagne +1% de taille et +2% de PV par point d'armure pendant 8 secondes.",
+        "damage": 0,
+        "cooldown": 8,
+        "manaCost": 90,
+        "type": "SP",
+        "buff": 120
+      }
+    ]
+  },
+  {
+    "name": "Wanderer",
+    "spriteFile": "res/HeroSprites/Prophet.png",
+    "atkSpriteFile": "res/HeroSprites/ATK/ProphetATK.png",
+    "history": "Clad in simple, travel-worn robes and carrying only a weathered wooden staff, he is known to many simply as the Wanderer or the prophet. He claims no throne and seeks no glory, moving silently through the world's forgotten paths. With eyes that have seen the unfolding of ages, he offers his vast wisdom to those who listen and his healing touch to every broken creature he encounters. He is a man of quiet virtue, walking not to reach a destination, but to mend the world as he passes through it. 'Too much light blinds, too much dark consumes.'",
+    "category": "Intelligence",
+    "maxHp": 300,
+    "attack": 45,
+    "defense": 40,
+    "attackSpeed": 0.50,
+    "maxMana": 350,
+    "attackRange": 780,
+    "speed": 460,
+    "spells": [
+      {
+        "name": "Miroir d'Ame",
+        "description": "Renvoie 80% des degats subis aux attaquants pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 2,
+        "manaCost": 80,
+        "type": "SP",
+        "buff": 80
+      },
+      {
+        "name": "Sagesse Tranchante",
+        "description": "Attaque qui traverse les ennemis et ignore leur defense.",
+        "damage": 140,
+        "cooldown": 4,
+        "manaCost": 50,
+        "type": "dmg",
+        "buff": 0
+      },
+      {
+        "name": "Voile de l'Oracle",
+        "description": "Absorbe jusqu'a 500 degats pendant 5 secondes.",
+        "damage": 0,
+        "cooldown": 6,
+        "manaCost": 100,
+        "type": "SP",
+        "buff": 200
+      }
+    ]
+  }
+]
