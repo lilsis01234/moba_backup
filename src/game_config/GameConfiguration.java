@@ -52,10 +52,7 @@ public class GameConfiguration {
     public static final double START_Y= TILE_SIZE * 56;
     public static final double PLAYER_MANA_REGEN = 2.0;
     
-    
-
-    
-    
+   
 
     // Tower
     public static final double TOWER_RANGE = 200.0; 
@@ -80,7 +77,7 @@ public class GameConfiguration {
     public static final int GAME_SPEED = 10;
 
     // Minion
-    public static final double MINION_DMG    = 3.0;
+    public static final double MINION_DMG    = 5.0;
     public static final double MINION_RANGE = 250; 
     public static final double MINION_MAX_HP = 60;
     public static final double MINION_ATTACK_COOLDOWN = 0.9;
