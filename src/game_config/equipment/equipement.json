@@ -11,10 +11,10 @@
     {"id":6,"name":"Armure Lourde","type":"ARMOR","attackBonus":12,"defenseBonus":12,"price":800,"description":"Protection maximale."}
   ],
   "fused": [
-    {"id":101,"name":"Lame du Guerrier","type":"SWORD","attackBonus":45,"defenseBonus":0,"description":"Fusion Epee de Fer + Epee d Acier.","req1":1,"req2":2},
-    {"id":102,"name":"Heaume Royal","type":"HELMET","attackBonus":0,"defenseBonus":45,"description":"Fusion Casque Bronze + Casque de Fer.","req1":3,"req2":4},
+    {"id":101,"name":"Lame du Guerrier","type":"SWORD","attackBonus":50,"defenseBonus":0,"description":"Fusion Epee de Fer + Epee d Acier.","req1":1,"req2":2},
+    {"id":102,"name":"Heaume Royal","type":"HELMET","attackBonus":0,"defenseBonus":50,"description":"Fusion Casque Bronze + Casque de Fer.","req1":3,"req2":4},
     {"id":103,"name":"Armure du Champion","type":"ARMOR","attackBonus":25,"defenseBonus":25,"description":"Fusion Armure Legere + Armure Lourde.","req1":5,"req2":6},
     {"id":104,"name":"Armure de Siege","type":"ARMOR","attackBonus":20,"defenseBonus":30,"description":"Fusion Epee de Fer + Casque de Fer.","req1":1,"req2":4},
-    {"id":105,"name":"Garde du Corps","type":"ARMOR","attackBonus":10,"defenseBonus":20,"description":"Fusion Casque Bronze + Armure Legere.","req1":3,"req2":5}
+    {"id":105,"name":"Garde du Corps","type":"ARMOR","attackBonus":21,"defenseBonus":28,"description":"Fusion Casque Bronze + Armure Legere.","req1":3,"req2":5}
   ]
 }
