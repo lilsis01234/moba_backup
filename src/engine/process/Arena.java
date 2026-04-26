@@ -1,9 +1,10 @@
 package engine.process;
 
+import java.awt.FontMetrics;
 import engine.mobile.Base;
 import engine.mobile.Bot;
 import engine.mobile.Entity;
-import engine.mobile.EntityUtils;
+
 import engine.mobile.Fountain;
 import engine.mobile.Minion;
 import engine.mobile.Personnage;
@@ -203,13 +204,17 @@ checkGameOver();
 
         g2.setTransform(original);
 
-        int screenX = (int) Math.round(player.getX() * scale + offsetX);
-        int screenY = (int) Math.round(player.getY() * scale + offsetY);
+        if (player.isActive()) {
+            int screenX = (int) Math.round(player.getX() * scale + offsetX);
+            int screenY = (int) Math.round(player.getY() * scale + offsetY);
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 12));
-        String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
-        g2.drawString(heroName, screenX - 15, screenY - 20);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            String heroName = selectedHero != null ? selectedHero.getName() : "Hero";
+            FontMetrics fm = g2.getFontMetrics();
+            int textWidth = fm.stringWidth(heroName);
+            g2.drawString(heroName, screenX - textWidth / 2, screenY - 15);
+        }
     }
 
     private void renderHealthBar(Graphics2D g2, Entity entity) {
@@ -355,12 +360,14 @@ checkGameOver();
             for (int i = 0; i < assists; i++) playerStats.addAssist();
             playerStats.setGoldEarned(player.getTotalGoldEarned());
             playerStats.setGoldSpent(0);
-            playerStats.setCsCreeps(0);
+            playerStats.setCsCreeps(player.getCsCreeps());
             playerStats.setLevel(player.getLevel());
             playerStats.setTimePlayed(duration);
             playerStats.setTimeSpentDead(0);
             playerStats.setPlayer(true);
             playerStats.setLongestKillStreak(kills);
+            playerStats.addDamageToHeroes((int) player.getDamageDealtToHeroes());
+            playerStats.addDamageToBuildings((int) player.getDamageDealtToBuildings());
             blueTeam.addHero(playerStats);
         }
 
@@ -382,10 +389,12 @@ checkGameOver();
             }
             botStats.setGoldEarned(bot.getTotalGoldEarned());
             botStats.setGoldSpent(0);
-            botStats.setCsCreeps(0);
+            botStats.setCsCreeps(bot.getCsCreeps());
             botStats.setLevel(bot.getLevel());
             botStats.setTimePlayed(duration);
             botStats.setTimeSpentDead(0);
+            botStats.addDamageToHeroes((int) bot.getDamageDealtToHeroes());
+            botStats.addDamageToBuildings((int) bot.getDamageDealtToBuildings());
 
             if (bot.getTeam() == 0) {
                 blueTeam.addHero(botStats);
@@ -396,6 +405,10 @@ checkGameOver();
 
         blueTeam.calculateTotals();
         redTeam.calculateTotals();
+        
+        blueTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
+        redTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
+        
         gameStats.setTeamStats(0, blueTeam);
         gameStats.setTeamStats(1, redTeam);
 

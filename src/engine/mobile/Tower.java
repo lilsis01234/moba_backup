@@ -29,7 +29,7 @@ public class Tower extends Entity {
          // attack stats
          this.atkDamage   = GameConfiguration.TOWER_DAMAGE;
          this.atkRange    = GameConfiguration.TOWER_RANGE;
-this.atkCooldown = 1.5;
+         this.atkCooldown = GameConfiguration.TOWER_ATTACK_COOLDOWN;;
         logger.debug("Tower created at (" + x + ", " + y + ") for team " + team + " with HP " + maxHp);
         try {
              AllyImg  = ImageIO.read(Tower.class.getResourceAsStream("/res/towers/AllyTowers.png"));

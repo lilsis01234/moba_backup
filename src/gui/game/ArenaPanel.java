@@ -52,7 +52,7 @@ public class ArenaPanel extends JPanel {
                 }
             }
         });
-        EquipmentLoader loader = EquipmentLoader.getInstance();
+        
         shopPanel = ShopPanel.create(arena.getPlayer());
 
         addMouseListener(new MouseAdapter() {

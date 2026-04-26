@@ -19,22 +19,18 @@ import gui.menu.HeroSelection;
 import gui.menu.MainMenu;
 import game_config.GameConfiguration;
 import data.model.Hero;
-import data.model.HeroStats;
-import data.model.TeamStats;
 import data.model.GameStats;
 import gui.menu.AfterGamePanel;
-
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class InterfaceLauncher extends JFrame implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -57,6 +53,11 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         screenHeight = (int) screenSize.getHeight();
 
         setTitle("MOBA");
+        try {
+        	setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setLocationRelativeTo(null);
@@ -135,41 +136,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         screen.requestFocusInWindow();
     }
 
-    private void showGameOver(String result) {
-        if (arena == null) return;
-        
-        GameStats stats = arena.buildGameStats(result);
-        
-        JFrame gameOverFrame = new JFrame("Game Over");
-        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameOverFrame.setSize(screenWidth, screenHeight);
-        gameOverFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        AfterGamePanel screen = new AfterGamePanel(stats,
-            new Dimension(screenWidth, screenHeight),
-            new AfterGamePanel.AfterGameListener() {
-                @Override
-                public void onReturnToMenu() {
-                    gameOverFrame.dispose();
-                    gameOver = false;
-                    resetGameState();
-                    setVisible(true);
-                    showMainMenu();
-                }
-                
-                @Override
-                public void onPlayAgain() {
-                    gameOverFrame.dispose();
-                    gameOver = false;
-                    resetGameState();
-                    startGame();
-                }
-            });
-
-        gameOverFrame.add(screen);
-        gameOverFrame.setVisible(true);
-        screen.requestFocusInWindow();
-    }
+    
 
     private void startGame() {
         setVisible(false);
@@ -177,7 +144,12 @@ public class InterfaceLauncher extends JFrame implements Runnable {
     }
 
     private void showHeroSelection() {
-        JFrame selectionFrame = new JFrame("MOBA - Sélection du héros");
+    	JFrame selectionFrame = new JFrame("MOBA - Sélection du héros");
+    	try {
+    		selectionFrame.setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
         selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         selectionFrame.setSize(screenWidth, screenHeight);
         selectionFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -278,6 +250,12 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         });
 
         gameFrame = new JFrame("MOBA - Game");
+        try {
+        	gameFrame.setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.add(panel);
         gameFrame.setGlassPane(glassPane);
@@ -288,7 +266,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         gameFrame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_B) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
                     panel.toggleShop();
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     togglePause(!isPaused);
@@ -378,6 +356,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
+        java.util.Locale.setDefault(java.util.Locale.FRENCH);
         new InterfaceLauncher();
     }
 }

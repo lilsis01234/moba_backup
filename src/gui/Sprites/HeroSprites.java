@@ -1,8 +1,6 @@
 package gui.Sprites;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class HeroSprites {
@@ -53,6 +51,7 @@ public class HeroSprites {
         if (sprites == null) return null;
         return sprites[dirIndex ][frame];
     }
+    
     
     public int getFramesPerDirection() { return frames; }
 }

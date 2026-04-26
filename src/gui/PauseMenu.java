@@ -77,9 +77,7 @@ public class PauseMenu extends JPanel {
     private void updateHoveredButton(int x, int y) {
         int w = getWidth();
         int h = getHeight();
-        
-        int menuWidth = 250;
-        int menuHeight = 180;
+
         
         int btnWidth = 180;
         int btnHeight = 40;

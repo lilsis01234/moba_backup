@@ -105,7 +105,7 @@ public class HUDRenderer {
         
         renderAbilityBar(g2, screenWidth - 170 - margin, screenHeight - 60);
         renderRecallButton(g2,screenWidth - 170 - margin -60,screenHeight - 60);
-        renderItemBar(g2, screenWidth - 140 - margin, screenHeight - 110);
+        renderItemBar(g2, screenWidth - 205 - margin, screenHeight - 140);
         
         renderPauseButton(g2, margin, 100);
         
@@ -612,8 +612,15 @@ public class HUDRenderer {
     }
 
     private void renderItemBar(Graphics2D g2, int x, int y) {
-        int width = 210;
-        int height = 45;
+        int abilityBarWidth = 180;
+        int abilityPadding = 10;
+        int abilityGap = 10;
+        int slotSize = (abilityBarWidth - 2 * abilityPadding - 2 * abilityGap) / 3;
+
+        int itemGap = 5;
+        int itemPadding = 8;
+        int width = (slotSize * 4) + (itemGap * 3) + (itemPadding * 2); 
+        int height = slotSize + 30;
 
         g2.setColor(Theme.PANEL_BG);
         g2.fillRect(x, y, width, height);
@@ -625,12 +632,10 @@ public class HUDRenderer {
         g2.drawString("ITEMS  [B]=Boutique", x + 5, y + 12);
 
         List<Equipment> gear = player.getEquippedGear();
-        int slotSize = 28;
-        int gap = 3;
 
-        for (int i = 0; i < 6; i++) {
-            int slotX = x + 5 + i * (slotSize + gap);
-            int slotY = y + 15;
+        for (int i = 0; i < 4; i++) {
+            int slotX = x + itemPadding + i * (slotSize + itemGap);
+            int slotY = y + 20;
 
             if (i < gear.size()) {
                 Equipment eq = gear.get(i);
@@ -639,8 +644,13 @@ public class HUDRenderer {
                 g2.setColor(Color.YELLOW);
                 g2.drawRect(slotX, slotY, slotSize, slotSize);
                 g2.setColor(Color.WHITE);
-                g2.setFont(new Font("Arial", Font.BOLD, 12));
-                g2.drawString(eq.getName().substring(0, 1), slotX + 9, slotY + 19);
+                g2.setFont(new Font("Arial", Font.BOLD, 16));
+                
+                FontMetrics fm = g2.getFontMetrics();
+                String name = eq.getName().substring(0, 1);
+                int tx = slotX + (slotSize - fm.stringWidth(name)) / 2;
+                int ty = slotY + (slotSize + fm.getAscent()) / 2 - 2;
+                g2.drawString(name, tx, ty);
             } else {
                 g2.setColor(new Color(40, 40, 60));
                 g2.fillRect(slotX, slotY, slotSize, slotSize);

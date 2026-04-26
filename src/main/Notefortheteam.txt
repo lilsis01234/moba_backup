@@ -1,22 +1,15 @@
 TO DO:
 
+//hero selection gui, items bar
+
+//visual effect when casting? when base attack on cooldown
+//bot waypoint
+
+//visual effects : recall?	
+//buff skills
 
 
-//update the loot system( having to last hit to get any loot very difficult)
-//assist reward (about 40% of kill gold and xp only when apply buff/heal/damage enemy 5 seconds before the kill)
-//problem : if tower kills enemy : wasted kill + resources checkkill
-//stats HUD	
-//properly calculate skill dmg/heal/stun
-//gatekeep bases
-//add keyboard mouvement
-//spell cast visual effect
-//uh if no targer and cast?
-//visual effects
-//lore
-
-//add scoreboard (tab) that shows all characters stats kda gold level equipement
-
-
+//tf does sprite preview do
 
 CAN BE IGNORED:
 //note skills just target the last taret u were attacking can improve but not so bad
@@ -24,6 +17,19 @@ CAN BE IGNORED:
 //visuals for recall? standing sprite? circlce, blood, angry
 //bot spells
 //add a blink spell? sheild? slow? aoe melee?
+// problem: the safe area id defined based on range so he could be recalling while being hit by a somoene with a higher range
+//add keyboard mouvement?
+
+//improvements:
+more spells
+more equipements
+//bugs
+//names are weird white chunks ? not rendered properly remove em
+sometimes they dont heal fully 
+sometimes they dont move unless an enemy is nearby or low hp they just stay still waiting 
+assists is bugged i can see it go up even when no personnages were killed
+
+
 
 Manual:
 left click:attack

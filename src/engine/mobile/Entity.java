@@ -1,6 +1,7 @@
 package engine.mobile;
 
 import java.awt.*;
+import java.util.HashMap;
 
 import log.LoggerUtility;
 import org.apache.log4j.Logger;
@@ -25,6 +26,8 @@ public abstract class Entity {
     protected double atkCooldown;
     protected double atkTimer = 0;
     protected int team;
+    
+    protected HashMap<Personnage, Long> attackers = new HashMap<>();
 
     public Entity(double x, double y, double maxHp, int team) {
         this.x = x;
@@ -47,9 +50,14 @@ public abstract class Entity {
     
 
     public void heal(double amount) {
-        hp += amount;
-        if (hp > maxHp) hp = maxHp;
+    	if (this.hp < this.maxHp) {
+            this.hp += amount;
+            if (this.hp > this.maxHp) {
+                this.hp = this.maxHp;
+            }
+        }
     }
+   
 
     public void takeDamage(double damage) {
         this.hp -= damage;
@@ -76,6 +84,13 @@ public abstract class Entity {
             target.takeDamage(atkDamage);
             atkTimer = atkCooldown;
         }
+    }
+    
+    public void trackDamage(Personnage attacker) {
+        attackers.put(attacker, System.currentTimeMillis());
+    }
+    public HashMap<Personnage, Long> getAttackers() {
+        return attackers;
     }
 
     public double getX() { return x; }

@@ -45,6 +45,10 @@ public class HeroStats {
         return (double)(kda.getKills() + kda.getAssists()) / deaths;
     }
 
+    public int getMVPScore() {
+        return kda.getKills() * 100 + kda.getAssists() * 50 + (damageDealtToHeroes + damageDealtToBuildings) / 10;
+    }
+
     public boolean isMVP() {
         return isPlayer;
     }
@@ -82,6 +86,7 @@ public class HeroStats {
 
     public int getCsCreeps() { return csCreeps; }
     public void setCsCreeps(int csCreeps) { this.csCreeps = csCreeps; }
+    public void addCsCreep() { this.csCreeps++; }
 
     public long getTimePlayed() { return timePlayed; }
     public void setTimePlayed(long timePlayed) { this.timePlayed = timePlayed; }

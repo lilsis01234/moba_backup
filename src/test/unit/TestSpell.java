@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import data.model.Spell;
 import data.model.Spell.Type;
-import engine.mobile.Entity;
-import engine.mobile.Personnage;
-import engine.mobile.SpellStrategy;
 
 public class TestSpell {
 

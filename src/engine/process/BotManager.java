@@ -60,6 +60,13 @@ public void init(List<Hero> allHeroes, Hero playerHero) {
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot4"), 1, "EBot4", enemyPool.get(3)));
         enemyBots.add(new Bot(getBotWaypoints("ENEMY_Bot5"), 1, "EBot5", enemyPool.get(4)));
         logger.debug("Created " + enemyBots.size() + " enemy bots");
+        
+        for (Bot b : bots) {
+            b.addGold(GameConfiguration.STARTING_GOLD);
+        }
+        for (Bot b : enemyBots) {
+            b.addGold(GameConfiguration.STARTING_GOLD);
+        }
     }
 
     public void update(double deltaTime, List<Entity> enemiesTeam0, ArrayList<Entity> enemiesTeam1, ArrayList<Personnage> allPersonnages) {
@@ -104,12 +111,14 @@ public void init(List<Hero> allHeroes, Hero playerHero) {
             wp.add(new double[]{54 * T, 44 * T});
             wp.add(new double[]{54 * T, 8 * T});
         } else if (botName.equals("Bot4")) {
-        	wp.add(new double[]{16 * T, 44 * T});
-            wp.add(new double[]{21 * T, 55 * T});
-            wp.add(new double[]{36 * T, 55 * T});
-            wp.add(new double[]{54 * T, 55 * T});
-            wp.add(new double[]{54 * T, 44 * T});
-            wp.add(new double[]{54 * T, 8 * T});
+        	wp.add(new double[]{17 * T, 55 * T}); 
+            wp.add(new double[]{32 * T, 55 * T}); 
+            wp.add(new double[]{47 * T, 55 * T}); 
+            wp.add(new double[]{55 * T, 55 * T}); // Corner
+            wp.add(new double[]{55 * T, 49 * T}); 
+            wp.add(new double[]{55 * T, 34 * T}); 
+            wp.add(new double[]{55 * T, 19 * T}); 
+            wp.add(new double[]{53 * T, 7 * T});
         } else if (botName.equals("ENEMY_Bot1")) {
         	wp.add(new double[]{52 * T, 6 * T});
             wp.add(new double[]{7 * T, 55 * T});

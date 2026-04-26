@@ -392,11 +392,12 @@ public class ShopPanel {
     public boolean isVisible() { return visible; }
 
     private void renderFusionTree(Graphics2D g2, int dx, int dy, int dw, int dh) {
+     
         int rootX  = dx + dw / 2;
-        int rootY  = dy + 80;
+        int rootY  = dy + 50; 
         int leftX  = dx + 55;
         int rightX = dx + dw - 55;
-        int childY = dy + 200;
+        int childY = dy + 145; 
         int r      = 28;
 
         String req1Name = findName(selected.getReq1());

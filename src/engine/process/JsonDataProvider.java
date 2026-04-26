@@ -70,6 +70,7 @@ public class JsonDataProvider {
             //heroes
             hero.setName(heroMap.get("name"));
             hero.setSpriteFile((heroMap.get("spriteFile")));
+            hero.setAtkSpriteFile(heroMap.get("atkSpriteFile"));
             hero.setHistory(heroMap.get("history"));
             hero.setCategoryId(getCategoryId(heroMap.get("category")));
             hero.setMaxHp(parseInt(heroMap.get("maxHp")));
