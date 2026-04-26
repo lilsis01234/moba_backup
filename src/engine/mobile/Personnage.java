@@ -108,7 +108,7 @@ public abstract class Personnage extends Entity {
         this.assessAssists(victim, allPersonnages);
     }
 
-    private void assessAssists(Personnage victim, ArrayList<Personnage> allPersonnages) {
+    private void assessAssists(Personnage victim) {
         for (Personnage p : allPersonnages) {
             if (p == this) continue;                   
             if (p.getTeam() != this.getTeam()) continue; 
@@ -244,6 +244,7 @@ public abstract class Personnage extends Entity {
     }
 
     private void distributeRewards(Entity victim) {
+        if (victim.isActive()) return;
         // Killer rewards
         this.addGold(victim.getLoot());
         this.addXp(victim.getXPLoot());
@@ -251,6 +252,7 @@ public abstract class Personnage extends Entity {
         if (victim instanceof Personnage) {
             this.kda.addKill();
             ((Personnage) victim).getKDA().addDeath();
+            this.assessAssists((Personnage) victim);
         } else {
             this.addCsCreep();
         }
@@ -268,9 +270,10 @@ public abstract class Personnage extends Entity {
 		        helper.getKDA().addAssist();
 		        if (!(victim instanceof Personnage)) {
 		            helper.addCsCreep();
+                }
+            }
         }
-    }
-}
+        victim.getAttackers().clear();
     }
 
     protected void drawManaBar(Graphics2D g2, int px, int py, int size, int yOffset) {
