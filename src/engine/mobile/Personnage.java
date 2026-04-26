@@ -124,7 +124,7 @@ public abstract class Personnage extends Entity {
 	        target.takeDamage(atkDamage);
 
 	        if (!target.isActive() && target instanceof Personnage) {
-	            recordKill((Personnage) target);
+	            recordKill((Personnage) target, allPersonnages);
 	        }
 	        
 	        atkTimer = atkCooldown;
@@ -133,18 +133,22 @@ public abstract class Personnage extends Entity {
 	    return false;
 	}
     
-   private void recordKill(Personnage victim) {
+    private void recordKill(Personnage victim, ArrayList<Personnage> allPersonnages)  {
         this.addGold(victim.getLoot() + GameConfiguration.GOLD_CHAR);
         this.addXp(victim.getXPLoot());
         this.kda.addKill();
         victim.kda.addDeath();
-        this.assessAssists(victim);
+        this.assessAssists(victim, allPersonnages);
     }
 
-    private void assessAssists(Personnage victim) {
-        for (Personnage p : getNearbyAssisters(victim)) {
-            p.kda.addAssist();
-            p.addGold(GameConfiguration.GOLD_CHAR / 5);
+    private void assessAssists(Personnage victim, ArrayList<Personnage> allPersonnages) {
+        for (Personnage p : allPersonnages) {
+            if (p == this) continue;                   
+            if (p.getTeam() != this.getTeam()) continue; 
+            if (p.assisted(victim)) {                  
+                p.kda.addAssist();
+                p.addGold(GameConfiguration.GOLD_CHAR / 5);
+            }
         }
     }
 
@@ -161,6 +165,7 @@ public abstract class Personnage extends Entity {
         }
         return assisters;
     }
+
     public void addGold(int Goldreward) {
         gold += Goldreward;
         totalGoldEarned += Goldreward;
