@@ -1,0 +1,95 @@
+package game_config;
+
+public class GameConfiguration {
+    // i started using pixels
+
+    public static int WINDOW_WIDTH  = 1920;
+    public static int WINDOW_HEIGHT = 1080;
+
+    // tiles
+    public static final int TILE_ROWS = 60;
+    public static final int TILE_COLS = 60;
+    public static final int TILE_SIZE    = 128;
+    public static final int WORLD_WIDTH  = TILE_SIZE * TILE_ROWS;  // 60 * 128 = 7680
+    public static final int WORLD_HEIGHT = TILE_SIZE * TILE_COLS;  // 60 * 128 = 7680
+
+    
+    //Gold reward    
+    public static final int GOLD_MINION = 50;
+    public static final int GOLD_CHAR    = 150;
+    public static final int GOLD_TOWER  = 200;
+    public static final int STARTING_GOLD = 300;
+    //((3900/3)/7)/60 3900 being the average price of 4 equipements, so 1/3 of it should be earned passively on the duration of 7 minutes
+    public static final int PASSIVE_GOLD_PER_SECOND = 3;
+    
+    //XP reward
+    public static final int XP_MINION = 30;
+    public static final int XP_CHAR    = 130;
+    public static final int XP_TOWER  = 150;
+    
+	 // Level up stats Bonus
+    public static final double LEVEL_HP_BONUS   = 20.0;
+    public static final double LEVEL_MANA_BONUS = 15.0;
+    public static final double LEVEL_DMG_BONUS  = 5.0;
+    
+    
+    //technical
+    public static final double ATTACK_MARGIN = TILE_SIZE * 0.75;
+    public static final double RECALL_DURATION = 5.0;
+    
+    //retreat
+    public static final double RETREAT_HP_THRESHOLD = 0.30;
+    public static final double RETREAT_SAFE_RADIUS = TILE_SIZE * 6;
+
+    // Camera
+    public static final int MINIMAP_WIDTH  = 300;
+    public static final int MINIMAP_HEIGHT = 300;
+    public static final int MINIMAP_MARGIN = 10;
+
+    // Player
+    public static final double START_X = TILE_SIZE * 4;
+    public static final double START_Y= TILE_SIZE * 56;
+    public static final double PLAYER_MANA_REGEN = 2.0;
+    
+    
+
+    
+    
+
+    // Tower
+    public static final double TOWER_RANGE = 200.0; 
+    public static final double TOWER_DAMAGE  = 50.0;
+    public static final double TOWER_MAX_HP  = 1500;
+    public static final double TOWER_ATTACK_COOLDOWN = 1;
+
+    //Base
+    public static final double BASE_RANGE = 420.0;
+    public static final double BASE_MAX_HP = 2000;
+    public static final double BASE_DAMAGE = 100;
+    public static final double BASE_ATTACK_COOLDOWN  = 1.2;
+
+    // Fountain
+    public static final double FOUNTAIN_RADIUS = 500.0;
+    public static final double FOUNTAIN_HEAL_PER_SEC = 20.0;
+    public static final double FOUNTAIN_DAMAGE = 5.0;
+
+    // Game loop
+    public static final int GAME_SPEED = 10;
+
+    // Minion
+    public static final double MINION_DMG    = 3.0;
+    public static final double MINION_RANGE = 250; 
+    public static final double MINION_MAX_HP = 60;
+    public static final double MINION_ATTACK_COOLDOWN = 0.9;
+    public static final double MINION_SPEED = 300.0; 
+
+    // Bot
+    public static final double WAYPOINT_CLOSE_THRESHOLD = 5.0;
+    public static final double WAYPOINT_REACHED_THRESHOLD = 8.0;
+    public static final double BOT_COLLISION_THRESHOLD = 0.6;
+
+    // Game
+    public static final double MAX_DELTA_TIME = 0.05;
+    public static final int ASSIST_TIME_WINDOW = 5000;
+    public static final int RESPAWN_BASE_TIME = 5;
+}

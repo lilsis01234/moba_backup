@@ -54,7 +54,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
 
         setTitle("MOBA");
         try {
-        	setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+         	setIconImage(ImageIO.read(getClass().getResourceAsStream("/res/icon/icon.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,7 +146,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
     private void showHeroSelection() {
     	JFrame selectionFrame = new JFrame("MOBA - Sélection du héros");
     	try {
-    		selectionFrame.setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+     		selectionFrame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/res/icon/icon.png")));
     	} catch (IOException e) {
     	    e.printStackTrace();
     	}
@@ -251,7 +251,7 @@ public class InterfaceLauncher extends JFrame implements Runnable {
 
         gameFrame = new JFrame("MOBA - Game");
         try {
-        	gameFrame.setIconImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/icon/icon.png")));
+         	gameFrame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/res/icon/icon.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
