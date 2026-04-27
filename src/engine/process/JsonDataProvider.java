@@ -8,6 +8,7 @@ import engine.mobile.SupportEffect;
 import game_config.GameConfiguration;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class JsonDataProvider {
@@ -38,10 +39,10 @@ public class JsonDataProvider {
     }
     
     private String readJSONFile() throws IOException {
-        StringBuilder json = new StringBuilder();
-        InputStream is = getClass().getResourceAsStream(HEROES_FILE);
-        if (is == null) throw new IOException("Fichier introuvable : /game_config/heroes/heroes.json");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+         StringBuilder json = new StringBuilder();
+         InputStream is = getClass().getResourceAsStream(HEROES_FILE);
+         if (is == null) throw new IOException("Fichier introuvable : /game_config/heroes/heroes.json");
+         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 json.append(line.trim());

@@ -263,16 +263,16 @@ public class InterfaceLauncher extends JFrame implements Runnable {
         gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         gameFrame.setLocationRelativeTo(null);
 
-        gameFrame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_A) {
-                    panel.toggleShop();
-                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    togglePause(!isPaused);
-                }
-            }
-        });
+         gameFrame.addKeyListener(new KeyAdapter() {
+             @Override
+             public void keyPressed(KeyEvent e) {
+                 if (e.getKeyCode() == KeyEvent.VK_B) {
+                     panel.toggleShop();
+                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                     togglePause(!isPaused);
+                 }
+             }
+         });
 
         panel.setFocusable(true);
         panel.requestFocusInWindow();
