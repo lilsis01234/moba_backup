@@ -10,7 +10,8 @@ TO DO:
 
 
 //tf does sprite preview do
-
+//for equipemnts : composant1 +coposant2 +5 +5
+//passive gold formula
 CAN BE IGNORED:
 //note skills just target the last taret u were attacking can improve but not so bad
 // make a better respawning logic(depending on lvl can cause issues)
