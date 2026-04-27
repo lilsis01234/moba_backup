@@ -66,6 +66,7 @@ public class ArenaPanel extends JPanel {
                 }
 
                 if (hudRenderer.handleRecallClick(mx, my)) return;
+                if (hudRenderer.handleMinimapClick(mx, my)) return;
 
                 int spellSlot = hudRenderer.getSpellSlotAt(mx, my);
                 if (spellSlot >= 0) {
