@@ -19,6 +19,7 @@ public class HeroStats {
     private int longestDeathStreak;
     private int multiKills;
     private boolean isPlayer;
+    private boolean isMvp;
 
     public HeroStats() {
         this.kda = new KDA();
@@ -46,11 +47,18 @@ public class HeroStats {
     }
 
     public int getMVPScore() {
-        return kda.getKills() * 100 + kda.getAssists() * 50 + (damageDealtToHeroes + damageDealtToBuildings) / 10;
+        int score = (getKills() * 100);
+        score += (getAssists() * 50);
+        score += ((damageDealtToHeroes + damageDealtToBuildings) / 10);
+        score -= (getDeaths() * 20); 
+        return score;
     }
 
     public boolean isMVP() {
-        return isPlayer;
+        return isMvp;
+    }
+    public void setMVP(boolean mvp) {
+        this.isMvp = mvp;
     }
 
     public int getHeroId() { return heroId; }
@@ -118,4 +126,5 @@ public class HeroStats {
     public String formatNumber(int num) {
         return util.FormatUtils.formatNumber(num);
     }
+    
 }

@@ -327,93 +327,93 @@ checkGameOver();
         return null;
     }
 
-    public GameStats buildGameStats(String result) {
-        long duration = System.currentTimeMillis() - gameStartTime;
-        
-        gameStats = new GameStats();
-        gameStats.setGameResult(result);
-        gameStats.setGameDuration(duration);
-        gameStats.setPlayerTeamId(0);
-        
-        int playerTowersDestroyed = countTowersDestroyedByTeam(1);
-        int enemyTowersDestroyed = countTowersDestroyedByTeam(0);
-        gameStats.setTowersDestroyed(playerTowersDestroyed);
-        gameStats.setTowersLost(enemyTowersDestroyed);
-
-        TeamStats blueTeam = new TeamStats(0);
-        TeamStats redTeam = new TeamStats(1);
-        blueTeam.setTowersDestroyed(playerTowersDestroyed);
-        redTeam.setTowersDestroyed(enemyTowersDestroyed);
-
-        if (player != null && player.getKDA() != null) {
-            KDA pk = player.getKDA();
-            HeroStats playerStats = new HeroStats(
-                selectedHero.getId(),
-                selectedHero.getName(),
-                0
-            );
-            int kills = pk.getKills();
-            int deaths = pk.getDeaths();
-            int assists = pk.getAssists();
-            for (int i = 0; i < kills; i++) playerStats.addKill();
-            for (int i = 0; i < deaths; i++) playerStats.addDeath();
-            for (int i = 0; i < assists; i++) playerStats.addAssist();
-            playerStats.setGoldEarned(player.getTotalGoldEarned());
-            playerStats.setGoldSpent(0);
-            playerStats.setCsCreeps(player.getCsCreeps());
-            playerStats.setLevel(player.getLevel());
-            playerStats.setTimePlayed(duration);
-            playerStats.setTimeSpentDead(0);
-            playerStats.setPlayer(true);
-            playerStats.setLongestKillStreak(kills);
-            playerStats.addDamageToHeroes((int) player.getDamageDealtToHeroes());
-            playerStats.addDamageToBuildings((int) player.getDamageDealtToBuildings());
-            blueTeam.addHero(playerStats);
-        }
-
-        for (Bot bot : botManager.getAllBots()) {
-            KDA bk = bot.getKDA();
-            HeroStats botStats = new HeroStats(
-                bot.getHeroId(),
-                bot.getHeroName(),
-                bot.getTeam()
-            );
-            if (bk != null) {
-                int bkKills = bk.getKills();
-                int bkDeaths = bk.getDeaths();
-                int bkAssists = bk.getAssists();
-                for (int i = 0; i < bkKills; i++) botStats.addKill();
-                for (int i = 0; i < bkDeaths; i++) botStats.addDeath();
-                for (int i = 0; i < bkAssists; i++) botStats.addAssist();
-                botStats.setLongestKillStreak(bkKills);
-            }
-            botStats.setGoldEarned(bot.getTotalGoldEarned());
-            botStats.setGoldSpent(0);
-            botStats.setCsCreeps(bot.getCsCreeps());
-            botStats.setLevel(bot.getLevel());
-            botStats.setTimePlayed(duration);
-            botStats.setTimeSpentDead(0);
-            botStats.addDamageToHeroes((int) bot.getDamageDealtToHeroes());
-            botStats.addDamageToBuildings((int) bot.getDamageDealtToBuildings());
-
-            if (bot.getTeam() == 0) {
-                blueTeam.addHero(botStats);
-            } else {
-                redTeam.addHero(botStats);
-            }
-        }
-
-        blueTeam.calculateTotals();
-        redTeam.calculateTotals();
-        
-        blueTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
-        redTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
-        
-        gameStats.setTeamStats(0, blueTeam);
-        gameStats.setTeamStats(1, redTeam);
-
-        return gameStats;
+   public GameStats buildGameStats(String result) {
+	    long duration = System.currentTimeMillis() - gameStartTime;
+	    
+	    gameStats = new GameStats();
+	    gameStats.setGameResult(result);
+	    gameStats.setGameDuration(duration);
+	    gameStats.setPlayerTeamId(0);
+	    
+	    int playerTowersDestroyed = countTowersDestroyedByTeam(1);
+	    int enemyTowersDestroyed = countTowersDestroyedByTeam(0);
+	    gameStats.setTowersDestroyed(playerTowersDestroyed);
+	    gameStats.setTowersLost(enemyTowersDestroyed);
+	
+	    TeamStats blueTeam = new TeamStats(0);
+	    TeamStats redTeam = new TeamStats(1);
+	    blueTeam.setTowersDestroyed(playerTowersDestroyed);
+	    redTeam.setTowersDestroyed(enemyTowersDestroyed);
+	
+	    if (player != null && player.getKDA() != null) {
+	        KDA pk = player.getKDA();
+	        HeroStats playerStats = new HeroStats(selectedHero.getId(), selectedHero.getName(), 0);
+	        
+	        int kills = pk.getKills();
+	        int deaths = pk.getDeaths();
+	        int assists = pk.getAssists();
+	        
+	        for (int i = 0; i < kills; i++) playerStats.addKill();
+	        for (int i = 0; i < deaths; i++) playerStats.addDeath();
+	        for (int i = 0; i < assists; i++) playerStats.addAssist();
+	        
+	        playerStats.setGoldEarned(player.getTotalGoldEarned());
+	        playerStats.setCsCreeps(player.getCsCreeps());
+	        playerStats.setLevel(player.getLevel());
+	        playerStats.setTimePlayed(duration);
+	        playerStats.setPlayer(true);
+	        playerStats.addDamageToHeroes((int) player.getDamageDealtToHeroes());
+	        playerStats.addDamageToBuildings((int) player.getDamageDealtToBuildings());
+	        blueTeam.addHero(playerStats);
     }
+
+    for (Bot bot : botManager.getAllBots()) {
+        KDA bk = bot.getKDA();
+        HeroStats botStats = new HeroStats(bot.getHeroId(), bot.getHeroName(), bot.getTeam());
+        
+        if (bk != null) {
+            int bkKills = bk.getKills();
+            int bkDeaths = bk.getDeaths();
+            int bkAssists = bk.getAssists();
+            for (int i = 0; i < bkKills; i++) botStats.addKill();
+            for (int i = 0; i < bkDeaths; i++) botStats.addDeath();
+            for (int i = 0; i < bkAssists; i++) botStats.addAssist();
+        }
+        
+        botStats.setGoldEarned(bot.getTotalGoldEarned());
+        botStats.setCsCreeps(bot.getCsCreeps());
+        botStats.setLevel(bot.getLevel());
+        botStats.setTimePlayed(duration);
+        botStats.addDamageToHeroes((int) bot.getDamageDealtToHeroes());
+        botStats.addDamageToBuildings((int) bot.getDamageDealtToBuildings());
+
+        if (bot.getTeam() == 0) blueTeam.addHero(botStats);
+        else redTeam.addHero(botStats);
+    }
+
+    blueTeam.calculateTotals();
+    redTeam.calculateTotals();
+    
+    blueTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
+    redTeam.getHeroes().sort((a, b) -> Integer.compare(b.getMVPScore(), a.getMVPScore()));
+    
+    gameStats.setTeamStats(0, blueTeam);
+    gameStats.setTeamStats(1, redTeam);
+    
+    List<HeroStats> allHeroes = new ArrayList<>();
+    allHeroes.addAll(blueTeam.getHeroes());
+    allHeroes.addAll(redTeam.getHeroes());
+
+    HeroStats matchMvp = allHeroes.stream()
+        .max((h1, h2) -> Integer.compare(h1.getMVPScore(), h2.getMVPScore()))
+        .orElse(null);
+
+    if (matchMvp != null) {
+        matchMvp.setMVP(true);
+    }
+    
+    return gameStats;
+}
 
     private int countTowersDestroyedByTeam(int teamId) {
         int count = 0;

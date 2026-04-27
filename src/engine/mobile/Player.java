@@ -94,6 +94,13 @@ public class Player extends Personnage {
             g2.setColor(new Color(255, 0, 0, 120));
             g2.drawOval((int)x - r, (int)y - r, r * 2, r * 2);
         }
+        if (isRecalling()) {
+            int r =  250;
+            g2.setColor(new Color(0, 100, 255, 40));
+            g2.fillOval((int)x - r, (int)y - (int)(r/1.5), r * 2, r * 2);
+            g2.setColor(new Color(0, 100, 255, 120));
+            g2.drawOval((int)x - r, (int)y - (int)(r/1.5), r * 2, r * 2);
+        }
         renderSprite(g2);
     }
 

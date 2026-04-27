@@ -191,11 +191,13 @@ public class Bot extends Personnage {
     public void render(Graphics2D g2, int width, int height) {
         if (!active) return;
         renderSprite(g2);
-
-        // name label
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 11));
-        g2.drawString(heroName, (int) x - 15, (int) y - GameConfiguration.TILE_SIZE * 2);
+        if (isRecalling()) {
+            int r =  250;
+            g2.setColor(new Color(0, 100, 255, 40));
+            g2.fillOval((int)x - r, (int)y - (int)(r/1.5), r * 2, r * 2);
+            g2.setColor(new Color(0, 100, 255, 120));
+            g2.drawOval((int)x - r, (int)y - (int)(r/1.5), r * 2, r * 2);
+        }
     }
 
     public void update(double deltaTime, List<Entity> enemies, List<Bot> allBots, ArrayList<Personnage> allPersonnages) {

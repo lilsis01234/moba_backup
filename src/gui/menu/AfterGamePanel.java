@@ -44,6 +44,7 @@ public class AfterGamePanel extends JPanel {
     private final GameStats gameStats;
     private final Dimension screenSize;
     private final AfterGameListener listener;
+    
 
 
     /**
@@ -464,50 +465,62 @@ public class AfterGamePanel extends JPanel {
     }
 
     /**
-     * Creates the MVP tab showing the best performing hero on the blue team.
+     * Creates the MVP tab showing the best performing hero.
      *
      * @return the MVP panel
      */
-    private JPanel createMVPTab() {
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(BG_DARK);
-        panel.setBorder(new EmptyBorder(15, 15, 15, 15));
-
-        JPanel mvpCard = new JPanel(new BorderLayout(20, 20));
-        mvpCard.setBackground(BG_CARD);
-        mvpCard.setBorder(BorderFactory.createCompoundBorder(
-            new LineBorder(BLUE_ACCENT, 3),
-            new EmptyBorder(30, 30, 30, 30)
-        ));
-
-        // MVP title
-        JLabel mvpTitle = new JLabel("MVP", SwingConstants.CENTER);
-        mvpTitle.setFont(new Font("Arial", Font.BOLD, 28));
-        mvpTitle.setForeground(BLUE_ACCENT);
-        mvpCard.add(mvpTitle, BorderLayout.NORTH);
-
-        // MVP stats
-        JPanel stats = new JPanel(new GridLayout(0, 2, 20, 15));
-        stats.setBackground(BG_CARD);
-
-        if (gameStats != null) {
-            TeamStats blue = gameStats.getTeamStats(0);
-            if (blue != null && !blue.getHeroes().isEmpty()) {
-                HeroStats mvp = blue.getHeroes().get(0);
-                addStatRow(stats, "Héros",  mvp.getHeroName());
-                addStatRow(stats, "K/D/A",  mvp.getKills() + "/" + mvp.getDeaths() + "/" + mvp.getAssists());
-                addStatRow(stats, "KDA",    String.format("%.2f", mvp.getKDA()));
-                addStatRow(stats, "Dégats", formatNumber(mvp.getDamageDealtToHeroes() + mvp.getDamageDealtToBuildings()));
-            }
-        } else {
-            addStatRow(stats, "Joueur", "Héros");
-            addStatRow(stats, "K/D/A",  "0/0/0");
-        }
-
-        mvpCard.add(stats, BorderLayout.CENTER);
-        panel.add(mvpCard, BorderLayout.CENTER);
-        return panel;
+   private JPanel createMVPTab() {
+	    JPanel panel = new JPanel(new BorderLayout(10, 10));
+	    panel.setBackground(BG_DARK);
+	    panel.setBorder(new EmptyBorder(15, 15, 15, 15));
+	
+	    HeroStats mvp = null;
+	    if (gameStats != null) {
+	        for (TeamStats team : gameStats.getTeamStatsMap().values()) {
+	            for (HeroStats h : team.getHeroes()) {
+	                if (h.isMVP()) {
+	                    mvp = h;
+	                    break;
+	                }
+	            }
+	            if (mvp != null) break;
+	        }
     }
+
+    Color accentColor = (mvp != null && mvp.getTeamId() == 1) ? RED_ACCENT : BLUE_ACCENT;
+
+    JPanel mvpCard = new JPanel(new BorderLayout(20, 20));
+    mvpCard.setBackground(BG_CARD);
+    mvpCard.setBorder(BorderFactory.createCompoundBorder(
+        new LineBorder(accentColor, 3),
+        new EmptyBorder(30, 30, 30, 30)
+    ));
+
+    JLabel mvpTitle = new JLabel("MATCH MVP", SwingConstants.CENTER);
+    mvpTitle.setFont(new Font("Arial", Font.BOLD, 28));
+    mvpTitle.setForeground(accentColor);
+    mvpCard.add(mvpTitle, BorderLayout.NORTH);
+
+    JPanel stats = new JPanel(new GridLayout(0, 2, 20, 15));
+    stats.setBackground(BG_CARD);
+
+    if (mvp != null) {
+        addStatRow(stats, "Héros",  mvp.getHeroName());
+        addStatRow(stats, "Équipe", mvp.getTeamId() == 0 ? "Bleue" : "Rouge");
+        addStatRow(stats, "K/D/A",  mvp.getKills() + "/" + mvp.getDeaths() + "/" + mvp.getAssists());
+        addStatRow(stats, "Score MVP", String.valueOf(mvp.getMVPScore()));
+        addStatRow(stats, "KDA Ratio", String.format("%.2f", mvp.getKDA()));
+        addStatRow(stats, "Dégats", formatNumber(mvp.getDamageDealtToHeroes() + mvp.getDamageDealtToBuildings()));
+        addStatRow(stats, "Or Gagné", formatGold(mvp.getGoldEarned()));
+    } else {
+        addStatRow(stats, "Statut", "Non déterminé");
+        addStatRow(stats, "K/D/A",  "0/0/0");
+    }
+
+    mvpCard.add(stats, BorderLayout.CENTER);
+    panel.add(mvpCard, BorderLayout.CENTER);
+    return panel;
+}
 
 
     /**
