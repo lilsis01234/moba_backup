@@ -45,10 +45,10 @@ public abstract class Personnage extends Entity {
     protected enum State {IDLE, MOVING, ATTACKING}; 
     protected State currentState = State.IDLE;
     protected int animFrame = 0;
+    protected Direction currentDirection = Direction.DOWN;
     
     	//walking
     protected HeroSprites heroSprites;
-    protected Direction currentDirection = Direction.DOWN;
     protected double animTimer = 0;
     private static final double FRAME_DURATION = 0.12;
     
@@ -179,7 +179,7 @@ public abstract class Personnage extends Entity {
 
     public void buyEquipment(Equipment eq) {
         if (gold < eq.getPrice()) return; 
-        if (equippedGear.size() >= 6) return;
+        if (equippedGear.size() >= 4) return;
         gold -= eq.getPrice();
         equippedGear.add(eq);
         this.atkDamage += eq.getAttackBonus();

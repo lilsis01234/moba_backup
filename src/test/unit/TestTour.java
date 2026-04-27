@@ -250,7 +250,7 @@ public class TestTour {
         );
         cible.takeDamage(999999); // cible déjà morte
         ArrayList<Entity> ennemis = new ArrayList<>();
-        ennemis.add(cible);
+        ennemis.add(cible); 
 
         double hpApresMort = cible.getHp();
         allyTower.update(2.0, ennemis);
